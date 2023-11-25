@@ -1,1 +1,1 @@
-# grafikart-php-pratics
+# PHP training
