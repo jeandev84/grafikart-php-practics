@@ -31,7 +31,7 @@ require '../elements/header.php'; ?>
         <h2><a href="/blog/edit.php?id=<?= $post->id ?>"><?= htmlentities($post->name) ?></a></h2>
         <p class="small text-muted">Ecrit le <?= $post->created_at->format('d/m/Y à H:i') ?></p>
         <p>
-            <?= nl2br(htmlentities($post->getExcerpt())) ?>
+            <?= $post->getBody() ?>
         </p>
         <?php endforeach ?>
     

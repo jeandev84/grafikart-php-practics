@@ -26,4 +26,16 @@ class Post {
         return substr($this->content, 0, 150);
     }
 
+
+    /**
+     * Parsedown convert Markdown to HTML
+     *
+     * @return string
+     */
+    public function getBody(): string
+    {
+        $parseDown = new \Parsedown();
+        $parseDown->setSafeMode(true); // escape html entities (security)
+        return $parseDown->text($this->content);
+    }
 }

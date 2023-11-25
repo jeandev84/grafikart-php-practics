@@ -11,5 +11,10 @@
             "App\\": "class/"
         }
     },
-    "require": {}
+    "require": {
+        "erusev/parsedown": "^1.7"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^6.3"
+    }
 }
