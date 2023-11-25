@@ -129,6 +129,6 @@ class Student
 
     public function __toString(): string
     {
-        return "The average of {$this->name} is : {$this->getAverage()}\n";
+        return "Hello, {$this->name} you got {$this->getAverage()} on average.";
     }
 }

@@ -134,10 +134,17 @@ class Level
 
 
     /**
-     * @return array
+     * @return Student[]
     */
     public function getStudents(): array
     {
         return $this->students;
+    }
+
+
+
+    public function __toString(): string
+    {
+        return "$this->title ($this->code)";
     }
 }
