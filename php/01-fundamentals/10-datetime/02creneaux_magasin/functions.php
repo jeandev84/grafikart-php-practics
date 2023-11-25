@@ -65,7 +65,7 @@ function checkbox(string $name, string $value, array $data = []): string {
    $id = strtolower($name);
    $attributes = '';
 
-   // example isset($_GET['parfum']) && in_array('Fraise', $_GET['parfum'])
+   // examples isset($_GET['parfum']) && in_array('Fraise', $_GET['parfum'])
    if (isset($data[$name]) && in_array($value, $data[$name])) {
        $attributes .= 'checked';
    }
@@ -88,7 +88,7 @@ function radio(string $name, string $value, array $data = []): string {
     $id = strtolower($name);
     $attributes = '';
 
-    // example isset($_GET['parfum']) && in_array('Fraise', $_GET['parfum'])
+    // examples isset($_GET['parfum']) && in_array('Fraise', $_GET['parfum'])
     if (isset($data[$name]) && $value === $data[$name]) {
         $attributes .= 'checked';
     }

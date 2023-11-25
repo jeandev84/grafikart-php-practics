@@ -10,7 +10,7 @@ var_dump($variable);
 var_export($variable);
 */
 
-// On recupere le mot (example kayak)
+// On recupere le mot (examples kayak)
 $mot = readline("Veuillez entrer un mot : ");
 
 // Recupere le mot inverse (strrev : string reverse)

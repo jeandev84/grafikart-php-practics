@@ -1,6 +1,6 @@
 <?php
 
-// 1. Formatter une date pour afficher la date du jour par example: 16/04/2022
+// 1. Formatter une date pour afficher la date du jour par examples: 16/04/2022
 $date = new DateTime();
 echo $date->format('d/m/Y');
 echo "\n";

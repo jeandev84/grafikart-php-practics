@@ -27,7 +27,7 @@ class Form
         $id = strtolower($name);
         $attributes = '';
 
-        // example isset($_GET['parfum']) && in_array('Fraise', $_GET['parfum'])
+        // examples isset($_GET['parfum']) && in_array('Fraise', $_GET['parfum'])
         if (isset($data[$name]) && in_array($value, $data[$name])) {
             $attributes .= 'checked';
         }
@@ -54,7 +54,7 @@ HTML;
         $id = strtolower($name);
         $attributes = '';
 
-        // example isset($_GET['parfum']) && in_array('Fraise', $_GET['parfum'])
+        // examples isset($_GET['parfum']) && in_array('Fraise', $_GET['parfum'])
         if (isset($data[$name]) && $value === $data[$name]) {
             $attributes .= 'checked';
         }

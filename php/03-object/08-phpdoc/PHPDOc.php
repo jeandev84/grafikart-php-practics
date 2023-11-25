@@ -17,10 +17,10 @@
  *
  * @since 1.0
  *
- * @param int $example This is an example function/method parameter description.
- * @param int $example2 This is a second example.
+ * @param int $examples This is an examples function/method parameter description.
+ * @param int $example2 This is a second examples.
  *
- * @https://docs.phpdoc.org/references/phpdoc/basic-syntax.html
+ * @https://examples.phpdoc.org/references/phpdoc/basic-syntax.html
  *
  * @OpenWeather
  */

@@ -46,7 +46,7 @@ for($i = 0; $i < 10; $i += 2) {
 */
 
 
-// Afficher les 3 premieres notes  d'un tableau par example
+// Afficher les 3 premieres notes  d'un tableau par examples
 /*
 $notes = [10, 15, 16, 17, 11, 9];
 
