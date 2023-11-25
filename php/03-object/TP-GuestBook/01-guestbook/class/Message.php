@@ -104,6 +104,7 @@ class Message
 
       public function toHTML(): string
       {
+          /* dd($this->date->getTimezone()); */
           $this->date->setTimezone(new DateTimeZone('Europe/Moscow'));
 
           $username  = htmlentities($this->username);
