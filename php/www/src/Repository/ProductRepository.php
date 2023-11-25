@@ -25,7 +25,7 @@ class ProductRepository
         }
 
 
-        public function getProductsBy(GetProducts $dto): array
+        public function findProductsBy(GetProducts $dto): array
         {
             $sql    = "SELECT * FROM products";
             $params = [];

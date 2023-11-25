@@ -1,13 +1,14 @@
 <?php
 require 'vendor/autoload.php';
 
-$request = \App\Http\Request::createFromGlobals();
+$request    = \App\Http\Request::createFromGlobals();
 $connection = new \App\Database\Connection\PdoConnection("sqlite:./data.sql");
 
-$search     = new \App\DTO\SearchDto($request->queries->get('q', ''));
-$dto        = new \App\DTO\GetProducts($search);
-$repository = new \App\Repository\ProductRepository($connection);
-$products  = $repository->getProductsBy($dto);
+$qs          = $request->queries->get('q', '');
+$search      = new \App\DTO\SearchDto($qs);
+$dto         = new \App\DTO\GetProducts($search);
+$repository  = new \App\Repository\ProductRepository($connection);
+$products    = $repository->findProductsBy($dto);
 
 ?>
 <!doctype html>
@@ -28,7 +29,7 @@ $products  = $repository->getProductsBy($dto);
        <!-- search section -->
        <form action="" class="mb-4">
            <div class="form-group">
-               <input type="text" class="form-control" name="q" placeholder="Rechercher par ville">
+               <input type="text" class="form-control" name="q" placeholder="Rechercher par ville" value="<?= \App\Helper\Str::escape($qs) ?>">
            </div>
            <button class="btn btn-primary">Rechercher</button>
        </form>
