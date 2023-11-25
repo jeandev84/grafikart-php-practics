@@ -76,11 +76,11 @@ $totalOfPages = $repository->getTotalPages($dto);
 
        <!-- Pagination section -->
        <?php if ($totalOfPages > 1 && $page > 1): ?>
-           <a href="?page=<?= $page - 1 ?>" class="btn btn-primary">Previous page</a>
+           <a href="?<?= \App\Helper\URLHelper::withParam('page', $page - 1) ?>" class="btn btn-primary">Previous page</a>
        <?php endif; ?>
 
        <?php if ($totalOfPages > 1 && $page < $totalOfPages): ?>
-           <a href="?page=<?= $page + 1 ?>" class="btn btn-primary">Next page</a>
+           <a href="?<?= \App\Helper\URLHelper::withParam('page', $page + 1) ?>" class="btn btn-primary">Next page</a>
        <?php endif; ?>
        <!--/ Pagination section -->
 

@@ -13,10 +13,16 @@ namespace App\Helper;
  *
  * @package App\Helper
  */
-class UrlHelper
+class URLHelper
 {
      public static function withParams(array $params): string
      {
           return http_build_query(array_merge($_GET, $params));
+     }
+
+
+     public static function withParam(string $param, $value): string
+     {
+         return static::withParams([$param => $value]);
      }
 }
