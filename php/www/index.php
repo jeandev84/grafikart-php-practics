@@ -1,7 +1,13 @@
 <?php
-$pdo = new PDO("sqlite:./data.sql", null, null, [
+require 'vendor/autoload.php';
 
+$pdo = new PDO("sqlite:./data.sql", null, null, [
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 ]);
+
+$products = $pdo->query("SELECT * FROM products LIMIT 20")->fetchAll();
+dd($products);
 ?>
 <!doctype html>
 <html lang="en">

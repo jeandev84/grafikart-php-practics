@@ -7,3 +7,7 @@ products
 - price : prix du bien (reel)
 - address
 - city
+
+
+===============================
+$ composer init -n/--no-interaction
