@@ -15,6 +15,7 @@ $student   = new \App\Entity\University\Student($name, [
 ]);
 
 
+echo $student->getNote(1), "\n";
 echo $student->getFullName()->getName(), "\n";
 
 

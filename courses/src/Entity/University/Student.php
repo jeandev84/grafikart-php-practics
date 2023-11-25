@@ -86,6 +86,14 @@ class Student extends Person
 
 
 
+    public function getNote(string $position): float|int
+    {
+        return $this->notes[$position] ?? 0;
+    }
+
+
+
+
     public function setNotes(array $notes): self
     {
         $this->notes = $notes;
