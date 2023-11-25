@@ -1,0 +1,20 @@
+{
+    "name": "grafikart/site",
+    "authors": [
+        {
+            "name": "Jean-Claude",
+            "email": "jeanyao@ymail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "class/"
+        }
+    },
+    "require": {
+        "erusev/parsedown": "^1.7"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^6.3"
+    }
+}
