@@ -26,14 +26,18 @@ class Student
 
 
 
+     /**
+      * @var Faculty|null
+     */
+     protected ?Faculty $faculty = null;
+
 
 
      /**
-      * Class of student
-      *
-      * @var Level|null $level
+      * @var Course[]
      */
-     protected ?Level $level = null;
+     protected array $courses = [];
+
 
 
 
@@ -43,6 +47,7 @@ class Student
       * @var array<float|int>
      */
      protected array $notes = [];
+
 
 
 
@@ -76,18 +81,30 @@ class Student
     }
 
 
-    public function getLevel(): ?Level
-    {
-        return $this->level;
-    }
 
-
-    public function setLevel(?Level $level): self
+    /**
+     * @param Faculty|null $faculty
+     *
+     * @return $this
+    */
+    public function setFaculty(?Faculty $faculty): self
     {
-        $this->level = $level;
+        $this->faculty = $faculty;
 
         return $this;
     }
+
+
+
+    /**
+     * @return Faculty|null
+    */
+    public function getFaculty(): ?Faculty
+    {
+        return $this->faculty;
+    }
+
+
 
 
     public function getNotes(): array
@@ -106,6 +123,25 @@ class Student
 
 
 
+
+    public function addCourse(Course $course): self
+    {
+        $this->courses[] = $course;
+
+        return $this;
+    }
+
+
+    /**
+     * @return array
+    */
+    public function getCourses(): array
+    {
+        return $this->courses;
+    }
+
+
+
     public function getCountOfNotes(): int
     {
          return count($this->notes);
@@ -120,6 +156,12 @@ class Student
 
 
 
+
+    /**
+     * Returns notes average
+     *
+     * @return float
+    */
     public function getAverage(): float
     {
          return ($this->getSumOfNotes() / $this->getCountOfNotes());

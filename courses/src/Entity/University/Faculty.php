@@ -16,81 +16,68 @@ namespace App\Entity\University;
 class Faculty
 {
 
-     protected string $name;
+     protected string $title;
+
+
+     protected string $code;
+
 
 
      /**
-      * @var Level[]
+      * @var Student[]
      */
-     protected array $levels = [];
+     protected array $students = [];
+
 
 
 
      /**
-      * @param string $name
+      * @param string $title
       *
-      * @param Level[] $levels
+      * @param string $code
+      *
+      * @param Student[] $students
      */
-     public function __construct(string $name, array $levels)
+     public function __construct(string $title, string $code, array $students)
      {
-          $this->setName($name);
-          $this->addLevels($levels);
-     }
-
-
-
-     /**
-      * @return string
-     */
-     public function getName(): string
-     {
-         return $this->name;
-     }
-
-
-
-     /**
-      * @param string $name
-     */
-     public function setName(string $name): void
-     {
-         $this->name = $name;
-     }
-
-
-
-
-     public function addLevel(Level $level): self
-     {
-         $this->levels[] = $level;
-
-         return $this;
+         $this->title = $title;
+         $this->code  = $code;
+         $this->addStudents($students);
      }
 
 
 
 
      /**
-      * @param Level[] $levels
+      * @param Student $student
       *
       * @return $this
      */
-     public function addLevels(array $levels): self
+     public function addStudent(Student $student): self
      {
-         foreach ($levels as $level) {
-             $this->addLevel($level);
-         }
+          if (! in_array($student, $this->students)) {
+              $student->setFaculty($this);
+              $this->students[] = $student;
+          }
 
-         return $this;
+          return $this;
      }
 
 
 
-    /**
-     * @return Level[]
-    */
-    public function getLevels(): array
-    {
-        return $this->levels;
-    }
+
+
+     /**
+      * @param Student[] $students
+      *
+      * @return $this
+     */
+     public function addStudents(array $students): self
+     {
+          foreach ($students as $student) {
+              $this->addStudent($student);
+          }
+
+          return $this;
+     }
 }

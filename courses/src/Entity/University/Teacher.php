@@ -16,4 +16,8 @@ namespace App\Entity\University;
 class Teacher
 {
 
+     /**
+      * @var Course
+     */
+     protected Course $course;
 }

@@ -15,6 +15,33 @@ namespace App\Entity\University;
  */
 class Course
 {
+     protected string $name;
 
-     protected array $levels = [];
+     protected string $level;
+
+
+
+     public function __construct(string $name, string $level)
+     {
+         $this->name     = $name;
+         $this->level    = $level;
+     }
+
+
+     /**
+      * @return string
+     */
+     public function getName(): string
+     {
+         return $this->name;
+     }
+
+
+     /**
+      * @return string
+     */
+     public function getLevel(): string
+     {
+        return $this->level;
+     }
 }
