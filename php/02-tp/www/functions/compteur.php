@@ -54,7 +54,7 @@ function nombre_vues_mois(int $year, int $month): int {
     // 01, 02, 03 ...
     $month = str_pad($month, 2, '0', STR_PAD_LEFT);
 
-    // /to/php/project/data/compteur-2022-02-* (generer en fonction de la selection d' annee et de mois
+    // /to/php/www/data/compteur-2022-02-* (generer en fonction de la selection d' annee et de mois
     $fichier = dirname(__DIR__).
                DIRECTORY_SEPARATOR.'data'.
                DIRECTORY_SEPARATOR .
@@ -101,7 +101,7 @@ function nombre_vues_details_mois(int $year, int $month): array {
     // 01, 02, 03 ...
     $month = str_pad($month, 2, '0', STR_PAD_LEFT);
 
-    // /to/php/project/data/compteur-2022-02-* (generer en fonction de la selection d' annee et de mois
+    // /to/php/www/data/compteur-2022-02-* (generer en fonction de la selection d' annee et de mois
     $fichier = dirname(__DIR__).
         DIRECTORY_SEPARATOR.'data'.
         DIRECTORY_SEPARATOR .

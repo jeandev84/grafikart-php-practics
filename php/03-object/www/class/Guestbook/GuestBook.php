@@ -1,5 +1,6 @@
 <?php
-namespace 03-object\www\class\Guestbook;
+namespace App\Guestbook;
+
 
 class GuestBook {
 

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 
-namespace 03-object\www\class\Exceptions;
+namespace App\Exceptions;
 use Exception;
 
 /**

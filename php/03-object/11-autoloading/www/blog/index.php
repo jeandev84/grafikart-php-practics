@@ -1,5 +1,5 @@
-<?php 
-require_once '../class/Post.php';
+<?php
+require_once 'vendor/autoload.php';
 $pdo = new PDO('sqlite:../data.db', null, null, [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
@@ -17,7 +17,7 @@ try {
         exit();
     }
     $query = $pdo->query('SELECT * FROM posts');
-    $posts = $query->fetchAll(PDO::FETCH_CLASS, object\www\class\Post::class);
+    $posts = $query->fetchAll(PDO::FETCH_CLASS, App\Post::class);
 } catch (PDOException $e) {
     $error = $e->getMessage();
 }

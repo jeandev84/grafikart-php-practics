@@ -1,5 +1,5 @@
 <?php
-namespace 03-object\www\class\Exceptions;
+namespace App\Exceptions;
 use HTTPException;
 
 class UnauthorizedHTTPException extends HTTPException

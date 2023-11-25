@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use object\www\class\OpenWeather;
+use App\OpenWeather;
 
 require_once __DIR__.'/vendor/autoload.php';
 

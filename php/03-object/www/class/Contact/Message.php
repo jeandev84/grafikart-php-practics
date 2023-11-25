@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace 03-object\www\class\Contact;
+namespace App\Contact;
 
 
 /**

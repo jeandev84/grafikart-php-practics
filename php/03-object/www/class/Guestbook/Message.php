@@ -1,5 +1,5 @@
 <?php
-namespace 03-object\www\class\Guestbook;
+namespace App\Guestbook;
 
 
 use DateTime;
@@ -13,11 +13,6 @@ class Message {
     private $message;
     private $date;
 
-    public static function fromJSON(string $json): Message
-    {
-        $data = json_decode($json, true);
-        return new self($data['username'], $data['message'], new DateTime("@" . $data['date']));
-    }
 
     public function __construct(string $username, string $message, ?DateTime $date = null)
     {
@@ -25,6 +20,8 @@ class Message {
         $this->message = $message;
         $this->date = $date ?: new DateTime();
     }
+
+
 
     public function isValid(): bool
     {
@@ -66,4 +63,10 @@ HTML;
         ]);
     }
 
+
+    public static function fromJSON(string $json): self
+    {
+        $data = json_decode($json, true);
+        return new self($data['username'], $data['message'], new DateTime("@" . $data['date']));
+    }
 }

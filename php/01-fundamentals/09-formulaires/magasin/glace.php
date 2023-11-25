@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Titre du project
+ * Titre du www
 */
 $title = "Composer votre glace";
 

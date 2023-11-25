@@ -13,11 +13,6 @@ class Message {
     private $message;
     private $date;
 
-    public static function fromJSON(string $json): object\www\class\Guestbook\Message
-    {
-        $data = json_decode($json, true);
-        return new self($data['username'], $data['message'], new DateTime("@" . $data['date']));
-    }
 
     public function __construct(string $username, string $message, ?DateTime $date = null)
     {
@@ -25,6 +20,8 @@ class Message {
         $this->message = $message;
         $this->date = $date ?: new DateTime();
     }
+
+
 
     public function isValid(): bool
     {
@@ -66,4 +63,10 @@ HTML;
         ]);
     }
 
+
+    public static function fromJSON(string $json): self
+    {
+        $data = json_decode($json, true);
+        return new self($data['username'], $data['message'], new DateTime("@" . $data['date']));
+    }
 }
