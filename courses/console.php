@@ -9,12 +9,13 @@ $faculty = new \App\Entity\University\Faculty('Mathematics and computers science
 ]);
 */
 
-$student   = new \App\Entity\University\Student('Marc', [
+$name      = new \App\Entity\University\ValueObject\FullName('John Doe');
+$student   = new \App\Entity\University\Student($name, [
     11, 12, 19.5
 ]);
 
 
-echo $student, "\n";
+echo $student->getFullName()->getName(), "\n";
 
 
 

@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace App\Entity\University;
 
 
+use App\Entity\Person;
+use App\Entity\University\ValueObject\FullName;
+
 /**
  * Created by PhpStorm at 25.11.2023
  *
@@ -13,19 +16,8 @@ namespace App\Entity\University;
  *
  * @package App\Entity\University
 */
-class Student
+class Student extends Person
 {
-
-
-     /**
-      * Name of student
-      *
-      * @var string
-     */
-     protected string $name;
-
-
-
      /**
       * @var Faculty|null
      */
@@ -51,34 +43,14 @@ class Student
 
 
 
-
-    /**
-     * @param string $name
-     *
-     * @param array<float|int> $notes
-    */
-    public function __construct(string $name, array $notes = [])
-    {
-        $this->name  = $name;
-        $this->notes = $notes;
-    }
+     public function __construct(FullName $fullName, array $notes = [])
+     {
+         parent::__construct($fullName);
+         $this->setNotes($notes);
+     }
 
 
 
-
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
 
 
 
@@ -171,6 +143,6 @@ class Student
 
     public function __toString(): string
     {
-        return "Hello, {$this->name} you got {$this->getAverage()} on average.";
+        return "Hello, {$this->fullName} you got {$this->getAverage()} on average.";
     }
 }

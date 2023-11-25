@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 
+use App\Entity\University\ValueObject\FullName;
+
 /**
  * Created by PhpStorm at 25.11.2023
  *
@@ -15,138 +17,30 @@ namespace App\Entity;
  */
 class Person
 {
-
-     /**
-      * Surname of person
-      *
-      * @var string
-     */
-     protected string $surname;
-
-
      /**
       * Name of person
       *
-      * @var string
+      * @var FullName
      */
-     protected string $name;
+     protected FullName $fullName;
 
 
-
-     /**
-      * Patronymic of person
-      *
-      * @var string
-     */
-     protected string $patronymic;
-
-
-
-     /**
-      * @param string $surname
-      *
-      * @param string $name
-      *
-      * @param string|null $patronymic
-     */
-    public function __construct(string $surname, string $name, string $patronymic = null)
+    /**
+     * @param FullName $fullName
+    */
+    public function __construct(FullName $fullName)
     {
-        $this->surname    = $surname;
-        $this->name       = $name;
-        $this->patronymic = $patronymic;
+        $this->fullName = $fullName;
     }
 
 
 
 
     /**
-     * @return string
+     * @return FullName
     */
-    public function getName(): string
+    public function getFullName(): FullName
     {
-        return $this->name;
-    }
-
-
-
-
-
-    /**
-     * @param string $name
-     *
-     * @return $this
-    */
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-
-
-
-
-    /**
-     * @return string
-    */
-    public function getSurname(): string
-    {
-        return $this->surname;
-    }
-
-
-
-
-    /**
-     * @param string $surname
-     *
-     * @return $this
-    */
-    public function setSurname(string $surname): self
-    {
-        $this->surname = $surname;
-
-        return $this;
-    }
-
-
-
-
-
-    /**
-     * @param string|null $patronymic
-     *
-     * @return $this
-    */
-    public function setPatronymic(?string $patronymic): self
-    {
-        $this->patronymic = $patronymic;
-
-        return $this;
-    }
-
-
-
-
-    /**
-     * @return string
-    */
-    public function getPatronymic(): string
-    {
-        return $this->patronymic;
-    }
-
-
-
-
-
-    public function getFullName(): string
-    {
-        return join(' ', array_filter([
-            $this->surname,
-            $this->name,
-            $this->patronymic
-        ]));
+        return $this->fullName;
     }
 }
