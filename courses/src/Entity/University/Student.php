@@ -18,11 +18,8 @@ use App\Entity\University\ValueObject\FullName;
 */
 class Student extends Person
 {
-     /**
-      * @var Faculty|null
-     */
-     protected ?Faculty $faculty = null;
 
+      const AVG = 10;
 
 
      /**
@@ -48,34 +45,6 @@ class Student extends Person
          parent::__construct($fullName);
          $this->setNotes($notes);
      }
-
-
-
-
-
-
-    /**
-     * @param Faculty|null $faculty
-     *
-     * @return $this
-    */
-    public function setFaculty(?Faculty $faculty): self
-    {
-        $this->faculty = $faculty;
-
-        return $this;
-    }
-
-
-
-    /**
-     * @return Faculty|null
-    */
-    public function getFaculty(): ?Faculty
-    {
-        return $this->faculty;
-    }
-
 
 
 
@@ -149,8 +118,37 @@ class Student extends Person
 
 
 
+
+    /**
+     * Determine if the student is admitted
+     *
+     * @return bool
+    */
+    public function hasAverage(): bool
+    {
+        return $this->getAverage() >= self::AVG;
+    }
+
+
+
     public function __toString(): string
     {
         return "Hello, {$this->fullName} you got {$this->getAverage()} on average.";
     }
+}
+
+
+$name      = new \App\Entity\University\ValueObject\FullName('John Doe');
+$student   = new \App\Entity\University\Student($name, [
+    11, 12, 19.5
+]);
+
+
+echo $student->getNote(1), "\n";
+echo $student->getFullName()->getName(), "\n";
+
+if ($student->hasAverage()) {
+     echo "Congratulations! you have average\n";
+} else {
+    echo "Sorry, you haven't average\n";
 }

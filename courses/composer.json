@@ -11,5 +11,8 @@
             "email": "jeanyao@ymail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "ext-readline": "*",
+        "symfony/var-dumper": "^6.3"
+    }
 }

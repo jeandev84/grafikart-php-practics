@@ -22,7 +22,6 @@ class Faculty
      protected string $code;
 
 
-
      /**
       * @var Student[]
      */
@@ -56,7 +55,6 @@ class Faculty
      public function addStudent(Student $student): self
      {
           if (! in_array($student, $this->students)) {
-              $student->setFaculty($this);
               $this->students[] = $student;
           }
 
