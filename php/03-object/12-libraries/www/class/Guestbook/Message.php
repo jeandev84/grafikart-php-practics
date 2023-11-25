@@ -13,7 +13,7 @@ class Message {
     private $message;
     private $date;
 
-    public static function fromJSON(string $json): Message
+    public static function fromJSON(string $json): object\www\class\Guestbook\Message
     {
         $data = json_decode($json, true);
         return new self($data['username'], $data['message'], new DateTime("@" . $data['date']));

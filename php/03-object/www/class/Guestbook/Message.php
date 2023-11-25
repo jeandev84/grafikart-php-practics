@@ -1,5 +1,5 @@
 <?php
-namespace App\Guestbook;
+namespace 03-object\www\class\Guestbook;
 
 
 use DateTime;

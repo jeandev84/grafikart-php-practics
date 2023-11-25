@@ -1,13 +1,7 @@
 <?php
-namespace App;
+namespace 03-object\www\class;
 
-use App\Exceptions\{
-    CurlException,
-    HTTPException,
-    UnauthorizedHTTPException
-};
-
-use DateTime;
+use object\www\class\Exceptions\{UnauthorizedHTTPException};
 
 
 /**
@@ -66,11 +60,11 @@ class OpenWeather {
      * 
      * @param string $endpoint Action à appeler (weather, weather/forecast)
      * 
-     * @throws CurlException Curl a rencontré une erreur
-     * @throws UnauthorizedHTTPException
+     * @return array
+     *@throws object\www\class\Exceptions\UnauthorizedHTTPException
      * @throws HTTPException
      *
-     * @return array
+     * @throws CurlException Curl a rencontré une erreur
      */
     private function callAPI(string $endpoint): ?array
     {

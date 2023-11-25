@@ -1,20 +1,19 @@
 <?php
 declare(strict_types=1);
 
+namespace 03-object\www\class\Contact;
 
-namespace App\Exceptions;
-use Exception;
 
 /**
  * Created by PhpStorm at 25.11.2023
  *
- * @ApiException
+ * @Message
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
- * @package
+ * @package App\Contact
  */
-class ApiException extends Exception
+class Message
 {
 
 }

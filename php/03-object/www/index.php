@@ -1,8 +1,6 @@
 <?php
-use App\Guestbook\{
-    GuestBook,
-    Message
-};
+
+use object\www\class\Guestbook\{Message};
 
 require_once __DIR__.'/vendor/autoload.php';
 
