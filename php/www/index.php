@@ -1,15 +1,29 @@
 <?php
 require 'vendor/autoload.php';
 
+
 $request    = \App\Http\Request::createFromGlobals();
 $connection = new \App\Database\Connection\PdoConnection("sqlite:./data.sql");
 
-$qs          = $request->queries->get('q', '');
-$search      = new \App\DTO\SearchDto($qs);
-$dto         = new \App\DTO\GetProducts($search);
-$repository  = new \App\Repository\ProductRepository($connection);
-$products    = $repository->findProductsBy($dto);
 
+# Query params
+$qs          = $request->queries->get('q', '');
+$page        = $request->queries->getInt('page', 1);
+$perPage     = $request->request->getInt('limit', 20);
+
+
+# DTO
+$search       = new \App\DTO\SearchDto($qs);
+$pagination   = new \App\DTO\PaginationDto($page, $perPage);
+$dto          = new \App\DTO\GetProducts($search, $pagination);
+
+# Repository
+$repository   = new \App\Repository\ProductRepository($connection);
+$products     = $repository->findProductsBy($dto);
+$totalOfPages = $repository->getTotalPages($dto);
+
+# dd($count['count']);
+# dd($totalOfPages);
 ?>
 <!doctype html>
 <html lang="en">
@@ -26,7 +40,7 @@ $products    = $repository->findProductsBy($dto);
 
        <h1>Les biens immobiliers</h1>
 
-       <!-- search section -->
+       <!-- Search section -->
        <form action="" class="mb-4">
            <div class="form-group">
                <input type="text" class="form-control" name="q" placeholder="Rechercher par ville" value="<?= \App\Helper\Str::escape($qs) ?>">
@@ -35,7 +49,7 @@ $products    = $repository->findProductsBy($dto);
        </form>
        <!--/ end search section -->
 
-       <!-- table section -->
+       <!-- Table section -->
        <table class="table table-striped">
            <thead>
            <tr>
@@ -59,6 +73,18 @@ $products    = $repository->findProductsBy($dto);
            </tbody>
        </table>
        <!--/ end table section -->
+
+       <!-- Pagination section -->
+       <?php if ($totalOfPages > 1 && $page > 1): ?>
+           <a href="?page=<?= $page - 1 ?>" class="btn btn-primary">Previous page</a>
+       <?php endif; ?>
+
+       <?php if ($totalOfPages > 1 && $page < $totalOfPages): ?>
+           <a href="?page=<?= $page + 1 ?>" class="btn btn-primary">Next page</a>
+       <?php endif; ?>
+       <!--/ Pagination section -->
+
+
    </div>
 
 </body>

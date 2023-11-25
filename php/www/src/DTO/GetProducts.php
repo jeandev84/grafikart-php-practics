@@ -15,11 +15,22 @@ namespace App\DTO;
  */
 class GetProducts
 {
+
+     const PER_PAGE  = 20;
+
      public SearchDto $searchDto;
 
-     public function __construct(SearchDto $searchDto)
+
+     public PaginationDto $paginationDto;
+
+
+     public function __construct(
+         SearchDto $searchDto,
+         PaginationDto $paginationDto
+     )
      {
-         $this->searchDto = $searchDto;
+         $this->searchDto     = $searchDto;
+         $this->paginationDto = $paginationDto;
      }
 
 
@@ -30,5 +41,23 @@ class GetProducts
      public function getSearchDto(): SearchDto
      {
          return $this->searchDto;
+     }
+
+
+
+     /**
+      * @return PaginationDto
+     */
+     public function getPaginationDto(): PaginationDto
+     {
+         return $this->paginationDto;
+     }
+
+
+
+
+     public function getPerPage(): int
+     {
+         return self::PER_PAGE;
      }
 }

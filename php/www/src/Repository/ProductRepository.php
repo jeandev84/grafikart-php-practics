@@ -27,20 +27,41 @@ class ProductRepository
 
         public function findProductsBy(GetProducts $dto): array
         {
-            $sql    = "SELECT * FROM products";
+            $sql[]  = "SELECT * FROM products";
             $params = [];
 
             // Recherche par ville
             if ($q = $dto->getSearchDto()->searchQuery) {
-                $sql .= " WHERE city LIKE :city";
+                $sql[] = "WHERE city LIKE :city";
                 $params['city'] = '%'. $q . '%';
             }
 
-            $sql .= "  LIMIT 20";
+            $pagination    = $dto->getPaginationDto();
+            $page          = $pagination->getPage();
+            $perPage       = $pagination->getPerPage();
+            $offset        = ($page - 1) * $perPage;
 
-            return $this->connection->statement($sql)
+            $sql[]         = "LIMIT $perPage OFFSET $offset";
+
+            return $this->connection->statement(join(' ', $sql))
                                     ->setParameters($params)
                                     ->fetch()
                                     ->assoc();
+        }
+
+
+
+        public function getTotalPages(GetProducts $dto): mixed
+        {
+            $search     = $dto->getSearchDto();
+            $pagination = $dto->getPaginationDto();
+
+            $queryCount   = "SELECT COUNT(id) as count FROM products WHERE city LIKE :city";
+            $count        = $this->connection->statement($queryCount)
+                                ->setParameters(['city' => '%'. $search->searchQuery . '%'])
+                                ->fetch()
+                                ->one()['count'];
+
+            return ceil($count / $pagination->getPerPage());
         }
 }
