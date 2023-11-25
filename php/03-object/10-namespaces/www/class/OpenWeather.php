@@ -1,4 +1,8 @@
 <?php
+
+use Grafikart\Exceptions\CurlException;
+use Grafikart\Exceptions\UnauthorizedHTTPException;
+
 require_once 'CurlException.php';
 require_once 'HTTPException.php';
 require_once 'UnauthorizedHTTPException.php';

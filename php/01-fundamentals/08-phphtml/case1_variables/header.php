@@ -28,7 +28,7 @@
             <li class="nav-item <?php if ($nav === 'index'): ?>active<?php endif; ?>">
                 <a class="nav-link" href="/index.php">Accueil</a>
             </li>
-            <li class="nav-item <?php if ($nav === 'contact'): ?>active<?php endif; ?>">
+            <li class="nav-item <?php if ($nav === 'Contact'): ?>active<?php endif; ?>">
                 <a class="nav-link" href="/contact.php">Contact</a>
             </li>
         </ul>

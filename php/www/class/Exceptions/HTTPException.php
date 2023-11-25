@@ -1,5 +1,5 @@
 <?php
-namespace Grafikart\Exceptions;
+namespace App\Exceptions;
 
 use Exception;
 

@@ -28,7 +28,7 @@
             <li class="nav-item <?php if ($_SERVER['SCRIPT_NAME'] === '/index.php'): ?>active<?php endif; ?>">
                 <a class="nav-link" href="/index.php">Accueil</a>
             </li>
-            <li class="nav-item <?php if ($_SERVER['SCRIPT_NAME'] === '/contact.php'): ?>active<?php endif; ?>">
+            <li class="nav-item <?php if ($_SERVER['SCRIPT_NAME'] === '/Contact.php'): ?>active<?php endif; ?>">
                 <a class="nav-link" href="/contact.php">Contact</a>
             </li>
         </ul>

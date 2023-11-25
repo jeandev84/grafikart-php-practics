@@ -53,7 +53,7 @@ HTML;
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <?= nav_item('/index.php', 'Accueil') ?>
-            <?= nav_item('/contact.php', 'Contact') ?>
+            <?= nav_item('/Contact.php', 'Contact') ?>
         </ul>
     </div>
 </nav>

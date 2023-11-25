@@ -17,7 +17,7 @@ try {
         exit();
     }
     $query = $pdo->query('SELECT * FROM posts');
-    $posts = $query->fetchAll(PDO::FETCH_CLASS, 'Post');
+    $posts = $query->fetchAll(PDO::FETCH_CLASS, \App\Post::class);
 } catch (PDOException $e) {
     $error = $e->getMessage();
 }

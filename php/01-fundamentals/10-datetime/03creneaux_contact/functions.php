@@ -40,7 +40,7 @@ HTML;
 */
 function nav_menu(string $linkClass = ''): string {
    return nav_item('/index.php', 'Accueil', $linkClass) .
-          nav_item('/contact.php', 'Contact', $linkClass);
+          nav_item('/Contact.php', 'Contact', $linkClass);
 }
 
 

@@ -1,7 +1,14 @@
 <?php
-require_once 'CurlException.php';
-require_once 'HTTPException.php';
-require_once 'UnauthorizedHTTPException.php';
+namespace App;
+
+use App\Exceptions\{
+    CurlException,
+    HTTPException,
+    UnauthorizedHTTPException
+};
+
+use DateTime;
+
 
 /**
  * Gère l'API d'OpenWeather

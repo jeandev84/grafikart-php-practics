@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Grafikart\Contact;
+namespace App\Contact;
 
 
 /**
@@ -11,7 +11,7 @@ namespace Grafikart\Contact;
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
- * @package Grafikart\Contact
+ * @package App\Contact
  */
 class Message
 {

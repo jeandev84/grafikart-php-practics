@@ -31,4 +31,4 @@ HTML;
 ?>
 
 <?= nav_item('/index.php', 'Accueil', $linkClass) ?>
-<?= nav_item('/contact.php', 'Contact', $linkClass) ?>
+<?= nav_item('/Contact.php', 'Contact', $linkClass) ?>

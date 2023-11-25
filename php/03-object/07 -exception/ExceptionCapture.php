@@ -1,4 +1,7 @@
 <?php
+
+use Grafikart\Exceptions\CurlException;
+
 require_once 'class/OpenWeather.php';
 
 $celsius = '°C';
