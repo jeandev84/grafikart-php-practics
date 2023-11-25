@@ -1,9 +1,19 @@
 <?php
+declare(strict_types=1);
 
-require_once __DIR__.'/vendor/autoload.php';
 
+/**
+ * Created by PhpStorm at 25.11.2023
+ *
+ * @Classroom
+ *
+ * @author Jean-Claude <jeanyao@ymail.com>
+ *
+ * @package ${NAMESPACE}
+ */
+class Classroom
+{
 
-class Classroom {
     protected $students = [];
 
 
@@ -27,7 +37,7 @@ class Classroom {
 
     public function isGreaterThanThen(array $student): bool
     {
-         return $student['average'] > 10;
+        return $student['average'] > 10;
     }
 
 
@@ -42,7 +52,9 @@ class Classroom {
             return $student['average'] > 10;
         });
     }
+
 }
+
 
 $students = [
     [
@@ -70,8 +82,3 @@ $students = [
 $classroom = new Classroom($students);
 $students = $classroom->getGoodStudents();
 dump($students);
-
-
-
-
-
