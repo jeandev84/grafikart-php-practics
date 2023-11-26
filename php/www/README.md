@@ -1,13 +1,8 @@
-### Base de donnees
+## Base de données
 
-products
+users
 
-- id    : cle primaire autoincrement (identifiant)
-- name  : nom du bien
-- price : prix du bien (reel)
-- address
-- city
-
-
-===============================
-$ composer init -n/--no-interaction
+- id 
+- username
+- password
+- role (admin ou user)
