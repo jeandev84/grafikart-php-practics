@@ -30,7 +30,7 @@ class TableHelper
 
          $url = URLHelper::withParams($data, [
              'sort' => $sortKey,
-             'dir' => ($direction === 'asc' ? 'desc' : 'asc' )
+             'dir' => ($direction === 'asc' && $sort === $sortKey) ? 'desc' : 'asc'
          ]);
 
          return sprintf('<a href="?%s">%s %s</a>', $url, $label, $icon);
