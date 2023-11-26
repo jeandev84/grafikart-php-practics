@@ -3,7 +3,7 @@ use App\App;
 
 require '../vendor/autoload.php';
 $users = App::getPDO()->query('SELECT * FROM users')->fetchAll();
-$user = App::getAuth()->getUser();
+$user = App::getAuth()->user();
 ?><!DOCTYPE html>
 <html lang="en">
 <head>

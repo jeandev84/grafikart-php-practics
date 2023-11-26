@@ -41,4 +41,12 @@ class URLHelper
 
          return static::withParams($data, [$param => $value]);
      }
+
+
+    /*
+    public static function withParamsForTest(array $data, array $params): string
+    {
+        return http_build_query(array_merge($params, $data));
+    }
+    */
 }

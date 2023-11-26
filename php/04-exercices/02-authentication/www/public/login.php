@@ -17,7 +17,7 @@ if($auth->user() !== null) {
 */
 
 if (!empty($_POST)) {
-    $user = $auth->attempt($_POST['username'], $_POST['password']);
+    $user = $auth->login($_POST['username'], $_POST['password']);
     if($user) {
         header('Location: index.php?login=1');
         exit();

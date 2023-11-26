@@ -1,7 +1,6 @@
 <?php
 namespace App;
 
-use App\Exception\ForbiddenException;
 use PDO;
 
 class Auth {
@@ -10,20 +9,18 @@ class Auth {
 
     private $loginPath;
 
-
-    private array $session;
-
-
-    public function __construct(PDO $pdo, string $loginPath, array &$session)
+    public function __construct(PDO $pdo, string $loginPath)
     {
         $this->pdo = $pdo;
         $this->loginPath = $loginPath;
-        $this->session   = &$session;
     }
 
-    public function user(): ?User
+    public function getUser(): ?User
     {
-        $id = $this->session['auth'] ?? null;
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $id = $_SESSION['auth'] ?? null;
         if ($id === null) {
             return null;
         }
@@ -35,19 +32,14 @@ class Auth {
 
     public function isGranted(string ...$roles): void
     {
-        $user = $this->user();
-        if ($user === null) {
-             throw new ForbiddenException("You must be to connect for viewing this page.");
-        }
-
-        if (!in_array($user->role, $roles)) {
-            $roles = join(',', $roles);
-            $role  = $user->role;
-            throw new ForbiddenException("You have not the permission \"$role\" in ($roles).");
+        $user = $this->getUser();
+        if ($user === null || !in_array($user->role, $roles)) {
+            header("Location: {$this->loginPath}?forbid=1");
+            exit();
         }
     }
 
-    public function login(string $username, string $password): ?User
+    public function attempt(string $username, string $password): ?User
     {
         // Trouve l'utilisateur correspondant au username
         $query = $this->pdo->prepare('SELECT * FROM users WHERE username = :username');
@@ -56,10 +48,12 @@ class Auth {
         if ($user === false) {
             return null;
         }
-
         // On vérifie password_verify que l'utilisateur corresponde
         if (password_verify($password, $user->password)) {
-            $this->session['auth'] = $user->id;
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            $_SESSION['auth'] = $user->id;
             return $user;
         }
         return null;
