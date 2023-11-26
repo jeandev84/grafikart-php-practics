@@ -30,7 +30,7 @@ $dto          = new \App\DTO\GetProducts($search, $pagination, $sorter);
 
 # Repository
 $repository   = new \App\Repository\ProductRepository($connection);
-$products     = $repository->findProductsBy($dto);
+$products     = $repository->findProductsQuery($dto);
 $totalOfPages = $repository->getTotalPages($dto);
 
 # dd($count['count']);

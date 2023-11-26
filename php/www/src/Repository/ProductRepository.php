@@ -5,6 +5,7 @@ namespace App\Repository;
 
 
 use App\Database\Connection\PdoConnection;
+use App\Database\Connection\QueryBuilder;
 use App\DTO\GetProducts;
 
 
@@ -25,7 +26,33 @@ class ProductRepository
         }
 
 
-        public function findProductsBy(GetProducts $dto): array
+        /**
+         * @return QueryBuilder
+        */
+        public function createQueryBuilder(): QueryBuilder
+        {
+             return new QueryBuilder($this->connection->getPdo());
+        }
+
+
+
+        public function createSelectQuery(GetProducts $dto): QueryBuilder
+        {
+            $qb = $this->createQueryBuilder()->from("products");
+
+            // Recherche par ville
+            if ($q = $dto->getSearchDto()->searchQuery) {
+                $qb->where("city LIKE :city")
+                    ->setParam('city', '%'. $q . '%');
+            }
+
+            return $qb;
+        }
+
+
+
+
+        public function findProductsQuery(GetProducts $dto): array
         {
             # Pagination params
             $pagination    = $dto->getPaginationDto();
@@ -38,25 +65,20 @@ class ProductRepository
             $sort          = $sorter->getSort();
             $direction     = $sorter->getDirection();
 
-            $sql[]  = "SELECT * FROM products";
-            $params = [];
-
-            // Recherche par ville
-            if ($q = $dto->getSearchDto()->searchQuery) {
-                $sql[] = "WHERE city LIKE :city";
-                $params['city'] = '%'. $q . '%';
-            }
+            $qb    = $this->createSelectQuery($dto);
+            $count = (clone $qb)->count();
 
             if ($sort && $direction) {
-                $sql[] = "ORDER BY $sort $direction";
+                $qb->orderBy($sort, $direction);
             }
 
-            $sql[] = "LIMIT $perPage OFFSET $offset";
+            $qb->limit($perPage)->page($page);
 
-            return $this->connection->statement(join(' ', $sql))
-                                    ->setParameters($params)
-                                    ->fetch()
-                                    ->assoc();
+            return [
+                'pages' => ($count / $perPage),
+                'count' => $count,
+                'items' => $qb->fetchAll()
+            ];
         }
 
 

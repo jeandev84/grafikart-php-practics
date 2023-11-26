@@ -67,6 +67,10 @@ class QueryBuilder {
 
     public function offset (int $offset): self
     {
+        if (! $this->limit) {
+            throw new \Exception("Could not define offset without limit");
+        }
+
         $this->offset = $offset;
         return $this;
     }
@@ -106,6 +110,23 @@ class QueryBuilder {
         }
         return $sql;
     }
+
+
+
+    public function fetchAll(): array
+    {
+        try {
+
+            $query = $this->pdo->prepare($this->toSQL());
+            $query->execute($this->params);
+            return $query->fetchAll();
+
+        } catch (\PDOException $e) {
+             throw new \Exception("Could not execute fetchAll() for : ". $this->toSQL() . ": ". $e->getMessage());
+        }
+    }
+
+
 
     public function fetch(string $field): ?string
     {

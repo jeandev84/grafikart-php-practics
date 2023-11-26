@@ -1,9 +1,9 @@
 <?php
-require 'vendor/autoload.php';
+require '../vendor/autoload.php';
 
 
 $request    = \App\Http\Request::createFromGlobals();
-$connection = new \App\Database\Connection\PdoConnection("sqlite:./data.sql");
+$connection = new \App\Database\Connection\PdoConnection("sqlite:../data.sql");
 
 
 # Query params
@@ -30,11 +30,10 @@ $dto          = new \App\DTO\GetProducts($search, $pagination, $sorter);
 
 # Repository
 $repository   = new \App\Repository\ProductRepository($connection);
-$products     = $repository->findProductsBy($dto);
-$totalOfPages = $repository->getTotalPages($dto);
+$result       = $repository->findProductsQuery($dto);
+$products     = $result['items'];
+$totalOfPages = $result['pages'];
 
-# dd($count['count']);
-# dd($totalOfPages);
 ?>
 <!doctype html>
 <html lang="en">
