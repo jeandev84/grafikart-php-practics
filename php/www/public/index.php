@@ -1,38 +1,27 @@
 <?php
+
+use App\Service\Table;
+
 require '../vendor/autoload.php';
 
 
 $request    = \App\Http\Request::createFromGlobals();
 $connection = new \App\Database\Connection\PdoConnection("sqlite:../data.sql");
 
+$query = (new \App\Database\Connection\QueryBuilder($connection->getPdo()))->from('products');
 
-# Query params
-$qs          = $request->queries->get('q', '');
-$page        = $request->queries->getInt('page', 1);
-$perPage     = $request->queries->getInt('limit', 20);
-$sort        = $request->queries->get('sort', '');
-$direction   = $request->queries->get('dir', 'asc');
-$queryParams = $request->queries->all();
+if ($qs = $request->queries->get('q', '')) {
+    $query->where('city LIKE :city')
+          ->setParam('city', '%'. $qs . '%');
+}
 
-
-# http://localhost:8000/?q=a&page=2&sort=price&dir=asc
-# http://localhost:8000/?q=a&page=2&sort=id&dir=desc
-# http://localhost:8000/?q=a&sort=price&dir=asc&page=2
-# http://localhost:8000/?q=a&sort=address&dir=asc&page=2
-$sortable   = ["id", "name", "city", "price", "address"];
-
-
-# DTO
-$search       = new \App\DTO\SearchDto($qs);
-$pagination   = new \App\DTO\PaginationDto($page, $perPage);
-$sorter       = new \App\DTO\SorterDto($sortable, $sort, $direction);
-$dto          = new \App\DTO\GetProducts($search, $pagination, $sorter);
-
-# Repository
-$repository   = new \App\Repository\ProductRepository($connection);
-$result       = $repository->findProductsQuery($dto);
-$products     = $result['items'];
-$totalOfPages = $result['pages'];
+$table = new Table($query, $request->queries->all());
+$table->sortable('id', 'city');
+$table->columns([
+    'id' => 'ID',
+    'name' => 'Name',
+    'city' => 'Ville'
+]);
 
 ?>
 <!doctype html>
@@ -60,39 +49,8 @@ $totalOfPages = $result['pages'];
        <!--/ end search section -->
 
        <!-- Table section -->
-       <table class="table table-striped">
-           <thead>
-           <tr>
-               <th><?= \App\Helper\TableHelper::sort('id', 'ID', $queryParams) ?></th>
-               <th><?= \App\Helper\TableHelper::sort('name', 'Name', $queryParams) ?></th>
-               <th><?= \App\Helper\TableHelper::sort('price', 'Price', $queryParams) ?></th>
-               <th><?= \App\Helper\TableHelper::sort('city', 'City', $queryParams) ?></th>
-               <th><?= \App\Helper\TableHelper::sort('address', 'Address', $queryParams) ?></th>
-           </tr>
-           </thead>
-           <tbody>
-            <?php foreach ($products as $product): ?>
-                <tr>
-                    <td>#<?= $product['id'] ?></td>
-                    <td><?= $product['name'] ?></td>
-                    <td><?= \App\Helper\NumberHelper::price($product['price']) ?></td>
-                    <td><?= $product['city'] ?></td>
-                    <td><?= $product['address'] ?></td>
-                </tr>
-            <?php endforeach; ?>
-           </tbody>
-       </table>
-       <!--/ end table section -->
-
-       <!-- Pagination section -->
-       <?php if ($totalOfPages > 1 && $page > 1): ?>
-           <a href="?<?= \App\Helper\URLHelper::withParam($queryParams, 'page', $page - 1) ?>" class="btn btn-primary">Previous page</a>
-       <?php endif; ?>
-
-       <?php if ($totalOfPages > 1 && $page < $totalOfPages): ?>
-           <a href="?<?= \App\Helper\URLHelper::withParam($queryParams, 'page', $page + 1) ?>" class="btn btn-primary">Next page</a>
-       <?php endif; ?>
-       <!--/ Pagination section -->
+       <?= $table->render() ?>
+       <!--/ end section -->
 
 
    </div>
