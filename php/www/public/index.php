@@ -15,13 +15,17 @@ if ($qs = $request->queries->get('q', '')) {
           ->setParam('city', '%'. $qs . '%');
 }
 
-$table = new Table($query, $request->queries->all());
-$table->sortable('id', 'city');
-$table->columns([
-    'id' => 'ID',
-    'name' => 'Name',
-    'city' => 'Ville'
-]);
+$table = (new Table($query, $request->queries->all()))
+         ->sortable('id', 'city', 'price')
+         ->format('price', function ($value) {
+             return \App\Helper\NumberHelper::price($value);
+         })
+        ->columns([
+            'id' => 'ID',
+            'name' => 'Name',
+            'city' => 'Ville',
+            'price' => 'Prix'
+        ]);
 
 ?>
 <!doctype html>

@@ -33,6 +33,7 @@ class Table
     protected array $get = [];
     protected array $sortable = [];
     protected array $columns = [];
+    protected array $formatters = [];
     protected int $limit = 20;
 
 
@@ -49,6 +50,15 @@ class Table
          $this->sortable = $sortable;
 
          return $this;
+    }
+
+
+
+    public function format(string $key, callable $func): self
+    {
+          $this->formatters[$key] = $func;
+
+          return $this;
     }
 
 
@@ -80,6 +90,17 @@ class Table
         ]);
 
         return sprintf('<a href="?%s">%s %s</a>', $url, $this->columns[$key], $icon);
+    }
+
+
+
+    public function td(string $key, array $item)
+    {
+         if (isset($this->formatters[$key])) {
+             return $this->formatters[$key]($item[$key]);
+         }
+
+         return $item[$key];
     }
 
 
@@ -138,7 +159,8 @@ HTML;
         foreach ($items as $item) {
             $tbody[] = "<tr>";
             foreach ($this->columns as $key => $column) {
-                $tbody[] = "<td>$item[$key]</td>";
+                /* $tbody[] = "<td>$item[$key]</td>"; */
+                $tbody[] = "<td>{$this->td($key, $item)}</td>";
             }
             $tbody[] = "</tr>";
         }
