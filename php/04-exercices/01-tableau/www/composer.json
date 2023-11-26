@@ -1,0 +1,17 @@
+{
+    "name": "grafikart/tableau",
+    "authors": [
+        {
+            "name": "Jean-Claude",
+            "email": "jeanyao@ymail.com"
+        }
+    ],
+    "require-dev": {
+        "symfony/var-dumper": "^6.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}
