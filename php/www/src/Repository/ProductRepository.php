@@ -27,6 +27,17 @@ class ProductRepository
 
         public function findProductsBy(GetProducts $dto): array
         {
+            # Pagination params
+            $pagination    = $dto->getPaginationDto();
+            $page          = $pagination->getPage();
+            $perPage       = $pagination->getPerPage();
+            $offset        = ($page - 1) * $perPage;
+
+            # Sorter params
+            $sorter        = $dto->getSorterDto();
+            $sort          = $sorter->getSort();
+            $direction     = $sorter->getDirection();
+
             $sql[]  = "SELECT * FROM products";
             $params = [];
 
@@ -36,12 +47,11 @@ class ProductRepository
                 $params['city'] = '%'. $q . '%';
             }
 
-            $pagination    = $dto->getPaginationDto();
-            $page          = $pagination->getPage();
-            $perPage       = $pagination->getPerPage();
-            $offset        = ($page - 1) * $perPage;
+            if ($sort && $direction) {
+                $sql[] = "ORDER BY $sort $direction";
+            }
 
-            $sql[]         = "LIMIT $perPage OFFSET $offset";
+            $sql[] = "LIMIT $perPage OFFSET $offset";
 
             return $this->connection->statement(join(' ', $sql))
                                     ->setParameters($params)

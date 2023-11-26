@@ -15,14 +15,14 @@ namespace App\Helper;
  */
 class URLHelper
 {
-     public static function withParams(array $params): string
+     public static function withParams(array $data, array $params): string
      {
-          return http_build_query(array_merge($_GET, $params));
+          return http_build_query(array_merge($data, $params));
      }
 
 
-     public static function withParam(string $param, $value): string
+     public static function withParam(array $data, string $param, $value): string
      {
-         return static::withParams([$param => $value]);
+         return static::withParams($data, [$param => $value]);
      }
 }
