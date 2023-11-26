@@ -73,7 +73,7 @@ class Table
 
 
 
-    public function th(string $key): string
+    private function th(string $key): string
     {
         if (! in_array($key, $this->sortable)) {
             return $this->columns[$key];
@@ -94,7 +94,7 @@ class Table
 
 
 
-    public function td(string $key, array $item)
+    private function td(string $key, array $item)
     {
          if (isset($this->formatters[$key])) {
              return $this->formatters[$key]($item[$key]);
