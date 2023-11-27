@@ -53,11 +53,19 @@ $paginatedQuery = new \App\Helpers\PaginatedQuery(
     \App\Entity\Post::class
 );
 
-/** @var \App\Post[] $posts */
-$posts  = $paginatedQuery->getItems();
 
-dd($posts);
+$currentPage = \App\Helpers\URL::getPositiveInt('page', 1);
+$count       = $categoryRepository->countById($category->getId());
+$perPage     = 12;
+$pages       = ceil($count / $perPage);
 
+if ($currentPage > $pages) {
+    throw new Exception("Cette page n' existe pas");
+}
+
+$paginationDto = new \App\DTO\Input\PaginationDto($currentPage, $perPage);
+$postRepository = new \App\Repository\PostRepository($connection);
+$posts  = $postRepository->findPostsByCategory($paginationDto, $category->getId());
 $link   = $router->url('category', ['id' => $category->getId(), 'slug' => $category->getSlug()])
 
 ?>
