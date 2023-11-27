@@ -2,13 +2,7 @@
 
 $title = 'Mon Blog';
 $request = \Grafikart\Http\Request\Request::createFromGlobals();
-$connection = new \Grafikart\Database\Connection\PdoConnection(
-     'mysql:dbname=tutoblog;host=127.0.0.1',
-'root',
-'secret'
-);
-
-
+$connection = \App\Helpers\Connection::make();
 $page = $request->queries->get('page', 1);
 
 if (! filter_var($page, FILTER_VALIDATE_INT)) {

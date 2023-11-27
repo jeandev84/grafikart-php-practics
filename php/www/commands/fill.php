@@ -7,9 +7,7 @@ require dirname(__DIR__). '/vendor/autoload.php';
 $faker = \Faker\Factory::create('fr_FR');
 
 
-$pdo = new PDO('mysql:dbname=tutoblog;host=127.0.0.1', 'root', 'secret', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-]);
+$pdo = \App\Helpers\Connection::getPdo();
 
 $pdo->exec('SET FOREIGN_KEY_CHECKS = 0');
 $pdo->exec('TRUNCATE TABLE post_category');
