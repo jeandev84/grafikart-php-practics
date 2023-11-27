@@ -46,7 +46,7 @@ class Validator implements ValidatorInterface
 
       public function addRule(RuleInterface $rule): self
       {
-          $this->rules[$rule->fieldName()] = $rule;
+          $this->rules[$rule->fieldName()][] = $rule;
 
           return $this;
       }
