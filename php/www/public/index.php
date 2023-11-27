@@ -15,11 +15,12 @@ $request = \Grafikart\Http\Request\Request::createFromGlobals();
 
 if ($request->queries->equalTo('page', '1')) {
     // Reecrire l' url sans le parametre ?page
-    # Example if URL : http://localhost:8000/blog/tutoriels?page=1&param=2
-    # will be redirect to http://localhost:8000/blog/tutoriels?param=2
-    $uri = $request->buildURI(['page']);
-    #header('Location: '. $uri);
-    #http_response_code(301);
+    # Example if URL : http://localhost:8000/blog/tutoriels?page=1&param2=2
+    # will be redirect to http://localhost:8000/blog/tutoriels?param2=2
+    $request->queries->remove('page');
+    $uri = $request->buildURI($request->queries->all());
+    header('Location: '. $uri);
+    http_response_code(301);
     exit();
 }
 

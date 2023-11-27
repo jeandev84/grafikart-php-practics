@@ -178,14 +178,12 @@ class Request
 
 
 
-      public function buildURI(array $without = []): string
+      public function buildURI(array $queries): string
       {
           $path = $this->getPath();
-          foreach ($without as $query) { $this->queries->remove($query); }
-          $qs = http_build_query($this->queries->all());
-          if(!empty($qs)) {
-              $path = $path . "?". $qs;
-          }
+          $qs   = http_build_query($queries);
+          if(!empty($qs)) { $path = $path . "?". $qs;}
+
           return $path;
       }
 
