@@ -70,5 +70,7 @@ echo "Finished!\n\n";
 
 echo "Beginning [user]...\n";
 $password = password_hash('admin', PASSWORD_BCRYPT);
-$pdo->exec("INSERT INTO user SET username='admin', password='$password'");
+$sql = "INSERT INTO user SET username='admin', password='$password'";
+$pdo->exec($sql);
+echo "[". date('d-m-Y H:i:s') . "] : $sql\n";
 echo "Finished!\n\n";
