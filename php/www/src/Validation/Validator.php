@@ -37,7 +37,9 @@ class Validator implements ValidatorInterface
       protected array $errors = [];
 
 
-
+      /**
+       * @param string $locale
+      */
       public function __construct(string $locale = 'en_EN')
       {
           $this->locale = $locale;
@@ -69,35 +71,55 @@ class Validator implements ValidatorInterface
           return $this;
       }
 
-    public function validate(): bool
-    {
-        foreach ($this->rules as $rule) {
-            if (! $rule->validate()) {
+
+     /**
+      * @return bool
+     */
+     public function validate(): bool
+     {
+         foreach ($this->rules as $rule) {
+             if (! $rule->validate()) {
                 $this->addError($rule->fieldName(), $rule->getMessage());
-            }
-        }
+             }
+         }
 
-        return empty($this->errors);
+         return empty($this->errors);
     }
 
 
 
-    public function addError(string $name, string $message): self
-    {
-        $this->errors[$name][] = $message;
-
-        return $this;
-    }
-
-
-
+    /**
+     * @return RuleInterface[]
+    */
     public function getRules(): array
     {
         return $this->rules;
     }
 
+
+
+
+    /**
+     * @return array
+    */
     public function getErrors(): array
     {
         return $this->errors;
+    }
+
+
+
+    /**
+     * @param string $name
+     *
+     * @param string $message
+     *
+     * @return $this
+    */
+    protected function addError(string $name, string $message): self
+    {
+        $this->errors[$name][] = $message;
+
+        return $this;
     }
 }

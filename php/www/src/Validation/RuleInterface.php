@@ -16,7 +16,6 @@ namespace Grafikart\Validation;
 interface RuleInterface
 {
     public function fieldName(): string;
-    public function getValue(): mixed;
     public function getMessage(): string;
     public function validate(): bool;
 }
