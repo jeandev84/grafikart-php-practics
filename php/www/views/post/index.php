@@ -8,7 +8,12 @@ $connection = new \Grafikart\Database\Connection\PdoConnection(
 'secret'
 );
 
-$repository = new \App\Repository\PostRepository($connection);
+
+$page = $request->queries->get('page', 1);
+
+if (! filter_var($page, FILTER_VALIDATE_INT)) {
+    throw new Exception("Numero de page invalide");
+}
 
 $currentPage = $request->queries->getInt('page', 1);
 
@@ -18,10 +23,10 @@ if ($currentPage <= 0) {
 
 # ceil: arrondi au nombre superieur
 # floor: arrondi au nombre inferieur
-
-$count   = $repository->count();
-$perPage = 12;
-$pages   = ceil($count / $perPage);
+$repository = new \App\Repository\PostRepository($connection);
+$count      = $repository->count();
+$perPage    = 12;
+$pages      = ceil($count / $perPage);
 
 if ($currentPage > $pages) {
     throw new Exception("Cette page n' existe pas");
@@ -46,7 +51,7 @@ $posts  = $posts = $repository->findPosts($dto);
     <?php if ($currentPage > 1): ?>
         <?php
          $link = $router->url('home');
-         if ($currentPage > 2) $link .= '?page='. $currentPage - 1;
+         if ($currentPage > 2) $link .= '?page='. ($currentPage - 1);
         ?>
         <a href="<?= $link ?>" class="btn btn-primary">
             &laquo; Page precedente
