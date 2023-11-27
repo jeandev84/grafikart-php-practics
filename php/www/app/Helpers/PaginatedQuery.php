@@ -46,7 +46,7 @@ class PaginatedQuery
 
       public function getItems(): array
       {
-          $currentPage = URL::getPositiveInt('page', 1);
+          $currentPage = $this->getCurrentPage();
           $count       = (int)$this->connection
                                    ->query($this->queryCount)
                                    ->fetch()
@@ -65,4 +65,20 @@ class PaginatedQuery
                                  ->all();
       }
 
+
+
+      public function previousLink(string $link): ?string
+      {
+          $currentPage = $this->getCurrentPage();
+          if ($currentPage <= 1) return null;
+          if ($currentPage > 2) $link .= "?page=". ($currentPage - 1);
+          return sprintf('<a href="%s" class="btn btn-primary">&laquo; Page precedente</a>', $link);
+      }
+
+
+
+      private function getCurrentPage(): int
+      {
+          return URL::getPositiveInt('page', 1);
+      }
 }

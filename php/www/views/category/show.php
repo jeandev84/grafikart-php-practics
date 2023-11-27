@@ -56,8 +56,6 @@ $paginatedQuery = new \App\Helpers\PaginatedQuery(
 /** @var \App\Post[] $posts */
 $posts  = $paginatedQuery->getItems();
 
-dd($posts);
-
 $link   = $router->url('category', ['id' => $category->getId(), 'slug' => $category->getSlug()])
 
 ?>
@@ -73,19 +71,5 @@ $link   = $router->url('category', ['id' => $category->getId(), 'slug' => $categ
 </div>
 
 <div class="d-flex justify-content-between my-4">
-    <?php if ($currentPage > 1): ?>
-        <?php
-        $previousLink = $link;
-        if ($currentPage > 2) $previousLink = $link . '?page='. ($currentPage - 1);
-        ?>
-        <a href="<?= $previousLink ?>" class="btn btn-primary">
-            &laquo; Page precedente
-        </a>
-    <?php endif; ?>
-
-    <?php if ($currentPage < $pages): ?>
-        <a href="<?= $link ?>?page=<?= ($currentPage + 1) ?>" class="btn btn-primary ml-auto">
-            Page suivante &raquo;
-        </a>
-    <?php endif; ?>
+    <?= $paginatedQuery->previousLink($link) ?>
 </div>
