@@ -22,7 +22,7 @@ if ($currentPage > $pages) {
 
 $paginationDto = new \App\DTO\Input\PaginationDto($currentPage, $perPage);
 $dto = new \App\DTO\Input\GetPosts($paginationDto);
-$posts  = $posts = $repository->findPosts($dto);
+$posts  = $posts = $repository->findAllBy($dto);
 
 ?>
 <h1>Mon Blog</h1>

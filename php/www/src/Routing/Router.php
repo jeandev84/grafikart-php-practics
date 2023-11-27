@@ -88,7 +88,11 @@ class Router
          $match = $this->router->match();
          $renderer = new Renderer($this->viewPath);
          $renderer->layout("layouts/default.php");
-         $content  = $renderer->render($match['target']. ".php", ['router' => $this]);
+         $content  = $renderer->render($match['target']. ".php", [
+             'router' => $this,
+             'params' => $match['params']
+         ]);
+
          $response = new Response($content);
          $response->sendBody();
 

@@ -31,7 +31,7 @@ class PostRepository
     /**
      * @return \App\Entity\Post[]
      */
-     public function findPosts(GetPosts $dto): array
+     public function findAllBy(GetPosts $dto): array
      {
          $offset = $dto->getPaginationDto()->getOffSet();
          $limit  = $dto->getPaginationDto()->getLimit();
@@ -43,6 +43,20 @@ class PostRepository
                                  ->map($this->getClassName())
                                  ->fetch()
                                  ->all();
+     }
+
+
+
+
+     public function find(int $id)
+     {
+         $sql = "SELECT * FROM post WHERE id = :id";
+
+         return $this->connection->statement($sql)
+                                 ->map($this->getClassName())
+                                 ->setParameters(compact('id'))
+                                 ->fetch()
+                                 ->one();
      }
 
 
