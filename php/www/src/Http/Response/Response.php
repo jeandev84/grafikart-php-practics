@@ -104,14 +104,15 @@ class Response
 
     public function send(): void
     {
-         $this->sendHeaders();
+         if (php_sapi_name() !== 'cli') {
+             $this->sendHeaders();
+         }
     }
 
 
     public function sendHeaders(): void
     {
         if (headers_sent()) { return; }
-
         http_response_code($this->status);
         foreach ($this->headers as $name => $value) {
             header("$name: $value");
