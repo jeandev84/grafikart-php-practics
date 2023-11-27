@@ -13,7 +13,7 @@ namespace Grafikart\Database\Connection;
  *
  * @package Grafikart\Database\Connection
  */
-class QueryException extends \RuntimeException
+class QueryException extends \Exception
 {
 
 }

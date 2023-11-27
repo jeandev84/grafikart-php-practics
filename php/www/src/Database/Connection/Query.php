@@ -72,7 +72,8 @@ class Query
          try {
              return $this->statement->execute($this->parameters);
          } catch (\PDOException $e) {
-              throw new QueryException($e->getMessage(), $e->getCode());
+              # throw $e;
+              throw new QueryException($e->getMessage());
          }
      }
 

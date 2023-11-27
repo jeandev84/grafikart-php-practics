@@ -14,6 +14,8 @@ if ($category->getSlug() !== $slug) {
     header("Location: $url");
     exit();
 }
+
+dd($category);
 ?>
 
 <h1>Ma categorie</h1>

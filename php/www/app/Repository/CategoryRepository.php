@@ -43,6 +43,7 @@ class CategoryRepository implements EntityRepositoryIInterface
     {
         $category = $this->connection
                     ->statement("SELECT * FROM category WHERE id = :id")
+                    ->setParameters(compact('id'))
                     ->map($this->getClassName())
                     ->fetch()
                     ->one();
