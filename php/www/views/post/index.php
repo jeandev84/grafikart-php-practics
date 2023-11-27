@@ -1,7 +1,7 @@
 <?php
 
 $title = 'Mon Blog';
-$request = \Grafikart\Http\Request::createFromGlobals();
+$request = \Grafikart\Http\Request\Request::createFromGlobals();
 $connection = new \Grafikart\Database\Connection\PdoConnection(
      'mysql:dbname=tutoblog;host=127.0.0.1',
 'root',

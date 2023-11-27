@@ -5,7 +5,7 @@ namespace Grafikart\Routing;
 
 
 use AltoRouter;
-use Grafikart\Http\Response;
+use Grafikart\Http\Response\Response;
 use Grafikart\Templating\Renderer;
 
 /**
@@ -73,6 +73,14 @@ class Router
      {
          return $this->router->generate($name, $params);
      }
+
+
+
+     public function match(): array|false
+     {
+         return $this->router->match();
+     }
+
 
 
      public function run(): self

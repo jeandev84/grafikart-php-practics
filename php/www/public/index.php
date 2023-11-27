@@ -12,7 +12,7 @@ $whoops->register();
 
 
 // HTTP Request
-$request = \Grafikart\Http\Request::createFromGlobals();
+$request = \Grafikart\Http\Request\Request::createFromGlobals();
 
 // Routing
 $router  = new \Grafikart\Routing\Router(dirname(__DIR__). '/views');

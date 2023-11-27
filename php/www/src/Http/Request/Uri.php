@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Grafikart\Http;
+namespace Grafikart\Http\Request;
 
 
 /**
@@ -11,7 +11,7 @@ namespace Grafikart\Http;
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
- * @package Grafikart\Http
+ * @package Grafikart\Http\Request
  */
 class Uri
 {

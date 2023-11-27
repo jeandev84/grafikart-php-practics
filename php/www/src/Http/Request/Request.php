@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Grafikart\Http;
+namespace Grafikart\Http\Request;
 
 
 use Grafikart\Http\Bag\InputBag;
@@ -16,7 +16,7 @@ use Grafikart\Http\Cookie\CookieJar;
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
- * @package Grafikart\Http
+ * @package Grafikart\Http\Request
  */
 class Request
 {
