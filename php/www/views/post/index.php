@@ -1,20 +1,20 @@
 <?php
 
+/*
+ * ceil: arrondi au nombre superieur
+ * floor: arrondi au nombre inferieur
+*/
+
 $title = 'Mon Blog';
 $connection = \App\Helpers\Connection::make();
 
-$currentPage = \App\Helpers\URL::getInt('page', 1);
 
-if ($currentPage <= 0) {
-    throw new Exception("Numero de page invalide");
-}
+$currentPage = \App\Helpers\URL::getPositiveInt('page', 1);
 
-# ceil: arrondi au nombre superieur
-# floor: arrondi au nombre inferieur
-$repository = new \App\Repository\PostRepository($connection);
-$count      = $repository->count();
-$perPage    = 12;
-$pages      = ceil($count / $perPage);
+$repository  = new \App\Repository\PostRepository($connection);
+$count       = $repository->count();
+$perPage     = 12;
+$pages       = ceil($count / $perPage);
 
 if ($currentPage > $pages) {
     throw new Exception("Cette page n' existe pas");
