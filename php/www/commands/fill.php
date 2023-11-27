@@ -1,7 +1,7 @@
 <?php
 # php commands/fill.php
-# https://
-require '../vendor/autoload.php';
+# https://github.com/fzaninotto/Faker
+require dirname(__DIR__). '/vendor/autoload.php';
 
 
 $faker = \Faker\Factory::create('fr_FR');
@@ -20,7 +20,14 @@ $pdo->exec('SET FOREIGN_KEY_CHECKS = 1');
 
 echo "Beginning ...\n";
 for ($i = 0; $i < 50; $i++) {
-    $sql = "INSERT INTO post SET name='Article #$i', slug='article-$i', created_at='2019-05-11 14:00:00', content='lorem ipsum'";
+
+    $name      = $faker->sentence();
+    $slug      = $faker->slug;
+    $createdAt = $faker->date() .' '. $faker->time();
+    $content   = $faker->paragraphs(nb: rand(3, 15), asText: true);
+    #$content   = $faker->text();
+
+    $sql = "INSERT INTO post SET name='$name', slug='$slug', created_at='$createdAt', content='$content'";
     $pdo->exec($sql);
     echo "[". date('d-m-Y H:i:s') . "] : $sql\n";
 }
