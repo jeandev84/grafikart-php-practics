@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-
+use App\DTO\Input\PaginationDto;
 use App\Entity\Category;
 use App\Post;
 use Exception;
@@ -86,6 +86,17 @@ class CategoryRepository implements EntityRepositoryIInterface
                     ->fetch()
                     ->all();
     }
+
+
+
+    public function countById(int $id)
+    {
+        return (int)$this->connection
+                        ->query("SELECT COUNT(category_id) FROM post_category WHERE category_id = {$id}")
+                        ->fetch()
+                        ->nums()[0];
+    }
+
 
 
     public function getClassName(): string

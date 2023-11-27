@@ -5,6 +5,7 @@ namespace App\Repository;
 
 
 use App\DTO\Input\GetPosts;
+use App\DTO\Input\PaginationDto;
 use App\Entity\Post;
 use Exception;
 use Grafikart\Database\Connection\PdoConnection;
@@ -52,7 +53,7 @@ class PostRepository implements EntityRepositoryIInterface
     /**
      * @return \App\Entity\Post[]
      */
-     public function findAllBy(GetPosts $dto): array
+     public function findPostsBy(GetPosts $dto): array
      {
          $offset = $dto->getPaginationDto()->getOffSet();
          $limit  = $dto->getPaginationDto()->getLimit();
@@ -65,6 +66,29 @@ class PostRepository implements EntityRepositoryIInterface
                                  ->fetch()
                                  ->all();
      }
+
+
+
+
+    public function findPostsByCategory(PaginationDto $paginationDto, int $categoryId)
+    {
+        $offset = $paginationDto->getOffSet();
+        $perPage  = $paginationDto->getLimit();
+
+        # $sql = "SELECT * FROM post ORDER BY created_at DESC LIMIT $limit OFFSET 0";
+        $sql = "SELECT p.* 
+                FROM post p 
+                JOIN post_category pc ON pc.post_id = p.id
+                WHERE pc.category_id = {$categoryId}
+                ORDER BY created_at DESC 
+                LIMIT $perPage OFFSET $offset";
+
+        return $this->connection
+                    ->query($sql)
+                    ->map($this->getClassName())
+                    ->fetch()
+                    ->all();
+    }
 
 
      /**
