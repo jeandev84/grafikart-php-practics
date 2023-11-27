@@ -44,13 +44,17 @@ $posts  = $posts = $repository->findPosts($dto);
 
 <div class="d-flex justify-content-between my-4">
     <?php if ($currentPage > 1): ?>
-        <a href="<?= $router->url('home') ?>?page=<?= ($currentPage - 1) ?>" class="btn btn-primary">
+        <?php
+         $link = $router->url('home');
+         if ($currentPage > 2) $link .= '?page='. $currentPage - 1;
+        ?>
+        <a href="<?= $link ?>" class="btn btn-primary">
             &laquo; Page precedente
         </a>
     <?php endif; ?>
 
     <?php if ($currentPage < $pages): ?>
-        <a href="<?= $router->url('home') ?>?page=<?= ($currentPage + 1) ?>" class="btn btn-primary">
+        <a href="<?= $router->url('home') ?>?page=<?= ($currentPage + 1) ?>" class="btn btn-primary ml-auto">
             Page suivante &raquo;
         </a>
     <?php endif; ?>
