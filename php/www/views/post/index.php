@@ -1,15 +1,9 @@
 <?php
 
 $title = 'Mon Blog';
-$request = \Grafikart\Http\Request\Request::createFromGlobals();
 $connection = \App\Helpers\Connection::make();
-$page = $request->queries->get('page', 1);
 
-if (! filter_var($page, FILTER_VALIDATE_INT)) {
-    throw new Exception("Numero de page invalide");
-}
-
-$currentPage = $request->queries->getInt('page', 1);
+$currentPage = \App\Helpers\URL::getInt('page', 1);
 
 if ($currentPage <= 0) {
     throw new Exception("Numero de page invalide");

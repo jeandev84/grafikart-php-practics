@@ -178,7 +178,7 @@ class Request
 
 
 
-      public function buildURI(array $queries): string
+      public function uri(array $queries = []): string
       {
           $path = $this->getPath();
           $qs   = http_build_query($queries);

@@ -148,6 +148,14 @@ class ParameterBag
       */
       public function getInt(string $key, int $default = 0): int
       {
+          /*
+          $value= $this->get($key);
+
+          if (! filter_var($value, FILTER_VALIDATE_INT)) {
+              throw new \InvalidArgumentException("Invalid value for [$key]");
+          }
+          */
+
           return (int)$this->get($key, $default);
       }
 
