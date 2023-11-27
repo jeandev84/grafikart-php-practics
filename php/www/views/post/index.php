@@ -22,7 +22,7 @@ $posts = $query->fetchAll(PDO::FETCH_CLASS, \App\Entity\Post::class);
                     <p class="text-muted"><?= $post->getCreatedAt()->format('d F Y') ?></p>
                     <p><?= $post->getExcerpt() ?></p>
                     <p>
-                        <a href="#" class="btn btn-primary">Voir plus</a>
+                        <a href="<?= $router->url('post', ['slug' => $post->getSlug(), 'id' => $post->getId()]) ?>" class="btn btn-primary">Voir plus</a>
                     </p>
                 </div>
             </div>

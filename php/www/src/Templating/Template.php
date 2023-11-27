@@ -52,4 +52,13 @@ class Template implements TemplateInterface
           extract($this->parameters, EXTR_SKIP);
           return file_get_contents($this->path);
       }
+
+
+      public function buffer(): string
+      {
+          extract($this->parameters, EXTR_SKIP);
+          ob_start();
+          require $this->path;
+          return ob_get_clean();
+      }
 }

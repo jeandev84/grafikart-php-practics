@@ -5,6 +5,7 @@ namespace Grafikart\Routing;
 
 
 use AltoRouter;
+use Grafikart\Templating\Renderer;
 
 /**
  * Created by PhpStorm at 27.11.2023
@@ -67,16 +68,27 @@ class Router
      }
 
 
+     public function url(string $name, array $params = []): string
+     {
+         return $this->router->generate($name, $params);
+     }
+
 
      public function run(): self
      {
          $match = $this->router->match();
          $view  = $match['target'];
+         $renderer = new Renderer($this->viewPath);
+         $renderer->layout("layouts/default.php");
+         echo $renderer->render($view. ".php", ['router' => $this]);
 
+         /*
+         $router = $this;
          ob_start();
          require $this->viewPath . DIRECTORY_SEPARATOR. $view . '.php';
          $content = ob_get_clean();
          require $this->viewPath . DIRECTORY_SEPARATOR . 'layouts/default.php';
+         */
 
          return $this;
      }

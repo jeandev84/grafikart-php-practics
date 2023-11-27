@@ -22,6 +22,8 @@ class Post
 
     protected ?string $name;
 
+    protected ?string $slug;
+
     protected ?string $content;
 
     protected ?string $created_at;
@@ -44,6 +46,39 @@ class Post
     }
 
 
+
+    public function setName(?string $name): Post
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+
+    /**
+     * @return string|null
+    */
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+
+    /**
+     * @param string|null $slug
+     *
+     * @return $this
+    */
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+
+
+
     public function getExcerpt(): ?string
     {
          if (! $this->content) {
@@ -51,14 +86,6 @@ class Post
          }
 
          return nl2br(htmlentities(Text::excerpt($this->content, 60)));
-    }
-
-
-    public function setName(?string $name): Post
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
 
