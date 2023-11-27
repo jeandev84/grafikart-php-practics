@@ -85,6 +85,7 @@ class Router
 
      public function run(): self
      {
+         /*
          $match = $this->router->match();
          $renderer = new Renderer($this->viewPath);
          $renderer->layout("layouts/default.php");
@@ -95,14 +96,17 @@ class Router
 
          $response = new Response($content);
          $response->sendBody();
+         */
 
-         /*
+
+         $match  = $this->router->match();
          $router = $this;
+         $view   = $match['target'];
+         $params = $match['params'];
          ob_start();
          require $this->viewPath . DIRECTORY_SEPARATOR. $view . '.php';
          $content = ob_get_clean();
          require $this->viewPath . DIRECTORY_SEPARATOR . 'layouts/default.php';
-         */
 
          return $this;
      }

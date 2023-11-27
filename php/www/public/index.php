@@ -34,7 +34,7 @@ $request = \Grafikart\Http\Request\Request::createFromGlobals();
 $router  = new \Grafikart\Routing\Router(dirname(__DIR__). '/views');
 $router->get('/', 'post/index', 'home')
        ->get('/blog/[*:slug]-[i:id]', 'post/show', 'post')
-       ->get('/blog/category', 'category/show', 'category')
+       ->get('/blog/category/[*:slug]-[i:id]', 'category/show', 'category')
        ->run();
 
 

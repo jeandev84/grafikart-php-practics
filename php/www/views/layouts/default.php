@@ -14,7 +14,8 @@
     </nav>
 
     <div class="container mt-4">
-         {{ content }}
+        <!--  { content }} -->
+        <?= $content ?>
     </div>
 
     <footer class="bg-light py-4 footer mt-auto">

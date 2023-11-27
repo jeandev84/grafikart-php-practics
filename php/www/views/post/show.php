@@ -26,8 +26,9 @@ foreach ($categories as $k => $category):
     if ($k > 0):
          echo ', ';
     endif;
+    $categoryURL = $router->url('category', ['id' => $category->getId(), 'slug' => $category->getSlug()]);
 ?>
-  <a href="#"><?= e($category->getName()) ?></a>
+<a href="<?=  $categoryURL ?>"><?= e($category->getName()) ?></a>
 <?php endforeach; ?>
 <p><?= $post->getFormattedContent() ?></p>
 
