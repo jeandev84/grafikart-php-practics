@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\DTO;
 
 
+use App\DTO\Input\PaginationDto;
+
 /**
  * Created by PhpStorm at 26.11.2023
  *

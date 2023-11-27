@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Repository;
 
 
+use App\DTO\Input\GetPosts;
 use App\Entity\Post;
+use Grafikart\Database\Connection\PdoConnection;
 use PDO;
 
 /**
@@ -18,9 +20,9 @@ use PDO;
  */
 class PostRepository
 {
-     protected PDO $connection;
+     protected PdoConnection $connection;
 
-     public function __construct(PDO $connection)
+     public function __construct(PdoConnection $connection)
      {
          $this->connection = $connection;
      }
@@ -29,13 +31,18 @@ class PostRepository
     /**
      * @return \App\Entity\Post[]
      */
-     public function findPosts(): array
+     public function findPosts(GetPosts $dto): array
      {
-         $sql = "SELECT * FROM post ORDER BY created_at DESC LIMIT 12";
+         $offset = $dto->getPaginationDto()->getOffSet();
+         $limit  = $dto->getPaginationDto()->getLimit();
 
-         $query = $this->connection->query($sql);
+         # $sql = "SELECT * FROM post ORDER BY created_at DESC LIMIT $limit OFFSET 0";
+         $sql = "SELECT * FROM post ORDER BY created_at DESC LIMIT $limit OFFSET $offset";
 
-         return $query->fetchAll(PDO::FETCH_CLASS, $this->getClassName());
+         return $this->connection->query($sql)
+                                 ->map($this->getClassName())
+                                 ->fetch()
+                                 ->all();
      }
 
 
@@ -43,12 +50,20 @@ class PostRepository
      {
          return (int)$this->connection
                           ->query("SELECT COUNT(id) FROM post")
-                          ->fetch(PDO::FETCH_NUM)[0];
+                          ->fetch()
+                          ->nums()[0];
      }
 
 
      public function getClassName(): string
      {
          return Post::class;
+     }
+
+
+
+     protected function getTableName(): string
+     {
+         return 'post';
      }
 }

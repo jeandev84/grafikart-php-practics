@@ -24,7 +24,7 @@ $sortable   = ["id", "name", "city", "price", "address"];
 
 # DTO
 $search       = new \App\DTO\SearchDto($qs);
-$pagination   = new \App\DTO\PaginationDto($page, $perPage);
+$pagination   = new \App\DTO\Input\PaginationDto($page, $perPage);
 $sorter       = new \App\DTO\SorterDto($sortable, $sort, $direction);
 $dto          = new \App\DTO\GetProducts($search, $pagination, $sorter);
 
