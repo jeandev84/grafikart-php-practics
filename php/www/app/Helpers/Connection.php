@@ -17,7 +17,7 @@ use Grafikart\Database\Connection\PdoConnection;
  */
 class Connection
 {
-     public static function getPdo(): \PDO
+     public static function getPDO(): \PDO
      {
          return static::make()->getPdo();
      }
