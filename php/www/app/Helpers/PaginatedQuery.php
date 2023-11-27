@@ -25,7 +25,7 @@ class PaginatedQuery
       protected $classMapping;
       protected $connection;
       protected $perPage;
-
+      protected $count;
 
       public function __construct(
           string $query,
@@ -47,12 +47,7 @@ class PaginatedQuery
       public function getItems(): array
       {
           $currentPage = $this->getCurrentPage();
-          $count       = (int)$this->connection
-                                   ->query($this->queryCount)
-                                   ->fetch()
-                                   ->nums()[0];
-          $pages = ceil($count / $this->perPage);
-
+          $pages       =  $this->getTotalPages();
           if ($currentPage > $pages) {
               throw new Exception("Cette page n' existe pas");
           }
@@ -77,8 +72,36 @@ class PaginatedQuery
 
 
 
+    public function nextLink(string $link): ?string
+    {
+        $currentPage = $this->getCurrentPage();
+        $pages       = $this->getTotalPages();
+        if ($currentPage >= $pages) return null;
+        $link .= "?page=". ($currentPage + 1);
+        return sprintf('<a href="%s" class="btn btn-primary ml-auto">Page suivante &raquo;</a>', $link);
+    }
+
+
       private function getCurrentPage(): int
       {
           return URL::getPositiveInt('page', 1);
       }
+
+
+
+    /**
+     * @return float
+     */
+    public function getTotalPages(): float
+    {
+        if (! $this->count) {
+            $this->count = (int)$this->connection
+                ->query($this->queryCount)
+                ->fetch()
+                ->nums()[0];
+        }
+
+        return ceil($this->count / $this->perPage);
+    }
+
 }

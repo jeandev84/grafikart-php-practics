@@ -98,7 +98,6 @@ class Router
          $response->sendBody();
          */
 
-
          $match  = $this->router->match();
          $router = $this;
          $view   = $match['target'];

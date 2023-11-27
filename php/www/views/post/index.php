@@ -8,22 +8,14 @@
 $title = 'Mon Blog';
 $connection = \App\Helpers\Connection::make();
 
+$paginatedQuery = new \App\Helpers\PaginatedQuery(
+   "SELECT * FROM post ORDER BY created_at DESC",
+"SELECT COUNT(id) FROM post",
+           \App\Entity\Post::class
+);
 
-$currentPage = \App\Helpers\URL::getPositiveInt('page', 1);
-
-$repository  = new \App\Repository\PostRepository($connection);
-$count       = $repository->count();
-$perPage     = 12;
-$pages       = ceil($count / $perPage);
-
-if ($currentPage > $pages) {
-    throw new Exception("Cette page n' existe pas");
-}
-
-$paginationDto = new \App\DTO\Input\PaginationDto($currentPage, $perPage);
-$dto = new \App\DTO\Input\GetPosts($paginationDto);
-$posts  = $posts = $repository->findPostsBy($dto);
-
+$posts  = $paginatedQuery->getItems();
+$link   = $router->url('home');
 ?>
 <h1>Mon Blog</h1>
 
@@ -36,19 +28,6 @@ $posts  = $posts = $repository->findPostsBy($dto);
 </div>
 
 <div class="d-flex justify-content-between my-4">
-    <?php if ($currentPage > 1): ?>
-        <?php
-         $link = $router->url('home');
-         if ($currentPage > 2) $link .= '?page='. ($currentPage - 1);
-        ?>
-        <a href="<?= $link ?>" class="btn btn-primary">
-            &laquo; Page precedente
-        </a>
-    <?php endif; ?>
-
-    <?php if ($currentPage < $pages): ?>
-        <a href="<?= $router->url('home') ?>?page=<?= ($currentPage + 1) ?>" class="btn btn-primary ml-auto">
-            Page suivante &raquo;
-        </a>
-    <?php endif; ?>
+    <?= $paginatedQuery->previousLink($link) ?>
+    <?= $paginatedQuery->nextLink($link) ?>
 </div>
