@@ -4,11 +4,31 @@ $id   = $parameter->getInt('id');
 $slug = $parameter->get('slug');
 
 $connection = \App\Helpers\Connection::make();
-$repository = new \App\Repository\PostRepository($connection);
+$postRepository = new \App\Repository\PostRepository($connection);
 
-$post = $repository->find($id);
+$post = $postRepository->find($id);
 
-dd($post);
+if ($post->getSlug() !== $slug) {
+    $url = $router->url('post', ['slug' => $post->getSlug(), 'id' => $id]);
+    http_response_code(301);
+    header("Location: $url");
+    exit();
+}
+
+$categoryRepository = new \App\Repository\CategoryRepository($connection);
+$categories = $categoryRepository->findByPostId($post->getId());
 ?>
+
+<h1><?= e($post->getName()) ?></h1>
+<p class="text-muted"><?= $post->getCreatedAt()->format('d F Y') ?></p>
+<?php
+foreach ($categories as $k => $category):
+    if ($k > 0):
+         echo ', ';
+    endif;
+?>
+  <a href="#"><?= e($category->getName()) ?></a>
+<?php endforeach; ?>
+<p><?= $post->getFormattedContent() ?></p>
 
 

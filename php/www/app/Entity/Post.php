@@ -89,9 +89,9 @@ class Post
     }
 
 
-    public function getContent(): ?string
+    public function getFormattedContent(): ?string
     {
-        return $this->content;
+        return nl2br(e($this->content));
     }
 
 

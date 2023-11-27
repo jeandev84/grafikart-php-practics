@@ -164,6 +164,19 @@ class ParameterBag
       }
 
 
+      /**
+       * @param string $key
+       * @param $expected
+       * @return bool
+      */
+      public function match(string $key, $expected): bool
+      {
+           $value = $this->get($key);
+
+           return preg_match("/^$value$/", $expected);
+      }
+
+
 
 
 

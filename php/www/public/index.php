@@ -1,6 +1,6 @@
 <?php
 
-require '../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 define('DEBUG_TIME', microtime(true));
 
@@ -9,7 +9,6 @@ define('DEBUG_TIME', microtime(true));
 $whoops = new \Whoops\Run();
 $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
 $whoops->register();
-
 
 # HTTP Request
 $request = \Grafikart\Http\Request\Request::createFromGlobals();
@@ -22,8 +21,8 @@ if ($request->queries->equalTo('page', '1')) {
     # will be redirect to http://localhost:8000/blog/tutoriels?param2=2
     $request->queries->remove('page');
     $uri = $request->uri($request->queries->all());
-    header('Location: '. $uri);
     http_response_code(301);
+    header('Location: '. $uri);
     exit();
 }
 

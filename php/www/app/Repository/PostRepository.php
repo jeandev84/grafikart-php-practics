@@ -6,8 +6,12 @@ namespace App\Repository;
 
 use App\DTO\Input\GetPosts;
 use App\Entity\Post;
+use Exception;
 use Grafikart\Database\Connection\PdoConnection;
+use Grafikart\Database\ORM\Persistence\Repository\EntityRepositoryIInterface;
 use PDO;
+
+
 
 /**
  * Created by PhpStorm at 27.11.2023
@@ -18,7 +22,7 @@ use PDO;
  *
  * @package App\Repository
  */
-class PostRepository
+class PostRepository implements EntityRepositoryIInterface
 {
      protected PdoConnection $connection;
 
@@ -26,6 +30,23 @@ class PostRepository
      {
          $this->connection = $connection;
      }
+
+
+     /**
+      * @return Post[]
+     */
+     public function findAll(): array
+     {
+         # $sql = "SELECT * FROM post ORDER BY created_at DESC LIMIT $limit OFFSET 0";
+         $sql = "SELECT * FROM post";
+
+         return $this->connection->query($sql)
+                     ->map($this->getClassName())
+                     ->fetch()
+                     ->all();
+     }
+
+
 
 
     /**
@@ -46,17 +67,28 @@ class PostRepository
      }
 
 
-
-
-     public function find(int $id)
+     /**
+      * @param int $id
+      *
+      * @return Post
+      *
+      * @throws Exception
+     */
+     public function find(int $id): Post
      {
          $sql = "SELECT * FROM post WHERE id = :id";
 
-         return $this->connection->statement($sql)
+         $post = $this->connection->statement($sql)
                                  ->map($this->getClassName())
                                  ->setParameters(compact('id'))
                                  ->fetch()
                                  ->one();
+
+         if ($post === false) {
+             throw new Exception("Aucun article ne correspond a cet ID [$id]");
+         }
+
+         return $post;
      }
 
 
