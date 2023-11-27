@@ -13,7 +13,7 @@ $whoops->register();
 
 // Routing
 $router  = new \Grafikart\Routing\Router(dirname(__DIR__). '/views');
-$router->get('/blog', 'post/index', 'blog')
+$router->get('/', 'post/index', 'home')
        ->get('/blog/category', 'category/show', 'category')
        ->run();
 
