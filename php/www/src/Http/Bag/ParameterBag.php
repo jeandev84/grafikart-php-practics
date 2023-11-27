@@ -131,6 +131,16 @@ class ParameterBag
       }
 
 
+
+      public function remove(string $name): void
+      {
+           unset($this->params[$name]);
+      }
+
+
+
+
+
       /**
        * @param string $key
        * @param int $default
@@ -140,6 +150,19 @@ class ParameterBag
       {
           return (int)$this->get($key, $default);
       }
+
+
+
+      /**
+       * @param string $key
+       * @param $value
+       * @return bool
+      */
+      public function equalTo(string $key, $value): bool
+      {
+          return $this->get($key) === $value;
+      }
+
 
 
 

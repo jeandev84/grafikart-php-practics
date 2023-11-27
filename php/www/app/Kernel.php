@@ -38,13 +38,25 @@ class Kernel extends HttpKernel implements Terminable
     }
 
 
+
     public function terminate(Request $request, Response $response)
     {
 
     }
 
-    public function projectDir(): string
+    public function getProjectDir(): string
     {
          return dirname(__DIR__);
     }
 }
+
+
+/*
+// Kernel
+$kernel = new \App\Kernel();
+$response = $kernel->handle(
+    $request = \Grafikart\Http\Request\Request::createFromGlobals()
+);
+
+$response->send();
+*/

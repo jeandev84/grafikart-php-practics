@@ -17,5 +17,5 @@ use Grafikart\Http\Contract\HttpKernelInterface;
  */
 abstract class HttpKernel implements HttpKernelInterface
 {
-      abstract public function projectDir(): string;
+      abstract public function getProjectDir(): string;
 }

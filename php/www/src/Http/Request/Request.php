@@ -162,6 +162,33 @@ class Request
 
 
 
+      public function getRequestUri(): string
+      {
+          return $this->server->get('REQUEST_URI');
+      }
+
+
+
+      public function getPath(): string
+      {
+          $path = parse_url($this->getRequestUri(), PHP_URL_PATH);
+
+          return urldecode($path);
+      }
+
+
+
+      public function buildURI(array $without = []): string
+      {
+          $path = $this->getPath();
+          foreach ($without as $query) { $this->queries->remove($query); }
+          $qs = http_build_query($this->queries->all());
+          if(!empty($qs)) {
+              $path = $path . "?". $qs;
+          }
+          return $path;
+      }
+
 
       public static function createFromGlobals(): self
       {

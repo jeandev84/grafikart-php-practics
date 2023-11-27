@@ -9,13 +9,6 @@ if (! filter_var($page, FILTER_VALIDATE_INT)) {
     throw new Exception("Numero de page invalide");
 }
 
-
-if ($page === '1') {
-    http_response_code(301);
-    header('Location: '. $router->url('home'));
-    exit();
-}
-
 $currentPage = $request->queries->getInt('page', 1);
 
 if ($currentPage <= 0) {
