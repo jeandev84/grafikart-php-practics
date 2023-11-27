@@ -11,6 +11,9 @@ $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
 $whoops->register();
 
 
+// HTTP Request
+$request = \Grafikart\Http\Request::createFromGlobals();
+
 // Routing
 $router  = new \Grafikart\Routing\Router(dirname(__DIR__). '/views');
 $router->get('/', 'post/index', 'home')

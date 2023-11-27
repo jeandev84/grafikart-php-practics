@@ -5,6 +5,7 @@ namespace Grafikart\Routing;
 
 
 use AltoRouter;
+use Grafikart\Http\Response;
 use Grafikart\Templating\Renderer;
 
 /**
@@ -77,10 +78,11 @@ class Router
      public function run(): self
      {
          $match = $this->router->match();
-         $view  = $match['target'];
          $renderer = new Renderer($this->viewPath);
          $renderer->layout("layouts/default.php");
-         echo $renderer->render($view. ".php", ['router' => $this]);
+         $content  = $renderer->render($match['target']. ".php", ['router' => $this]);
+         $response = new Response($content);
+         $response->sendBody();
 
          /*
          $router = $this;
