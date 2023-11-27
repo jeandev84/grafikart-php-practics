@@ -35,14 +35,25 @@ class CategoryRepository implements EntityRepositoryIInterface
         $this->connection = $connection;
     }
 
+
+
     public function find(int $id): mixed
     {
-        // TODO: Implement find() method.
+        return $this->connection
+                    ->statement("SELECT * FROM category WHERE id = :id")
+                    ->map($this->getClassName())
+                    ->fetch()
+                    ->one();
     }
+
 
     public function findAll(): array
     {
-        // TODO: Implement findAll() method.
+        return $this->connection
+                    ->statement("SELECT * FROM category")
+                    ->map($this->getClassName())
+                    ->fetch()
+                    ->all();
     }
 
 
