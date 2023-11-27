@@ -49,12 +49,11 @@ $paginatedQuery = new \App\Helpers\PaginatedQuery(
             JOIN post_category pc ON pc.post_id = p.id
             WHERE pc.category_id = {$categoryId}
             ORDER BY created_at DESC",
-"SELECT COUNT(category_id) FROM post_category WHERE category_id = {$categoryId}",
-    \App\Entity\Post::class
+"SELECT COUNT(category_id) FROM post_category WHERE category_id = {$categoryId}"
 );
 
 /** @var \App\Post[] $posts */
-$posts  = $paginatedQuery->getItems();
+$posts  = $paginatedQuery->getItems(\App\Entity\Post::class);
 
 $link   = $router->url('category', ['id' => $category->getId(), 'slug' => $category->getSlug()])
 

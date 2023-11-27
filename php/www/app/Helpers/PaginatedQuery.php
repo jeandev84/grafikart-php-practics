@@ -22,7 +22,6 @@ class PaginatedQuery
 
       protected $query;
       protected $queryCount;
-      protected $classMapping;
       protected $connection;
       protected $perPage;
       protected $count;
@@ -30,21 +29,19 @@ class PaginatedQuery
       public function __construct(
           string $query,
           string $queryCount,
-          string $classMapping,
           ?PdoConnection $connection = null,
           int $perPage = 12
       )
       {
           $this->query = $query;
           $this->queryCount = $queryCount;
-          $this->classMapping = $classMapping;
           $this->connection   = $connection ?: Connection::make();
           $this->perPage = $perPage;
       }
 
 
 
-      public function getItems(): array
+      public function getItems(string $classMapping): array
       {
           $currentPage = $this->getCurrentPage();
           $pages       =  $this->getTotalPages();
@@ -55,7 +52,7 @@ class PaginatedQuery
           $offset = $this->perPage * ($currentPage - 1);
 
          return $this->connection->query( "$this->query LIMIT {$this->perPage} OFFSET $offset")
-                                 ->map($this->classMapping)
+                                 ->map($classMapping)
                                  ->fetch()
                                  ->all();
       }

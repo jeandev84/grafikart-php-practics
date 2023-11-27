@@ -10,11 +10,10 @@ $connection = \App\Helpers\Connection::make();
 
 $paginatedQuery = new \App\Helpers\PaginatedQuery(
    "SELECT * FROM post ORDER BY created_at DESC",
-"SELECT COUNT(id) FROM post",
-           \App\Entity\Post::class
+"SELECT COUNT(id) FROM post"
 );
 
-$posts  = $paginatedQuery->getItems();
+$posts  = $paginatedQuery->getItems(\App\Entity\Post::class);
 $link   = $router->url('home');
 ?>
 <h1>Mon Blog</h1>
