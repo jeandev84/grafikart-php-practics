@@ -25,6 +25,7 @@ class PaginatedQuery
       protected $connection;
       protected $perPage;
       protected $count;
+      protected $items;
 
       public function __construct(
           string $query,
@@ -43,18 +44,23 @@ class PaginatedQuery
 
       public function getItems(string $classMapping): array
       {
-          $currentPage = $this->getCurrentPage();
-          $pages       =  $this->getTotalPages();
-          if ($currentPage > $pages) {
-              throw new Exception("Cette page n' existe pas");
+          if (! $this->items) {
+
+              $currentPage = $this->getCurrentPage();
+              $pages       =  $this->getTotalPages();
+              if ($currentPage > $pages) {
+                  throw new Exception("Cette page n' existe pas");
+              }
+
+              $offset = $this->perPage * ($currentPage - 1);
+
+              $this->items = $this->connection->query( "$this->query LIMIT {$this->perPage} OFFSET $offset")
+                  ->map($classMapping)
+                  ->fetch()
+                  ->all();
           }
 
-          $offset = $this->perPage * ($currentPage - 1);
-
-         return $this->connection->query( "$this->query LIMIT {$this->perPage} OFFSET $offset")
-                                 ->map($classMapping)
-                                 ->fetch()
-                                 ->all();
+          return $this->items;
       }
 
 
