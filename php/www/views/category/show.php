@@ -6,13 +6,14 @@ $slug = $parameter->get('slug');
 $connection = \App\Helpers\Connection::make();
 $categoryRepository = new \App\Repository\CategoryRepository($connection);
 
-$post = $categoryRepository->find($id);
+$category = $categoryRepository->find($id);
 
-if ($post->getSlug() !== $slug) {
-    $url = $router->url('post', ['slug' => $post->getSlug(), 'id' => $id]);
+if ($category->getSlug() !== $slug) {
+    $url = $router->url('category', ['slug' => $category->getSlug(), 'id' => $id]);
     http_response_code(301);
     header("Location: $url");
     exit();
 }
 ?>
+
 <h1>Ma categorie</h1>

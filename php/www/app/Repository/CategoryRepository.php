@@ -5,6 +5,8 @@ namespace App\Repository;
 
 
 use App\Entity\Category;
+use App\Post;
+use Exception;
 use Grafikart\Database\Connection\PdoConnection;
 use Grafikart\Database\ORM\Persistence\Repository\EntityRepositoryIInterface;
 
@@ -37,13 +39,19 @@ class CategoryRepository implements EntityRepositoryIInterface
 
 
 
-    public function find(int $id): mixed
+    public function find(int $id): Category
     {
-        return $this->connection
+        $category = $this->connection
                     ->statement("SELECT * FROM category WHERE id = :id")
                     ->map($this->getClassName())
                     ->fetch()
                     ->one();
+
+        if ($category === false) {
+            throw new Exception("Aucune categorie ne correspond a cet ID [$id]");
+        }
+
+        return $category;
     }
 
 
