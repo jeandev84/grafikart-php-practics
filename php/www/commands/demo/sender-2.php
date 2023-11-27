@@ -22,7 +22,7 @@ $pdo->exec('SET FOREIGN_KEY_CHECKS = 1');
 $posts = [];
 $categories = [];
 
-echo "Beginning [post]...\n\n";
+echo "Beginning [post]...\n";
 for ($i = 0; $i < 50; $i++) {
 
     $name      = $faker->sentence();
@@ -36,10 +36,10 @@ for ($i = 0; $i < 50; $i++) {
 
     echo "[". date('d-m-Y H:i:s') . "] : $sql\n";
 }
-echo "Finished!\n\n";
+echo "Finished!\n";
 
 
-echo "Beginning [category]...\n\n";
+echo "Beginning [category]...\n";
 for ($i = 0; $i < 5; $i++) {
 
     $name      = $faker->sentence(3);
@@ -53,10 +53,10 @@ for ($i = 0; $i < 5; $i++) {
     $categories[] = $pdo->lastInsertId();
     echo "[". date('d-m-Y H:i:s') . "] : $sql\n";
 }
-echo "Finished!\n\n";
+echo "Finished!\n";
 
 
-echo "Beginning [post_category]...\n";
+echo "Beginning [category]...\n";
 foreach ($posts as $post) {
     $randomCategories = $faker->randomElements($categories, rand(0, count($categories)));
     foreach ($randomCategories as $category) {
@@ -65,10 +65,4 @@ foreach ($posts as $post) {
         echo "[". date('d-m-Y H:i:s') . "] : $sql\n";
     }
 }
-echo "Finished!\n\n";
-
-
-echo "Beginning [user]...\n";
-$password = password_hash('admin', PASSWORD_BCRYPT);
-$pdo->exec("INSERT INTO user SET username='admin', password='$password'");
-echo "Finished!\n\n";
+echo "Finished!\n";
