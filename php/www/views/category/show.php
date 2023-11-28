@@ -55,6 +55,23 @@ $paginatedQuery = new \App\Helpers\PaginatedQuery(
 /** @var \App\Post[] $posts */
 $posts  = $paginatedQuery->getItems(\App\Entity\Post::class);
 
+
+$postsById = [];
+foreach ($posts as $post) {
+    $postsById[$post->getId()] = $post;
+}
+
+$categoryRepository = new \App\Repository\CategoryRepository($connection);
+$categories = $categoryRepository->findByPostIds(array_keys($postsById));
+
+# dump($categories);
+
+# On parcourt les categories
+foreach ($categories as $category) {
+    $postsById[$category->getPostId()]->addCategory($category);
+}
+
+
 $link   = $router->url('category', ['id' => $category->getId(), 'slug' => $category->getSlug()])
 
 ?>

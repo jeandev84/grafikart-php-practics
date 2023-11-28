@@ -35,6 +35,7 @@ $paginatedQuery = new \App\Helpers\PaginatedQuery(
 
 /** @var \App\Entity\Post[] $posts */
 $posts   = $paginatedQuery->getItems(\App\Entity\Post::class);
+
 $postsById = [];
 foreach ($posts as $post) {
     $postsById[$post->getId()] = $post;

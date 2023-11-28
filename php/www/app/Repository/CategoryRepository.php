@@ -110,6 +110,8 @@ class CategoryRepository implements EntityRepositoryIInterface
 
 
 
+
+
     public function countById(int $id)
     {
         return (int)$this->connection
