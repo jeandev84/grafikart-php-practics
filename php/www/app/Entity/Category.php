@@ -18,7 +18,7 @@ class Category
       protected ?int $id;
       protected ?string $name;
       protected ?string $slug;
-
+      protected ?int $post_id;
 
 
      /**
@@ -77,5 +77,14 @@ class Category
         $this->slug = $slug;
 
         return $this;
+    }
+
+
+    /**
+     * @return int|null
+    */
+    public function getPostId(): ?int
+    {
+        return $this->post_id;
     }
 }

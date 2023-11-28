@@ -89,6 +89,25 @@ class CategoryRepository implements EntityRepositoryIInterface
 
 
 
+
+    public function findByPostIds(array $ids): array
+    {
+        $sql = "SELECT c.*, pc.post_id
+                 FROM post_category pc
+                 JOIN category c ON c.id = pc.category_id
+                 WHERE pc.post_id IN (:ids)";
+
+        return $this->connection->statement($sql)
+                    ->map($this->getClassName())
+                    ->setParameters([
+                        'ids' => join(',', $ids)
+                    ])
+                   ->fetch()
+                   ->all();
+    }
+
+
+
     public function countById(int $id)
     {
         return (int)$this->connection

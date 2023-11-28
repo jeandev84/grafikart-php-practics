@@ -116,6 +116,7 @@ class PostRepository implements EntityRepositoryIInterface
      }
 
 
+
      public function count(): int
      {
          return (int)$this->connection
