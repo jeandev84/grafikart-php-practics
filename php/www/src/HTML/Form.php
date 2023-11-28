@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Grafikart\Html\Form;
+namespace Grafikart\HTML;
 
 
 /**
@@ -11,7 +11,7 @@ namespace Grafikart\Html\Form;
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
- * @package Grafikart\HTML\Form
+ * @package Grafikart\HTML
  */
 class Form
 {
@@ -63,10 +63,10 @@ HTML;
 
 
 
-      private function getValue(string $key): string
+      private function getValue(string $key): ?string
       {
           if (is_array($this->data)) {
-               return $this->data[$key] ?? '';
+               return $this->data[$key] ?? null;
           }
 
           $method = 'get'. str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));

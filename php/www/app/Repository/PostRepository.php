@@ -146,7 +146,30 @@ class PostRepository extends ServiceRepository
             ->execute();
 
         if (! $executed) {
-            throw new Exception("Could not delete the record with id#$id in the table $this->tableName");
+            throw new Exception("Impossible de modifier l' enregistrement $id dans table $this->tableName");
         }
+    }
+
+
+
+
+    public function create(Post $post): void
+    {
+        $sql = "INSERT INTO {$this->tableName} SET name = :name, slug = :slug, created_at = :created, content = :content";
+        $executed = $this->connection->statement($sql)
+            ->setParameters([
+                'name' => $post->getName(),
+                'slug' => $post->getSlug(),
+                'content' => $post->getContent(),
+                'created' => $post->getCreatedAt()->format('Y-m-d H:i:s'),
+            ])
+            ->execute();
+
+        if (! $executed) {
+            throw new Exception("Impossible de creer l' enregistrement dans table $this->tableName");
+        }
+
+
+        $post->setId($this->connection->lastInsertId());
     }
 }

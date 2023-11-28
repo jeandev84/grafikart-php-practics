@@ -86,6 +86,12 @@ class PdoConnection
 
 
 
+    public function lastInsertId(): int
+    {
+         return (int)$this->pdo->lastInsertId();
+    }
+
+
     public function executeQuery(string $sql): mixed
     {
         return $this->pdo->exec($sql);

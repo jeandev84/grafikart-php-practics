@@ -18,22 +18,31 @@ use Grafikart\Helpers\Text;
  */
 class Post
 {
-    protected ?int $id;
-
-    protected ?string $name;
-
-    protected ?string $slug;
-
-    protected ?string $content;
-
-    protected ?string $created_at;
-
+    protected ?int $id = null;
+    protected ?string $name = null;
+    protected ?string $slug = null;
+    protected ?string $content = null;
+    protected ?string $created_at = '';
     protected array $categories = [];
 
 
     public function __construct()
     {
     }
+
+
+    /**
+     * @param int $id
+     * @return Post
+     */
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+
 
     public function getId(): ?int
     {

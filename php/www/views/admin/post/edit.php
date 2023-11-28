@@ -1,7 +1,5 @@
 <?php
 
-use Grafikart\Service\JanValidator;
-
 $connection = \App\Helpers\Connection::make();
 $request    = \Grafikart\Http\Request\Request::createFromGlobals();
 $postRepository = new \App\Repository\PostRepository($connection);
@@ -26,7 +24,7 @@ if ($request->isMethod('POST')) {
     }
 }
 
-$form = new \Grafikart\HTML\Form\Form($post, $errors);
+$form = new \Grafikart\HTML\Form($post, $errors);
 ?>
 
 <?php if ($success): ?>
@@ -43,4 +41,4 @@ $form = new \Grafikart\HTML\Form\Form($post, $errors);
 
 <h1>Editer l'article <?= e($post->getName()) ?></h1>
 
-<button class="btn btn-primary">Modifier</button>
+<?php require '_form.php';

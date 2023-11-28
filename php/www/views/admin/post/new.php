@@ -1,29 +1,31 @@
 <?php
 
-use Grafikart\Service\JanValidator;
 $request    = \Grafikart\Http\Request\Request::createFromGlobals();
 
 $success = false;
 $errors  = [];
 $post    = new \App\Entity\Post();
+$post->setCreatedAt(date('Y-m-d H:i:s'));
 
 if ($request->isMethod('POST')) {
     $connection = \App\Helpers\Connection::make();
     $postRepository = new \App\Repository\PostRepository($connection);
+
     $validator = new \App\Validators\PostValidator($request->request->all(), $postRepository, $post->getId());
     \Grafikart\Helpers\ObjectHelper::hydrate($post, $request->request->all(), [
         'name', 'content', 'slug', 'created_at'
     ]);
 
     if ($validator->validate()) {
-        $postRepository->update($post);
-        $success = true;
+        $postRepository->create($post);
+        header('Location: '. $router->url('admin.post', ['id' => $post->getId()]) . '?created=1');
+        exit;
     } else {
         $errors = $validator->errors();
     }
 }
 
-$form = new \Grafikart\HTML\Form\Form($post, $errors);
+$form = new \Grafikart\HTML\Form($post, $errors);
 ?>
 
 <?php if ($success): ?>
