@@ -12,6 +12,7 @@ use App\Helpers\PaginatedQuery;
 use Exception;
 use Grafikart\Database\Connection\PdoConnection;
 use Grafikart\Database\ORM\Persistence\Repository\EntityRepositoryIInterface;
+use Grafikart\Database\ORM\Persistence\Repository\Exception\NotFoundException;
 use Grafikart\Database\ORM\Persistence\Repository\ServiceRepository;
 use PDO;
 
@@ -149,7 +150,7 @@ class PostRepository extends ServiceRepository
                                  ->one();
 
          if ($post === false) {
-             throw new Exception("Aucun article ne correspond a cet ID [$id]");
+             throw new NotFoundException($this->getTableName(), $id);
          }
 
          return $post;
