@@ -1,5 +1,7 @@
 <?php
 
+use Grafikart\Service\JanValidator;
+
 $connection = \App\Helpers\Connection::make();
 $request    = \Grafikart\Http\Request\Request::createFromGlobals();
 $postRepository = new \App\Repository\PostRepository($connection);
@@ -11,8 +13,9 @@ $success = false;
 $errors = [];
 
 if ($request->isMethod('POST')) {
-    \Valitron\Validator::lang('fr');
-    $validator = new \Valitron\Validator($request->request->all());
+    $validator = (new JanValidator($request->request->all()))
+                ->locale('fr');
+
     $validator->labels([
         'name' => 'Titre',
         'Contenu' => 'Contenu'
