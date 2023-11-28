@@ -1,12 +1,21 @@
 <?php
 
+
+\App\Security\Auth::check();
+
 $title = "Administration";
 $connection = \App\Helpers\Connection::make();
+$request    = \Grafikart\Http\Request\Request::createFromGlobals();
 $postRepository = new \App\Repository\PostRepository($connection);
 [$posts, $pagination] = $postRepository->findPaginated();
 $link = $router->url('admin.posts');
 ?>
 
+<?php if ($request->queries->has('delete')): ?>
+<div class="alert alert-success">
+    L' enregistrement a bien ete supprime
+</div>
+<?php endif; ?>
 <table class="table">
     <thead>
         <tr>
