@@ -85,12 +85,18 @@ class EntityRepository implements EntityRepositoryIInterface
      * Verifie si une valeur existe dans la table
      * @param string $field
      * @param $value
+     * @param int|null $except
      * @return bool
-     */
-    public function exists(string $field, $value): bool
+    */
+    public function exists(string $field, $value, ?int $except = null): bool
     {
-        $query = $this->connection->statement("SELECT COUNT(id) FROM {$this->tableName} WHERE $field = ?")
-                                  ->setParameters([$value]);
+        $sql = "SELECT COUNT(id) FROM {$this->tableName} WHERE $field = ?";
+        $params = [$value];
+        if ($except !== null) {
+            $sql .= " AND id != ?";
+            $params[] = $except;
+        }
+        $query = $this->connection->statement($sql)->setParameters($params);
 
         return (int)$query->fetch()->nums()[0] > 0;
     }

@@ -16,35 +16,20 @@ use Grafikart\Service\JanValidator;
  *
  * @package App\Validators
  */
-class PostValidator
+class PostValidator extends AbstractValidator
 {
 
     protected array $data;
     protected JanValidator $validator;
 
-    public function __construct(array $data, PostRepository $postRepository)
+    public function __construct(array $data, PostRepository $postRepository, ?int $postId = null)
     {
-        $this->data = $data;
-        $v = new JanValidator($data);
-        $v->rule('required', ['name', 'slug']);
-        $v->rule('lengthBetween', ['name', 'slug'], 3, 200);
-        $v->rule('slug', 'slug');
-        $v->rule(function ($field, $value) use ($postRepository) {
-             return !$postRepository->exists($field, $value);
-        }, 'slug', "Ce slug est deja utilise");
-        $this->validator = $v;
-    }
-
-
-    public function validate(): bool
-    {
-        return $this->validator->validate();
-    }
-
-
-
-    public function errors(): array
-    {
-         return $this->validator->errors();
+        parent::__construct($data);
+        $this->validator->rule('required', ['name', 'slug']);
+        $this->validator->rule('lengthBetween', ['name', 'slug'], 3, 200);
+        $this->validator->rule('slug', 'slug');
+        $this->validator->rule(function ($field, $value) use ($postRepository, $postId) {
+             return !$postRepository->exists($field, $value, $postId);
+        }, ['slug', 'name'], "Ce valeur est deja utilise");
     }
 }

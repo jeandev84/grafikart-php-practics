@@ -14,7 +14,7 @@ $errors = [];
 
 if ($request->isMethod('POST')) {
     \Valitron\Validator::lang('fr');
-    $validator = new \App\Validators\PostValidator($request->request->all(), $postRepository);
+    $validator = new \App\Validators\PostValidator($request->request->all(), $postRepository, $post->getId());
     $name = $request->request->get('name');
     $post->setName($request->request->get('name'))
          ->setContent($request->request->get('content'))
