@@ -37,10 +37,11 @@ $link = $router->url('admin.posts');
                 <a href="<?= $router->url('admin.post', ['id' => $post->getId()]) ?>" class="btn btn-primary">
                     Editer
                 </a>
-                <a href="<?= $router->url('admin.post.delete', ['id' => $post->getId()]) ?>" class="btn btn-danger"
-                  onclick="return confirm('Voulez-vous vraiment effectuee cette action')">
-                    Supprimer
-                </a>
+                <form action="<?= $router->url('admin.post.delete', ['id' => $post->getId()]) ?>"
+                      method="POST"
+                      onsubmit="return confirm('Voulez-vous vraiment effectuee cette action')" style="display: inline;">
+                       <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
             </td>
         </tr>
         <?php endforeach; ?>

@@ -54,6 +54,8 @@ class Router
      }
 
 
+
+
     /**
      * @param string $url
      * @param string $view
@@ -67,6 +69,51 @@ class Router
 
          return $this;
      }
+
+
+
+
+    /**
+     * @param string $url
+     * @param string $view
+     * @param string|null $name
+     * @return $this
+     * @throws \Exception
+     */
+    public function put(string $url, string $view, ?string $name = null): self
+    {
+        $this->router->map('PUT', $url, $view, $name);
+
+        return $this;
+    }
+
+
+
+
+
+    /**
+     * @param string $url
+     * @param string $view
+     * @param string|null $name
+     * @return $this
+     * @throws \Exception
+     */
+    public function delete(string $url, string $view, ?string $name = null): self
+    {
+        $this->router->map('DELETE', $url, $view, $name);
+
+        return $this;
+    }
+
+
+
+    public function map(string $method,string $url, string $view, ?string $name = null): self
+    {
+        $this->router->map($method, $url, $view, $name);
+
+        return $this;
+    }
+
 
 
      public function url(string $name, array $params = []): string
