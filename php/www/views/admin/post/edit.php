@@ -13,7 +13,6 @@ $success = false;
 $errors = [];
 
 if ($request->isMethod('POST')) {
-
     $validator = new \App\Validators\PostValidator($request->request->all(), $postRepository, $post->getId());
     \Grafikart\Helpers\ObjectHelper::hydrate($post, $request->request->all(), [
         'name', 'content', 'slug', 'created_at'
@@ -44,15 +43,4 @@ $form = new \Grafikart\HTML\Form\Form($post, $errors);
 
 <h1>Editer l'article <?= e($post->getName()) ?></h1>
 
-<form action="" method="POST">
-
-    <?= $form->input('name', 'Titre') ?>
-    <?= $form->input('slug', 'URL') ?>
-    <?= $form->textarea('content', 'Contenu') ?>
-    <?= $form->input('created_at', 'Date de publication') ?>
-    <button class="btn btn-primary">Modifier</button>
-
-</form>
-
-<!---
-https://flatpickr.js.org/examples
+<button class="btn btn-primary">Modifier</button>

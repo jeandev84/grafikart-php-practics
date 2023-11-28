@@ -38,7 +38,7 @@ $router->get('/', 'post/index', 'home')
        ->get('/admin', 'admin/post/index', 'admin.posts')
        ->map('GET|POST', '/admin/post/[i:id]', 'admin/post/edit', 'admin.post')
        ->post('/admin/post/[i:id]/delete', 'admin/post/delete', 'admin.post.delete')
-       ->get('/admin/post/new', 'admin/post/edit', 'admin.post.new')
+       ->map('GET|POST', '/admin/post/new', 'admin/post/new', 'admin.post.new')
        ->run();
 
 
