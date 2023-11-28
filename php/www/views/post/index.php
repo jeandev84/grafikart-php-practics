@@ -28,37 +28,8 @@ WHERE pc.post_id IN (6, 50, 42)";
 $title = 'Mon Blog';
 $connection = \App\Helpers\Connection::make();
 
-$paginatedQuery = new \App\Helpers\PaginatedQuery(
-   "SELECT * FROM post ORDER BY created_at DESC",
-"SELECT COUNT(id) FROM post"
-);
-
-/** @var \App\Entity\Post[] $posts */
-$posts   = $paginatedQuery->getItems(\App\Entity\Post::class);
-
-$postsById = [];
-foreach ($posts as $post) {
-    $postsById[$post->getId()] = $post;
-}
-
-$categoryRepository = new \App\Repository\CategoryRepository($connection);
-$categories = $categoryRepository->findByPostIds(array_keys($postsById));
-
-# dump($categories);
-
-# On parcourt les categories
-foreach ($categories as $category) {
-    $postsById[$category->getPostId()]->addCategory($category);
-}
-
-# dump($postsById);
-# dump($posts);
-
-# On trouve l' article $posts correspondant a la ligne
-
-# On  ajoute la categorie a l' article
-
-
+$postCategory = new \App\Repository\PostRepository($connection);
+[$posts, $pagination] = $postCategory->findPaginated();
 $link   = $router->url('home');
 ?>
 <h1>Mon Blog</h1>
@@ -72,6 +43,6 @@ $link   = $router->url('home');
 </div>
 
 <div class="d-flex justify-content-between my-4">
-    <?= $paginatedQuery->previousLink($link) ?>
-    <?= $paginatedQuery->nextLink($link) ?>
+    <?= $pagination->previousLink($link) ?>
+    <?= $pagination->nextLink($link) ?>
 </div>

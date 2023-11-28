@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Helpers;
 
 
-use App\Database\Connection\PdoConnection;
+use Grafikart\Database\Connection\PdoConnection;
 use Exception;
 
 /**

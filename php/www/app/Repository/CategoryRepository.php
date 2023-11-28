@@ -8,7 +8,7 @@ use App\Entity\Category;
 use App\Post;
 use Exception;
 use Grafikart\Database\Connection\PdoConnection;
-use Grafikart\Database\ORM\Persistence\Repository\EntityRepositoryIInterface;
+use Grafikart\Database\ORM\Persistence\Repository\ServiceRepository;
 
 /**
  * Created by PhpStorm at 27.11.2023
@@ -19,24 +19,13 @@ use Grafikart\Database\ORM\Persistence\Repository\EntityRepositoryIInterface;
  *
  * @package App\Repository
  */
-class CategoryRepository implements EntityRepositoryIInterface
+class CategoryRepository extends ServiceRepository
 {
 
-
-    /**
-     * @var PdoConnection
-     */
-    protected PdoConnection $connection;
-
-
-    /**
-     * @param PdoConnection $connection
-    */
     public function __construct(PdoConnection $connection)
     {
-        $this->connection = $connection;
+        parent::__construct($connection, Category::class);
     }
-
 
 
     public function find(int $id): Category
@@ -118,12 +107,5 @@ class CategoryRepository implements EntityRepositoryIInterface
                         ->query("SELECT COUNT(category_id) FROM post_category WHERE category_id = {$id}")
                         ->fetch()
                         ->nums()[0];
-    }
-
-
-
-    public function getClassName(): string
-    {
-        return Category::class;
     }
 }

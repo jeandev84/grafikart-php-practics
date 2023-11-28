@@ -7,9 +7,11 @@ namespace App\Repository;
 use App\DTO\Input\GetPosts;
 use App\DTO\Input\PaginationDto;
 use App\Entity\Post;
+use App\Helpers\PaginatedQuery;
 use Exception;
 use Grafikart\Database\Connection\PdoConnection;
 use Grafikart\Database\ORM\Persistence\Repository\EntityRepositoryIInterface;
+use Grafikart\Database\ORM\Persistence\Repository\ServiceRepository;
 use PDO;
 
 
@@ -23,17 +25,46 @@ use PDO;
  *
  * @package App\Repository
  */
-class PostRepository implements EntityRepositoryIInterface
+class PostRepository extends ServiceRepository
 {
-     protected PdoConnection $connection;
 
-     public function __construct(PdoConnection $connection)
-     {
-         $this->connection = $connection;
-     }
+    public function __construct(PdoConnection $connection)
+    {
+        parent::__construct($connection, Post::class);
+    }
 
 
-     /**
+
+    public function findPaginated(): array
+    {
+        $paginatedQuery = new PaginatedQuery(
+     "SELECT * FROM post ORDER BY created_at DESC",
+ "SELECT COUNT(id) FROM post",
+            $this->connection
+        );
+
+        /** @var \App\Entity\Post[] $posts */
+        $posts   = $paginatedQuery->getItems($this->getClassName());
+
+
+        $postsById = [];
+        foreach ($posts as $post) {
+            $postsById[$post->getId()] = $post;
+        }
+
+        $categoryRepository = new \App\Repository\CategoryRepository($this->connection);
+        $categories = $categoryRepository->findByPostIds(array_keys($postsById));
+
+        foreach ($categories as $category) {
+            $postsById[$category->getPostId()]->addCategory($category);
+        }
+
+        return [$posts, $paginatedQuery];
+    }
+
+
+
+    /**
       * @return Post[]
      */
      public function findAll(): array
