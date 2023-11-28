@@ -7,7 +7,6 @@ $slug = $parameter->get('slug');
 
 $connection = \App\Helpers\Connection::make();
 $categoryRepository = new \App\Repository\CategoryRepository($connection);
-
 $category = $categoryRepository->find($id);
 
 if ($category->getSlug() !== $slug) {
@@ -18,62 +17,9 @@ if ($category->getSlug() !== $slug) {
 }
 
 $title = "Categorie {$category->getName()}";
-
-
-/**
- * Parametre varie:
- * $sqlListing: string
- * $classMapping: string
- * $sqlCount: string
- *  $pdo: PDO
- * $perPage: int = 12
- *
- * Parametre externes:
- * //$currentPage
- * $pdo
- *
- *
- * Methodes:
- * getItems(): array
- * getPreviousPageLink(); ?string
- * HasPreviousPageLink(); bool
- * getNextPageLink(): ?string
- * HasNextPageLink(): bool
- *
-*/
-
-$categoryId = $category->getId();
-$paginatedQuery = new \App\Helpers\PaginatedQuery(
-     "SELECT p.* 
-            FROM post p 
-            JOIN post_category pc ON pc.post_id = p.id
-            WHERE pc.category_id = {$categoryId}
-            ORDER BY created_at DESC",
-"SELECT COUNT(category_id) FROM post_category WHERE category_id = {$categoryId}"
-);
-
-/** @var \App\Post[] $posts */
-$posts  = $paginatedQuery->getItems(\App\Entity\Post::class);
-
-
-$postsById = [];
-foreach ($posts as $post) {
-    $postsById[$post->getId()] = $post;
-}
-
-$categoryRepository = new \App\Repository\CategoryRepository($connection);
-$categories = $categoryRepository->findByPostIds(array_keys($postsById));
-
-# dump($categories);
-
-# On parcourt les categories
-foreach ($categories as $category) {
-    $postsById[$category->getPostId()]->addCategory($category);
-}
-
-
+$postRepository = new \App\Repository\PostRepository($connection);
+[$posts, $paginatedQuery] = $postRepository->findPaginatedForCategory($category->getId());
 $link   = $router->url('category', ['id' => $category->getId(), 'slug' => $category->getSlug()])
-
 ?>
 
 <h1><?= e($title) ?></h1>

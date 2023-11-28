@@ -5,7 +5,7 @@ namespace App\Repository;
 
 use App\DTO\Input\PaginationDto;
 use App\Entity\Category;
-use App\Post;
+use App\Entity\Post;
 use Exception;
 use Grafikart\Database\Connection\PdoConnection;
 use Grafikart\Database\ORM\Persistence\Repository\ServiceRepository;
@@ -55,6 +55,10 @@ class CategoryRepository extends ServiceRepository
     }
 
 
+
+
+
+
     /**
      * @param int $postId
      *
@@ -95,6 +99,27 @@ class CategoryRepository extends ServiceRepository
                                 ])
                                 ->fetch()
                                 ->all();
+    }
+
+
+    /**
+     * @param Post[] $posts
+     *
+     * @return void
+     */
+    public function hydratePosts(array $posts): void
+    {
+        $postsByID = [];
+        foreach ($posts as $post) {
+            $postsByID[$post->getId()] = $post;
+        }
+
+        $categoryRepository = new \App\Repository\CategoryRepository($this->connection);
+        $categories = $categoryRepository->findByPostIds(array_keys($postsByID));
+
+        foreach ($categories as $category) {
+            $postsByID[$category->getPostId()]->addCategory($category);
+        }
     }
 
 

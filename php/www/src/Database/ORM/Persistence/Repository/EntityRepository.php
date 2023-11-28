@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace Grafikart\Database\ORM\Persistence\Repository;
 
 
+use Exception;
 use Grafikart\Database\Connection\PdoConnection;
+use Grafikart\Database\ORM\Persistence\Repository\Exception\NotFoundException;
 
 /**
  * Created by PhpStorm at 28.11.2023
@@ -31,7 +33,18 @@ class EntityRepository implements EntityRepositoryIInterface
 
     public function find(int $id): mixed
     {
-        // TODO: Implement find() method.
+        $result = $this->connection
+                        ->statement("SELECT * FROM category WHERE id = :id")
+                        ->setParameters(compact('id'))
+                        ->map($this->getClassName())
+                        ->fetch()
+                        ->one();
+
+        if ($result === false) {
+            throw new NotFoundException($this->getTableName(), $id);
+        }
+
+        return $result;
     }
 
 
@@ -41,8 +54,19 @@ class EntityRepository implements EntityRepositoryIInterface
         // TODO: Implement findAll() method.
     }
 
+
+
+
+
     public function getClassName(): string
     {
        return $this->classname;
+    }
+
+
+
+    protected function getTableName()
+    {
+         return '';
     }
 }

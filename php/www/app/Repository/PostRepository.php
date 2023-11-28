@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\DTO\Input\GetPosts;
 use App\DTO\Input\PaginationDto;
+use App\Entity\Category;
 use App\Entity\Post;
 use App\Helpers\PaginatedQuery;
 use Exception;
@@ -45,23 +46,31 @@ class PostRepository extends ServiceRepository
 
         /** @var \App\Entity\Post[] $posts */
         $posts   = $paginatedQuery->getItems($this->getClassName());
-
-
-        $postsById = [];
-        foreach ($posts as $post) {
-            $postsById[$post->getId()] = $post;
-        }
-
         $categoryRepository = new \App\Repository\CategoryRepository($this->connection);
-        $categories = $categoryRepository->findByPostIds(array_keys($postsById));
-
-        foreach ($categories as $category) {
-            $postsById[$category->getPostId()]->addCategory($category);
-        }
-
+        $categoryRepository->hydratePosts($posts);
         return [$posts, $paginatedQuery];
     }
 
+
+
+
+    public function findPaginatedForCategory(int $categoryId)
+    {
+        $paginatedQuery = new \App\Helpers\PaginatedQuery(
+            "SELECT p.* 
+            FROM post p 
+            JOIN post_category pc ON pc.post_id = p.id
+            WHERE pc.category_id = {$categoryId}
+            ORDER BY created_at DESC",
+            "SELECT COUNT(category_id) FROM post_category WHERE category_id = {$categoryId}"
+        );
+
+        /** @var \App\Entity\Post[] $posts */
+        $posts  = $paginatedQuery->getItems(\App\Entity\Post::class);
+        $categoryRepository = new \App\Repository\CategoryRepository($this->connection);
+        $categoryRepository->hydratePosts($posts);
+        return[$posts, $paginatedQuery];
+    }
 
 
     /**
