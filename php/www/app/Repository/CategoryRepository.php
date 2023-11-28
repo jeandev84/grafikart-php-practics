@@ -22,6 +22,9 @@ use Grafikart\Database\ORM\Persistence\Repository\ServiceRepository;
 class CategoryRepository extends ServiceRepository
 {
 
+    protected string $tableName = 'category';
+
+
     public function __construct(PdoConnection $connection)
     {
         parent::__construct($connection, Category::class);
@@ -45,7 +48,7 @@ class CategoryRepository extends ServiceRepository
 
         return $this->connection
                     ->statement($sql)
-                    ->map($this->getClassName())
+                    ->map($this->classname)
                     ->setParameters(compact('postId'))
                     ->fetch()
                     ->all();
@@ -64,7 +67,7 @@ class CategoryRepository extends ServiceRepository
                 WHERE pc.post_id IN (:ids)";
 
         return $this->connection->statement($sql)
-                                ->map($this->getClassName())
+                                ->map($this->classname)
                                 ->setParameters([
                                   'ids' => join(',', $ids)
                                 ])
@@ -103,12 +106,5 @@ class CategoryRepository extends ServiceRepository
                         ->query("SELECT COUNT(category_id) FROM post_category WHERE category_id = {$id}")
                         ->fetch()
                         ->nums()[0];
-    }
-
-
-
-    protected function getTableName()
-    {
-        return 'category';
     }
 }

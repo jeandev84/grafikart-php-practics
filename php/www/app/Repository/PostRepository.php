@@ -30,6 +30,8 @@ use PDO;
 class PostRepository extends ServiceRepository
 {
 
+    protected string $tableName = 'post';
+
     public function __construct(PdoConnection $connection)
     {
         parent::__construct($connection, Post::class);
@@ -87,7 +89,7 @@ class PostRepository extends ServiceRepository
          $sql = "SELECT * FROM post ORDER BY created_at DESC LIMIT $limit OFFSET $offset";
 
          return $this->connection->query($sql)
-                                 ->map($this->getClassName())
+                                 ->map($this->classname)
                                  ->fetch()
                                  ->all();
      }
@@ -110,7 +112,7 @@ class PostRepository extends ServiceRepository
 
         return $this->connection
                     ->query($sql)
-                    ->map($this->getClassName())
+                    ->map($this->classname)
                     ->fetch()
                     ->all();
     }
@@ -123,11 +125,5 @@ class PostRepository extends ServiceRepository
                           ->query("SELECT COUNT(id) FROM post")
                           ->fetch()
                           ->nums()[0];
-     }
-
-
-     protected function getTableName(): string
-     {
-         return 'post';
      }
 }

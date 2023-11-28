@@ -21,29 +21,36 @@ class EntityRepository implements EntityRepositoryIInterface
 {
 
      protected PdoConnection $connection;
-
      protected string $classname;
+     protected string $tableName = '';
 
      public function __construct(PdoConnection $connection, string $classname)
      {
+         if (! $this->tableName) {
+              throw new Exception("Could not found table name in [ ". get_called_class() . "]");
+         }
+
+         if (! $classname) {
+             throw new Exception("Could not found class name in [ ". get_called_class() . "]");
+         }
+
          $this->connection = $connection;
          $this->classname  = $classname;
      }
 
 
+
     public function find(int $id): mixed
     {
-        $tableName = $this->getTableName();
-
         $result = $this->connection
-                        ->statement("SELECT * FROM {$tableName} WHERE id = :id")
+                        ->statement("SELECT * FROM {$this->tableName} WHERE id = :id")
                         ->setParameters(compact('id'))
-                        ->map($this->getClassName())
+                        ->map($this->classname)
                         ->fetch()
                         ->one();
 
         if ($result === false) {
-            throw new NotFoundException($tableName, $id);
+            throw new NotFoundException($this->tableName, $id);
         }
 
         return $result;
@@ -54,8 +61,8 @@ class EntityRepository implements EntityRepositoryIInterface
     public function findAll(): array
     {
         return $this->connection
-                   ->statement("SELECT * FROM {$this->getTableName()}")
-                   ->map($this->getClassName())
+                   ->statement("SELECT * FROM {$this->tableName}")
+                   ->map($this->classname)
                    ->fetch()
                    ->all();
     }
@@ -67,12 +74,5 @@ class EntityRepository implements EntityRepositoryIInterface
     public function getClassName(): string
     {
        return $this->classname;
-    }
-
-
-
-    protected function getTableName()
-    {
-         return '';
     }
 }
