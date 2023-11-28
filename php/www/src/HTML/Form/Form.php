@@ -63,14 +63,18 @@ HTML;
 
 
 
-      private function getValue(string $key): mixed
+      private function getValue(string $key): string
       {
           if (is_array($this->data)) {
-               return $this->data[$key] ?? null;
+               return $this->data[$key] ?? '';
           }
 
-          $method = 'get'. ucfirst($key);
-          return $this->data->$method();
+          $method = 'get'. str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
+          $value = $this->data->$method();
+          if ($value instanceof \DateTimeInterface) {
+                return $value->format('Y-m-d H:i:s');
+          }
+          return $value;
       }
 
 

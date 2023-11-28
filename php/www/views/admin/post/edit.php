@@ -22,8 +22,10 @@ if ($request->isMethod('POST')) {
     $validator->rule('required', ['name', 'slug']);
     $validator->rule('lengthBetween', ['name', 'slug'], 3, 200);
     $name = $request->request->get('name');
-    $post->setName($request->request->get('name'));
-         //->setContent($request->request->get('content'));
+    $post->setName($request->request->get('name'))
+         ->setContent($request->request->get('content'))
+         ->setSlug($request->request->get('slug'))
+         ->setCreatedAt($request->request->get('created_at'));
 
     if ($validator->validate()) {
         $postRepository->update($post);
@@ -55,6 +57,10 @@ $form = new \Grafikart\HTML\Form\Form($post, $errors);
     <?= $form->input('name', 'Titre') ?>
     <?= $form->input('slug', 'URL') ?>
     <?= $form->textarea('content', 'Contenu') ?>
-
+    <?= $form->input('created_at', 'Date de publication') ?>
     <button class="btn btn-primary">Modifier</button>
+
 </form>
+
+<!---
+https://flatpickr.js.org/examples

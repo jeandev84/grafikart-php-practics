@@ -133,12 +133,15 @@ class PostRepository extends ServiceRepository
     {
         $id = $post->getId();
         $sql = "UPDATE {$this->tableName} 
-                SET name = :name
+                SET name = :name, slug = :slug, created_at = :created, content = :content
                 WHERE id = :id";
         $executed = $this->connection->statement($sql)
             ->setParameters([
                 'id' => $id,
-                'name' => $post->getName()
+                'name' => $post->getName(),
+                'slug' => $post->getSlug(),
+                'content' => $post->getContent(),
+                'created' => $post->getCreatedAt()->format('Y-m-d H:i:s'),
             ])
             ->execute();
 
