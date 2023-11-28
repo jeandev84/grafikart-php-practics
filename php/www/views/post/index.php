@@ -43,6 +43,7 @@ foreach ($posts as $post) {
 $categoryRepository = new \App\Repository\CategoryRepository($connection);
 $categories = $categoryRepository->findByPostIds(array_keys($postsById));
 
+dump($categories);
 # On parcourt les categories
 
 # On trouve l' article $posts correspondant a la ligne
