@@ -33,15 +33,17 @@ class EntityRepository implements EntityRepositoryIInterface
 
     public function find(int $id): mixed
     {
+        $tableName = $this->getTableName();
+
         $result = $this->connection
-                        ->statement("SELECT * FROM category WHERE id = :id")
+                        ->statement("SELECT * FROM {$tableName} WHERE id = :id")
                         ->setParameters(compact('id'))
                         ->map($this->getClassName())
                         ->fetch()
                         ->one();
 
         if ($result === false) {
-            throw new NotFoundException($this->getTableName(), $id);
+            throw new NotFoundException($tableName, $id);
         }
 
         return $result;
@@ -51,7 +53,11 @@ class EntityRepository implements EntityRepositoryIInterface
 
     public function findAll(): array
     {
-        // TODO: Implement findAll() method.
+        return $this->connection
+                   ->statement("SELECT * FROM {$this->getTableName()}")
+                   ->map($this->getClassName())
+                   ->fetch()
+                   ->all();
     }
 
 

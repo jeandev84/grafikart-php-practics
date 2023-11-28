@@ -28,35 +28,6 @@ class CategoryRepository extends ServiceRepository
     }
 
 
-    public function find(int $id): Category
-    {
-        $category = $this->connection
-                    ->statement("SELECT * FROM category WHERE id = :id")
-                    ->setParameters(compact('id'))
-                    ->map($this->getClassName())
-                    ->fetch()
-                    ->one();
-
-        if ($category === false) {
-            throw new Exception("Aucune categorie ne correspond a cet ID [$id]");
-        }
-
-        return $category;
-    }
-
-
-    public function findAll(): array
-    {
-        return $this->connection
-                    ->statement("SELECT * FROM category")
-                    ->map($this->getClassName())
-                    ->fetch()
-                    ->all();
-    }
-
-
-
-
 
 
     /**
@@ -132,5 +103,12 @@ class CategoryRepository extends ServiceRepository
                         ->query("SELECT COUNT(category_id) FROM post_category WHERE category_id = {$id}")
                         ->fetch()
                         ->nums()[0];
+    }
+
+
+
+    protected function getTableName()
+    {
+        return 'category';
     }
 }
