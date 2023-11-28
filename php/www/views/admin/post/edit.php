@@ -13,14 +13,8 @@ $success = false;
 $errors = [];
 
 if ($request->isMethod('POST')) {
-    $validator = new JanValidator($request->request->all(), 'fr');
-
-    $validator->labels([
-        'name' => 'Titre',
-        'Contenu' => 'Contenu'
-    ]);
-    $validator->rule('required', ['name', 'slug']);
-    $validator->rule('lengthBetween', ['name', 'slug'], 3, 200);
+    \Valitron\Validator::lang('fr');
+    $validator = new \App\Validators\PostValidator($request->request->all(), $postRepository);
     $name = $request->request->get('name');
     $post->setName($request->request->get('name'))
          ->setContent($request->request->get('content'))
