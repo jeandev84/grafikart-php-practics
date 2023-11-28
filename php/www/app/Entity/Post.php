@@ -103,6 +103,16 @@ class Post
     }
 
 
+
+    /**
+     * @return string|null
+    */
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+
     /**
      * @return DateTime
      * @throws \Exception

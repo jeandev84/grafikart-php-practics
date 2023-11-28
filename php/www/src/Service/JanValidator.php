@@ -17,6 +17,13 @@ use Valitron\Validator;
 class JanValidator extends Validator
 {
 
+    public function __construct(array $data, $lang = null)
+    {
+        parent::__construct($data, [], $lang);
+    }
+
+
+
     /**
      * @param  string $field
      * @param  string $message
@@ -26,14 +33,5 @@ class JanValidator extends Validator
     protected function checkAndSetLabel($field, $message, $params)
     {
         return str_replace('{field} ', '', $message);
-    }
-
-
-
-    public function locale(string $lang): self
-    {
-        self::lang($lang);
-
-        return $this;
     }
 }

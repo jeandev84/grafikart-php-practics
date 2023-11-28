@@ -1,0 +1,12 @@
+<form action="" method="POST">
+    <div class="form-group">
+        <label for="name">Titre</label>
+        <input type="text" class="form-control <?= isset($errors['name']) ? 'is-invalid': '' ?>" name="name" value="<?= e($post->getName()) ?>">
+        <?php if ($errors): ?>
+            <div class="invalid-feedback">
+                <?= join("<br>", $errors['name']) ?>
+            </div>
+        <?php endif; ?>
+    </div>
+    <button class="btn btn-primary">Modifier</button>
+</form>

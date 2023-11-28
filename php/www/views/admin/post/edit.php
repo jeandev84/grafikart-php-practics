@@ -13,15 +13,14 @@ $success = false;
 $errors = [];
 
 if ($request->isMethod('POST')) {
-    $validator = (new JanValidator($request->request->all()))
-                ->locale('fr');
+    $validator = new JanValidator($request->request->all(), 'fr');
 
     $validator->labels([
         'name' => 'Titre',
         'Contenu' => 'Contenu'
     ]);
-    $validator->rule('required', 'name');
-    $validator->rule('lengthBetween', 'name', 3, 200);
+    $validator->rule('required', ['name', 'slug']);
+    $validator->rule('lengthBetween', ['name', 'slug'], 3, 200);
     $name = $request->request->get('name');
     $post->setName($request->request->get('name'));
          //->setContent($request->request->get('content'));
@@ -34,6 +33,7 @@ if ($request->isMethod('POST')) {
     }
 }
 
+$form = new \Grafikart\HTML\Form\Form($post, $errors);
 ?>
 
 <?php if ($success): ?>
@@ -50,16 +50,11 @@ if ($request->isMethod('POST')) {
 
 <h1>Editer l'article <?= e($post->getName()) ?></h1>
 
-
 <form action="" method="POST">
-    <div class="form-group">
-        <label for="name">Titre</label>
-        <input type="text" class="form-control <?= isset($errors['name']) ? 'is-invalid': '' ?>" name="name" value="<?= e($post->getName()) ?>">
-        <?php if ($errors): ?>
-            <div class="invalid-feedback">
-                <?= join("<br>", $errors['name']) ?>
-            </div>
-        <?php endif; ?>
-    </div>
+
+    <?= $form->input('name', 'Titre') ?>
+    <?= $form->input('slug', 'URL') ?>
+    <?= $form->textarea('content', 'Contenu') ?>
+
     <button class="btn btn-primary">Modifier</button>
 </form>
