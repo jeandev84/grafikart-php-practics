@@ -11,21 +11,23 @@ $success = false;
 $errors = [];
 
 if ($request->isMethod('POST')) {
+    \Valitron\Validator::lang('fr');
+    $validator = new \Valitron\Validator($request->request->all());
+    $validator->labels([
+        'name' => 'Titre',
+        'Contenu' => 'Contenu'
+    ]);
+    $validator->rule('required', 'name');
+    $validator->rule('lengthBetween', 'name', 3, 200);
     $name = $request->request->get('name');
-    if (empty($name)) {
-       $errors['name'][] = "Le champs titre ne peut pas etre vide.";
-    }
-
-    if (mb_strlen($name) <= 3) {
-        $errors['name'][] = "Le chmaps titre doit contenir plus de 3 caracteres";
-    }
-
-    $post->setName($name);
+    $post->setName($request->request->get('name'));
          //->setContent($request->request->get('content'));
 
-    if (empty($errors)) {
+    if ($validator->validate()) {
         $postRepository->update($post);
         $success = true;
+    } else {
+        $errors = $validator->errors();
     }
 }
 
