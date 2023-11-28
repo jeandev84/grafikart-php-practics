@@ -1,17 +1,19 @@
+<?php
+$categories = array_map(function (\App\Entity\Category $category) use ($router) {
+    $url = $router->url('category', ['id' => $category->getId(), 'slug' => $category->getSlug()]);
+    return sprintf('<a href="%s">%s</a>', $url, $category->getName());
+}, $post->getCategories());
+
+?>
 <div class="card mb-3">
     <div class="card-body">
         <h5 class="card-title"><?= htmlentities($post->getName()) ?></h5>
         <p class="text-muted">
             <?= $post->getCreatedAt()->format('d F Y') ?> ::
-            <?php
-            foreach ($post->getCategories() as $k => $category):
-                if ($k > 0):
-                    echo ', ';
-                endif;
-                $categoryURL = $router->url('category', ['id' => $category->getId(), 'slug' => $category->getSlug()]);
-                ?>
-                <a href="<?=  $categoryURL ?>"><?= e($category->getName()) ?></a>
-            <?php endforeach; ?>
+            <?php if (! empty($post->getCategories())): ?>
+            ::
+            <?= implode(', ', $categories) ?>
+            <?php endif; ?>
         </p>
         <p><?= $post->getExcerpt() ?></p>
         <p>
