@@ -33,6 +33,13 @@ $form = new \Grafikart\HTML\Form($post, $errors);
 </div>
 <?php endif; ?>
 
+<?php if ($request->queries->has('created')): ?>
+    <div class="alert alert-success">
+        L' article a bien ete cree
+    </div>
+<?php endif; ?>
+
+
 <?php if ($errors): ?>
     <div class="alert alert-danger">
         L' article n'a pas pu etre modifier, merci de corriger vos errors

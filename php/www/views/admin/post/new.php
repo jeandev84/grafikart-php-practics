@@ -2,7 +2,6 @@
 
 $request    = \Grafikart\Http\Request\Request::createFromGlobals();
 
-$success = false;
 $errors  = [];
 $post    = new \App\Entity\Post();
 $post->setCreatedAt(date('Y-m-d H:i:s'));
@@ -27,12 +26,6 @@ if ($request->isMethod('POST')) {
 
 $form = new \Grafikart\HTML\Form($post, $errors);
 ?>
-
-<?php if ($success): ?>
-    <div class="alert alert-success">
-        L' article a bien ete modifiee
-    </div>
-<?php endif; ?>
 
 <?php if ($errors): ?>
     <div class="alert alert-danger">

@@ -21,7 +21,7 @@ $link = $router->url('admin.posts');
         <tr>
             <th>#</th>
             <th>Titre</th>
-            <th>Actions</th>
+            <th><a href="<?= $router->url('admin.post.new') ?>" class="btn btn-primary">Nouveau</a></th>
         </tr>
     </thead>
     <tbody>
