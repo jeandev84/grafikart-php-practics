@@ -69,13 +69,6 @@ class EntityRepository implements EntityRepositoryIInterface
 
 
 
-
-    public function update(int $id): mixed
-    {
-
-    }
-
-
     public function delete(int $id): void
     {
          $executed = $this->connection->statement("DELETE FROM {$this->tableName} WHERE id = :id")

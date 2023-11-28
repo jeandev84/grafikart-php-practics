@@ -126,4 +126,24 @@ class PostRepository extends ServiceRepository
                           ->fetch()
                           ->nums()[0];
      }
+
+
+
+    public function update(Post $post): void
+    {
+        $id = $post->getId();
+        $sql = "UPDATE {$this->tableName} 
+                SET name = :name
+                WHERE id = :id";
+        $executed = $this->connection->statement($sql)
+            ->setParameters([
+                'id' => $id,
+                'name' => $post->getName()
+            ])
+            ->execute();
+
+        if (! $executed) {
+            throw new Exception("Could not delete the record with id#$id in the table $this->tableName");
+        }
+    }
 }

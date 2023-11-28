@@ -162,6 +162,18 @@ class Request
 
 
 
+      public function getMethod()
+      {
+          return $this->server->get('REQUEST_METHOD', 'GET');
+      }
+
+
+
+      public function isMethod(string $method): bool
+      {
+          return  $this->getMethod() === strtoupper($method);
+      }
+
       public function getRequestUri(): string
       {
           return $this->server->get('REQUEST_URI');
