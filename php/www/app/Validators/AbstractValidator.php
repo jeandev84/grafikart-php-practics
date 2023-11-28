@@ -22,8 +22,9 @@ abstract class AbstractValidator
     protected array $data;
     protected JanValidator $validator;
 
-    public function __construct(array $data)
+    public function __construct(array $data, string $lang = 'fr')
     {
+        JanValidator::lang($lang);
         $this->data = $data;
         $this->validator = new JanValidator($data);
     }

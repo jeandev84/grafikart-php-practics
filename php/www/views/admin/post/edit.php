@@ -13,13 +13,11 @@ $success = false;
 $errors = [];
 
 if ($request->isMethod('POST')) {
-    \Valitron\Validator::lang('fr');
+
     $validator = new \App\Validators\PostValidator($request->request->all(), $postRepository, $post->getId());
-    $name = $request->request->get('name');
-    $post->setName($request->request->get('name'))
-         ->setContent($request->request->get('content'))
-         ->setSlug($request->request->get('slug'))
-         ->setCreatedAt($request->request->get('created_at'));
+    \Grafikart\Helpers\ObjectHelper::hydrate($post, $request->request->all(), [
+        'name', 'content', 'slug', 'created_at'
+    ]);
 
     if ($validator->validate()) {
         $postRepository->update($post);
