@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Grafikart\Database\Builder\SQL;
+namespace Grafikart\Database\Builder\SQL\DML;
 
 
 /**
@@ -11,7 +11,7 @@ namespace Grafikart\Database\Builder\SQL;
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
- * @package Grafikart\Database\Builder\SQL
+ * @package Grafikart\Database\Builder\SQL\DML
  */
 class Update
 {

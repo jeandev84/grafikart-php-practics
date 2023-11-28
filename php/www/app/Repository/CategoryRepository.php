@@ -88,8 +88,10 @@ class CategoryRepository implements EntityRepositoryIInterface
     }
 
 
-
-
+    /**
+     * @param array $ids
+     * @return Category[]
+     */
     public function findByPostIds(array $ids): array
     {
         $sql = "SELECT c.*, pc.post_id

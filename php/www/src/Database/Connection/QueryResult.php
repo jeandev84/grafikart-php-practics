@@ -15,7 +15,7 @@ use PDO;
  *
  * @package Grafikart\Database\Connection
  */
-class QueryResult
+class QueryResult implements QueryResultInterface
 {
 
       protected \PDOStatement $statement;

@@ -19,6 +19,7 @@ class Category
       protected ?string $name;
       protected ?string $slug;
       protected ?int $post_id;
+      protected ?Post $post = null;
 
 
      /**
@@ -86,5 +87,27 @@ class Category
     public function getPostId(): ?int
     {
         return $this->post_id;
+    }
+
+
+    /**
+     * @return Post|null
+     */
+    public function getPost(): ?Post
+    {
+        return $this->post;
+    }
+
+
+    /**
+     * @param Post|null $post
+     *
+     * @return $this
+    */
+    public function setPost(?Post $post): self
+    {
+        $this->post = $post;
+
+        return $this;
     }
 }

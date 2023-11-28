@@ -1,19 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace Grafikart\Database\Builder\SQL;
+namespace Grafikart\Database\Builder\SQL\DML;
 
 
 /**
  * Created by PhpStorm at 28.11.2023
  *
- * @Select
+ * @Insert
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
- * @package Grafikart\Database\Builder
+ * @package Grafikart\Database\Builder\SQL
  */
-class Select
+class Insert
 {
 
 }

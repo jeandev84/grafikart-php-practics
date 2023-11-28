@@ -13,7 +13,7 @@ namespace Grafikart\Database\Connection;
  *
  * @package Grafikart\Database\Connection
  */
-class Query
+class Query implements QueryInterface
 {
 
      protected \PDO $pdo;
@@ -96,7 +96,7 @@ class Query
 
 
 
-     public function fetch(): QueryResult
+     public function fetch(): QueryResultInterface
      {
          $this->execute();
 
@@ -109,4 +109,9 @@ class Query
      {
 
      }
+
+    public function bindParam($name, $value, int $type): self
+    {
+        // TODO: Implement bindParam() method.
+    }
 }
