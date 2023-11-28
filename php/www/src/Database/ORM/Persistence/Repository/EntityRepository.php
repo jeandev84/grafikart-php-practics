@@ -70,6 +70,26 @@ class EntityRepository implements EntityRepositoryIInterface
 
 
 
+    public function update(int $id): mixed
+    {
+
+    }
+
+
+    public function delete(int $id): mixed
+    {
+         $executed = $this->connection->statement("DELETE FROM {$this->tableName} WHERE id = :id")
+                          ->setParameters(compact('id'))
+                          ->execute();
+
+         if (! $executed) {
+              throw new Exception("Could not delete the record with id#$id in the table $this->tableName");
+         }
+    }
+
+
+
+
 
     public function getClassName(): string
     {

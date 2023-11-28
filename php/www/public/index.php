@@ -35,6 +35,10 @@ $router  = new \Grafikart\Routing\Router(dirname(__DIR__). '/views');
 $router->get('/', 'post/index', 'home')
        ->get('/blog/category/[*:slug]-[i:id]', 'category/show', 'category')
        ->get('/blog/[*:slug]-[i:id]', 'post/show', 'post')
+       ->get('/admin', 'admin/post/index', 'admin.posts')
+       ->get('/admin/post/[i:id]', 'admin/post/edit', 'admin.post')
+       ->get('/admin/post/[i:id]/delete', 'admin/post/delete', 'admin.post.delete')
+       ->get('/admin/post/new', 'admin/post/edit', 'admin.post.new')
        ->run();
 
 
