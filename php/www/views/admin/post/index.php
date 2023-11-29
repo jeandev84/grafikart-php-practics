@@ -1,8 +1,8 @@
 <?php
 
-
 \App\Security\Auth::check();
 
+# $router->layout = "admin/layouts/default";
 $title = "Administration";
 $connection = \App\Helpers\Connection::make();
 $request    = \Grafikart\Http\Request\Request::createFromGlobals();
