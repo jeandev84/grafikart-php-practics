@@ -33,7 +33,7 @@ class Router
 
 
 
-     public ?string $layout = "layouts/index";
+     # public ?string $layout = "layouts/index";
 
 
      public function __construct(string $viewPath)
@@ -158,7 +158,7 @@ class Router
          ob_start();
          require $this->viewPath . DIRECTORY_SEPARATOR. $view . '.php';
          $content = ob_get_clean();
-         # require $this->viewPath . DIRECTORY_SEPARATOR . $this->layout . '.php';
+         /* require $this->viewPath . DIRECTORY_SEPARATOR . $this->layout . '.php'; */
          require $this->viewPath . DIRECTORY_SEPARATOR . $layout . '.php';
 
          return $this;
