@@ -28,8 +28,8 @@ $fields = ['name', 'content', 'slug', 'created_at'];
 
 if ($request->isMethod('POST')) {
     $postRepository = new \App\Repository\PostRepository($connection);
-    $validator = new \App\Validators\PostValidator($request->request->all(), $postRepository, $post->getId(), $categories);
-    \Grafikart\Helpers\ObjectHelper::hydrate($post, $request->request->all(), $fields);
+    $validator = new \App\Validators\PostValidator($request->getParsedBodyWithFiles(), $postRepository, $post->getId(), $categories);
+    \Grafikart\Helpers\ObjectHelper::hydrate($post, $request->getParsedBody(), $fields);
 
     if ($validator->validate()) {
         $pdo = $connection->getPdo();

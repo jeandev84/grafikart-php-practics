@@ -15,10 +15,8 @@ $success = false;
 $errors = [];
 
 if ($request->isMethod('POST')) {
-    $files  = $request->files->all();
-    $posted = $request->request->all();
-    $validator = new \App\Validators\PostValidator(array_merge($posted, $files), $postRepository, $post->getId(), $categories);
-    \Grafikart\Helpers\ObjectHelper::hydrate($post, $request->request->all(), [
+    $validator = new \App\Validators\PostValidator($request->getParsedBodyWithFiles(), $postRepository, $post->getId(), $categories);
+    \Grafikart\Helpers\ObjectHelper::hydrate($post, $request->getParsedBody(), [
         'name', 'content', 'slug', 'created_at'
     ]);
 

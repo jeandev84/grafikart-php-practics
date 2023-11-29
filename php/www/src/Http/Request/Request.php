@@ -210,6 +210,13 @@ class Request
 
 
 
+      public function getParsedBodyWithFiles(): array
+      {
+           return array_merge($this->request->all(), $this->files->all());
+      }
+
+
+
       public function uri(array $queries = []): string
       {
           $path = $this->getPath();
