@@ -24,6 +24,8 @@ class Post
     protected ?string $content = null;
     protected ?string $created_at = null;
     protected ?string $image = null;
+    protected ?string $oldImage = null;
+    protected bool $pendingUpload = false;
     protected array $categories = [];
 
 
@@ -212,7 +214,11 @@ class Post
     public function setImage(array|string $image): self
     {
         if (is_array($image) && !empty($image['tmp_name'])) {
-             $this->image = $image['tmp_name'];
+            if (!empty($this->image)) {
+                $this->oldImage = $this->image;
+            }
+            $this->pendingUpload = true;
+            $this->image = $image['tmp_name'];
         }
 
         if (is_string($image) && !empty($image)) {
@@ -220,5 +226,24 @@ class Post
         }
 
         return $this;
+    }
+
+
+    /**
+     * @return string|null
+    */
+    public function getOldImage(): ?string
+    {
+        return $this->oldImage;
+    }
+
+
+
+    /**
+     * @return bool
+    */
+    public function shouldUpload(): bool
+    {
+        return $this->pendingUpload;
     }
 }

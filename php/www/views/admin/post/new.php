@@ -34,6 +34,7 @@ if ($request->isMethod('POST')) {
     if ($validator->validate()) {
         $pdo = $connection->getPdo();
         $pdo->beginTransaction();
+        \App\Attachment\PostAttachment::upload($post);
         $postRepository->createPost($post);
         $postRepository->attachCategories($post->getId(), $request->request->get('category_ids'));
         $pdo->commit();
