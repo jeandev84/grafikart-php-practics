@@ -21,10 +21,10 @@ class WhoopsServiceProvider extends ServiceProvider
 
     public function register(Container $container): void
     {
-          $container->bind('whoops', function () {
-              $whoops = new \Whoops\Run();
-              $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
-              $whoops->register();
-          });
+          $whoops = new \Whoops\Run();
+          $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
+          $whoops->register();
+
+          $container->bind('whoops', $whoops);
     }
 }
