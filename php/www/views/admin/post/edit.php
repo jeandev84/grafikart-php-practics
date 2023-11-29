@@ -4,29 +4,32 @@
 
 $connection = \App\Helpers\Connection::make();
 $request    = \Grafikart\Http\Request\Request::createFromGlobals();
-$repository = new \App\Repository\PostRepository($connection);
 
-/** @var \App\Entity\Post $item */
-$item = $repository->find($params['id']);
+$categoryRepository = new \App\Repository\CategoryRepository($connection);
+$categories         = $categoryRepository->listCategories();
+$postRepository     = new \App\Repository\PostRepository($connection);
 
+/** @var \App\Entity\Post $post */
+$post = $postRepository->find($params['id']);
+$categoryRepository->hydratePosts([$post]);
 $success = false;
 $errors = [];
 
 if ($request->isMethod('POST')) {
-    $validator = new \App\Validators\PostValidator($request->request->all(), $repository, $item->getId());
-    \Grafikart\Helpers\ObjectHelper::hydrate($item, $request->request->all(), [
+    $validator = new \App\Validators\PostValidator($request->request->all(), $postRepository, $post->getId());
+    \Grafikart\Helpers\ObjectHelper::hydrate($post, $request->request->all(), [
         'name', 'content', 'slug', 'created_at'
     ]);
 
     if ($validator->validate()) {
-        $repository->updatePost($item);
+        $postRepository->updatePost($post);
         $success = true;
     } else {
         $errors = $validator->errors();
     }
 }
 
-$form = new \Grafikart\HTML\Form($item, $errors);
+$form = new \Grafikart\HTML\Form($post, $errors);
 ?>
 
 <?php if ($success): ?>
@@ -48,6 +51,6 @@ $form = new \Grafikart\HTML\Form($item, $errors);
     </div>
 <?php endif; ?>
 
-<h1>Editer l'article <?= e($item->getName()) ?></h1>
+<h1>Editer l'article <?= e($post->getName()) ?></h1>
 
 <?php require '_form.php';

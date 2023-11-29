@@ -31,8 +31,9 @@ class CategoryRepository extends ServiceRepository
     }
 
 
-
-
+    /**
+     * @return Category[]
+     */
     public function findAll(): array
     {
         return $this->queryAndFetchAll("SELECT * FROM {$this->tableName} ORDER BY id DESC");
@@ -96,14 +97,24 @@ class CategoryRepository extends ServiceRepository
             $postsByID[$post->getId()] = $post;
         }
 
-        $categoryRepository = new \App\Repository\CategoryRepository($this->connection);
-        $categories = $categoryRepository->findByPostIds(array_keys($postsByID));
+        $categories = $this->findByPostIds(array_keys($postsByID));
 
         foreach ($categories as $category) {
             $postsByID[$category->getPostId()]->addCategory($category);
         }
     }
 
+
+
+    public function listCategories(): array
+    {
+        $items = [];
+        $categories = $this->queryAndFetchAll("SELECT * FROM {$this->tableName} ORDER BY name DESC");
+        foreach ($categories as $category) {
+            $items[$category->getId()] = $category->getName();
+        }
+        return $items;
+    }
 
 
     public function countById(int $id)

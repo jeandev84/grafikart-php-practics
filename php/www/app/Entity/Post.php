@@ -159,4 +159,22 @@ class Post
     {
         return $this->categories;
     }
+
+
+
+    public function getCategoryIds(): array
+    {
+        /*
+        return array_filter($this->categories, function (Category $category) {
+            return $category->getId();
+        });
+        */
+
+        $ids = [];
+        foreach ($this->categories as $category) {
+            $ids[] = $category->getId();
+        }
+
+        return $ids;
+    }
 }
