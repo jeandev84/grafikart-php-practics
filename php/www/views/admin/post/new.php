@@ -14,13 +14,16 @@ $post->setCreatedAt(date('Y-m-d H:i:s'));
 $fields = ['name', 'content', 'slug', 'created_at'];
 
 if ($request->isMethod('POST')) {
-    $repository = new \App\Repository\PostRepository($connection);
-
-    $validator = new \App\Validators\PostValidator($request->request->all(), $repository, $post->getId(), $categories);
+    $postRepository = new \App\Repository\PostRepository($connection);
+    $validator = new \App\Validators\PostValidator($request->request->all(), $postRepository, $post->getId(), $categories);
     \Grafikart\Helpers\ObjectHelper::hydrate($post, $request->request->all(), $fields);
 
     if ($validator->validate()) {
-        $repository->createPost($post);
+        $pdo = $connection->getPdo();
+        $pdo->beginTransaction();
+        $postRepository->createPost($post);
+        $postRepository->attachCategories($post->getId(), $request->request->get('category_ids'));
+        $pdo->commit();
         header('Location: '. $router->url('admin.post', ['id' => $post->getId()]) . '?created=1');
         exit;
     } else {

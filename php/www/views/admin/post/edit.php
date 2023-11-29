@@ -21,7 +21,11 @@ if ($request->isMethod('POST')) {
     ]);
 
     if ($validator->validate()) {
-        $postRepository->updatePost($post, $request->request->get('category_ids'));
+        $pdo = $connection->getPdo();
+        $pdo->beginTransaction();
+        $postRepository->updatePost($post);
+        $postRepository->attachCategories($post->getId(), $request->request->get('category_ids'));
+        $pdo->commit();
         $categoryRepository->hydratePosts([$post]); // mise ajour
         $success = true;
     } else {

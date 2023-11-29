@@ -129,34 +129,21 @@ class PostRepository extends ServiceRepository
 
 
 
-    public function updatePost(Post $post, array $categoryIds): bool
+    public function updatePost(Post $post): bool
     {
-        $pdo = $this->connection->getPdo();
-        $pdo->beginTransaction();
-        $this->update([
+        return $this->update([
             'name' => $post->getName(),
             'slug' => $post->getSlug(),
             'content' => $post->getContent(),
             'created_at' => $post->getCreatedAt()->format('Y-m-d H:i:s'),
         ], $post->getId());
-
-        $this->connection->executeQuery("DELETE FROM post_category WHERE post_id = {$post->getId()}");
-        $statement = $this->connection->statement("INSERT INTO post_category SET post_id = ?, category_id = ?");
-        foreach ($categoryIds as $categoryId) {
-            $statement->setParameters([$post->getId(), $categoryId]);
-            $statement->execute();
-        }
-        $pdo->commit();
-        return true;
     }
 
 
 
 
-    public function createPost(Post $post, array $categoryIds): int
+    public function createPost(Post $post): int
     {
-        $pdo = $this->connection->getPdo();
-        $pdo->beginTransaction();
         $id = $this->create([
             'name' => $post->getName(),
             'slug' => $post->getSlug(),
@@ -165,13 +152,17 @@ class PostRepository extends ServiceRepository
         ]);
 
         $post->setId($id);
-        $this->connection->executeQuery("DELETE FROM post_category WHERE post_id = {$post->getId()}");
+        return $id;
+    }
+
+
+    public function attachCategories(int $postId, array $categoryIds)
+    {
+        $this->connection->executeQuery("DELETE FROM post_category WHERE post_id = {$postId}");
         $statement = $this->connection->statement("INSERT INTO post_category SET post_id = ?, category_id = ?");
         foreach ($categoryIds as $categoryId) {
-            $statement->setParameters([$post->getId(), $categoryId]);
+            $statement->setParameters([$postId, $categoryId]);
             $statement->execute();
         }
-        $pdo->commit();
-        return $id;
     }
 }
