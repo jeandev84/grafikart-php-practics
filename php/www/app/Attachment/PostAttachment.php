@@ -18,6 +18,9 @@ use Intervention\Image\ImageManager;
  */
 class PostAttachment
 {
+
+      const UPLOAD_DIRECTORY = UPLOAD_PATH . DIRECTORY_SEPARATOR . 'posts';
+
       public static function upload(Post $post)
       {
            $image = $post->getImage();
@@ -25,7 +28,8 @@ class PostAttachment
                return;
            }
 
-           $directory = UPLOAD_PATH . DIRECTORY_SEPARATOR . 'posts';
+           $directory = self::UPLOAD_DIRECTORY;
+
            if (! is_dir($directory)) {
                mkdir($directory, 0777, true);
            }
@@ -59,6 +63,20 @@ class PostAttachment
       }
 
 
+
+
+      public static function detach(Post $post)
+      {
+          if (!empty($post->getImage())) {
+              $formats = ['small', 'large'];
+              foreach ($formats as $format) {
+                  $file = self::UPLOAD_DIRECTORY . DIRECTORY_SEPARATOR . $post->getImage() . "_" . $format . ".jpg";
+                  if (file_exists($file)) {
+                      unlink($file);
+                  }
+              }
+          }
+      }
 
 
       public function move(string $target, string $filename): bool
