@@ -15,7 +15,7 @@ namespace Grafikart\Database\ORM\Persistence\Repository\Exception;
  */
 class NotFoundException extends \Exception
 {
-     public function __construct(string $table, int $id)
+     public function __construct(string $table, $id)
      {
          parent::__construct("Could not found records for id #$id in the table '$table'", 404);
      }

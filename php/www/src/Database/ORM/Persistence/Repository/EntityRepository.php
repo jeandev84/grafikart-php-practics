@@ -148,7 +148,32 @@ class EntityRepository implements EntityRepositoryIInterface
 
     public function findBy(array $criteria, array $orderBy = [], int $limit = 0, int $offset = 0): mixed
     {
-         return [];
+        // TODO via QueryBuilder!!!
+        $conditions = array_map(function ($column) {
+            return "$column = :$column";
+        }, array_keys($criteria));
+
+        $sqlConditions = join(" AND ", $conditions);
+        $ordering = array_map(function ($column, $direction) {
+             return "$column $direction";
+        }, $orderBy);
+
+        $sqlOrderBy = join(', ', $ordering);
+
+        $sql = "SELECT * 
+                FROM {$this->tableName} 
+                WHERE {$sqlConditions} 
+                ORDER BY {$sqlOrderBy}
+                LIMIT {$limit} 
+                OFFSET {$offset}
+                ";
+
+        return $this->connection
+                    ->statement($sql)
+                    ->setParameters($criteria)
+                    ->map($this->classname)
+                    ->fetch()
+                    ->all();
     }
 
 
