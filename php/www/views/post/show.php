@@ -32,11 +32,7 @@ foreach ($post->getCategories() as $k => $category):
 
 <?php if ($post->getImage()): ?>
     <p>
-        <img src="<?= $post->getImageUrl('large') ?>"
-             class="card-img-top"
-             alt="<?= $post->getName()?>"
-             style="width: 100%;"
-        >
+        <img src="<?= $post->getImageUrl('large') ?>" alt="<?= $post->getName()?>" style="width: 100%;">
     </p>
 <?php endif; ?>
 
