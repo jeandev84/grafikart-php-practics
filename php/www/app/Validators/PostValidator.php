@@ -5,7 +5,7 @@ namespace App\Validators;
 
 
 use App\Repository\PostRepository;
-use Grafikart\Service\JanValidator;
+use Grafikart\Service\Validator;
 
 /**
  * Created by PhpStorm at 28.11.2023
@@ -20,7 +20,7 @@ class PostValidator extends AbstractValidator
 {
 
     protected array $data;
-    protected JanValidator $validator;
+    protected Validator $validator;
 
     public function __construct(array $data, PostRepository $postRepository, ?int $postId = null, array $categoryIds = [])
     {

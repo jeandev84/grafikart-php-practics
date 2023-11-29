@@ -174,7 +174,9 @@ class Request
 
       public function getUri(): Uri
       {
-           if ($this->uri) { return $this->uri; }
+           if ($this->uri) {
+               return $this->uri;
+           }
 
            return new Uri($this->server->generateUrl());
       }

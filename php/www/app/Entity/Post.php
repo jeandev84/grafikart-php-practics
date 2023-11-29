@@ -22,7 +22,8 @@ class Post
     protected ?string $name = null;
     protected ?string $slug = null;
     protected ?string $content = null;
-    protected ?string $created_at = '';
+    protected ?string $created_at = null;
+    protected ?string $image = null;
     protected array $categories = [];
 
 
@@ -187,6 +188,34 @@ class Post
     public function setCategories(array $categories): self
     {
         $this->categories = $categories;
+
+        return $this;
+    }
+
+
+
+
+    /**
+     * @return string|null
+    */
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+
+
+
+    /**
+     * @param string|null $image
+     *
+     * @return $this
+    */
+    public function setImage($image): self
+    {
+        if (is_array($image) && !empty($image['tmp_name'])) {
+             $this->image = $image['tmp_name'];
+        }
 
         return $this;
     }

@@ -24,12 +24,12 @@ $categoryRepository = new \App\Repository\CategoryRepository($connection);
 $categories = $categoryRepository->list();
 $categoryRepository->hydratePosts([$post]);
 $post->setCreatedAt(date('Y-m-d H:i:s'));
-$fields = ['name', 'content', 'slug', 'created_at'];
 
 if ($request->isMethod('POST')) {
     $postRepository = new \App\Repository\PostRepository($connection);
-    $validator = new \App\Validators\PostValidator($request->getParsedBodyWithFiles(), $postRepository, $post->getId(), $categories);
-    \Grafikart\Helpers\ObjectHelper::hydrate($post, $request->getParsedBody(), $fields);
+    $data = $request->getParsedBodyWithFiles();
+    $validator = new \App\Validators\PostValidator($data, $postRepository, $post->getId(), $categories);
+    \Grafikart\Helpers\ObjectHelper::hydrate($post, $data, ['name', 'content', 'slug', 'created_at', 'image']);
 
     if ($validator->validate()) {
         $pdo = $connection->getPdo();

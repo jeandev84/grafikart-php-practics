@@ -15,14 +15,14 @@ $success = false;
 $errors = [];
 
 if ($request->isMethod('POST')) {
-    $validator = new \App\Validators\PostValidator($request->getParsedBodyWithFiles(), $postRepository, $post->getId(), $categories);
-    \Grafikart\Helpers\ObjectHelper::hydrate($post, $request->getParsedBody(), [
-        'name', 'content', 'slug', 'created_at'
-    ]);
+    $data = $request->getParsedBodyWithFiles();
+    $validator = new \App\Validators\PostValidator($data, $postRepository, $post->getId(), $categories);
+    \Grafikart\Helpers\ObjectHelper::hydrate($post, $data, ['name', 'content', 'slug', 'created_at', 'image']);
 
     if ($validator->validate()) {
         $pdo = $connection->getPdo();
         $pdo->beginTransaction();
+        \App\Attachment\PostAttachment::upload($post);
         $postRepository->updatePost($post);
         $postRepository->attachCategories($post->getId(), $request->request->get('category_ids'));
         $pdo->commit();

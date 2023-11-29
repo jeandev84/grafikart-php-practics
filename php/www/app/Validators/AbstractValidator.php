@@ -5,7 +5,7 @@ namespace App\Validators;
 
 
 use App\Repository\PostRepository;
-use Grafikart\Service\JanValidator;
+use Grafikart\Service\Validator;
 
 /**
  * Created by PhpStorm at 28.11.2023
@@ -20,13 +20,13 @@ abstract class AbstractValidator
 {
 
     protected array $data;
-    protected JanValidator $validator;
+    protected Validator $validator;
 
     public function __construct(array $data, string $lang = 'fr')
     {
-        JanValidator::lang($lang);
+        Validator::lang($lang);
         $this->data = $data;
-        $this->validator = new JanValidator($data);
+        $this->validator = new Validator($data);
     }
 
 

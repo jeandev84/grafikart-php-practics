@@ -2,19 +2,19 @@
 declare(strict_types=1);
 
 namespace Grafikart\Service;
-use Valitron\Validator;
+use Valitron\Validator as Valitron;
 
 
 /**
  * Created by PhpStorm at 28.11.2023
  *
- * @JanValidator
+ * @Validator
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
  * @package Grafikart\Service
  */
-class JanValidator extends Validator
+class Validator extends Valitron
 {
 
     public function __construct(array $data, $lang = null)

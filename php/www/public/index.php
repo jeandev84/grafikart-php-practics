@@ -5,6 +5,7 @@ require __DIR__.'/../vendor/autoload.php';
 session_start();
 
 define('DEBUG_TIME', microtime(true));
+define('UPLOAD_PATH', __DIR__. DIRECTORY_SEPARATOR . 'uploads');
 
 $container = new Grafikart\Container\Container();
 
