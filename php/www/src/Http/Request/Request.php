@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Grafikart\Http\Request;
 
 
+use Grafikart\Http\Bag\FileBag;
 use Grafikart\Http\Bag\InputBag;
 use Grafikart\Http\Bag\ParameterBag;
 use Grafikart\Http\Bag\ServerBag;
@@ -24,6 +25,7 @@ class Request
       public InputBag $queries;
       public InputBag $request;
       public ParameterBag $attributes;
+      public FileBag $files;
       public ServerBag $server;
       public CookieJar $cookies;
       protected ?Uri $uri = null;
@@ -36,6 +38,7 @@ class Request
            $this->request    = new InputBag();
            $this->attributes = new ParameterBag();
            $this->server     = new ServerBag();
+           $this->files      = new FileBag();
            $this->cookies    = new CookieJar(); //TODO code reviews
       }
 
@@ -79,6 +82,23 @@ class Request
       public function getParsedBody(): array
       {
           return $this->request->all();
+      }
+
+
+
+
+      public function withUploadedFiles(array $uploadedFiles): self
+      {
+           $this->files->merge($uploadedFiles);
+
+           return $this;
+      }
+
+
+
+      public function getUploadedFiles(): array
+      {
+          return $this->files->all();
       }
 
 
@@ -205,6 +225,7 @@ class Request
           $request = new static();
           $request->withQueryParams($_GET)
                   ->withParsedBody($_POST)
+                  ->withUploadedFiles($_FILES)
                   ->withServerParams($_SERVER)
                   ->withCookieParams($_COOKIE);
 

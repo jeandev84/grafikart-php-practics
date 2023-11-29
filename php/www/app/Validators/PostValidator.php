@@ -29,6 +29,7 @@ class PostValidator extends AbstractValidator
         $this->validator->rule('lengthBetween', ['name', 'slug'], 3, 200);
         $this->validator->rule('slug', 'slug');
         $this->validator->rule('subset', 'category_ids', array_keys($categoryIds));
+        $this->validator->rule('image', 'image');
         $this->validator->rule(function ($field, $value) use ($postRepository, $postId) {
              return !$postRepository->exists($field, $value, $postId);
         }, ['slug', 'name'], "Ce valeur est deja utilise");

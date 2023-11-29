@@ -1,6 +1,7 @@
-<form action="" method="POST">
+<form action="" method="POST" enctype="multipart/form-data">
     <?= $form->input('name', 'Titre') ?>
     <?= $form->input('slug', 'URL') ?>
+    <?= $form->file('image', 'Image a la une') ?>
     <?= $form->select('category_ids', 'Categories', $categories) ?>
     <?= $form->textarea('content', 'Contenu') ?>
     <?= $form->input('created_at', 'Date de publication') ?>

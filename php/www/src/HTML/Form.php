@@ -33,7 +33,12 @@ class Form
       }
 
 
-
+    /**
+     * @param string $key
+     * @param string $label
+     * @param string $type
+     * @return string
+     */
       public function input(string $key, string $label, string $type = 'text'): string
       {
            $value = $this->getValue($key);
@@ -49,6 +54,25 @@ HTML;
       }
 
 
+
+    public function file(string $key, string $label): string
+    {
+        return <<<HTML
+               <div class="form-group">
+                 <label for="field{$key}">$label</label>
+                 <input type="file"  id="field{$key}" class="{$this->getInputClass($key)}" name="{$key}">
+                 {$this->getErrorFeedback($key)}
+              </div>
+HTML;
+
+    }
+
+
+    /**
+     * @param string $key
+     * @param string $label
+     * @return string
+     */
       public function textarea(string $key, string $label): string
       {
           $value = $this->getValue($key);
@@ -62,8 +86,12 @@ HTML;
       }
 
 
-
-
+    /**
+     * @param string $key
+     * @param string $label
+     * @param array $options
+     * @return string
+     */
       public function select(string $key, string $label, array $options = []): string
       {
           $value = $this->getValue($key);
