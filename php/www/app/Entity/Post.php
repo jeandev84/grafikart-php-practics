@@ -204,17 +204,19 @@ class Post
     }
 
 
-
-
     /**
-     * @param string|null $image
+     * @param array|string $image
      *
      * @return $this
     */
-    public function setImage($image): self
+    public function setImage(array|string $image): self
     {
         if (is_array($image) && !empty($image['tmp_name'])) {
              $this->image = $image['tmp_name'];
+        }
+
+        if (is_string($image) && !empty($image)) {
+            $this->image = $image;
         }
 
         return $this;

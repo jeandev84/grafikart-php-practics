@@ -30,7 +30,7 @@ class PostAttachment
                mkdir($directory, 0777, true);
            }
 
-           $filename = uniqid() .'.jpg';
+           $filename = uniqid("", true) .'.jpg';
            move_uploaded_file($image, $directory . DIRECTORY_SEPARATOR . $filename);
            $post->setImage($filename);
       }

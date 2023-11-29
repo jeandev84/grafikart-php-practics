@@ -136,6 +136,7 @@ class PostRepository extends ServiceRepository
             'slug' => $post->getSlug(),
             'content' => $post->getContent(),
             'created_at' => $post->getCreatedAt()->format('Y-m-d H:i:s'),
+            'image' => $post->getImage()
         ], $post->getId());
     }
 
