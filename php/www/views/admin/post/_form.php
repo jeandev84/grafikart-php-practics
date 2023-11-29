@@ -7,7 +7,7 @@
         </div>
         <div class="col-md-4">
             <?php if ($post->getImage()): ?>
-                <img src="/uploads/posts/<?= $post->getImage() ?>" alt="" style="width: 100%;">
+                <img src="<?= $post->getImageUrl('small') ?>" alt="" style="width: 100%;">
             <?php endif; ?>
         </div>
     </div>

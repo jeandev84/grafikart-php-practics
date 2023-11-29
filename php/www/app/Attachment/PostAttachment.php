@@ -50,7 +50,9 @@ class PostAttachment
                    ->save($directory . DIRECTORY_SEPARATOR . $filename . "_small.jpg");
 
           $manager->make($image)
-                  ->fit(1280)
+                  ->resize(1280, null, function ($constraint) {
+                       $constraint->aspectRatio();
+                  })
                  ->save($directory . DIRECTORY_SEPARATOR . $filename . "_large.jpg");
 
            $post->setImage($filename);

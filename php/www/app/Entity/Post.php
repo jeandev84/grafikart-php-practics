@@ -207,6 +207,24 @@ class Post
 
 
     /**
+     * @param string $format
+     *
+     * @return string|null
+     */
+    public function getImageUrl(string $format): ?string
+    {
+        if (empty($this->image)) {
+             return null;
+        }
+
+        return sprintf('/uploads/posts/%s_%s.jpg', $this->image, $format);
+    }
+
+
+
+
+
+    /**
      * @param array|string $image
      *
      * @return $this

@@ -28,6 +28,11 @@ foreach ($item->getCategories() as $k => $category):
 ?>
 <a href="<?=  $categoryURL ?>"><?= e($category->getName()) ?></a>
 <?php endforeach; ?>
+
+<?php if ($post->getImage()): ?>
+    <img src="<?= $post->getImageUrl('large') ?>" class="card-img-top" alt="<?= $post->getName()?>">
+<?php endif; ?>
+
 <p><?= $item->getFormattedContent() ?></p>
 
 

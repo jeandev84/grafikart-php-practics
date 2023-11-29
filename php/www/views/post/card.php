@@ -6,6 +6,9 @@ $categories = array_map(function (\App\Entity\Category $category) use ($router) 
 
 ?>
 <div class="card mb-3">
+    <?php if ($post->getImage()): ?>
+        <img src="<?= $post->getImageUrl('small') ?>" class="card-img-top" alt="<?= $post->getName()?>">
+    <?php endif; ?>
     <div class="card-body">
         <h5 class="card-title"><?= htmlentities($post->getName()) ?></h5>
         <p class="text-muted">
