@@ -7,6 +7,19 @@ $connection = \App\Helpers\Connection::make();
 $errors  = [];
 $post    = new \App\Entity\Post();
 
+/*
+$post->setName('New article for developer')
+     ->setSlug('new-article-for-developer')
+     ->setContent('lorem psum ...');
+
+$rc = new ReflectionClass($post);
+$data = [];
+foreach($rc->getProperties() as $property) {
+    $data[$property->getName()] = $property->getValue($post);
+}
+dd($data);
+*/
+
 $categoryRepository = new \App\Repository\CategoryRepository($connection);
 $categories = $categoryRepository->list();
 $categoryRepository->hydratePosts([$post]);
