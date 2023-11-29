@@ -145,6 +145,25 @@ class EntityRepository implements EntityRepositoryIInterface
 
 
 
+
+    public function findBy(array $criteria, array $orderBy = [], int $limit = 0, int $offset = 0): mixed
+    {
+         return [];
+    }
+
+
+
+
+    public function queryAndFetchAll(string $sql)
+    {
+         return $this->connection->query($sql)
+                                 ->map($this->classname)
+                                 ->fetch()
+                                 ->all();
+    }
+
+
+
     public function getClassName(): string
     {
        return $this->classname;

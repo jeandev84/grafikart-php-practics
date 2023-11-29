@@ -33,6 +33,14 @@ class CategoryRepository extends ServiceRepository
 
 
 
+    public function findAll(): array
+    {
+        return $this->queryAndFetchAll("SELECT * FROM {$this->tableName} ORDER BY id DESC");
+    }
+
+
+
+
     /**
      * @param int $postId
      *

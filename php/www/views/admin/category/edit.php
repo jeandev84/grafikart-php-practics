@@ -11,7 +11,7 @@ $item = $repository->find($params['id']);
 
 $success = false;
 $errors = [];
-$fields = ['name', 'content', 'slug', 'created_at'];
+$fields = ['name', 'slug'];
 
 if ($request->isMethod('POST')) {
     $validator = new \App\Validators\CategoryValidator($request->request->all(), $repository, $item->getId());
