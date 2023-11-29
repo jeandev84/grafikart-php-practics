@@ -2,13 +2,12 @@
 
 \App\Security\Auth::check();
 
-# $router->layout = "admin/layouts/default";
-$title = "Administration";
+$title = "Gestion des categories";
 $connection = \App\Helpers\Connection::make();
 $request    = \Grafikart\Http\Request\Request::createFromGlobals();
 $repository = new \App\Repository\CategoryRepository($connection);
-[$posts, $pagination] = $repository->findPaginated();
-$link = $router->url('admin.posts');
+$items  = $repository->findAll();
+$link = $router->url('admin.categories');
 ?>
 
 <?php if ($request->queries->has('delete')): ?>
@@ -21,23 +20,24 @@ $link = $router->url('admin.posts');
         <tr>
             <th>#</th>
             <th>Titre</th>
-            <th><a href="<?= $router->url('admin.post.new') ?>" class="btn btn-primary">Nouveau</a></th>
+            <th>URL</th>
+            <th><a href="<?= $router->url('admin.category.new') ?>" class="btn btn-primary">Nouveau</a></th>
         </tr>
     </thead>
     <tbody>
-       <?php foreach ($posts as $post): ?>
+       <?php foreach ($items as $item): ?>
         <tr>
-            <td>#<?= $post->getId() ?></td>
+            <td>#<?= $item->getId() ?></td>
             <td>
-                <a href="<?= $router->url('admin.post', ['id' => $post->getId()]) ?>">
-                    <?= e($post->getName()) ?>
+                <a href="<?= $router->url('admin.category', ['id' => $item->getId()]) ?>">
+                    <?= e($item->getName()) ?>
                 </a>
             </td>
             <td>
-                <a href="<?= $router->url('admin.post', ['id' => $post->getId()]) ?>" class="btn btn-primary">
+                <a href="<?= $router->url('admin.category', ['id' => $item->getId()]) ?>" class="btn btn-primary">
                     Editer
                 </a>
-                <form action="<?= $router->url('admin.post.delete', ['id' => $post->getId()]) ?>"
+                <form action="<?= $router->url('admin.category.delete', ['id' => $item->getId()]) ?>"
                       method="POST"
                       onsubmit="return confirm('Voulez-vous vraiment effectuee cette action')" style="display: inline;">
                        <button type="submit" class="btn btn-danger">Supprimer</button>

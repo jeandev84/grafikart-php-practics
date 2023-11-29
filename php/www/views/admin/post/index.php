@@ -6,8 +6,8 @@
 $title = "Administration";
 $connection = \App\Helpers\Connection::make();
 $request    = \Grafikart\Http\Request\Request::createFromGlobals();
-$postRepository = new \App\Repository\PostRepository($connection);
-[$posts, $pagination] = $postRepository->findPaginated();
+$repository = new \App\Repository\PostRepository($connection);
+[$items, $pagination] = $repository->findPaginated();
 $link = $router->url('admin.posts');
 ?>
 
@@ -25,19 +25,19 @@ $link = $router->url('admin.posts');
         </tr>
     </thead>
     <tbody>
-       <?php foreach ($posts as $post): ?>
+       <?php foreach ($items as $item): ?>
         <tr>
-            <td>#<?= $post->getId() ?></td>
+            <td>#<?= $item->getId() ?></td>
             <td>
-                <a href="<?= $router->url('admin.post', ['id' => $post->getId()]) ?>">
-                    <?= e($post->getName()) ?>
+                <a href="<?= $router->url('admin.post', ['id' => $item->getId()]) ?>">
+                    <?= e($item->getName()) ?>
                 </a>
             </td>
             <td>
-                <a href="<?= $router->url('admin.post', ['id' => $post->getId()]) ?>" class="btn btn-primary">
+                <a href="<?= $router->url('admin.post', ['id' => $item->getId()]) ?>" class="btn btn-primary">
                     Editer
                 </a>
-                <form action="<?= $router->url('admin.post.delete', ['id' => $post->getId()]) ?>"
+                <form action="<?= $router->url('admin.post.delete', ['id' => $item->getId()]) ?>"
                       method="POST"
                       onsubmit="return confirm('Voulez-vous vraiment effectuee cette action')" style="display: inline;">
                        <button type="submit" class="btn btn-danger">Supprimer</button>

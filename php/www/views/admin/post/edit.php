@@ -6,27 +6,27 @@ $connection = \App\Helpers\Connection::make();
 $request    = \Grafikart\Http\Request\Request::createFromGlobals();
 $repository = new \App\Repository\PostRepository($connection);
 
-/** @var \App\Entity\Post $post */
-$post = $repository->find($params['id']);
+/** @var \App\Entity\Post $item */
+$item = $repository->find($params['id']);
 
 $success = false;
 $errors = [];
 
 if ($request->isMethod('POST')) {
-    $validator = new \App\Validators\PostValidator($request->request->all(), $repository, $post->getId());
-    \Grafikart\Helpers\ObjectHelper::hydrate($post, $request->request->all(), [
+    $validator = new \App\Validators\PostValidator($request->request->all(), $repository, $item->getId());
+    \Grafikart\Helpers\ObjectHelper::hydrate($item, $request->request->all(), [
         'name', 'content', 'slug', 'created_at'
     ]);
 
     if ($validator->validate()) {
-        $repository->update($post);
+        $repository->update($item);
         $success = true;
     } else {
         $errors = $validator->errors();
     }
 }
 
-$form = new \Grafikart\HTML\Form($post, $errors);
+$form = new \Grafikart\HTML\Form($item, $errors);
 ?>
 
 <?php if ($success): ?>
@@ -48,6 +48,6 @@ $form = new \Grafikart\HTML\Form($post, $errors);
     </div>
 <?php endif; ?>
 
-<h1>Editer l'article <?= e($post->getName()) ?></h1>
+<h1>Editer l'article <?= e($item->getName()) ?></h1>
 
 <?php require '_form.php';

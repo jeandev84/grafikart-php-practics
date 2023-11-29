@@ -2,8 +2,8 @@
 $connection = \App\Helpers\Connection::make();
 
 \App\Security\Auth::check();
-$postRepository = new \App\Repository\PostRepository($connection);
-$postRepository->delete($params['id']);
+$repository = new \App\Repository\PostRepository($connection);
+$repository->delete($params['id']);
 
 $url = $router->url('admin.posts') . "?delete=1";
 header("Location: $url");

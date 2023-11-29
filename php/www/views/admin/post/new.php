@@ -5,28 +5,27 @@
 $request    = \Grafikart\Http\Request\Request::createFromGlobals();
 
 $errors  = [];
-$post    = new \App\Entity\Post();
-$post->setCreatedAt(date('Y-m-d H:i:s'));
+$item    = new \App\Entity\Post();
+$item->setCreatedAt(date('Y-m-d H:i:s'));
+$fields = ['name', 'content', 'slug', 'created_at'];
 
 if ($request->isMethod('POST')) {
     $connection = \App\Helpers\Connection::make();
-    $postRepository = new \App\Repository\PostRepository($connection);
+    $repository = new \App\Repository\PostRepository($connection);
 
-    $validator = new \App\Validators\PostValidator($request->request->all(), $postRepository, $post->getId());
-    \Grafikart\Helpers\ObjectHelper::hydrate($post, $request->request->all(), [
-        'name', 'content', 'slug', 'created_at'
-    ]);
+    $validator = new \App\Validators\PostValidator($request->request->all(), $repository, $item->getId());
+    \Grafikart\Helpers\ObjectHelper::hydrate($item, $request->request->all(), $fields);
 
     if ($validator->validate()) {
-        $postRepository->create($post);
-        header('Location: '. $router->url('admin.post', ['id' => $post->getId()]) . '?created=1');
+        $repository->create($item);
+        header('Location: '. $router->url('admin.post', ['id' => $item->getId()]) . '?created=1');
         exit;
     } else {
         $errors = $validator->errors();
     }
 }
 
-$form = new \Grafikart\HTML\Form($post, $errors);
+$form = new \Grafikart\HTML\Form($item, $errors);
 ?>
 
 <?php if ($errors): ?>
