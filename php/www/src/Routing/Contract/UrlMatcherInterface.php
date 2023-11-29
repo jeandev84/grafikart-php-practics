@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Grafikart\Routing;
+namespace Grafikart\Routing\Contract;
 
 
 /**
@@ -11,7 +11,7 @@ namespace Grafikart\Routing;
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
- * @package Grafikart\Routing
+ * @package Grafikart\Routing\Contract
  */
 interface UrlMatcherInterface
 {

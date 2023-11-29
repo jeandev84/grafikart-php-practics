@@ -151,8 +151,14 @@ class Router
          */
 
          $match  = $this->router->match();
-         $view   = $match['target'];
-         $params = $match['params'];
+         $view   = 'errors/404';
+         $params = [];
+
+         if ($match) {
+             $view   = $match['target'];
+             $params = $match['params'];
+         }
+
          $router = $this;
          $isAdmin = strpos($view, 'admin/') !== false;
          $layout  = $isAdmin ? '/admin/layouts/default' : 'layouts/default';

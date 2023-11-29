@@ -33,7 +33,7 @@
 </nav>
 
 <div class="container mt-4">
-    <!--  { content }} -->
+    <!--  {{ content }} -->
     <?= $content ?>
 </div>
 
