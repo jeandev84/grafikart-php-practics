@@ -2,22 +2,22 @@
 $categories = array_map(function (\App\Entity\Category $category) use ($router) {
     $url = $router->url('category', ['id' => $category->getId(), 'slug' => $category->getSlug()]);
     return sprintf('<a href="%s">%s</a>', $url, $category->getName());
-}, $post->getCategories());
+}, $category->getCategories());
 
 ?>
 <div class="card mb-3">
     <div class="card-body">
-        <h5 class="card-title"><?= htmlentities($post->getName()) ?></h5>
+        <h5 class="card-title"><?= htmlentities($category->getName()) ?></h5>
         <p class="text-muted">
-            <?= $post->getCreatedAt()->format('d F Y') ?> ::
-            <?php if (! empty($post->getCategories())): ?>
+            <?= $category->getCreatedAt()->format('d F Y') ?> ::
+            <?php if (! empty($category->getCategories())): ?>
             ::
             <?= implode(', ', $categories) ?>
             <?php endif; ?>
         </p>
-        <p><?= $post->getExcerpt() ?></p>
+        <p><?= $category->getExcerpt() ?></p>
         <p>
-            <a href="<?= $router->url('post', ['slug' => $post->getSlug(), 'id' => $post->getId()]) ?>" class="btn btn-primary">Voir plus</a>
+            <a href="<?= $router->url('post', ['slug' => $category->getSlug(), 'id' => $category->getId()]) ?>" class="btn btn-primary">Voir plus</a>
         </p>
     </div>
 </div>

@@ -1,7 +1,6 @@
 <?php
 
 \App\Security\Auth::check();
-
 $request    = \Grafikart\Http\Request\Request::createFromGlobals();
 
 $errors  = [];

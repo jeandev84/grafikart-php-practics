@@ -132,18 +132,16 @@ class PostRepository extends ServiceRepository
     public function update(Post $post): void
     {
         $id = $post->getId();
-        $sql = "UPDATE {$this->tableName} 
-                SET name = :name, slug = :slug, created_at = :created, content = :content
-                WHERE id = :id";
+        $sql = "UPDATE {$this->tableName} SET name = :name, slug = :slug, created_at = :created, content = :content WHERE id = :id";
         $executed = $this->connection->statement($sql)
-            ->setParameters([
-                'id' => $id,
-                'name' => $post->getName(),
-                'slug' => $post->getSlug(),
-                'content' => $post->getContent(),
-                'created' => $post->getCreatedAt()->format('Y-m-d H:i:s'),
-            ])
-            ->execute();
+                                     ->setParameters([
+                                        'id' => $id,
+                                        'name' => $post->getName(),
+                                        'slug' => $post->getSlug(),
+                                        'content' => $post->getContent(),
+                                        'created' => $post->getCreatedAt()->format('Y-m-d H:i:s'),
+                                    ])
+                                    ->execute();
 
         if (! $executed) {
             throw new Exception("Impossible de modifier l' enregistrement $id dans table $this->tableName");

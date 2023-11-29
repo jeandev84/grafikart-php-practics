@@ -15,6 +15,9 @@
         <li class="nav-item">
             <a href="<?= $router->url('admin.posts') ?>" class="nav-link">Articles</a>
         </li>
+        <li class="nav-item">
+            <a href="<?= $router->url('admin.categories') ?>" class="nav-link">Categories</a>
+        </li>
     </ul>
 </nav>
 

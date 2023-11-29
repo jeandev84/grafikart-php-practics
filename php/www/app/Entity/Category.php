@@ -15,10 +15,10 @@ namespace App\Entity;
  */
 class Category
 {
-      protected ?int $id;
-      protected ?string $name;
-      protected ?string $slug;
-      protected ?int $post_id;
+      protected ?int $id = null;
+      protected ?string $name = null;
+      protected ?string $slug = null;
+      protected ?int $post_id = null;
       protected ?Post $post = null;
 
 

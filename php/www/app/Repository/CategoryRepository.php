@@ -100,6 +100,26 @@ class CategoryRepository extends ServiceRepository
 
 
 
+    public function update(Category $category)
+    {
+        $id = $category->getId();
+        $sql = "UPDATE {$this->tableName} SET name = :name, slug = :slug WHERE id = :id";
+        $executed = $this->connection->statement($sql)
+                         ->setParameters([
+                            'id' => $id,
+                            'name' => $category->getName(),
+                            'slug' => $category->getSlug()
+                        ])
+                        ->execute();
+
+        if (! $executed) {
+            throw new Exception("Impossible de modifier l' enregistrement $id dans table $this->tableName");
+        }
+    }
+
+
+
+
     public function countById(int $id)
     {
         return (int)$this->connection
