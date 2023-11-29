@@ -34,14 +34,14 @@ class Form
 
 
 
-      public function input(string $key, string $label): string
+      public function input(string $key, string $label, string $type = 'text'): string
       {
            $value = $this->getValue($key);
 
            return <<<HTML
                <div class="form-group">
                  <label for="field{$key}">$label</label>
-                 <input type="text"  id="field{$key}" class="{$this->getInputClass($key)}" name="{$key}" value="{$value}">
+                 <input type="$type"  id="field{$key}" class="{$this->getInputClass($key)}" name="{$key}" value="{$value}">
                  {$this->getErrorFeedback($key)}
               </div>
 HTML;
@@ -126,6 +126,9 @@ HTML;
           if (! isset($this->errors[$key])) {
               return '';
           }
-          return '<div class="invalid-feedback">'. join('<br>', $this->errors[$key]).'</div>';;
+
+          $errorMessages = is_array($this->errors[$key]) ? join('<br>', $this->errors[$key]) : $this->errors[$key];
+
+          return '<div class="invalid-feedback">'. $errorMessages.'</div>';;
       }
 }
