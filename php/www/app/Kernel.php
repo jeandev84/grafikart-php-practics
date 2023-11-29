@@ -30,12 +30,12 @@ class Kernel extends HttpKernel implements Terminable
     public function __construct(Container $container)
     {
         $this->container = $container;
-        $this->registerProviders();
+        $this->loadProviders();
     }
 
 
 
-    public function registerProviders(): void
+    public function loadProviders(): void
     {
         $this->container->addProvider(new WhoopsServiceProvider())
                         ->addProvider(new RouteServiceProvider($this->routePath()));

@@ -6,6 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?= isset($title) ? e($title) : 'Mon site' ?></title>
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <style>
+        .btn_disconnect {
+            background: transparent;
+            border: none;
+        }
+    </style>
 </head>
 <body class="d-flex flex-column h-100">
 
@@ -17,6 +23,11 @@
         </li>
         <li class="nav-item">
             <a href="<?= $router->url('admin.categories') ?>" class="nav-link">Categories</a>
+        </li>
+        <li class="nav-item">
+            <form action="<?= $router->url('logout') ?>" method="post" style="display: inline">
+               <button type="submit" class="nav-link btn_disconnect">Se deconnecter</button>
+            </form>
         </li>
     </ul>
 </nav>

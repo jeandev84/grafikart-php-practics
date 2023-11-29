@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Middleware;
 
 
+use Grafikart\Http\Middleware\MiddlewareInterface;
 use Grafikart\Http\Request\Request;
 
 /**
@@ -15,7 +16,7 @@ use Grafikart\Http\Request\Request;
  *
  * @package App\Middleware
  */
-class RefreshQueryParams
+class RefreshQueryParams implements MiddlewareInterface
 {
 
        public function handle(Request $request, callable $next): mixed

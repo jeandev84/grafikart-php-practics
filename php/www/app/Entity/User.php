@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 
+use Grafikart\Security\UserInterface;
+
 /**
  * Created by PhpStorm at 29.11.2023
  *
@@ -13,13 +15,13 @@ namespace App\Entity;
  *
  * @package App\Entity
  */
-class User
+class User implements UserInterface
 {
 
      protected ?int $id = null;
      protected ?string $username = null;
      protected ?string $password = null;
-
+     protected array $roles = [];
 
     /**
      * @return int|null
@@ -74,5 +76,20 @@ class User
         $this->password = $password;
 
         return $this;
+    }
+
+    public function getRoles(): array
+    {
+         return $this->roles;
+    }
+
+    public function getIdentifier(): mixed
+    {
+        return $this->username;
+    }
+
+    public function getSalt(): string
+    {
+         return '';
     }
 }

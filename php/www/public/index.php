@@ -2,6 +2,8 @@
 
 require __DIR__.'/../vendor/autoload.php';
 
+session_start();
+
 define('DEBUG_TIME', microtime(true));
 
 $container = new Grafikart\Container\Container();
