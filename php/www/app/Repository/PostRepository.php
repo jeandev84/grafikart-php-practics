@@ -126,4 +126,32 @@ class PostRepository extends ServiceRepository
                           ->fetch()
                           ->nums()[0];
      }
+
+
+
+    public function updatePost(Post $post): bool
+    {
+        return $this->update([
+            'name' => $post->getName(),
+            'slug' => $post->getSlug(),
+            'content' => $post->getContent(),
+            'created_at' => $post->getCreatedAt()->format('Y-m-d H:i:s'),
+        ], $post->getId());
+    }
+
+
+
+
+    public function createPost(Post $post): int
+    {
+        $id = $this->create([
+            'name' => $post->getName(),
+            'slug' => $post->getSlug(),
+            'content' => $post->getContent(),
+            'created_at' => $post->getCreatedAt()->format('Y-m-d H:i:s'),
+        ]);
+
+        $post->setId($id);
+        return $id;
+    }
 }

@@ -19,12 +19,7 @@ if ($request->isMethod('POST')) {
     ]);
 
     if ($validator->validate()) {
-        $repository->update([
-            'name' => $item->getName(),
-            'slug' => $item->getSlug(),
-            'content' => $item->getContent(),
-            'created' => $item->getCreatedAt()->format('Y-m-d H:i:s'),
-        ], $item->getId());
+        $repository->updatePost($item);
         $success = true;
     } else {
         $errors = $validator->errors();

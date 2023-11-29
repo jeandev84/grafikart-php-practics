@@ -33,6 +33,7 @@ $link = $router->url('admin.categories');
                     <?= e($item->getName()) ?>
                 </a>
             </td>
+            <td><?= e($item->getSlug()) ?></td>
             <td>
                 <a href="<?= $router->url('admin.category', ['id' => $item->getId()]) ?>" class="btn btn-primary">
                     Editer
