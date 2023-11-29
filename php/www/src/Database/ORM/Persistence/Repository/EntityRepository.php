@@ -69,18 +69,6 @@ class EntityRepository implements EntityRepositoryIInterface
 
 
 
-    public function delete(int $id): void
-    {
-         $executed = $this->connection->statement("DELETE FROM {$this->tableName} WHERE id = :id")
-                          ->setParameters(compact('id'))
-                          ->execute();
-
-         if (! $executed) {
-              throw new Exception("Could not delete the record with id#$id in the table $this->tableName");
-         }
-    }
-
-
     /**
      * Verifie si une valeur existe dans la table
      * @param string $field
@@ -99,6 +87,60 @@ class EntityRepository implements EntityRepositoryIInterface
         $query = $this->connection->statement($sql)->setParameters($params);
 
         return (int)$query->fetch()->nums()[0] > 0;
+    }
+
+
+
+
+    public function delete(int $id): void
+    {
+        $executed = $this->connection->statement("DELETE FROM {$this->tableName} WHERE id = :id")
+            ->setParameters(compact('id'))
+            ->execute();
+
+        if (! $executed) {
+            throw new Exception("Could not delete the record with id#$id in the table $this->tableName");
+        }
+    }
+
+
+
+
+    public function create(array $data): int
+    {
+        $sqlFields = [];
+        foreach ($data as $key => $value) {
+            $sqlFields[] = "$key = :$key";
+        }
+
+        $sql      = "INSERT INTO {$this->tableName} SET ". implode(', ', $sqlFields);
+        $executed = $this->connection->statement($sql)->setParameters($data)->execute();
+
+        if (! $executed) {
+            throw new Exception("Impossible de creer l' enregistrement dans table $this->tableName");
+        }
+
+
+        return $this->connection->lastInsertId();
+    }
+
+
+
+    public function update(array $data, int $id): bool
+    {
+        $sqlFields = [];
+        foreach ($data as $key => $value) {
+            $sqlFields[] = "$key = :$key";
+        }
+
+        $sql = "UPDATE {$this->tableName} SET ". implode(', ', $sqlFields) ." WHERE id = :id";
+        $executed = $this->connection->statement($sql)->setParameters(array_merge($data, compact('id')))->execute();
+
+        if (! $executed) {
+            throw new Exception("Impossible de modifier l' enregistrement $id dans table $this->tableName");
+        }
+
+        return true;
     }
 
 

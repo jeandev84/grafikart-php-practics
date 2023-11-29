@@ -12,7 +12,7 @@ try {
     $pdo->exec('UPDATE posts SET name = "demo" WHERE id = 3');
     $pdo->exec('UPDATE posts SET content = "demo" WHERE id = 3');
     $pdo->commit();
-    $post = $pdo->query('SELECT * FROM posts WHERE id = 3')->fetch();
+    $item = $pdo->query('SELECT * FROM posts WHERE id = 3')->fetch();
 } catch (PDOException $exception) {
     $pdo->rollBack();
 }

@@ -17,7 +17,12 @@ if ($request->isMethod('POST')) {
     \Grafikart\Helpers\ObjectHelper::hydrate($item, $request->request->all(), $fields);
 
     if ($validator->validate()) {
-        $repository->create($item);
+        $repository->create([
+            'name' => $item->getName(),
+            'slug' => $item->getSlug(),
+            'content' => $item->getContent(),
+            'created' => $item->getCreatedAt()->format('Y-m-d H:i:s')
+        ]);
         header('Location: '. $router->url('admin.post', ['id' => $item->getId()]) . '?created=1');
         exit;
     } else {

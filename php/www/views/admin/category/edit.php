@@ -18,7 +18,10 @@ if ($request->isMethod('POST')) {
     \Grafikart\Helpers\ObjectHelper::hydrate($item, $request->request->all(), $fields);
 
     if ($validator->validate()) {
-        $repository->update($item);
+        $repository->update([
+            'name' => $item->getName(),
+            'slug' => $item->getSlug()
+        ], $item->getId());
         $success = true;
     } else {
         $errors = $validator->errors();
@@ -30,23 +33,23 @@ $form = new \Grafikart\HTML\Form($item, $errors);
 
 <?php if ($success): ?>
 <div class="alert alert-success">
-    L' article a bien ete modifiee
+    La categorie a bien ete modifiee
 </div>
 <?php endif; ?>
 
 <?php if ($request->queries->has('created')): ?>
     <div class="alert alert-success">
-        L' article a bien ete cree
+        La categorie a bien ete cree
     </div>
 <?php endif; ?>
 
 
 <?php if ($errors): ?>
     <div class="alert alert-danger">
-        L' article n'a pas pu etre modifier, merci de corriger vos errors
+        La categorie n'a pas pu etre modifier, merci de corriger vos errors
     </div>
 <?php endif; ?>
 
-<h1>Editer l'article <?= e($item->getName()) ?></h1>
+<h1>Editer la categorie <?= e($item->getName()) ?></h1>
 
 <?php require '_form.php';
