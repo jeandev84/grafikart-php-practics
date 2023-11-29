@@ -12,6 +12,9 @@ Creer un blog avec un systeme de categorie
 
 ## Upload Images
 
+https://image.intervention.io/v2 : ( composer require intervention/image )
+
+
 - Ajouter un champs sur le formulaire
 - Valider le fichier envoye par l' utilisateur
 - Sauvegarder le fichier sur le serveur

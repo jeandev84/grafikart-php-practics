@@ -5,6 +5,7 @@ namespace App\Attachment;
 
 
 use App\Entity\Post;
+use Intervention\Image\ImageManager;
 
 /**
  * Created by PhpStorm at 29.11.2023
@@ -30,14 +31,36 @@ class PostAttachment
            }
 
            if (!empty($post->getOldImage())) {
-                 $oldFile = $directory . DIRECTORY_SEPARATOR . $post->getOldImage();
-                 if (file_exists($oldFile)) {
-                     unlink($oldFile);
+                 $formats = ['small', 'large'];
+                 foreach ($formats as $format) {
+                     $oldFile = $directory . DIRECTORY_SEPARATOR . $post->getOldImage() . "_" . $format . ".jpg";
+                     if (file_exists($oldFile)) {
+                         unlink($oldFile);
+                     }
                  }
            }
 
-           $filename = uniqid("", true) .'.jpg';
-           move_uploaded_file($image, $directory . DIRECTORY_SEPARATOR . $filename);
+           # $filename = uniqid("", true) .'.jpg';
+           $filename = uniqid("", true);
+
+           // driver: [imagik / gd ]
+           $manager = new ImageManager(['driver' => 'gd']);
+           $manager->make($image)
+                   ->fit(350, 200)
+                   ->save($directory . DIRECTORY_SEPARATOR . $filename . "_small.jpg");
+
+          $manager->make($image)
+                  ->fit(1280)
+                 ->save($directory . DIRECTORY_SEPARATOR . $filename . "_large.jpg");
+
            $post->setImage($filename);
+      }
+
+
+
+
+      public function move(string $target, string $filename): bool
+      {
+           return move_uploaded_file($target, $filename);
       }
 }
