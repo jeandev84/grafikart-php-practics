@@ -30,6 +30,13 @@ abstract class AbstractValidator
     }
 
 
+
+    public function getRules()
+    {
+        return [];
+    }
+
+
     public function validate(): bool
     {
         return $this->validator->validate();

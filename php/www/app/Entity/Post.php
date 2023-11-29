@@ -177,4 +177,17 @@ class Post
 
         return $ids;
     }
+
+
+    /**
+     * @param Category[] $categories
+     *
+     * @return $this
+    */
+    public function setCategories(array $categories): self
+    {
+        $this->categories = $categories;
+
+        return $this;
+    }
 }

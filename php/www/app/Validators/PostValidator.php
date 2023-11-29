@@ -22,12 +22,13 @@ class PostValidator extends AbstractValidator
     protected array $data;
     protected JanValidator $validator;
 
-    public function __construct(array $data, PostRepository $postRepository, ?int $postId = null)
+    public function __construct(array $data, PostRepository $postRepository, ?int $postId = null, array $categoryIds = [])
     {
         parent::__construct($data);
         $this->validator->rule('required', ['name', 'slug']);
         $this->validator->rule('lengthBetween', ['name', 'slug'], 3, 200);
         $this->validator->rule('slug', 'slug');
+        $this->validator->rule('subset', 'category_ids', array_keys($categoryIds));
         $this->validator->rule(function ($field, $value) use ($postRepository, $postId) {
              return !$postRepository->exists($field, $value, $postId);
         }, ['slug', 'name'], "Ce valeur est deja utilise");

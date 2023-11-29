@@ -77,9 +77,7 @@ class CategoryRepository extends ServiceRepository
 
         return $this->connection->statement($sql)
                                 ->map($this->classname)
-                                ->setParameters([
-                                  'ids' => join(',', $ids)
-                                ])
+                                ->setParameters(['ids' => join(',', $ids)])
                                 ->fetch()
                                 ->all();
     }
@@ -94,6 +92,7 @@ class CategoryRepository extends ServiceRepository
     {
         $postsByID = [];
         foreach ($posts as $post) {
+            $post->setCategories([]);
             $postsByID[$post->getId()] = $post;
         }
 
@@ -106,7 +105,7 @@ class CategoryRepository extends ServiceRepository
 
 
 
-    public function listCategories(): array
+    public function list(): array
     {
         $items = [];
         $categories = $this->queryAndFetchAll("SELECT * FROM {$this->tableName} ORDER BY name DESC");

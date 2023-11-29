@@ -6,9 +6,8 @@ $connection = \App\Helpers\Connection::make();
 $request    = \Grafikart\Http\Request\Request::createFromGlobals();
 
 $categoryRepository = new \App\Repository\CategoryRepository($connection);
-$categories         = $categoryRepository->listCategories();
+$categories         = $categoryRepository->list();
 $postRepository     = new \App\Repository\PostRepository($connection);
-
 /** @var \App\Entity\Post $post */
 $post = $postRepository->find($params['id']);
 $categoryRepository->hydratePosts([$post]);
@@ -16,13 +15,14 @@ $success = false;
 $errors = [];
 
 if ($request->isMethod('POST')) {
-    $validator = new \App\Validators\PostValidator($request->request->all(), $postRepository, $post->getId());
+    $validator = new \App\Validators\PostValidator($request->request->all(), $postRepository, $post->getId(), $categories);
     \Grafikart\Helpers\ObjectHelper::hydrate($post, $request->request->all(), [
         'name', 'content', 'slug', 'created_at'
     ]);
 
     if ($validator->validate()) {
-        $postRepository->updatePost($post);
+        $postRepository->updatePost($post, $request->request->get('category_ids'));
+        $categoryRepository->hydratePosts([$post]); // mise ajour
         $success = true;
     } else {
         $errors = $validator->errors();
