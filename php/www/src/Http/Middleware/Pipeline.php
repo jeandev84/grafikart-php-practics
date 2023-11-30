@@ -17,8 +17,12 @@ use Grafikart\Http\Request\Request;
  */
 class Pipeline
 {
+       private  $start;
+
+
        public function __construct()
        {
+           $this->start = function (Request $request, callable $next) {};
        }
 
 
