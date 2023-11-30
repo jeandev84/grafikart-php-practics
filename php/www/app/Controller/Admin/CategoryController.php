@@ -27,14 +27,11 @@ class CategoryController extends AdminController
         # Middleware
         \App\Security\Auth::check();
 
-        $title = "Gestion des categories";
-        $connection = \App\Helpers\Connection::make();
-        $request    = \Grafikart\Http\Request\Request::createFromGlobals();
-        $repository = new \App\Repository\CategoryRepository($connection);
+        $repository = new \App\Repository\CategoryRepository($this->getConnection());
         $categories  = $repository->findAll();
 
         return $this->render('admin/category/index', [
-            'title' => 'Administration',
+            'title' => 'Gestion des categories',
             'categories' => $categories,
             'delete' => $request->queries->has('delete')
         ]);
