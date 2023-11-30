@@ -45,14 +45,14 @@ class Router
 
      /**
       * @param string $url
-      * @param string $view
+      * @param $action
       * @param string|null $name
       * @return $this
       * @throws \Exception
      */
-     public function get(string $url, string $view, ?string $name = null): self
+     public function get(string $url, $action, ?string $name = null): self
      {
-         $this->router->map('GET', $url, $view, $name);
+         $this->router->map('GET', $url, $action, $name);
 
          return $this;
      }
@@ -62,14 +62,14 @@ class Router
 
     /**
      * @param string $url
-     * @param string $view
+     * @param $action
      * @param string|null $name
      * @return $this
      * @throws \Exception
      */
-     public function post(string $url, string $view, ?string $name = null): self
+     public function post(string $url, $action, ?string $name = null): self
      {
-         $this->router->map('POST', $url, $view, $name);
+         $this->router->map('POST', $url, $action, $name);
 
          return $this;
      }
@@ -79,14 +79,31 @@ class Router
 
     /**
      * @param string $url
-     * @param string $view
+     * @param $action
      * @param string|null $name
      * @return $this
      * @throws \Exception
      */
-    public function put(string $url, string $view, ?string $name = null): self
+    public function put(string $url, $action, ?string $name = null): self
     {
-        $this->router->map('PUT', $url, $view, $name);
+        $this->router->map('PUT', $url, $action, $name);
+
+        return $this;
+    }
+
+
+
+
+    /**
+     * @param string $url
+     * @param $action
+     * @param string|null $name
+     * @return $this
+     * @throws \Exception
+     */
+    public function delete(string $url, $action, ?string $name = null): self
+    {
+        $this->router->map('DELETE', $url, $action, $name);
 
         return $this;
     }
@@ -96,37 +113,36 @@ class Router
 
 
     /**
+     * @param string $method
      * @param string $url
-     * @param string $view
+     * @param $action
      * @param string|null $name
      * @return $this
      * @throws \Exception
      */
-    public function delete(string $url, string $view, ?string $name = null): self
+    public function map(string $method, string $url, $action, ?string $name = null): self
     {
-        $this->router->map('DELETE', $url, $view, $name);
+        $this->router->map($method, $url, $action, $name);
 
         return $this;
     }
 
 
-
-    public function map(string $method,string $url, string $view, ?string $name = null): self
-    {
-        $this->router->map($method, $url, $view, $name);
-
-        return $this;
-    }
-
-
-
+    /**
+     * @param string $name
+     * @param array $params
+     * @return string
+     * @throws \Exception
+     */
      public function url(string $name, array $params = []): string
      {
          return $this->router->generate($name, $params);
      }
 
 
-
+    /**
+     * @return array|false
+     */
      public function match(): array|false
      {
          return $this->router->match();

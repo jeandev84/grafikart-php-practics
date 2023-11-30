@@ -78,18 +78,25 @@ class Pipeline
                   $match['name']
                );
 
+               $route->setParams($match['params']);
+               $request->attributes->set('_route', $route);
+               $request->attributes->merge($match['params']);
+
                call_user_func($this->start, $request);
 
-               return $this->dispatchRoute($route);
+               return $this->dispatchRoute($route, $request);
        }
 
 
 
-       private function dispatchRoute(Route $route): Response
+       private function dispatchRoute(Route $route, Request $request): Response
        {
+           $target = $route->getAction();
+           if (is_callable($target)) {
+                return call_user_func_array($target, [$request]);
+           }
 
-           $view = $this->container['view'];
-
-           dd($view);
+           [$controller, $action] = $route->getAction();
+           return call_user_func_array([new $controller($this->container), $action], [$request]);
        }
 }

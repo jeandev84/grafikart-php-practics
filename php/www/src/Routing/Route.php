@@ -15,6 +15,9 @@ namespace Grafikart\Routing;
  */
 class Route
 {
+
+    protected array $params = [];
+
     public function __construct(
         protected string $method,
         protected string $path,
@@ -58,5 +61,28 @@ class Route
     public function getAction(): mixed
     {
         return $this->action;
+    }
+
+
+
+    /**
+     * @param array $params
+     *
+     * @return $this
+     */
+    public function setParams(array $params): self
+    {
+        $this->params = $params;
+
+        return $this;
+    }
+
+
+    /**
+     * @return array
+    */
+    public function getParams(): array
+    {
+        return $this->params;
     }
 }

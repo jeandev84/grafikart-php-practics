@@ -85,7 +85,7 @@ class Kernel extends HttpKernel implements Terminable
     {
          $this->container->bind(Request::class, $request);
 
-         return (new Pipeline($this->container, $this->container[Router::class]))
+         return (new Pipeline($this->container, $this->container['router']))
                 ->middlewares($this->middlewares)
                 ->handle($request);
     }
@@ -93,6 +93,7 @@ class Kernel extends HttpKernel implements Terminable
 
     protected function exceptionResponse(\Exception $e): Response
     {
+        dd($e);
         $code = $e->getCode() ?? 500;
         $content = $this->container['view']->render("errors/$code");
         return new Response($content, $code);

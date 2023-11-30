@@ -1,11 +1,3 @@
-<?php
-$title = 'Mon Blog';
-$connection = \App\Helpers\Connection::make();
-
-$postCategory = new \App\Repository\PostRepository($connection);
-[$posts, $pagination] = $postCategory->findPaginated();
-$link   = $router->url('home');
-?>
 <h1>Mon Blog</h1>
 
 <div class="row">

@@ -30,7 +30,7 @@ class RouteServiceProvider extends ServiceProvider
 
     public function register(Container $container): void
     {
-         $container->bind(Router::class, function () {
+         $container->bind('router', function () {
              $router  = new \Grafikart\Routing\Router();
              require $this->routePath;
              return $router;
