@@ -16,7 +16,7 @@
 <body class="d-flex flex-column h-100">
 
 <nav class="navbar navbar-expand-lg navbar-dark btn-primary">
-    <a href="#" class="navbar-brand">Mon site</a>
+    <a href="<?= $router->url('home') ?>" class="navbar-brand">Mon site</a>
     <ul class="navbar-nav">
         <li class="nav-item">
             <a href="<?= $router->url('admin.posts') ?>" class="nav-link">Articles</a>
@@ -33,8 +33,7 @@
 </nav>
 
 <div class="container mt-4">
-    <!--  {{ content }} -->
-    <?= $content ?>
+    {{ content }}
 </div>
 
 <footer class="bg-light py-4 footer mt-auto">

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 
+use App\Controller\AdminController;
 use Grafikart\AbstractController;
 use Grafikart\Http\Request\Request;
 use Grafikart\Http\Response\RedirectResponse;
@@ -18,8 +19,9 @@ use Grafikart\Http\Response\Response;
  *
  * @package App\Controller\Admin
  */
-class PostController extends AbstractController
+class PostController extends AdminController
 {
+
 
        public function index(Request $request)
        {
