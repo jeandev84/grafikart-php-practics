@@ -112,13 +112,11 @@ class Response
 
     public function sendHeaders(): void
     {
-        /*
         if (headers_sent()) { return; }
         http_response_code($this->status);
         foreach ($this->headers as $name => $value) {
             header("$name: $value");
         }
-        */
     }
 
 

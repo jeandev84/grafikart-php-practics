@@ -5,6 +5,7 @@ namespace Grafikart;
 
 
 use Grafikart\Container\Container;
+use Grafikart\Http\Response\RedirectResponse;
 use Grafikart\Http\Response\Response;
 use Grafikart\Routing\Route;
 use Grafikart\Routing\Router;
@@ -33,7 +34,11 @@ abstract class AbstractController
       }
 
 
-
+      /**
+       * @param string $template
+       * @param array $data
+       * @return Response
+      */
       public function render(string $template, array $data = []): Response
       {
           $view    = $this->container['view'];
@@ -41,5 +46,12 @@ abstract class AbstractController
           $data = array_merge(['router' => $this->container['router']], $data);
           $content = $view->render($template, $data);
           return new Response($content);
+      }
+
+
+
+      public function redirectToRoute(string $name, array $params = []): RedirectResponse
+      {
+          return new RedirectResponse($this->router->url($name, $params), 301);
       }
 }
