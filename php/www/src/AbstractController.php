@@ -52,6 +52,19 @@ abstract class AbstractController
 
       public function redirectToRoute(string $name, array $params = []): RedirectResponse
       {
-          return new RedirectResponse($this->router->url($name, $params), 301);
+          return new RedirectResponse($this->generateRoute($name, $params), 301);
+      }
+
+
+      public function generateRoute(string $name, array $params = []): string
+      {
+          return $this->router->url($name, $params);
+      }
+
+
+
+      protected function getConnection(): Database\Connection\PdoConnection
+      {
+          return \App\Helpers\Connection::make();
       }
 }

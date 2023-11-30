@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 
 
 use Grafikart\AbstractController;
+use Grafikart\Http\Request\Request;
 
 /**
  * Created by PhpStorm at 30.11.2023
@@ -18,10 +19,19 @@ use Grafikart\AbstractController;
 class PostController extends AbstractController
 {
 
-       public function index()
+       public function index(Request $request)
        {
-           return $this->render('admin/post/index', [
+           # Middleware
+           \App\Security\Auth::check();
 
+           $repository = new \App\Repository\PostRepository($this->getConnection());
+           [$items, $pagination] = $repository->findPaginated();
+
+           return $this->render('admin/post/index', [
+               'title' => 'Administration',
+               'items' => $items,
+               'pagination' => $pagination,
+               'link' => $this->generateRoute('admin.posts')
            ]);
        }
 }

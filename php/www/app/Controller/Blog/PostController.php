@@ -34,7 +34,7 @@ class PostController extends AbstractController
                'title' => 'Mon blog',
                'posts' => $posts,
                'pagination' => $pagination,
-               'link' => $this->router->url('home')
+               'link' => $this->generateRoute('home')
            ]);
       }
 
@@ -44,7 +44,8 @@ class PostController extends AbstractController
       {
            $id   = $request->attributes->getInt('id');
            $slug = $request->attributes->get('slug');
-           $connection = \App\Helpers\Connection::make();
+
+           $connection = $this->getConnection();
            $postRepository = new \App\Repository\PostRepository($connection);
            $post = $postRepository->find($id);
            $categoryRepository = new \App\Repository\CategoryRepository($connection);
