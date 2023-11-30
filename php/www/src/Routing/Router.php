@@ -37,10 +37,9 @@ class Router
      # public ?string $layout = "layouts/index";
 
 
-     public function __construct(string $viewPath)
+     public function __construct()
      {
          $this->router   = new AltoRouter();
-         $this->viewPath = $viewPath;
      }
 
 

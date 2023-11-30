@@ -3,13 +3,19 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Middleware\RefreshQueryParams;
+use App\Middleware\SessionMiddleware;
 use App\Providers\RouteServiceProvider;
+use App\Providers\ViewServiceProvider;
 use App\Providers\WhoopsServiceProvider;
 use Grafikart\Container\Container;
 use Grafikart\Http\Contract\Terminable;
 use Grafikart\Http\HttpKernel;
 use Grafikart\Http\Request\Request;
 use Grafikart\Http\Response\Response;
+use Grafikart\Pipeline;
+use Grafikart\Routing\RouteNotfoundException;
+use Grafikart\Routing\Router;
 
 
 /**
@@ -26,6 +32,11 @@ class Kernel extends HttpKernel implements Terminable
 
     protected Container $container;
 
+    protected array $middlewares = [
+        SessionMiddleware::class,
+        RefreshQueryParams::class
+    ];
+
 
     public function __construct(Container $container)
     {
@@ -38,7 +49,8 @@ class Kernel extends HttpKernel implements Terminable
     public function loadProviders(): void
     {
         $this->container->addProvider(new WhoopsServiceProvider())
-                        ->addProvider(new RouteServiceProvider($this->routePath()));
+                        ->addProvider(new RouteServiceProvider($this->routePath()))
+                        ->addProvider(new ViewServiceProvider($this->viewPath()));
     }
 
 
@@ -47,20 +59,45 @@ class Kernel extends HttpKernel implements Terminable
     public function handle(Request $request): Response
     {
         try {
-
+            $response = $this->dispatchRoute($request);
         } catch (\Exception $exception) {
-
+            $response = $this->exceptionResponse($exception);
         }
 
-        return new Response('');
+        return $response;
     }
+
 
 
 
     public function terminate(Request $request, Response $response)
     {
-
+          echo $response;
     }
+
+
+
+
+    /**
+     * @throws RouteNotfoundException
+    */
+    protected function dispatchRoute(Request $request): Response
+    {
+         $this->container->bind(Request::class, $request);
+
+         return (new Pipeline($this->container, $this->container[Router::class]))
+                ->middlewares($this->middlewares)
+                ->handle($request);
+    }
+
+
+    protected function exceptionResponse(\Exception $e): Response
+    {
+        $code = $e->getCode() ?? 500;
+        $content = $this->container['view']->render("errors/$code");
+        return new Response($content, $code);
+    }
+
 
     public function getProjectDir(): string
     {

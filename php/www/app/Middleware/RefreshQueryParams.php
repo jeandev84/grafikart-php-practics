@@ -6,6 +6,7 @@ namespace App\Middleware;
 
 use Grafikart\Http\Middleware\MiddlewareInterface;
 use Grafikart\Http\Request\Request;
+use Grafikart\Http\Response\RedirectResponse;
 
 /**
  * Created by PhpStorm at 29.11.2023
@@ -27,9 +28,7 @@ class RefreshQueryParams implements MiddlewareInterface
              # will be redirect to http://localhost:8000/blog/tutoriels?param2=2
               $request->queries->remove('page');
               $uri = $request->uri($request->queries->all());
-              http_response_code(301);
-              header('Location: '. $uri);
-              exit();
+              return new RedirectResponse($uri, 301);
            }
 
           return $next($request);

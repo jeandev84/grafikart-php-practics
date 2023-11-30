@@ -46,7 +46,9 @@ class Renderer
 
      public function createTemplate(string $path, array $data = []): Template
      {
-         return new Template($this->viewPath . DIRECTORY_SEPARATOR. $path, $data);
+         $path  = sprintf('%s.php', $this->viewPath . DIRECTORY_SEPARATOR. $path);
+
+         return new Template($path, $data);
      }
 
 

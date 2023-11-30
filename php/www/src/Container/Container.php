@@ -16,7 +16,7 @@ use Grafikart\Container\Provider\ServiceProvider;
  *
  * @package Grafikart\Container
  */
-class Container
+class Container implements \ArrayAccess
 {
 
      protected array $bindings = [];
@@ -33,6 +33,10 @@ class Container
      */
      public function bind(string $id, $value): self
      {
+         if ($value instanceof \Closure) {
+             $value = $value();
+         }
+
          $this->bindings[$id] = $value;
 
          return $this;
@@ -50,7 +54,7 @@ class Container
      public function addProvider(ServiceProvider $provider): self
      {
           $providerName = get_class($provider);
-          if (! array_key_exists($providerName, $this->providers)) {
+          if (! $this->hasProvider($providerName)) {
               $provider->register($this);
               $this->providers[$providerName] = $provider;
           }
@@ -85,8 +89,43 @@ class Container
      }
 
 
+
+     public function remove(string $id): bool
+     {
+          if (! $this->has($id)) {
+              return false;
+          }
+
+          unset($this->bindings[$id]);
+          return $this->has($id);
+     }
+
+
      protected function resolve(string $id, array $params = []): mixed
      {
            return [$id, $params];
      }
+
+     public function offsetExists(mixed $offset): bool
+     {
+         return $this->has($offset);
+     }
+
+
+    public function offsetGet(mixed $offset): mixed
+    {
+        return $this->get($offset);
+    }
+
+
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        $this->bind($offset, $value);
+    }
+
+
+    public function offsetUnset(mixed $offset): void
+    {
+        $this->remove($offset);
+    }
 }

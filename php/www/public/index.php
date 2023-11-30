@@ -10,10 +10,6 @@ define('UPLOAD_PATH', __DIR__. DIRECTORY_SEPARATOR . 'uploads');
 $container = new Grafikart\Container\Container();
 
 $kernel = new \App\Kernel($container);
-
-$kernel->process();
-
-/*
 $response = $kernel->handle(
     $request = \Grafikart\Http\Request\Request::createFromGlobals()
 );
@@ -21,6 +17,5 @@ $response = $kernel->handle(
 $response->send();
 
 $kernel->terminate($request, $response);
-*/
 
 
