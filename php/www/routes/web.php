@@ -10,7 +10,7 @@ $router->post( '/logout', [\App\Controller\Auth\LogoutController::class, 'logout
 // ADMIN
 // Gestions des articles
 $router->get('/admin', [\App\Controller\Admin\PostController::class, 'index'], 'admin.posts');
-$router->map('GET|POST', '/admin/post/[i:id]', 'admin/post/edit', 'admin.post');
+$router->map('GET|POST', '/admin/post/[i:id]', [\App\Controller\Admin\PostController::class, 'edit'], 'admin.post');
 $router->post('/admin/post/[i:id]/delete', 'admin/post/delete', 'admin.post.delete');
 $router->map('GET|POST', '/admin/post/new', 'admin/post/new', 'admin.post.new');
 

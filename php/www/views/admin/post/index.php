@@ -1,4 +1,4 @@
-<?php if ($request->queries->has('delete')): ?>
+<?php if ($delete): ?>
 <div class="alert alert-success">
     L' enregistrement a bien ete supprime
 </div>

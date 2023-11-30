@@ -96,6 +96,10 @@ class Pipeline
                 return call_user_func_array($target, [$request]);
            }
 
+           if (! is_array($route->getAction())) {
+               throw new \Exception("Invalid action");
+           }
+
            [$controller, $action] = $route->getAction();
            return call_user_func_array([new $controller($this->container), $action], [$request]);
        }
