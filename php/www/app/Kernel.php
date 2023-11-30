@@ -94,6 +94,7 @@ class Kernel extends HttpKernel implements Terminable
     protected function exceptionResponse(\Exception $e): Response
     {
         dd($e);
+        dump($e);
         $code = $e->getCode() ?? 500;
         $content = $this->container['view']->render("errors/$code");
         return new Response($content, $code);
