@@ -5,6 +5,7 @@ namespace Grafikart\Http;
 
 
 use Grafikart\Http\Bag\InputBag;
+use Grafikart\Http\Bag\ParameterBag;
 use Grafikart\Http\Bag\ServerBag;
 
 /**
@@ -21,6 +22,7 @@ class Request
      public InputBag $queries;
      public InputBag $requests;
      public ServerBag $server;
+     public ParameterBag $attributes;
 
 
      public function __construct()
@@ -28,6 +30,7 @@ class Request
          $this->queries  = new InputBag();
          $this->requests = new InputBag();
          $this->server   = new ServerBag();
+         $this->attributes = new ParameterBag();
      }
 
 
@@ -45,10 +48,40 @@ class Request
     /**
      * @return array
     */
-    public function getQueries(): array
+    public function getQueryParams(): array
     {
         return $this->queries->all();
     }
+
+
+
+
+    /**
+     * @param array $attributes
+     *
+     * @return $this
+    */
+    public function withAttributes(array $attributes): self
+    {
+         $this->attributes->merge($attributes);
+
+         return $this;
+    }
+
+
+
+
+
+    /**
+     * @return array
+    */
+    public function getAttributes(): array
+    {
+        return $this->attributes->all();
+    }
+
+
+
 
 
 

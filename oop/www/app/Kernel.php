@@ -7,6 +7,7 @@ use Exception;
 use Grafikart\Container\Container;
 use Grafikart\Http\Request;
 use Grafikart\Http\Response;
+use Grafikart\Routing\Route;
 use Grafikart\Templating\Layout;
 use Grafikart\Templating\Template;
 
@@ -70,16 +71,19 @@ class Kernel
     {
         $path = $request->getPath();
 
-        if (! $target = $this->app['router']->match($request->getMethod(), $path)) {
+        /** @var Route $route */
+        if (! $route = $this->app['router']->match($request->getMethod(), $path)) {
             throw new \Grafikart\Routing\NotfoundException($path);
         }
 
-        dd($target);
+        $request->withAttributes($route->getParams());
+        $target = $route->getAction();
+
         if (is_callable($target)) {
              return call_user_func_array($target, [$this->app, $request]);
         }
 
-        [$controller, $action] = $target;
+        [$controller, $action] = explode('::', $target);
         return call_user_func_array([new $controller($this->app), $action], [$request]);
     }
 
