@@ -15,27 +15,33 @@ namespace Grafikart\Routing;
  */
 class Router
 {
+
      protected array $routes = [];
 
+     protected array $namedRoutes = [];
 
-     public function get(string $path, $target): self
+
+
+     public function get(string $path, $target, string $name): self
      {
-         return $this->map('GET', $path, $target);
+         return $this->map('GET', $path, $target, $name);
      }
 
 
 
-     public function post(string $path, $target): self
+     public function post(string $path, $target, string $name): self
      {
-         return $this->map('POST', $path, $target);
+         return $this->map('POST', $path, $target, $name);
      }
 
 
-     private function map(string $method, string $path, $target): self
+     private function map(string $method, string $path, $target, string $name): self
      {
          $path = trim($path, '/');
 
          $this->routes[$method][$path] = $target;
+
+         $this->namedRoutes[$name] = "/$path";
 
          return $this;
      }
@@ -59,5 +65,23 @@ class Router
            }
 
            return $this->routes[$requestMethod][$requestPath];
+     }
+
+
+     /**
+      * @param string $name
+      *
+      * @param array $params
+      *
+      * @return string|null
+     */
+     public function generate(string $name, array $params = []): ?string
+     {
+          if (! isset($this->namedRoutes[$name])) {
+               return null;
+          }
+
+          $path = $this->namedRoutes[$name];
+          return http_build_query(array_merge(['p' => $path], $params));
      }
 }

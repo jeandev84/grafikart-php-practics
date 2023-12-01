@@ -5,6 +5,7 @@ namespace Grafikart;
 
 
 use Grafikart\Container\Container;
+use Grafikart\Database\Connection\PdoConnection;
 use Grafikart\Http\Response;
 use Grafikart\Templating\Template;
 
@@ -47,8 +48,21 @@ abstract class Controller
      */
      public function render(string $path, array $parameters = []): Response
      {
-         $content = $this->app['view']->render(new Template($this->app['root'] ."/views/$path.php"), $parameters);
+         $content = $this->app['view']->render(
+             new Template($this->app['root'] ."/views/$path.php", $parameters)
+         );
 
          return new Response($content);
+     }
+
+
+
+
+     /**
+      * @return PdoConnection
+     */
+     public function getConnection(): PdoConnection
+     {
+          return $this->app['database'];
      }
 }

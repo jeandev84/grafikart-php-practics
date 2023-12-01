@@ -20,6 +20,13 @@ class SiteController extends Controller
 {
      public function index(): Response
      {
+         $connection = $this->getConnection();
+         $date       = date('Y-m-d H:i:s');
+         $count      = $connection->executeQuery(
+                         sprintf('INSERT INTO articles SET title="Mon titre", created_at="%s"', $date)
+                       );
+
+         dd($count);
          return $this->render('home');
      }
 

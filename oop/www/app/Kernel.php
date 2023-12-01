@@ -90,7 +90,10 @@ class Kernel
         $code = ($code !== 404 ? 500 : $code);
 
         $content = $this->app['view']->render(
-            new Template($this->app['root'] ."/views/errors/$code.php")
+            new Template($this->app['root'] ."/views/errors/$code.php", [
+                'message' => $e->getMessage(),
+                'tracing' => $e->getTraceAsString()]
+            ),
         );
 
         return new Response($content);

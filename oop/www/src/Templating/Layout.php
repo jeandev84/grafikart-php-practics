@@ -40,14 +40,10 @@ class Layout
      /**
       * @param Template $template
       *
-      * @param array $data
-      *
       * @return string
      */
-     public function render(Template $template, array $data = []): string
+     public function render(Template $template): string
      {
-         extract($data, EXTR_SKIP);
-
          $layout = file_get_contents($this->path);
 
          return str_replace("{{ content }}", $template->__toString(), $layout);
