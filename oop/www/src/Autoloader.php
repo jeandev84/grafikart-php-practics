@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App;
+namespace Grafikart;
 
 
 
@@ -11,8 +11,6 @@ namespace App;
  * @Autoloader
  *
  * @author Jean-Claude <jeanyao@ymail.com>
- *
- * @package ${NAMESPACE}
  */
 class Autoloader
 {
