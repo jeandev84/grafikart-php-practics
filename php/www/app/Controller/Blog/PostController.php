@@ -26,8 +26,7 @@ class PostController extends AbstractController
       */
       public function index(): Response
       {
-           $connection = \App\Helpers\Connection::make();
-           $postCategory = new \App\Repository\PostRepository($connection);
+           $postCategory = new \App\Repository\PostRepository($this->getConnection());
            [$posts, $pagination] = $postCategory->findPaginated();
 
            return $this->render("post/index", [
@@ -40,7 +39,7 @@ class PostController extends AbstractController
 
 
 
-      public function show(Request $request)
+      public function show(Request $request): Response
       {
            $id   = $request->attributes->getInt('id');
            $slug = $request->attributes->get('slug');
