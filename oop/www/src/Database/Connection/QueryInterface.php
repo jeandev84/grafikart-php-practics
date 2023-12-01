@@ -26,6 +26,6 @@ interface QueryInterface
     public function map(string $classname): self;
     public function execute(): mixed;
     public function lastId(): int;
-    public function fetch(): QueryResultInterface;
+    public function fetch(int $mode = 0): QueryResultInterface;
     public function exec(string $sql): mixed;
 }

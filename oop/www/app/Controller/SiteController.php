@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 
+use App\Repository\PostRepository;
 use Grafikart\Controller;
 use Grafikart\Http\Response;
 
@@ -21,12 +22,17 @@ class SiteController extends Controller
      public function index(): Response
      {
          $connection = $this->getConnection();
+         $repository = new PostRepository($connection);
+         /*
          $date       = date('Y-m-d H:i:s');
          $count      = $connection->executeQuery(
-                         sprintf('INSERT INTO articles SET title="Mon titre", created_at="%s"', $date)
+                         sprintf('INSERT INTO posts SET title="Mon titre", created_at="%s"', $date)
                        );
+         */
 
-         dd($count);
+         $posts = $repository->findAll();
+
+         dd($posts);
          return $this->render('home');
      }
 

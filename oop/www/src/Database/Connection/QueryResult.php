@@ -20,16 +20,23 @@ class QueryResult implements QueryResultInterface
 
       protected \PDOStatement $statement;
 
-      public function __construct(\PDOStatement $statement)
+      protected ?int $fetchMode;
+
+
+      public function __construct(\PDOStatement $statement, int $fetchMode = 0)
       {
           $this->statement = $statement;
+          $this->fetchMode = $fetchMode;
       }
+
 
 
       public function all(): array
       {
-          return $this->statement->fetchAll();
+          return $this->statement->fetchAll($this->fetchMode);
       }
+
+
 
 
       /**
@@ -37,8 +44,9 @@ class QueryResult implements QueryResultInterface
       */
       public function one(): mixed
       {
-          return $this->statement->fetch();
+          return $this->statement->fetch($this->fetchMode);
       }
+
 
 
 

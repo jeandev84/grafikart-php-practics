@@ -5,7 +5,7 @@ use Grafikart\Templating\Layout;
 $app = Container::instance();
 
 $app['root'] = dirname(__DIR__);
-$app['database']   = function ($app) {
+$app->singleton('database', function ($app) {
    $config = require $app['root'] . "/config/database.php";
    return new \Grafikart\Database\Connection\PdoConnection(
        $config['dsn'],
@@ -13,7 +13,7 @@ $app['database']   = function ($app) {
        $config['password'],
        $config['options']
    );
-};
+});
 $app['router'] = function ($app) {
     return (require $app['root'] .'/routes/web.php');
 };

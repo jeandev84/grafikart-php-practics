@@ -96,11 +96,11 @@ class Query implements QueryInterface
 
 
 
-     public function fetch(): QueryResultInterface
+     public function fetch(int $mode = 0): QueryResultInterface
      {
          $this->execute();
 
-         return new QueryResult($this->statement);
+         return new QueryResult($this->statement, $mode);
      }
 
 

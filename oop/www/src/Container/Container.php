@@ -17,6 +17,8 @@ class Container implements \ArrayAccess
 {
 
       protected array $bindings = [];
+      protected array $shared   = [];
+      protected array $instances  = [];
       protected static $instance;
 
 
@@ -44,14 +46,34 @@ class Container implements \ArrayAccess
 
 
 
-      public function bind(string $id, $value): self
+      public function bind(string $id, $value, $shared = false): self
       {
           $this->bindings[$id] = $value;
-
+          if ($shared) {
+              $this->shared[$id] = $value;
+          }
           return $this;
       }
 
 
+
+
+      /**
+       * @param string $id
+       * @param $value
+       * @return $this
+      */
+      public function singleton(string $id, $value): self {
+          return $this->bind($id, $value, true);
+      }
+
+
+
+
+      /**
+       * @param string $id
+       * @return bool
+      */
       public function has(string $id): bool
       {
           return isset($this->bindings[$id]);
@@ -59,19 +81,73 @@ class Container implements \ArrayAccess
 
 
 
+
+      /**
+       * @param string $id
+       *
+       * @return bool
+      */
+      public function isShared(string $id): bool
+      {
+          return isset($this->shared[$id]);
+      }
+
+
+      /**
+       * @param string $id
+       *
+       * @param $instance
+       *
+       * @return mixed
+      */
+      public function share(string $id, $instance): mixed
+      {
+            if (! isset($this->instances[$id])) {
+                $this->instances[$id] = $instance;
+            }
+
+            return $this->instances[$id];
+      }
+
+
+
+
+      /**
+       * @param string $id
+       *
+       * @return mixed
+      */
       public function get(string $id): mixed
       {
           if (! $this->has($id)) { return $id; }
 
+          return $this->resolve($id);
+      }
+
+
+
+
+
+
+      /**
+       * @param string $id
+       *
+       * @return mixed
+      */
+      protected function resolve(string $id): mixed
+      {
           $value = $this->bindings[$id];
 
           if (is_callable($value)) {
               $value = call_user_func($value, $this);
           }
 
+          if ($this->isShared($id)) {
+              return $this->share($id, $value);
+          }
+
           return $value;
       }
-
 
 
 

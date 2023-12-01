@@ -15,6 +15,7 @@ namespace Grafikart\Database\Connection;
  */
 interface QueryResultInterface
 {
+
     public function all(): array;
 
     /**
