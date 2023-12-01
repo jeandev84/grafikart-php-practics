@@ -1,7 +1,7 @@
 <?php
+namespace Grafikart;
 
-use classes\Archer;
-use classes\Person;
+require 'autoload.php';
 
 require 'Person.php';
 require 'Archer.php';

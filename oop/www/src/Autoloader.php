@@ -24,7 +24,10 @@ class Autoloader
 
      protected static function loadClass(string $class): void
      {
-         $class = str_replace([__NAMESPACE__."\\", '\\'], ['', '/'], $class);
-         require_once "src/$class.php";
+         $namespace = __NAMESPACE__."\\";
+         if (stripos($class, $namespace) === 0) {
+             $class = str_replace([$namespace, '\\'], ['', '/'], $class);
+             require_once "src/$class.php";
+         }
      }
 }
