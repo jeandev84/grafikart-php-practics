@@ -19,8 +19,8 @@ class Autoloader
      }
 
 
-     protected function loadClass(string $class): void
+     protected static function loadClass(string $class): void
      {
-         require_once __DIR__."/classes/$class.php";
+         require_once "src/$class.php";
      }
 }
