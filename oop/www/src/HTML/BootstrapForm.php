@@ -2,6 +2,8 @@
 declare(strict_types=1);
 
 
+namespace Grafikart\HTML;
+
 /**
  * Created by PhpStorm at 01.12.2023
  *

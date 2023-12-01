@@ -1,6 +1,9 @@
 <?php
 declare(strict_types=1);
 
+namespace Grafikart;
+
+
 
 /**
  * Created by PhpStorm at 01.12.2023
@@ -21,6 +24,7 @@ class Autoloader
 
      protected static function loadClass(string $class): void
      {
+         $class = str_replace([__NAMESPACE__."\\", '\\'], ['', '/'], $class);
          require_once "src/$class.php";
      }
 }

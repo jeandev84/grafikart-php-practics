@@ -1,3 +1,3 @@
 <?php
 require_once __DIR__ . '/src/Autoloader.php';
-Autoloader::register();
+Grafikart\Autoloader::register();

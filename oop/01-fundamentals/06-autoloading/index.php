@@ -1,4 +1,7 @@
 <?php
+
+use HTML\BootstrapForm;
+
 require 'autoload.php';
 
 $form = new BootstrapForm($_POST);

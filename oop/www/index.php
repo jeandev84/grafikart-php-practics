@@ -1,4 +1,6 @@
 <?php
+use Grafikart\HTML\BootstrapForm;
+
 require 'autoload.php';
 
 $form = new BootstrapForm($_POST);

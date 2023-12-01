@@ -2,6 +2,8 @@
 declare(strict_types=1);
 
 
+namespace Grafikart\HTML;
+
 /**
  * Created by PhpStorm at 01.12.2023
  *
@@ -70,6 +72,14 @@ class Form
             sprintf('<button type="submit">%s</button>', $label)
         );
     }
+
+
+
+    public function date()
+    {
+         return new \DateTime();
+    }
+
 
 
     /**
