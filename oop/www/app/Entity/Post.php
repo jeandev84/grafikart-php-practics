@@ -108,18 +108,32 @@ class Post
      */
     public function getUrl(): string
     {
-         return '';
+         return sprintf('?p=post&id=%s', $this->id);
     }
+
 
 
 
     /**
      * Returns an excerpt ( un extrait de text )
      *
-     * @return string
+     * @return string|null
      */
-    public function getExcerpt(): string
+    public function getExcerpt(): ?string
     {
-        return '';
+        $content  = substr($this->content, 0, 100) . "...";
+        $html[]   = sprintf('<p>%s</p>', $content);
+        $html[]   = sprintf('<p><a href="%s">See more</a></p>', $this->getURL());
+
+        return join($html);
+    }
+
+
+
+    public function __get(string $name)
+    {
+         $method = sprintf('get%s', ucfirst($name));
+
+         return $this->{$name} = $this->{$method}();
     }
 }
