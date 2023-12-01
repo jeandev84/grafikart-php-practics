@@ -56,7 +56,7 @@ class Person
 
 
 
-      public function attack(Person $target): void
+      public function attack(classes\Person $target): void
       {
           $target->life -= $this->attack;
           $this->skipNegative();

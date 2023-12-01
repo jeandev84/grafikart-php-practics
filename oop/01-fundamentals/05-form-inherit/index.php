@@ -1,4 +1,7 @@
 <?php
+
+use classes\BootstrapForm;
+
 require 'Form.php';
 require 'BootstrapForm.php';
 

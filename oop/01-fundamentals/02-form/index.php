@@ -1,5 +1,7 @@
 <?php
 
+use classes\Form;
+
 require 'Form.php';
 
 $form = new Form($_POST);

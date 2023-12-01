@@ -1,6 +1,5 @@
 <?php
-require 'Form.php';
-require 'BootstrapForm.php';
+require 'autoload.php';
 
 $form = new BootstrapForm($_POST);
 ?>

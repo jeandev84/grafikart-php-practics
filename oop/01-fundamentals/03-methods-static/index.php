@@ -1,5 +1,9 @@
 <?php
 
+use classes\Form;
+use classes\Person;
+use classes\Text;
+
 require 'Form.php';
 require 'Person.php';
 require 'Text.php';

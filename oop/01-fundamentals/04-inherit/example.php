@@ -1,5 +1,8 @@
 <?php
 
+use classes\Archer;
+use classes\Person;
+
 require 'Person.php';
 require 'Archer.php';
 

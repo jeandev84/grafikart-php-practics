@@ -1,5 +1,7 @@
 <?php
 
+use classes\Person;
+
 require 'Person.php';
 
 $merlin = new Person("Merlin");

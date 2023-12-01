@@ -13,29 +13,26 @@ class BootstrapForm extends Form
 {
 
 
-     /**
-      * @inheritDoc
+    /**
+     * @inheritDoc
      */
-     protected function surround(string $html): string
-     {
+    protected function surround(string $html): string
+    {
         return sprintf('<div class="form-group">%s</div>', $html);
-     }
+    }
 
 
-
-
-     /**
-      * @inheritDoc
+    /**
+     * @inheritDoc
      */
-     public function input(string $name): string
-     {
-         return $this->surround(
-             sprintf('
+    public function input(string $name): string
+    {
+        return $this->surround(
+            sprintf('
                 <label>%s</label><input type="text" name="%s" value="%s" class="form-control">
              ', $name, $name, $this->getValue($name))
-         );
-     }
-
+        );
+    }
 
 
     /**
