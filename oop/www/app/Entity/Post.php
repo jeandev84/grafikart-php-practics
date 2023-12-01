@@ -100,4 +100,26 @@ class Post
         return $this;
     }
 
+
+    /**
+     * Returns url (lien)
+     *
+     * @return string
+     */
+    public function getUrl(): string
+    {
+         return '';
+    }
+
+
+
+    /**
+     * Returns an excerpt ( un extrait de text )
+     *
+     * @return string
+     */
+    public function getExcerpt(): string
+    {
+        return '';
+    }
 }

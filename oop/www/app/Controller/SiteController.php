@@ -21,18 +21,6 @@ class SiteController extends Controller
 {
      public function index(): Response
      {
-         $connection = $this->getConnection();
-         $repository = new PostRepository($connection);
-         /*
-         $date       = date('Y-m-d H:i:s');
-         $count      = $connection->executeQuery(
-                         sprintf('INSERT INTO posts SET title="Mon titre", created_at="%s"', $date)
-                       );
-         */
-
-         $posts = $repository->findAll();
-
-         dd($posts);
          return $this->render('home');
      }
 

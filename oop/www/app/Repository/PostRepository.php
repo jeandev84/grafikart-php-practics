@@ -27,4 +27,15 @@ class PostRepository extends ServiceRepository
     {
         parent::__construct($connection, Post::class);
     }
+
+
+    public function exampleSomething(): mixed
+    {
+        /*
+         $date       = date('Y-m-d H:i:s');
+         $count      = $this->connection->executeQuery(
+                            sprintf('INSERT INTO posts SET title="Mon titre", created_at="%s"', $date)
+                     );
+       */
+    }
 }
