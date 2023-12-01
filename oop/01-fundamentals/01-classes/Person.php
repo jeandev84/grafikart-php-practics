@@ -56,14 +56,24 @@ class Person
 
 
 
-      public function attack(Person $target)
+      public function attack(Person $target): void
       {
-           $target->life -= $this->attack;
+          $target->life -= $this->attack;
+          $this->skipNegative();
       }
 
 
 
-      /**
+     public function skipNegative(): void
+     {
+        if ($this->life < 0) {
+            $this->life  = 0;
+        }
+     }
+
+
+
+    /**
        * @return string|null
       */
      public function getName(): ?string
