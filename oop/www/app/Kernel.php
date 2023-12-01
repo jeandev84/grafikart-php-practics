@@ -68,12 +68,13 @@ class Kernel
 
     private function dispatchRoute(Request $request): Response
     {
-        $path = $request->queries->get('p', 'home');
+        $path = $request->getPath();
 
         if (! $target = $this->app['router']->match($request->getMethod(), $path)) {
             throw new \Grafikart\Routing\NotfoundException($path);
         }
 
+        dd($target);
         if (is_callable($target)) {
              return call_user_func_array($target, [$this->app, $request]);
         }

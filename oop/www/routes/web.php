@@ -1,8 +1,10 @@
 <?php
 
 $router  = new Grafikart\Routing\Router();
-$router->get('/home', [\App\Controller\SiteController::class, 'index'], 'home');
-$router->get('/single', [\App\Controller\SiteController::class, 'single'], 'single');
-$router->get('/portfolio', [\App\Controller\PostController::class, 'index'], 'portfolio');
+
+$router->get('/', [\App\Controller\PostController::class, 'index'], 'home');
+#$router->get('/home', [\App\Controller\SiteController::class, 'index'], 'home');
+$router->get('/post/{id}', [\App\Controller\PostController::class, 'show'], 'post')
+       ->where('id', '(\d+)');
 
 return $router;

@@ -16,35 +16,88 @@ namespace Grafikart\Routing;
 class Router
 {
 
+
+     protected string $domain = '';
+
+
+     /**
+      * @var Route[]
+     */
      protected array $routes = [];
 
+
+
+     /**
+      * @var Route[]
+     */
      protected array $namedRoutes = [];
 
 
 
-     public function get(string $path, $target, string $name): self
+
+
+     public function __construct(string $domain = '')
+     {
+         $this->domain = $domain;
+     }
+
+
+
+    /**
+     * @param string $path
+     *
+     * @param $target
+     *
+     * @param string $name
+     *
+     * @return Route
+     *
+     * @throws \Exception
+     */
+     public function get(string $path, $target, string $name): Route
      {
          return $this->map('GET', $path, $target, $name);
      }
 
 
 
-     public function post(string $path, $target, string $name): self
+
+     /**
+      * @param string $path
+      * @param $target
+      * @param string $name
+      * @return Route
+      * @throws \Exception
+     */
+     public function post(string $path, $target, string $name): Route
      {
          return $this->map('POST', $path, $target, $name);
      }
 
 
-     private function map(string $method, string $path, $target, string $name): self
+
+
+    /**
+     * @param string $methods
+     *
+     * @param string $path
+     *
+     * @param $target
+     *
+     * @param string $name
+     *
+     * @return Route
+     */
+     public function map(string $methods, string $path, $target, string $name): Route
      {
-         $path = trim($path, '/');
+         $route   = new Route($this->domain, $methods, $path, $target, $name);
+         $this->routes[$path] = $route;
+         $this->namedRoutes[$name] = $route;
 
-         $this->routes[$method][$path] = $target;
-
-         $this->namedRoutes[$name] = "/$path";
-
-         return $this;
+         return $route;
      }
+
+
 
 
 
@@ -54,17 +107,17 @@ class Router
       *
       * @param string $requestPath
       *
-      * @return mixed
+      * @return Route|false
      */
-     public function match(string $requestMethod, string $requestPath): mixed
+     public function match(string $requestMethod, string $requestPath): Route|false
      {
-           $requestPath = trim($requestPath, '/');
+         foreach ($this->routes as $route) {
+              if ($route->match($requestMethod, $requestPath)) {
+                   return $route;
+              }
+         }
 
-           if (! isset($this->routes[$requestMethod][$requestPath])) {
-                return false;
-           }
-
-           return $this->routes[$requestMethod][$requestPath];
+         return false;
      }
 
 

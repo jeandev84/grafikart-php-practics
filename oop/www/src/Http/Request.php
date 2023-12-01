@@ -109,6 +109,17 @@ class Request
 
 
     /**
+     * @return string
+    */
+    public function getPath(): string
+    {
+        return parse_url($this->getRequestUri(), PHP_URL_PATH);
+    }
+
+
+
+
+    /**
      * @return self
     */
     public static function createFromGlobals(): self

@@ -6,6 +6,8 @@ namespace App\Controller;
 
 use App\Repository\PostRepository;
 use Grafikart\Controller;
+use Grafikart\Database\ORM\Persistence\Repository\Exception\NotFoundException;
+use Grafikart\Http\Request;
 use Grafikart\Http\Response;
 
 
@@ -31,5 +33,21 @@ class PostController extends Controller
         return $this->render('posts/index', [
             'posts' => $posts
         ]);
+    }
+
+
+     /**
+      * @param Request $request
+      * @return Response
+      * @throws NotFoundException
+    */
+    public function show(Request $request): Response
+    {
+          $repository = new PostRepository($this->getConnection());
+          $post       = $repository->find($request->queries->getInt('id'));
+
+          return $this->render('posts/show', [
+              'post' => $post
+          ]);
     }
 }

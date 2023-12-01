@@ -123,7 +123,7 @@ class Post
     {
         $content  = substr($this->content, 0, 100) . "...";
         $html[]   = sprintf('<p>%s</p>', $content);
-        $html[]   = sprintf('<p><a href="%s">See more</a></p>', $this->getURL());
+        $html[]   = sprintf('<p><a href="%s">Voir la suite</a></p>', $this->getURL());
 
         return join($html);
     }
