@@ -108,8 +108,10 @@ class Post
      */
     public function getUrl(): string
     {
-         return sprintf('?p=post&id=%s', $this->id);
+         /* sprintf('?p=post&id=%s', $this->id); */
+         return sprintf('/post/%s', $this->id);
     }
+
 
 
 
