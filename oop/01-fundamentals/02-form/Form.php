@@ -37,17 +37,6 @@ class Form
 
 
      /**
-      * @param string $html Code html a entourer
-      *
-      * @return string
-     */
-     public function surround(string $html): string
-     {
-         return "<{$this->surround}>$html</$this->surround>";
-     }
-
-
-     /**
       * @param string $name
       *
       * @return string
@@ -87,5 +76,18 @@ class Form
     private function getValue(string $name): mixed
     {
         return $this->data[$name] ?? null;
+    }
+
+
+
+
+    /**
+     * @param string $html Code html a entourer
+     *
+     * @return string
+     */
+    private function surround(string $html): string
+    {
+        return "<{$this->surround}>$html</$this->surround>";
     }
 }

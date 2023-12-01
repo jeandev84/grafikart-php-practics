@@ -41,10 +41,12 @@ class Form
       *
       * @return string
      */
-     public function surround(string $html): string
+     protected function surround(string $html): string
      {
          return "<{$this->surround}>$html</$this->surround>";
      }
+
+
 
 
      /**
@@ -84,7 +86,7 @@ class Form
      *
      * @return mixed
     */
-    private function getValue(string $name): mixed
+    protected function getValue(string $name): mixed
     {
         return $this->data[$name] ?? null;
     }
