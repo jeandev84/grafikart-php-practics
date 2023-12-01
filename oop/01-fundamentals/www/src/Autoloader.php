@@ -27,7 +27,7 @@ class Autoloader
          $namespace = __NAMESPACE__."\\";
          if (stripos($class, $namespace) === 0) {
              $class = str_replace([$namespace, '\\'], ['', '/'], $class);
-             require_once "src/$class.php";
+             require_once __DIR__."/$class.php";
          }
      }
 }
