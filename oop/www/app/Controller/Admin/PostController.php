@@ -4,8 +4,12 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 
+use App\Repository\PostRepository;
 use Grafikart\Container\Container;
 use Grafikart\Controller;
+use Grafikart\HTML\BootstrapForm;
+use Grafikart\Http\RedirectResponse;
+use Grafikart\Http\Request;
 use Grafikart\Http\Response;
 
 
@@ -24,10 +28,59 @@ class PostController extends Controller
 
      public function index(): Response
      {
+          // Middleware
           if (! $this->auth->logged()) {
               return $this->forbidden();
           }
 
-          return $this->render('admin/posts/index');
+          $postRepository = new PostRepository($this->getConnection());
+
+          return $this->render('admin/posts/index', [
+              'posts' => $postRepository->findAll()
+          ]);
      }
+
+
+
+     /**
+      * @return Response
+     */
+     public function show(Request $request): Response
+     {
+         $postRepository = new PostRepository($this->getConnection());
+
+         return $this->render('admin/posts/show', [
+             'post' => $postRepository->find(1)
+         ]);
+     }
+
+
+
+
+    /**
+     * @param Request $request
+     *
+     * @return Response
+    */
+    public function edit(Request $request): Response
+    {
+        $postRepository = new PostRepository($this->getConnection());
+        $post = $postRepository->find($request->attributes->getInt('id'));
+
+        $form = new BootstrapForm($post);
+
+        return $this->render('admin/posts/edit', [
+            'post' => $post,
+            'form' => $form
+        ]);
+    }
+
+
+
+
+
+    public function delete($id): RedirectResponse
+    {
+         return $this->redirect('/admin');
+    }
 }

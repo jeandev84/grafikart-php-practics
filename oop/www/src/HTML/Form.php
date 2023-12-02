@@ -19,7 +19,7 @@ class Form
     /**
      * @var array Donnees utilisees pour le formulaire
      */
-    protected array $data = [];
+    protected mixed $data;
 
 
     /**
@@ -29,12 +29,13 @@ class Form
 
 
     /**
-     * @param array $data
+     * @param array|object $data
      */
-    public function __construct(array $data = [])
+    public function __construct(array|object $data = null)
     {
         $this->data = $data;
     }
+
 
 
     /**
@@ -59,13 +60,35 @@ class Form
         $type = $options['type'] ?? 'text';
 
         return $this->surround(
-            sprintf('<label for="%s">%s<input type="%s" name="%s" value="%s" id="%s"></label>',
+            sprintf('<label for="%s">%s</label><input type="%s" name="%s" value="%s" id="%s">',
                 $name,
                 $label,
                 $type,
                 $name,
                 $this->getValue($name),
                 $name
+            )
+        );
+    }
+
+
+    /**
+     * @param string $name
+     * @param string $label
+     * @param array $options
+     * @return string
+     */
+    public function textarea(string $name, string $label, array $options = []): string
+    {
+        $class = $options['class'] ?? '';
+        return $this->surround(
+            sprintf('<label for="%s">%s</label><textarea name="%s" id="%s" class="%s">%s</textarea>',
+                $name,
+                $label,
+                $name,
+                $name,
+                $class,
+                $this->getValue($name)
             )
         );
     }
@@ -85,13 +108,6 @@ class Form
 
 
 
-    public function date()
-    {
-         return new \DateTime();
-    }
-
-
-
     /**
      * @param string $name
      *
@@ -99,6 +115,10 @@ class Form
      */
     protected function getValue(string $name): mixed
     {
+        if (is_object($this->data)) {
+             return $this->data->{$name};
+        }
+
         return $this->data[$name] ?? null;
     }
 }
