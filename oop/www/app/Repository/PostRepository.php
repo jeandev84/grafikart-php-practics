@@ -46,7 +46,24 @@ class PostRepository extends ServiceRepository
     }
 
 
+    /**
+     * @param int $id
+     * @return Post|false
+     */
+    public function find(int $id): mixed
+    {
+        $sql = "SELECT p.id, p.title, p.content, c.title as category 
+                FROM {$this->tableName} p
+                LEFT JOIN categories c ON p.category_id = c.id
+                WHERE p.id = :id";
 
+        return $this->connection
+                    ->statement($sql)
+                    ->setParameters(compact('id'))
+                    ->map($this->classname)
+                    ->fetch()
+                    ->one();
+    }
 
 
     public function findLastByCategory(int $categoryId): mixed
