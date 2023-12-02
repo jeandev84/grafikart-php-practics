@@ -18,11 +18,11 @@
                 <td><?= $post->id ?></td>
                 <td><?= $post->title ?></td>
                 <td>
-                    <a href="/admin/post/<?= $post->id ?>/edit" class="btn btn-primary">Editer</a>
+                    <a href="<?= $router->generate('admin.post.edit', ['id' => $post->id]) ?>" class="btn btn-primary">Editer</a>
 
-                    <form action="/admin/post/delete/<?= $post->id ?>" method="POST" style="display: inline;">
+                    <form action="<?= $router->generate('admin.post.delete', ['id' => $post->id]) ?>" method="POST" style="display: inline;">
                         <input type="hidden" name="id" value="<?= $post->id ?>">
-                        <button type="submit" class="btn btn-danger" href="/admin/post/delete/<?= $post->id ?>">
+                        <button type="submit" class="btn btn-danger" href="<?= $router->generate('admin.post.delete', ['id' => $post->id]) ?>">
                             Supprimer
                         </button>
                     </form>

@@ -19,10 +19,10 @@ use Grafikart\Http\RedirectResponse;
 class LogoutController extends Controller
 {
 
-     public function logout(): RedirectResponse
+     public function index(): RedirectResponse
      {
            $this->auth->logout();
 
-           return $this->redirect("/login");
+           return $this->redirectToRoute("auth.login");
      }
 }

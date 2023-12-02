@@ -60,7 +60,7 @@ class PostController extends Controller
                  'category_id' => $request->requests->getInt('category_id')
              ]);
 
-             return $this->redirect("/admin/post/{$lastId}/edit");
+             return $this->redirectToRoute("admin.post.edit", ['id' => $lastId]);
          }
 
          $form = new BootstrapForm($_POST);
@@ -118,6 +118,6 @@ class PostController extends Controller
              $repository->delete($request->requests->getInt('id'));
          }
 
-         return $this->redirect('/admin');
+        return $this->redirectToRoute("admin.posts.list");
     }
 }

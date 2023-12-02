@@ -30,7 +30,7 @@ class LoginController extends Controller
                $username = $request->requests->get('username');
                $password = $request->requests->get('password');
                if($this->auth->attempt($username, $password)) {
-                   return new RedirectResponse('/admin');
+                   return $this->redirectToRoute("admin.posts.list");
                } else {
                    $incorrect = true;
                }

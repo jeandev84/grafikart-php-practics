@@ -11,10 +11,9 @@ $router->get('/category/{id}', [\App\Controller\Blog\CategoryController::class, 
        ->number('id');
 
 
-
 # LOGIN
 $router->map('GET|POST', '/login', [\App\Controller\Auth\LoginController::class, 'index'], 'auth.login');
-$router->post('/logout', [\App\Controller\Auth\LogoutController::class, 'index'], 'auth.logout');
+$router->get('/logout', [\App\Controller\Auth\LogoutController::class, 'index'], 'auth.logout');
 
 
 # ADMIN POSTS

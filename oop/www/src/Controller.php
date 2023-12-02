@@ -64,6 +64,15 @@ abstract class Controller
      */
      public function render(string $path, array $parameters = []): Response
      {
+         $parameters = array_merge(
+             [
+                 'router' => $this->app['router'],
+                 'app' => $this->app,
+                 'user' => $this->getUser()
+             ],
+             $parameters
+         );
+
          $content = $this->app['view']->render(
              new Template($this->app['root'] ."/views/$path.php", $parameters),
              $parameters
@@ -78,6 +87,18 @@ abstract class Controller
           return new RedirectResponse($path, $status);
      }
 
+
+    /**
+     * @param string $name
+     *
+     * @param array $params
+     *
+     * @return RedirectResponse
+     */
+     public function redirectToRoute(string $name, array $params = []): RedirectResponse
+     {
+         return $this->redirect($this->app['router']->generate($name, $params));
+     }
 
 
      public function forbidden(): RedirectResponse

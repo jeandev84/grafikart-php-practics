@@ -56,12 +56,12 @@ class CategoryController extends Controller
                 'title'   => $request->requests->get('title')
             ]);
 
-            return $this->redirect("/admin/categories");
+            return $this->redirectToRoute("admin.categories.list");
         }
 
         $form = new BootstrapForm($_POST);
 
-        return $this->render('admin/posts/create', [
+        return $this->render('admin/categories/create', [
             'form' => $form,
             'created' => $lastId
         ]);
@@ -109,6 +109,6 @@ class CategoryController extends Controller
             $repository->delete($request->requests->getInt('id'));
         }
 
-        return $this->redirect('/admin/categories');
+        return $this->redirectToRoute("admin.categories.list");
     }
 }

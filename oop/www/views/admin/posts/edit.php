@@ -3,7 +3,7 @@
     L' article a bien ete modifie
 </div>
 <?php endif; ?>
-<form action="/admin/post/<?= $post->id ?>/edit" method="POST">
+<form action="<?= $router->generate('admin.post.edit', ['id' => $post->id]) ?>" method="POST">
     <?= $form->input('title', "Titre de l' article") ?>
     <?= $form->textarea('content', "Contenu", ['class' => 'form-control']) ?>
     <?= $form->select('category_id', "Category", $categories, ['class' => 'form-control']) ?>

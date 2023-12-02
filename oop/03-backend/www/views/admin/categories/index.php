@@ -1,7 +1,7 @@
 <h1>Administrer les categories</h1>
 
 <p>
-    <a href="/admin/category/create" class="btn btn-success">Ajouter</a>
+    <a href="<?= $router->generate('admin.category.create') ?>" class="btn btn-success">Ajouter</a>
 </p>
 
 <table class="table">

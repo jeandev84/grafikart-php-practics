@@ -5,6 +5,7 @@ namespace App\Entity;
 
 
 use App\Entity\Contract\EntityInterface;
+use Grafikart\Database\ORM\Persistence\Entity\Traits\EntityTrait;
 use Grafikart\Security\UserInterface;
 
 /**
@@ -19,6 +20,8 @@ use Grafikart\Security\UserInterface;
 class User implements UserInterface, EntityInterface
 {
 
+    use EntityTrait;
+
     const ROLE_USER = 'ROLE_USER';
 
     protected ?string $username = null;
@@ -28,6 +31,15 @@ class User implements UserInterface, EntityInterface
     public function getRoles(): array
     {
         return [self::ROLE_USER];
+    }
+
+
+    /**
+     * @return string|null
+     */
+    public function getUsername(): ?string
+    {
+        return $this->username;
     }
 
 

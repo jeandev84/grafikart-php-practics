@@ -20,8 +20,15 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">Project name</a>
+            <a class="navbar-brand" href="/">Blog</a>
+            <?php if (isset($app) && $app['auth']->logged()): ?>
+            <span href="" class="navbar-brand text-right">Hi, <?= $user->username ?></span>
+            <a class="navbar-brand" href="<?= $router->generate('auth.logout') ?>">
+                logout
+            </a>
+            <?php endif; ?>
         </div>
+
     </div>
 </nav>
 
