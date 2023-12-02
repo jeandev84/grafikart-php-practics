@@ -29,6 +29,22 @@ class PostRepository extends ServiceRepository
     }
 
 
+
+    public function findLatest(): array
+    {
+        $sql = "SELECT p.id, p.title, p.content, c.title as category 
+                FROM {$this->tableName} p
+                LEFT JOIN categories c ON p.category_id = c.id";
+
+        return $this->connection
+                    ->statement($sql)
+                    ->map($this->classname)
+                    ->fetch()
+                    ->all();
+    }
+
+
+
     public function exampleSomething(): mixed
     {
         /*
@@ -37,5 +53,6 @@ class PostRepository extends ServiceRepository
                             sprintf('INSERT INTO posts SET title="Mon titre", created_at="%s"', $date)
                      );
        */
+        return [];
     }
 }

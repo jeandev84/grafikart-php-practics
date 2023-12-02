@@ -28,7 +28,7 @@ class PostController extends Controller
         $connection = $this->getConnection();
         $repository = new PostRepository($connection);
 
-        $posts = $repository->findAll();
+        $posts = $repository->findLatest();
 
         return $this->render('posts/index', [
             'posts' => $posts

@@ -16,6 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `categories`
+--
+
+DROP TABLE IF EXISTS `categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `categories` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `categories`
+--
+
+LOCK TABLES `categories` WRITE;
+/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` VALUES (1,'Piscine'),(2,'Longboard');
+/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `posts`
 --
 
@@ -27,7 +51,10 @@ CREATE TABLE `posts` (
   `title` varchar(255) NOT NULL,
   `content` longtext,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  `category_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_categories` (`category_id`),
+  CONSTRAINT `fk_categories` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -37,7 +64,7 @@ CREATE TABLE `posts` (
 
 LOCK TABLES `posts` WRITE;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
-INSERT INTO `posts` VALUES (1,'Mon titre','Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam dolorem dolores eligendi esse maiores modi officia quia suscipit voluptatum. Architecto cum ducimus itaque nostrum numquam odit perferendis placeat quia, rem veniam. Alias dolorum eius error esse fugit, nesciunt, odio, odit optio quaerat reiciendis repellendus sequi sint unde vel velit vitae?','2023-12-01 23:53:27'),(2,'Mon titre','Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam dolorem dolores eligendi esse maiores modi officia quia suscipit voluptatum. Architecto cum ducimus itaque nostrum numquam odit perferendis placeat quia, rem veniam. Alias dolorum eius error esse fugit, nesciunt, odio, odit optio quaerat reiciendis repellendus sequi sint unde vel velit vitae?','2023-12-01 23:53:27'),(3,'Mon titre','Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam dolorem dolores eligendi esse maiores modi officia quia suscipit voluptatum. Architecto cum ducimus itaque nostrum numquam odit perferendis placeat quia, rem veniam. Alias dolorum eius error esse fugit, nesciunt, odio, odit optio quaerat reiciendis repellendus sequi sint unde vel velit vitae?','2023-12-01 23:53:27');
+INSERT INTO `posts` VALUES (1,'Mon titre','Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam dolorem dolores eligendi esse maiores modi officia quia suscipit voluptatum. Architecto cum ducimus itaque nostrum numquam odit perferendis placeat quia, rem veniam. Alias dolorum eius error esse fugit, nesciunt, odio, odit optio quaerat reiciendis repellendus sequi sint unde vel velit vitae?','2023-12-02 03:09:24',1),(2,'Mon titre','Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam dolorem dolores eligendi esse maiores modi officia quia suscipit voluptatum. Architecto cum ducimus itaque nostrum numquam odit perferendis placeat quia, rem veniam. Alias dolorum eius error esse fugit, nesciunt, odio, odit optio quaerat reiciendis repellendus sequi sint unde vel velit vitae?','2023-12-02 03:09:24',2),(3,'Mon titre','Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam dolorem dolores eligendi esse maiores modi officia quia suscipit voluptatum. Architecto cum ducimus itaque nostrum numquam odit perferendis placeat quia, rem veniam. Alias dolorum eius error esse fugit, nesciunt, odio, odit optio quaerat reiciendis repellendus sequi sint unde vel velit vitae?','2023-12-02 03:09:24',2);
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +77,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-02  2:50:19
+-- Dump completed on 2023-12-02  3:17:10
