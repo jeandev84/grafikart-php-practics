@@ -111,8 +111,13 @@ class PostController extends Controller
 
 
 
-    public function delete($id): RedirectResponse
+    public function delete(Request $request): RedirectResponse
     {
+         if ($request->isMethod('POST')) {
+             $repository = new PostRepository($this->getConnection());
+             $repository->delete($request->requests->getInt('id'));
+         }
+
          return $this->redirect('/admin');
     }
 }

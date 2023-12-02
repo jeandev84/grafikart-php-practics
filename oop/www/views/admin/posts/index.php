@@ -19,6 +19,13 @@
                 <td><?= $post->title ?></td>
                 <td>
                     <a href="/admin/post/<?= $post->id ?>/edit" class="btn btn-primary">Editer</a>
+
+                    <form action="/admin/post/delete/<?= $post->id ?>" method="POST" style="display: inline;">
+                        <input type="hidden" name="id" value="<?= $post->id ?>">
+                        <button type="submit" class="btn btn-danger" href="/admin/post/delete/<?= $post->id ?>">
+                            Supprimer
+                        </button>
+                    </form>
                 </td>
             </tr>
        <?php endforeach; ?>

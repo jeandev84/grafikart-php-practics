@@ -22,6 +22,8 @@ $router->get('/admin', [\App\Controller\Admin\PostController::class, 'index'], '
 $router->map('GET|POST', '/admin/post/create', [\App\Controller\Admin\PostController::class, 'create'], 'admin.post.create');
 $router->map('GET|POST', '/admin/post/{id}/edit', [\App\Controller\Admin\PostController::class, 'edit'], 'admin.post.edit')
     ->number('id');
+$router->map('GET|POST', '/admin/post/delete/{id}', [\App\Controller\Admin\PostController::class, 'delete'], 'admin.post.delete')
+    ->number('id');
 $router->get('/admin/category/{id}', [\App\Controller\Admin\CategoryController::class, 'show'], 'admin.category.show');
 
 
