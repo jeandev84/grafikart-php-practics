@@ -7,13 +7,13 @@ namespace App\Entity\Contract;
 /**
  * Created by PhpStorm at 02.12.2023
  *
- * @EntityInterface
+ * @HasGenerateUrlInterface
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
  * @package App\Entity\Contract
  */
-interface EntityInterface
+interface HasGenerateUrlInterface
 {
-      public static function getClassName(): string;
+    public function getUrl(): string;
 }

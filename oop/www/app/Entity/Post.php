@@ -5,7 +5,7 @@ namespace App\Entity;
 
 
 use App\Entity\Contract\EntityInterface;
-use App\Entity\Traits\EntityTrait;
+use Grafikart\Database\ORM\Persistence\Entity\Traits\EntityTrait;
 
 /**
  * Created by PhpStorm at 01.12.2023

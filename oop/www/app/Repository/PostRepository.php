@@ -29,7 +29,9 @@ class PostRepository extends ServiceRepository
     }
 
 
-
+    /**
+     * @return array
+     */
     public function findLatest(): array
     {
         $sql = "SELECT p.id, p.title, p.content, c.title as category 
@@ -43,6 +45,25 @@ class PostRepository extends ServiceRepository
                     ->all();
     }
 
+
+
+
+
+    public function findLastByCategory(int $categoryId): mixed
+    {
+        $sql = "SELECT p.id, p.title, p.content, c.title as category 
+                FROM {$this->tableName} p
+                LEFT JOIN categories c ON p.category_id = c.id
+                WHERE p.category_id = :categoryId
+                ";
+
+         return $this->connection
+                     ->statement($sql)
+                     ->setParameters(compact('categoryId'))
+                     ->map($this->classname)
+                     ->fetch()
+                     ->all();
+    }
 
 
     public function exampleSomething(): mixed

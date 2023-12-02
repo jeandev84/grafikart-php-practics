@@ -5,7 +5,8 @@ namespace App\Entity;
 
 
 use App\Entity\Contract\EntityInterface;
-use App\Entity\Traits\EntityTrait;
+use App\Entity\Contract\HasGenerateUrlInterface;
+use Grafikart\Database\ORM\Persistence\Entity\Traits\EntityTrait;
 
 /**
  * Created by PhpStorm at 02.12.2023
@@ -16,7 +17,7 @@ use App\Entity\Traits\EntityTrait;
  *
  * @package App\Entity
  */
-class Category implements EntityInterface
+class Category implements EntityInterface, HasGenerateUrlInterface
 {
 
       use EntityTrait;

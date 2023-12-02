@@ -3,7 +3,7 @@
        <?php foreach ($posts as $post): ?>
            <h2>
                <a href="<?= $post->url ?>">
-                   <?= $post->title ?>,
+                   <?= $post->title ?>
                </a>
            </h2>
 
