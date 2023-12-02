@@ -8,6 +8,7 @@ use App\Repository\CategoryRepository;
 use App\Repository\PostRepository;
 use Grafikart\Controller;
 use Grafikart\Database\ORM\Persistence\Repository\Exception\NotFoundException;
+use Grafikart\HTML\BootstrapForm;
 use Grafikart\Http\RedirectResponse;
 use Grafikart\Http\Request;
 use Grafikart\Http\Response;
@@ -25,9 +26,7 @@ class CategoryController extends Controller
 {
 
 
-    /**
-     * @return Response
-    */
+
     public function index(): Response
     {
         // Middleware
@@ -35,27 +34,36 @@ class CategoryController extends Controller
             return $this->forbidden();
         }
 
-        $categoryRepository = new CategoryRepository($this->getConnection());
+        $repository = new CategoryRepository($this->getConnection());
 
         return $this->render('admin/categories/index', [
-            'categories' => $categoryRepository->findAll()
+            'categories' => $repository->findAll()
         ]);
     }
 
 
 
-
     /**
-     * @param Request $request
      * @return Response
-     * @throws NotFoundException
-    */
-    public function show(Request $request): Response
+     */
+    public function create(Request $request): Response
     {
-        $postRepository = new PostRepository($this->getConnection());
+        $categoryRepository = new CategoryRepository($this->getConnection());
 
-        return $this->render('admin/categories/show', [
-            'category' => $postRepository->find(1)
+        $lastId = 0;
+        if ($request->isMethod('POST')) {
+            $lastId = $categoryRepository->create([
+                'title'   => $request->requests->get('title')
+            ]);
+
+            return $this->redirect("/admin/category/{$lastId}/edit");
+        }
+
+        $form = new BootstrapForm($_POST);
+
+        return $this->render('admin/posts/create', [
+            'form' => $form,
+            'created' => $lastId
         ]);
     }
 
@@ -67,26 +75,40 @@ class CategoryController extends Controller
      *
      * @return Response
      * @throws NotFoundException
-    */
+     */
     public function edit(Request $request): Response
     {
-        $postRepository = new PostRepository($this->getConnection());
+        $categoryId         = $request->attributes->getInt('id');
+        $categoryRepository = new CategoryRepository($this->getConnection());
+
+        $updated = false;
+        if ($request->isMethod('POST')) {
+            $updated = $categoryRepository->update([
+                'title'   => $request->requests->get('title')
+            ], $categoryId);
+        }
+
+        $category = $categoryRepository->find($categoryId);
+        $form = new BootstrapForm($category);
 
         return $this->render('admin/categories/edit', [
-            'post' => $postRepository->find(1)
+            'category' => $category,
+            'form' => $form,
+            'updated' => $updated
         ]);
     }
 
 
 
 
-    /**
-     * @param $id
-     *
-     * @return RedirectResponse
-    */
-    public function delete($id): RedirectResponse
+
+    public function delete(Request $request): RedirectResponse
     {
-        return $this->redirect('/admin/category');
+        if ($request->isMethod('POST')) {
+            $repository = new CategoryRepository($this->getConnection());
+            $repository->delete($request->requests->getInt('id'));
+        }
+
+        return $this->redirect('/admin/categories');
     }
 }
