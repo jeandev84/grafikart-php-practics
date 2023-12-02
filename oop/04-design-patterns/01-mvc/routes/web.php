@@ -33,6 +33,5 @@ $router->map('GET|POST', '/admin/category/{id}/edit', [\App\Controller\Admin\Cat
 $router->map('GET|POST', '/admin/category/delete/{id}', [\App\Controller\Admin\CategoryController::class, 'delete'], 'admin.category.delete')
     ->number('id');
 
-$router->get('/demo', [\App\Controller\DemoController::class, 'index'], 'demo');
 
 return $router;
