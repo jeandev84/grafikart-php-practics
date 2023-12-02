@@ -47,12 +47,28 @@ class PostController extends Controller
      /**
       * @return Response
      */
-     public function show(Request $request): Response
+     public function create(Request $request): Response
      {
          $postRepository = new PostRepository($this->getConnection());
+         $categoryRepository = new CategoryRepository($this->getConnection());
 
-         return $this->render('admin/posts/show', [
-             'post' => $postRepository->find(1)
+         $lastId = 0;
+         if ($request->isMethod('POST')) {
+             $lastId = $postRepository->create([
+                 'title'   => $request->requests->get('title'),
+                 'content' => $request->requests->get('content'),
+                 'category_id' => $request->requests->getInt('category_id')
+             ]);
+
+             return $this->redirect("/admin/post/{$lastId}/edit");
+         }
+
+         $form = new BootstrapForm($_POST);
+
+         return $this->render('admin/posts/create', [
+             'form' => $form,
+             'categories' => $categoryRepository->extract('id', 'title'),
+             'created' => $lastId
          ]);
      }
 

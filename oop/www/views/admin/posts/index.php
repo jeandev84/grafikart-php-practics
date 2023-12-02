@@ -1,5 +1,9 @@
 <h1>Administrer les articles</h1>
 
+<p>
+    <a href="/admin/post/create" class="btn btn-success">Ajouter</a>
+</p>
+
 <table class="table">
     <thead>
        <tr>

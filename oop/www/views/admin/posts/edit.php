@@ -1,6 +1,8 @@
+<?php if ($updated): ?>
 <div class="alert alert-success">
-   L' article a bien ete modifie
+    L' article a bien ete modifie
 </div>
+<?php endif; ?>
 <form action="/admin/post/<?= $post->id ?>/edit" method="POST">
     <?= $form->input('title', "Titre de l' article") ?>
     <?= $form->textarea('content', "Contenu", ['class' => 'form-control']) ?>
