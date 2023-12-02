@@ -145,6 +145,15 @@ class EntityRepository implements EntityRepositoryIInterface
 
 
 
+    public function extract($key, $value): mixed {
+        $records = $this->findAll();
+        $return = [];
+        foreach ($records as $k => $v) {
+            $return[$v->{$key}] = $v->{$value};
+        }
+        return $return;
+    }
+
 
     public function findBy(array $criteria, array $orderBy = [], int $limit = 0, int $offset = 0): mixed
     {

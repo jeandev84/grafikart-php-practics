@@ -94,6 +94,23 @@ class Form
     }
 
 
+
+
+    public function select(string $name, string $label, array $options, array $attributes = []): string
+    {
+        $class = $attributes['class'] ?? '';
+        $label = "<label>$label</label>";
+        $input = sprintf('<select class="%s" name="%s">', $class, $name);
+        foreach ($options as $k => $v) {
+           $input .= sprintf('<option value="%s">%s</option>', $k, $v);
+        }
+        $input .= '</select>';
+        return $this->surround(sprintf('%s%s', $label, $input));
+    }
+
+
+
+
     /**
      * @param string $label
      *
