@@ -66,6 +66,10 @@ class Auth
 
      public function getUser(): ?UserInterface
      {
+         if (! $this->tokenStorage->hasToken()) {
+             return null;
+         }
+
          return $this->tokenStorage->getToken()->getUser();
      }
 
@@ -82,10 +86,10 @@ class Auth
 
      public function logout(): bool
      {
-         if (! $this->tokenStorage->hasToken()) {
+         if (! $user = $this->getUser()) {
               return false;
          }
 
-         return $this->tokenStorage->removeToken($this->getUser());
+         return $this->tokenStorage->removeToken($user);
      }
 }
