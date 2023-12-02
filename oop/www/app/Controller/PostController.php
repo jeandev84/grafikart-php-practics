@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 
+use App\Repository\CategoryRepository;
 use App\Repository\PostRepository;
 use Grafikart\Controller;
 use Grafikart\Database\ORM\Persistence\Repository\Exception\NotFoundException;
@@ -25,13 +26,15 @@ class PostController extends Controller
 
     public function index(): Response
     {
-        $connection = $this->getConnection();
-        $repository = new PostRepository($connection);
-
-        $posts = $repository->findLatest();
+        $connection         = $this->getConnection();
+        $postRepository     = new PostRepository($connection);
+        $categoryRepository = new CategoryRepository($connection);
+        $posts              = $postRepository->findLatest();
+        $categories         = $categoryRepository->findAll();
 
         return $this->render('posts/index', [
-            'posts' => $posts
+            'posts' => $posts,
+            'categories' => $categories
         ]);
     }
 

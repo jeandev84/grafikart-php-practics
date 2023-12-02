@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 
-use App\Database\Connection\PdoConnection;
+use Grafikart\Database\Connection\PdoConnection;
 use App\Entity\Post;
 use Grafikart\Database\ORM\Persistence\Repository\ServiceRepository;
 
@@ -23,7 +23,7 @@ class PostRepository extends ServiceRepository
     protected string $tableName = 'posts';
 
 
-    public function __construct(\Grafikart\Database\Connection\PdoConnection $connection)
+    public function __construct(PdoConnection $connection)
     {
         parent::__construct($connection, Post::class);
     }

@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace App\Entity;
 
 
+use App\Entity\Contract\EntityInterface;
+use App\Entity\Traits\EntityTrait;
+
 /**
  * Created by PhpStorm at 01.12.2023
  *
@@ -13,8 +16,11 @@ namespace App\Entity;
  *
  * @package App\Entity
  */
-class Post
+class Post implements EntityInterface
 {
+
+    use EntityTrait;
+
     protected ?int $id = null;
     protected ?string $title = null;
     protected ?string $content = null;
@@ -128,14 +134,5 @@ class Post
         $html[]   = sprintf('<p><a href="%s">Voir la suite</a></p>', $this->getURL());
 
         return join($html);
-    }
-
-
-
-    public function __get(string $name)
-    {
-         $method = sprintf('get%s', ucfirst($name));
-
-         return $this->{$name} = $this->{$method}();
     }
 }
