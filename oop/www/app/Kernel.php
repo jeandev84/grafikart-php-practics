@@ -101,6 +101,6 @@ class Kernel
             ),
         );
 
-        return new Response($content);
+        return new Response($content, $code);
     }
 }
