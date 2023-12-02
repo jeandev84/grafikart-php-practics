@@ -30,12 +30,14 @@ class CategoryController extends Controller
 
        public function show(Request $request): Response
        {
+           $categoryId         = $request->attributes->getInt('id');
            $categoryRepository = new CategoryRepository($this->getConnection());
            $postRepository     = new PostRepository($this->getConnection());
-           $categories         = $categoryRepository->findAll();
 
            return  $this->render('category/show', [
-               'category' => $categoryRepository->find($request->attributes->getInt('id'))
+               'category'   => $categoryRepository->find($categoryId),
+               'posts'      => $postRepository->findLastByCategory($categoryId),
+               'categories' => $categoryRepository->findAll()
            ]);
        }
 }
