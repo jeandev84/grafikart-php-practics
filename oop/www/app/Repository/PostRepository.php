@@ -36,7 +36,8 @@ class PostRepository extends ServiceRepository
     {
         $sql = "SELECT p.id, p.title, p.content, c.title as category 
                 FROM {$this->tableName} p
-                LEFT JOIN categories c ON p.category_id = c.id";
+                LEFT JOIN categories c ON p.category_id = c.id
+                ORDER BY p.created_at DESC";
 
         return $this->connection
                     ->statement($sql)
@@ -55,7 +56,8 @@ class PostRepository extends ServiceRepository
         $sql = "SELECT p.id, p.title, p.content, c.title as category 
                 FROM {$this->tableName} p
                 LEFT JOIN categories c ON p.category_id = c.id
-                WHERE p.id = :id";
+                WHERE p.id = :id
+                ORDER BY p.created_at DESC";
 
         return $this->connection
                     ->statement($sql)
