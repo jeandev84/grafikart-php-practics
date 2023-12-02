@@ -5,18 +5,13 @@ use Grafikart\Templating\Layout;
 $app = Container::instance();
 
 $app['root'] = dirname(__DIR__);
-$app->singleton('config', function ($app) {
-   return new \Grafikart\Config\Config([
-      'app'      => require $app['root'] . "/config/app.php",
-      'database' => require $app['root'] . "/config/database.php"
-   ]);
-});
 $app->singleton('database', function ($app) {
+   $config = require $app['root'] . "/config/database.php";
    return new \Grafikart\Database\Connection\PdoConnection(
-       $app['config']['database']['dsn'],
-       $app['config']['database']['username'],
-       $app['config']['database']['password'],
-       $app['config']['database']['options']
+       $config['dsn'],
+       $config['username'],
+       $config['password'],
+       $config['options']
    );
 });
 $app['router'] = function ($app) {

@@ -1,0 +1,11 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Grafikart\\": "src",
+            "App\\": "app/"
+        }
+    },
+    "require": {
+        "symfony/var-dumper": "^6.4"
+    }
+}

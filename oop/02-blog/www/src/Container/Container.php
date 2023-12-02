@@ -161,12 +161,8 @@ class Container implements \ArrayAccess
       }
 
 
-      
-     /**
-      * Singleton
-      *
-      * @return $this
-     */
+
+
      public static function instance(): self
      {
          if (! self::$instance) {
