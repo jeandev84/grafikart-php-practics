@@ -17,11 +17,16 @@ class Layout
 {
 
 
+
+     protected string $path;
+
+
      /**
       * @param string $path
      */
-     public function __construct(protected string $path)
+     public function __construct(string $path)
      {
+         $this->path = $path;
      }
 
 
@@ -33,6 +38,8 @@ class Layout
 
          return $this;
      }
+
+
 
 
      /**

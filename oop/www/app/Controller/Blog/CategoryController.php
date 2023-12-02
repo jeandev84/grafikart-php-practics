@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Blog;
 
 
 use App\Repository\CategoryRepository;

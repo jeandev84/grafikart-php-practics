@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Blog;
 
 
 use App\Repository\CategoryRepository;
@@ -19,7 +19,7 @@ use Grafikart\Http\Response;
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
- * @package App\Controller
+ * @package App\Controller\Blog
  */
 class PostController extends Controller
 {

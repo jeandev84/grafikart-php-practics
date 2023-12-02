@@ -11,7 +11,7 @@ $app->singleton('config', function ($app) {
       'database' => require $app['root'] . "/config/database.php"
    ]);
 });
-$app->singleton('database', function ($app) {
+$app->singleton('connection', function ($app) {
    return new \Grafikart\Database\Connection\PdoConnection(
        $app['config']['database']['dsn'],
        $app['config']['database']['username'],
@@ -19,6 +19,19 @@ $app->singleton('database', function ($app) {
        $app['config']['database']['options']
    );
 });
+$app->singleton('auth', function ($app) {
+
+    $userRepository = new \App\Repository\UserRepository($app['connection']);
+    $provider = new \App\Security\UserProvider($userRepository);
+    $userTokenStorage = new \App\Security\UserTokenStorage();
+
+    return new \Grafikart\Security\Auth(
+        $provider,
+        $userTokenStorage,
+        (new \Grafikart\Security\Encoder\UserPasswordEncoder())
+    );
+});
+
 $app['router'] = function ($app) {
     return (require $app['root'] .'/routes/web.php');
 };

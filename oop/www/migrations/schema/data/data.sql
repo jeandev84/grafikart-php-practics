@@ -6,6 +6,8 @@ CREATE TABLE IF NOT EXISTS categories (
    PRIMARY KEY (id)
 );
 
+INSERT INTO categories (title) VALUES ('Piscine'), ('Longboard');
+
 -- Table : posts
 DROP TABLE IF EXISTS posts;
 CREATE TABLE IF NOT EXISTS posts (
@@ -25,4 +27,3 @@ INSERT INTO posts (title, content) VALUES
 
 
 
-INSERT INTO categories (title) VALUES ('Piscine'), ('Longboard');

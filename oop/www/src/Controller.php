@@ -6,7 +6,10 @@ namespace Grafikart;
 
 use Grafikart\Container\Container;
 use Grafikart\Database\Connection\PdoConnection;
+use Grafikart\Http\RedirectResponse;
 use Grafikart\Http\Response;
+use Grafikart\Security\Auth;
+use Grafikart\Security\UserInterface;
 use Grafikart\Templating\Template;
 
 /**
@@ -28,6 +31,18 @@ abstract class Controller
      protected Container $app;
 
 
+     /**
+      * @var Auth
+     */
+     protected Auth $auth;
+
+
+     /**
+      * @var string
+     */
+     protected string $layout = 'layouts/default';
+
+
 
 
      /**
@@ -35,7 +50,8 @@ abstract class Controller
      */
      public function __construct(Container $app)
      {
-         $this->app = $app;
+         $this->app  = $app;
+         $this->auth = $app['auth'];
      }
 
 
@@ -57,6 +73,19 @@ abstract class Controller
      }
 
 
+     public function redirect(string $path, int $status = 301): RedirectResponse
+     {
+          return new RedirectResponse($path, $status);
+     }
+
+
+
+     public function forbidden(): RedirectResponse
+     {
+         return $this->redirect('/login', 403);
+     }
+
+
 
 
      /**
@@ -64,6 +93,24 @@ abstract class Controller
      */
      public function getConnection(): PdoConnection
      {
-          return $this->app['database'];
+          return $this->app['connection'];
+     }
+
+
+
+     public function auth(): Auth
+     {
+         return $this->auth;
+     }
+
+
+
+
+     /**
+      * @return UserInterface|null
+     */
+     public function getUser(): ?UserInterface
+     {
+          return $this->auth->getUser();
      }
 }

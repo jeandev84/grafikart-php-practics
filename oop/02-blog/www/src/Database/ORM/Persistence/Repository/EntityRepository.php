@@ -148,7 +148,6 @@ class EntityRepository implements EntityRepositoryIInterface
 
     public function findBy(array $criteria, array $orderBy = [], int $limit = 0, int $offset = 0): mixed
     {
-        // TODO via QueryBuilder!!!
         $conditions = array_map(function ($column) {
             return "$column = :$column";
         }, array_keys($criteria));
@@ -159,14 +158,21 @@ class EntityRepository implements EntityRepositoryIInterface
         }, $orderBy);
 
         $sqlOrderBy = join(', ', $ordering);
+        $sql[] = "SELECT * FROM {$this->tableName} WHERE {$sqlConditions}";
 
-        $sql = "SELECT * 
-                FROM {$this->tableName} 
-                WHERE {$sqlConditions} 
-                ORDER BY {$sqlOrderBy}
-                LIMIT {$limit} 
-                OFFSET {$offset}
-                ";
+        if ($orderBy) {
+             $sql[] = "ORDER BY {$sqlOrderBy}";
+        }
+
+        if ($limit) {
+            $sql[]  = "LIMIT {$limit}";
+        }
+
+        if ($offset) {
+            $sql[] = "OFFSET {$offset}";
+        }
+
+        $sql = join(' ', $sql);
 
         return $this->connection
                     ->statement($sql)

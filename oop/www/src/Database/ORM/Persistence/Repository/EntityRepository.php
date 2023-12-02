@@ -148,32 +148,17 @@ class EntityRepository implements EntityRepositoryIInterface
 
     public function findBy(array $criteria, array $orderBy = [], int $limit = 0, int $offset = 0): mixed
     {
-        // TODO via QueryBuilder!!!
-        $conditions = array_map(function ($column) {
-            return "$column = :$column";
-        }, array_keys($criteria));
+        return $this->findByQuery($criteria, $orderBy, $limit, $offset)->all();
+    }
 
-        $sqlConditions = join(" AND ", $conditions);
-        $ordering = array_map(function ($column, $direction) {
-             return "$column $direction";
-        }, $orderBy);
 
-        $sqlOrderBy = join(', ', $ordering);
 
-        $sql = "SELECT * 
-                FROM {$this->tableName} 
-                WHERE {$sqlConditions} 
-                ORDER BY {$sqlOrderBy}
-                LIMIT {$limit} 
-                OFFSET {$offset}
-                ";
-
-        return $this->connection
-                    ->statement($sql)
-                    ->setParameters($criteria)
-                    ->map($this->classname)
-                    ->fetch()
-                    ->all();
+    public function findOneBy(array $criteria, array $orderBy = [], int $limit = 0, int $offset = 0): mixed
+    {
+        if(! $result = $this->findByQuery($criteria, $orderBy, $limit, $offset)->one()) {
+            return null;
+        }
+        return $result;
     }
 
 
@@ -192,5 +177,43 @@ class EntityRepository implements EntityRepositoryIInterface
     public function getClassName(): string
     {
        return $this->classname;
+    }
+
+
+
+    protected function findByQuery(array $criteria, array $orderBy = [], int $limit = 0, int $offset = 0)
+    {
+        // TODO via QueryBuilder!!!
+        $conditions = array_map(function ($column) {
+            return "$column = :$column";
+        }, array_keys($criteria));
+
+        $sqlConditions = join(" AND ", $conditions);
+        $ordering = array_map(function ($column, $direction) {
+            return "$column $direction";
+        }, $orderBy);
+
+        $sqlOrderBy = join(', ', $ordering);
+        $sql[] = "SELECT * FROM {$this->tableName} WHERE {$sqlConditions}";
+
+        if ($orderBy) {
+            $sql[] = "ORDER BY {$sqlOrderBy}";
+        }
+
+        if ($limit) {
+            $sql[]  = "LIMIT {$limit}";
+        }
+
+        if ($offset) {
+            $sql[] = "OFFSET {$offset}";
+        }
+
+        $sql = join(' ', $sql);
+
+        return $this->connection
+            ->statement($sql)
+            ->setParameters($criteria)
+            ->map($this->classname)
+            ->fetch();
     }
 }

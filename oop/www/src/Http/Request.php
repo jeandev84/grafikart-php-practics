@@ -81,10 +81,9 @@ class Request
     }
 
 
-
-
-
-
+    /**
+     * @return array
+    */
     public function getParsedBody(): array
     {
          return $this->requests->all();
@@ -147,6 +146,20 @@ class Request
     public function getPath(): string
     {
         return parse_url($this->getRequestUri(), PHP_URL_PATH);
+    }
+
+
+
+
+
+    /**
+     * @param string $type
+     *
+     * @return bool
+    */
+    public function isMethod(string $type): bool
+    {
+        return $this->getMethod() === strtoupper($type);
     }
 
 

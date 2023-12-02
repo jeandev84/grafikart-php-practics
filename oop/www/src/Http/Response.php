@@ -106,9 +106,6 @@ class Response
 
     public function send(): void
     {
-         if (! headers_sent()) {
-             return;
-         }
          $this->sendHeaders();
     }
 
@@ -119,14 +116,13 @@ class Response
     }
 
 
-    private function sendHeaders(): mixed
+    private function sendHeaders(): void
     {
-        ob_start();
+        if (headers_sent()) { return; }
         http_response_code($this->status);
         foreach ($this->headers as $name => $value) {
             header("$name: $value");
         }
-        return ob_get_flush();
     }
 
 
