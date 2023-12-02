@@ -56,7 +56,7 @@ class CategoryController extends Controller
                 'title'   => $request->requests->get('title')
             ]);
 
-            return $this->redirect("/admin/category/{$lastId}/edit");
+            return $this->redirect("/admin/categories");
         }
 
         $form = new BootstrapForm($_POST);
