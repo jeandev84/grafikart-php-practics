@@ -74,7 +74,7 @@ class PostRepository extends ServiceRepository
                 FROM {$this->tableName} p
                 LEFT JOIN categories c ON p.category_id = c.id
                 WHERE p.category_id = :categoryId
-                ";
+                ORDER BY p.created_at DESC";
 
          return $this->connection
                      ->statement($sql)
@@ -82,17 +82,5 @@ class PostRepository extends ServiceRepository
                      ->map($this->classname)
                      ->fetch()
                      ->all();
-    }
-
-
-    public function exampleSomething(): mixed
-    {
-        /*
-         $date       = date('Y-m-d H:i:s');
-         $count      = $this->connection->executeQuery(
-                            sprintf('INSERT INTO posts SET title="Mon titre", created_at="%s"', $date)
-                     );
-       */
-        return [];
     }
 }
