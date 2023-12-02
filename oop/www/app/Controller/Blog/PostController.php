@@ -48,7 +48,7 @@ class PostController extends Controller
     public function show(Request $request): Response
     {
           $postRepository = new PostRepository($this->getConnection());
-          $post           = $postRepository->find($request->attributes->getInt('id'));
+          $post           = $postRepository->findWithCategory($request->attributes->getInt('id'));
 
           return $this->render('posts/show', [
               'post' => $post
