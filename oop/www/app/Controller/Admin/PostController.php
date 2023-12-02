@@ -75,11 +75,12 @@ class PostController extends Controller
         if ($request->isMethod('POST')) {
             $updated = $postRepository->update([
                 'title'   => $request->requests->get('title'),
-                'content' => $request->requests->get('content')
+                'content' => $request->requests->get('content'),
+                'category_id' => $request->requests->getInt('category_id')
             ], $postId);
         }
 
-        $post = $postRepository->find($postId);
+        $post = $postRepository->findWithCategory($postId);
         $form = new BootstrapForm($post);
 
         return $this->render('admin/posts/edit', [

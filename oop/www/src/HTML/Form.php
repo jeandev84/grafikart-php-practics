@@ -102,7 +102,11 @@ class Form
         $label = "<label>$label</label>";
         $input = sprintf('<select class="%s" name="%s">', $class, $name);
         foreach ($options as $k => $v) {
-           $input .= sprintf('<option value="%s">%s</option>', $k, $v);
+           $attr = '';
+           if ($k == $this->getValue($name)) {
+               $attr .= " selected";
+           }
+           $input .= sprintf('<option value="%s"%s>%s</option>', $k, $attr, $v);
         }
         $input .= '</select>';
         return $this->surround(sprintf('%s%s', $label, $input));

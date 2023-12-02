@@ -53,7 +53,7 @@ class PostRepository extends ServiceRepository
      */
     public function find(int $id): mixed
     {
-        $sql = "SELECT p.id, p.title, p.content, c.title as category 
+        $sql = "SELECT p.id, p.title, p.content, c.title, p.category_id as category 
                 FROM {$this->tableName} p
                 LEFT JOIN categories c ON p.category_id = c.id
                 WHERE p.id = :id
@@ -65,6 +65,25 @@ class PostRepository extends ServiceRepository
                     ->map($this->classname)
                     ->fetch()
                     ->one();
+    }
+
+
+
+
+    public function findWithCategory(int $id): mixed
+    {
+        $sql = "SELECT p.id, p.title, p.content, c.title as category, p.category_id 
+                FROM {$this->tableName} p
+                LEFT JOIN categories c ON p.category_id = c.id
+                WHERE p.id = :id
+                ORDER BY p.created_at DESC";
+
+        return $this->connection
+            ->statement($sql)
+            ->setParameters(compact('id'))
+            ->map($this->classname)
+            ->fetch()
+            ->one();
     }
 
 
