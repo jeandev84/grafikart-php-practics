@@ -49,7 +49,8 @@ abstract class Controller
      public function render(string $path, array $parameters = []): Response
      {
          $content = $this->app['view']->render(
-             new Template($this->app['root'] ."/views/$path.php", $parameters)
+             new Template($this->app['root'] ."/views/$path.php", $parameters),
+             $parameters
          );
 
          return new Response($content);

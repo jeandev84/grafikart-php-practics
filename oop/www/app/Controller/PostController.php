@@ -33,6 +33,7 @@ class PostController extends Controller
         $categories         = $categoryRepository->findAll();
 
         return $this->render('posts/index', [
+            'title' => 'Posts',
             'posts' => $posts,
             'categories' => $categories
         ]);

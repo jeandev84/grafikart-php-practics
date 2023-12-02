@@ -35,17 +35,19 @@ class Layout
      }
 
 
-
-
      /**
       * @param Template $template
       *
+      * @param array $parameters
+      *
       * @return string
      */
-     public function render(Template $template): string
+     public function render(Template $template, array $parameters = []): string
      {
-         $layout = file_get_contents($this->path);
-
-         return str_replace("{{ content }}", $template->__toString(), $layout);
+         extract($parameters, EXTR_SKIP);
+         $content = $template->__toString();
+         ob_start();
+         require $this->path;
+         return str_replace("{{ content }}", $content, ob_get_clean());
      }
 }
