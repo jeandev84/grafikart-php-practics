@@ -3,18 +3,17 @@
 require 'vendor/autoload.php';
 
 $emitter = \Grafikart\Event\Emitter::getInstance();
-$emitter->emit('Comment.created', function ($firstname, $lastname) {
+
+$emitter->once('Comment.created', function ($firstname, $lastname) {
+    echo "$firstname $lastname a poste un nouveau commentaire\n";
+}, 1); // lancer evenement une seule fois
+$emitter->on('Comment.created', function ($firstname, $lastname) {
    echo "$firstname $lastname a poste un nouveau commentaire\n";
-});
+}, 1); // lancer en second
+$emitter->on('Comment.created', function ($firstname, $lastname) {
+    echo "$firstname $lastname a poste un nouveau commentaire\n";
+}, 100); // lancer en premier
+
+$emitter->emit('Comment.created', 'John', 'Doe');
 $emitter->emit('User.new');
-
-
-$emitter->on('Comment.created', function ($comment) {
-     return $comment->createdMessage();
-});
-
-
-$emitter->on('User.new', function ($user) {
-    return mail('...');
-});
 

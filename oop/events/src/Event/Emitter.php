@@ -87,6 +87,12 @@ class Emitter
     }
 
 
+    public function once(string $event, callable $callable): static
+    {
+
+    }
+
+
 
     private function hasListener(string $event): bool
     {

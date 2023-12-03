@@ -6,5 +6,8 @@
         "psr-4": {
             "Grafikart\\": "src"
         }
+    },
+    "require-dev": {
+        "kahlan/kahlan": "^5.2"
     }
 }
