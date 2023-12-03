@@ -21,6 +21,7 @@ class FakeSubscriber implements SubscriberInterface
         return  [
             'Comment.created' => 'onNewComment',
             'Post.created'    => 'onNewPost',
+            #'User.created'    => ['onSendEmail', 200, ['stopPropagation' => true]]
         ];
     }
 }
