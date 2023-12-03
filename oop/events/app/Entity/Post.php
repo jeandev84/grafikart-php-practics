@@ -18,6 +18,6 @@ class Post
 
     public function getImage(): string
     {
-        return "https://placeholder/it/340x500";
+        return "/uploads/demo.jpg";
     }
 }

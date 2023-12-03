@@ -78,6 +78,9 @@ class EventManager implements EventManagerInterface
                    return $listenerB['priority'] - $listenerA['priority'];
               });
               foreach ($listeners as ['callback' => $callback]) {
+                   if ($event->isPropagationStopped()) {
+                        break;
+                   }
                    call_user_func($callback, $event);
               }
          }
