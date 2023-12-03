@@ -131,10 +131,12 @@ describe(Emitter::class, function () {
 
              # method appelee 2 fois
              expect($subscriber)->toReceive('onNewComment')->times(2)->with($comment);
+             expect($subscriber)->toReceive('onNewPost')->once()->with(200, 300, 400);
 
              $this->emitter->addSubscriber($subscriber);
              $this->emitter->emit('Comment.created', $comment);
              $this->emitter->emit('Comment.created', $comment);
+             $this->emitter->emit('Post.created', 200, 300, 400);
          });
     });
 });
