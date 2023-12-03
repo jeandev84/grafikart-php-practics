@@ -159,7 +159,7 @@ class Emitter
      */
     private function sortListeners(string $event): void
     {
-       uasort($this->listeners[$event], function ($a, $b) {
+       usort($this->listeners[$event], function ($a, $b) {
           return $a->priority < $b->priority;
        });
     }
