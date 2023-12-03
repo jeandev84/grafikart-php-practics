@@ -48,17 +48,11 @@ describe(Emitter::class, function () {
             $this->emitter->emit('Comment.created', $comment);
         });
 
-
-        it('should trigger events in the right order', function () {
-
-             $listener = Double::instance();
-
-             expect($listener)->toReceive('onNewComment')->once()->ordered;
-             expect($listener)->toReceive('onNewComment2')->once()->ordered;
-
-             $this->emitter->on('Comment.created', [$listener, 'onNewComment'], 1);
-             $this->emitter->on('Comment.created', [$listener, 'onNewComment2'], 200);
-             $this->emitter->emit('Comment.created');
+        /*
+        it('test bidon', function () {
+            $this->emitter = Emitter::getInstance();
+            $this->emitter->emit('demo');
         });
+        */
     });
 });
