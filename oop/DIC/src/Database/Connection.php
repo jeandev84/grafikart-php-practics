@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Grafikart;
+namespace Grafikart\Database;
 
 
 /**

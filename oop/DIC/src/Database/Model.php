@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Grafikart;
+namespace Grafikart\Database;
 
 /**
  * Created by PhpStorm at 03.12.2023
@@ -14,10 +14,11 @@ class Model
 {
 
     protected Connection $connection;
-
+    protected string $id;
 
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
+        $this->id = uniqid();
     }
 }
