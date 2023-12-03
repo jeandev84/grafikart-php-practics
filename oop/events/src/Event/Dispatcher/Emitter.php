@@ -96,11 +96,21 @@ class Emitter
     }
 
 
-
-
+    /**
+     * Permet d' ajouter un subscriber qui va ecouter plusieurs evenements
+     *
+     * @param SubscriberInterface $subscriber
+     * @return self
+     */
     public function addSubscriber(SubscriberInterface $subscriber): self
     {
+         $events = $subscriber->getEvents();
 
+         foreach ($events as $event => $method) {
+              $this->on($event, [$subscriber, $method]);
+         }
+
+         return $this;
     }
 
 

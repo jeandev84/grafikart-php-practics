@@ -19,7 +19,8 @@ class FakeSubscriber implements SubscriberInterface
     public function getEvents(): array
     {
         return  [
-            'Comment.created' => 'onNewComment'
+            'Comment.created' => 'onNewComment',
+            'Post.created'    => 'onNewPost',
         ];
     }
 }
