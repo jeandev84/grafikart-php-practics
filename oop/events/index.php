@@ -2,7 +2,7 @@
 
 require 'vendor/autoload.php';
 
-$emitter = \Grafikart\Event\Emitter::getInstance();
+$emitter = \Grafikart\Event\Dispatcher\Emitter::getInstance();
 
 $emitter->once('Comment.created', function ($firstname, $lastname) {
     echo "$firstname $lastname a poste un nouveau commentaire\n";

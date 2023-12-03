@@ -1,6 +1,6 @@
 <?php
 
-$emitter = \Grafikart\Event\Emitter::getInstance();
+$emitter = \Grafikart\Event\Dispatcher\Emitter::getInstance();
 $emitter->emit('Comment.created', $comment);
 $emitter->emit('User.new', $user);
 

@@ -10,7 +10,7 @@ describe(\Grafikart\Event\Emitter::class, function () {
 });
 */
 
-use Grafikart\Event\Emitter;
+use Grafikart\Event\Dispatcher\Emitter;
 use Kahlan\Plugin\Double;
 
 describe(Emitter::class, function () {
