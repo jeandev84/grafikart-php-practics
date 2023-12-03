@@ -4,7 +4,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use function Http\Response\send;
 
-require __DIR__.'/../vendor/autoload.php';
+require 'vendor/autoload.php';
 
 $trailingSlash = function (ServerRequestInterface $request, ResponseInterface $response, callable $next) {
 
@@ -46,12 +46,13 @@ $app = function (ServerRequestInterface $request, ResponseInterface $response, c
 $request = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 $response = new \GuzzleHttp\Psr7\Response();
 
-$dispatcher = new \Grafikart\Http\Middleware\Dispatcher();
-$dispatcher->pipe(new \App\Middleware\PoweredByMiddleware());
-$dispatcher->pipe($trailingSlash);
-$dispatcher->pipe(new \Psr7Middlewares\Middleware\FormatNegotiator());
-$dispatcher->pipe($quoteMiddleware);
-$dispatcher->pipe($app);
+$response = $trailingSlash($request, $response, function ($request, $response) use ($quoteMiddleware, $app) {
+    return $quoteMiddleware($request, $response, function ($request, $response) use ($app) {
+        return $app($request, $response, function ($request, $response) {
+             return $response;
+        });
+    });
+});
 
 
-send($dispatcher->handle($request));
+send($response);

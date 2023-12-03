@@ -6,8 +6,13 @@ namespace Grafikart\Http\Middleware;
 
 
 
+use GuzzleHttp\Psr7\Response;
+use Interop\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Interop\Http\Server\MiddlewareInterface;
+
+
 
 /**
  * Created by PhpStorm at 03.12.2023
@@ -18,7 +23,7 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @package Grafikart\Http\Middleware
  */
-class Dispatcher
+class Dispatcher implements RequestHandlerInterface
 {
 
       private array $middlewares = [];
@@ -27,35 +32,24 @@ class Dispatcher
       private int $index = 0;
 
 
+      private $response;
+
+
+
+      public function __construct()
+      {
+      }
+
       /**
        * Permet d' enregister un middleware
        *
-       * @param callable $middleware
+       * @param callable|MiddlewareInterface $middleware
        * @return void
       */
-      public function pipe(callable $middleware)
+      public function pipe(callable|MiddlewareInterface $middleware)
       {
           $this->middlewares[] = $middleware;
-      }
-
-
-      /**
-       * Permet d'executer un middleware
-       *
-       * @param ServerRequestInterface $request
-       * @param ResponseInterface $response
-       * @return ResponseInterface
-      */
-      public function process(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
-      {
-           $middleware = $this->getMiddleware();
-           $this->index++;
-
-           if (is_null($middleware)) {
-               return $response;
-           }
-
-           return $middleware($request, $response, [$this, 'process']);
+          $this->response      = new Response();
       }
 
 
@@ -70,4 +64,29 @@ class Dispatcher
 
           return null;
       }
+
+
+
+
+    /**
+     * Permet d'executer un middleware
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
+     public function handle(ServerRequestInterface $request)
+     {
+         $middleware = $this->getMiddleware();
+         $this->index++;
+
+         if (is_null($middleware)) {
+             return $this->response;
+         }
+
+         if ($middleware instanceof \Interop\Http\Server\MiddlewareInterface) {
+             return $middleware->process($request, $this);
+         }
+
+         return $middleware($request, $this->response, [$this, 'handle']);
+     }
 }

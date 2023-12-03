@@ -47,11 +47,10 @@ $request = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 $response = new \GuzzleHttp\Psr7\Response();
 
 $dispatcher = new \Grafikart\Http\Middleware\Dispatcher();
-$dispatcher->pipe(new \App\Middleware\PoweredByMiddleware());
 $dispatcher->pipe($trailingSlash);
 $dispatcher->pipe(new \Psr7Middlewares\Middleware\FormatNegotiator());
 $dispatcher->pipe($quoteMiddleware);
 $dispatcher->pipe($app);
 
 
-send($dispatcher->handle($request));
+send($dispatcher->process($request, $response));
