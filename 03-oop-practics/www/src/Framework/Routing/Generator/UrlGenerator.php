@@ -49,7 +49,7 @@ class UrlGenerator implements UrlGeneratorInterface
     */
     public function generateUri(string $name, array $parameters = [], array $queries = [], string $fragment = null): string
     {
-        if (! $path = $this->router->generate($name, $parameters)) {
+        if (! $path = $this->router->generateUri($name, $parameters)) {
             (function () use ($name) {
                 throw new UrlGeneratorException("Could not found route named $name");
             })();

@@ -49,7 +49,7 @@ interface RouterInterface
      *
      * @return mixed
     */
-    public function match(string $method, string $path): mixed;
+    public function matchRoute(string $method, string $path): mixed;
 
 
 
@@ -67,5 +67,5 @@ interface RouterInterface
      *
      * @return string|null
     */
-    public function generate(string $name, array $parameters = []): ?string;
+    public function generateUri(string $name, array $parameters = []): ?string;
 }

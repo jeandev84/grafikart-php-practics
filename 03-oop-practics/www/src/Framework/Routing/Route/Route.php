@@ -604,6 +604,12 @@ class Route implements RouteInterface
 
 
 
+    public function getCallback(): callable
+    {
+        return $this->getAction();
+    }
+
+
 
 
 

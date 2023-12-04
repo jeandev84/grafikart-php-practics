@@ -10,7 +10,7 @@ use Framework\Routing\Collection\RouteCollection;
 use Framework\Routing\Group\RouteGroup;
 use Framework\Routing\Route\Route;
 use Framework\Routing\Resource\Contract\Resource;
-
+use Psr\Http\Message\ServerRequestInterface;
 
 
 /**
@@ -483,16 +483,24 @@ class Router implements RouterInterface
     }
 
 
-
-
+    /**
+     * @param ServerRequestInterface $request
+     * @return Route|false
+     */
+    public function match(ServerRequestInterface $request): Route|false
+    {
+        return $this->matchRoute($request->getMethod(), $request->getUri()->getPath());
+    }
 
 
 
 
     /**
-     * @inheritDoc
-    */
-    public function match(string $method, string $path): Route|false
+     * @param string $method
+     * @param string $path
+     * @return Route|false
+     */
+    public function matchRoute(string $method, string $path): Route|false
     {
         foreach ($this->getRoutes() as $route) {
             if ($route->match($method, $path)) {
@@ -515,7 +523,7 @@ class Router implements RouterInterface
     /**
      * @inheritDoc
     */
-    public function generate(string $name, array $parameters = []): ?string
+    public function generateUri(string $name, array $parameters = []): ?string
     {
          if (! $route = $this->collection->getRoute($name)) {
              return null;

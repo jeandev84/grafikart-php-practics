@@ -67,10 +67,7 @@ class App
                       ->withHeader('Location', substr($uri, 0, -1));
            }
 
-           $route = $this->router->match(
-               $request->getMethod(),
-               $request->getUri()->getPath()
-           );
+           $route = $this->router->match($request);
 
            if (! $route) {
                return new Response(404, [], '<h1>Error 404</h1>');

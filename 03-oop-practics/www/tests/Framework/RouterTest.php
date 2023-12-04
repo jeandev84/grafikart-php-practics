@@ -6,7 +6,7 @@ namespace Tests\Framework;
 
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
-use Routing\Router;
+use Framework\Routing\Router;
 
 /**
  * Created by PhpStorm at 04.12.2023
