@@ -6,8 +6,12 @@ use Framework\Templating\Renderer\RendererInterface;
 use Framework\Templating\Renderer\TwigRendererFactory;
 
 return [
-    'views.path' => dirname(__DIR__). '/views',
-    'twig.extensions' => [
+    'database.host'     => 'localhost',
+    'database.username' => 'root',
+    'database.password' => 'secret',
+    'database.name'     => 'monsupersite',
+    'views.path'        => dirname(__DIR__). '/views',
+    'twig.extensions'   => [
         \DI\get(RouterTwigExtension::class)
     ],
     Router::class => \DI\object(),

@@ -2,7 +2,7 @@
 
 use Framework\Templating\Renderer\RendererInterface;
 
-require __DIR__.'/../vendor/autoload.php';
+require dirname(__DIR__).'/vendor/autoload.php';
 
 
 $modules = [
@@ -26,5 +26,8 @@ $container = $builder->build();
 $app = new \Framework\App($container, $modules);
 
 # Response
-$response = $app->run(\GuzzleHttp\Psr7\ServerRequest::fromGlobals());
-\Http\Response\send($response);
+# Execute, si on est pas en ligne de command
+if (php_sapi_name() !== "cli") {
+    $response = $app->run(\GuzzleHttp\Psr7\ServerRequest::fromGlobals());
+    \Http\Response\send($response);
+}

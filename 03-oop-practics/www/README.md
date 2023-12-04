@@ -13,3 +13,17 @@ $ ./vendor/bin/phpcs src/Framework/App.php
 ```
 
 ./vendor/bin/phpunit; ./vendor/bin/phpcs
+
+
+
+3. Phinx 
+```
+$ ./vendor/bin/phinx init .
+$ $EDITOR phinx.yml
+$ mkdir -p db/migrations db/seeds
+$ vendor/bin/phnix create MyFirstMigration
+$ vendor/bin/phinx create CreatePostsTable
+$ vendor/bin/phinx migrate -e development [ vendor/bin/phinx migrate ]
+$ vendor/bin/phinx seed:create MyNewSeeder
+$ vendor/bin/phinx seed:run
+```
