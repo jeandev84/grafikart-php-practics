@@ -25,7 +25,17 @@ class Renderer
       protected array $paths = [];
 
 
+
       /**
+       * @var array
+      */
+      protected array $globals = [];
+
+
+
+      /**
+       * Permet de rajouter un chemin pour changer les vues
+       *
        * @param string $namespace
        *
        * @param string|null $path
@@ -42,14 +52,34 @@ class Renderer
       }
 
 
-
-
       /**
-       * @param string $view
+       * Permet d' ajout des variables globales a toutes les vues
        *
-       * @return string
+       * @param string $key
+       * @param mixed $value
+       * @return void
       */
-      public function render(string $view): string
+      public function addGlobal(string $key, mixed $value): void
+      {
+          $this->globals[$key] = $value;
+      }
+
+
+
+
+       /**
+        * Permet de rendre une vue
+        *
+        * Le chemin peut etre precise avec le namespace rajoutes via addPath()
+        *
+        * $this->render('@blog/view')
+        * $this->render('view')
+        *
+        * @param string $view
+        * @param array $params
+        * @return string
+       */
+      public function render(string $view, array $params = []): string
       {
           if ($this->hasNamespace($view)) {
               $path = $this->replaceNamespace($view) . ".php";
@@ -58,6 +88,9 @@ class Renderer
           }
 
           ob_start();
+          $renderer = $this;
+          extract($this->globals);
+          extract($params);
           require($path);
           return ob_get_clean();
       }

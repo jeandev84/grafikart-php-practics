@@ -61,8 +61,12 @@ class RouterTest extends TestCase
     {
         $request = new ServerRequest('GET', '/blog/mon-slug-8');
         $this->router->get('/blog', function () { return 'azeazea'; }, 'posts');
+        /*
         $this->router->get('/blog/{slug}-{id}', function () { return 'hello'; }, 'post.show')
                      ->wheres(['slug' => '[a-z0-9\-]+', 'id' => '\d+']);
+        */
+        $this->router->get('/blog/{slug}', function () { return 'hello'; }, 'post.show')
+            ->wheres(['slug' => '[a-z0-9\-]+']);
         if($route = $this->router->match($request)) {
             $this->assertEquals('post.show', $route->getName());
             $this->assertEquals('hello', call_user_func_array($route->getCallback(), [$request]));
@@ -84,8 +88,8 @@ class RouterTest extends TestCase
     public function testGenerateUri()
     {
         $this->router->get('/blog', function () { return 'azeazea'; }, 'posts');
-        $this->router->get('/blog/{slug}-{id}', function () { return 'hello'; }, 'post.show')
-                     ->wheres(['slug' => '[a-z0-9\-]+', 'id' => '\d+']);
+        $this->router->get('/blog/{slug}', function () { return 'hello'; }, 'post.show')
+                     ->wheres(['slug' => '[a-z0-9\-]+']);
         $uri = $this->router->generateUri('post.show', ['slug' => 'mon-article', 'id' => 18]);
         $this->assertEquals('/blog/mon-article-18', $uri);
     }

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,15 +8,21 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Starter Template for Bootstrap</title>
+    <title><?= isset($title) ? $title : "Mon site"?></title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/assets/bootstrap/v4/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/bootstrap/v4.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            padding-top: 5rem;
+        }
+    </style>
 </head>
 
 <body>
 
-<nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <a class="navbar-brand" href="#">Title</a>
     <ul class="nav navbar-nav">
         <li class="nav-item active">

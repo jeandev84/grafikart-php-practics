@@ -1,4 +1,5 @@
-<?php // add header ?>
+<?= $renderer->render('header', ['slug' => $slug]) ?>
 
+    <h1>Bienvenue sur l' article <?= $slug ?></h1>
 
-<?php // add footer ?>
+<?= $renderer->render('footer') ?>

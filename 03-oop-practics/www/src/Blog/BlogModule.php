@@ -23,17 +23,16 @@ class BlogModule
      private Renderer $renderer;
 
 
-     public function __construct(Router $router)
+     public function __construct(Router $router, Renderer $renderer)
      {
          # Renderer
-         $this->renderer = new Renderer();
+         $this->renderer = $renderer;
          $this->renderer->addPath('blog', __DIR__.'/views');
-
 
          # Routing
          $router->get('/blog', [$this, 'index'], 'blog.index');
-         $router->get('/blog/{slug}-{id}', [$this, 'show'], 'blog.show')
-                ->wheres(['slug' => '[a-z0-9\-]+', 'id'   => '\d+']);
+         $router->get('/blog/{slug}', [$this, 'show'], 'blog.show')
+                ->wheres(['slug' => '[a-z0-9\-]+']);
      }
 
 
@@ -47,8 +46,8 @@ class BlogModule
 
      public function show(ServerRequestInterface $request): string
      {
-         $slug = $request->getAttribute('slug');
-
-         return $this->renderer->render('@blog/show');
+         return $this->renderer->render('@blog/show', [
+             'slug' => $request->getAttribute('slug')
+         ]);
      }
 }
