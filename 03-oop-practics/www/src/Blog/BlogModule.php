@@ -4,9 +4,10 @@ declare(strict_types=1);
 namespace App\Blog;
 
 
-use Framework\Templating\Renderer;
-use Psr\Http\Message\ServerRequestInterface;
 use Framework\Routing\Router;
+use Framework\Templating\Renderer\RendererInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
 
 /**
  * Created by PhpStorm at 04.12.2023
@@ -20,10 +21,10 @@ use Framework\Routing\Router;
 class BlogModule
 {
 
-     private Renderer $renderer;
+     private RendererInterface $renderer;
 
 
-     public function __construct(Router $router, Renderer $renderer)
+     public function __construct(Router $router, RendererInterface $renderer)
      {
          # Renderer
          $this->renderer = $renderer;

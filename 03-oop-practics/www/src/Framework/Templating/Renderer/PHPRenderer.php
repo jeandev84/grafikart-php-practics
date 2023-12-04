@@ -1,19 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace Framework\Templating;
+namespace Framework\Templating\Renderer;
 
 
 /**
  * Created by PhpStorm at 04.12.2023
  *
- * @Renderer
+ * @PHPRenderer
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
- * @package Framework\Templating
+ * @package Framework\Templating\Renderer
  */
-class Renderer
+class PHPRenderer implements RendererInterface
 {
 
       const DEFAULT_NAMESPACE = '__MAIN';
@@ -33,14 +33,22 @@ class Renderer
 
 
 
+
       /**
-       * Permet de rajouter un chemin pour changer les vues
-       *
-       * @param string $namespace
-       *
-       * @param string|null $path
-       *
-       * @return void
+       * @param string|null $defaultPath
+      */
+      public function __construct(?string $defaultPath = null)
+      {
+            if ($defaultPath) {
+                $this->addPath($defaultPath);
+            }
+      }
+
+
+
+
+      /**
+       * @inheritdoc
       */
       public function addPath(string $namespace, ?string $path = null): void
       {
@@ -53,11 +61,7 @@ class Renderer
 
 
       /**
-       * Permet d' ajout des variables globales a toutes les vues
-       *
-       * @param string $key
-       * @param mixed $value
-       * @return void
+       * @inheritdoc
       */
       public function addGlobal(string $key, mixed $value): void
       {
@@ -68,16 +72,7 @@ class Renderer
 
 
        /**
-        * Permet de rendre une vue
-        *
-        * Le chemin peut etre precise avec le namespace rajoutes via addPath()
-        *
-        * $this->render('@blog/view')
-        * $this->render('view')
-        *
-        * @param string $view
-        * @param array $params
-        * @return string
+        * @inheritdoc
        */
       public function render(string $view, array $params = []): string
       {
