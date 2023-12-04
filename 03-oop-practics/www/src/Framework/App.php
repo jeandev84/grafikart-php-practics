@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Framework;
 
 
+use Framework\Routing\Route;
+use Framework\Routing\Router;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -24,10 +26,20 @@ class App
        protected array $modules = [];
 
 
-       public function __construct(array $modules)
+       /**
+        * App constructor
+        *
+        * @param string[] $modules Liste des modules a charger
+       */
+       public function __construct(array $modules = [])
        {
-           $this->modules = $modules;
+           $router = new Router();
+           foreach ($modules as $module) {
+               $this->modules[] = new $module($router);
+           }
        }
+
+
 
 
 
