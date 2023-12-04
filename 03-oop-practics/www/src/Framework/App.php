@@ -5,6 +5,9 @@ namespace Framework;
 
 
 use GuzzleHttp\Psr7\Response;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Framework\Routing\Router;
@@ -37,20 +40,25 @@ class App
 
 
        /**
+        * @var ContainerInterface
+       */
+       protected ContainerInterface $container;
+
+
+       /**
         * App constructor
         *
+        * @param ContainerInterface $container
+        *
         * @param string[] $modules Liste des modules a charger
+        *
+        * @throws ContainerExceptionInterface
+        * @throws NotFoundExceptionInterface
        */
-       public function __construct(array $modules = [], array $dependencies = [])
+       public function __construct(ContainerInterface $container, array $modules = [])
        {
-           $this->router = new Router();
-
-           if (array_key_exists('renderer', $dependencies)) {
-               $dependencies['renderer']->addGlobal('router', $this->router);
-           }
-
            foreach ($modules as $module) {
-               $this->modules[] = new $module($this->router, $dependencies['renderer']);
+               $this->modules[] = $container->get($module);
            }
        }
 
