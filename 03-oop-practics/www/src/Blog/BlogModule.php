@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Blog;
 
 
+use Framework\Module;
 use Framework\Routing\Router;
 use Framework\Templating\Renderer\RendererInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -18,21 +19,21 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @package App\Blog
  */
-class BlogModule
+class BlogModule extends Module
 {
 
-     private RendererInterface $renderer;
+     const DEFINITIONS = __DIR__.'/config.php';
 
 
-     public function __construct(Router $router, RendererInterface $renderer)
+     public function __construct(string $prefix, Router $router, RendererInterface $renderer)
      {
          # Renderer
          $this->renderer = $renderer;
          $this->renderer->addPath('blog', __DIR__.'/views');
 
          # Routing
-         $router->get('/blog', [$this, 'index'], 'blog.index');
-         $router->get('/blog/{slug}', [$this, 'show'], 'blog.show')
+         $router->get($prefix, [$this, 'index'], 'blog.index');
+         $router->get($prefix .'/{slug}', [$this, 'show'], 'blog.show')
                 ->wheres(['slug' => '[a-z\-0-9]+']);
      }
 
