@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Framework\Modules;
 
-use Routing\Router;
+use Framework\Routing\Router;
 
 
 /**

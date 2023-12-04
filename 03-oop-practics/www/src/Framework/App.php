@@ -78,7 +78,7 @@ class App
                return $request->withAttribute($key, $params[$key]);
            }, $request);
 
-           $response = call_user_func_array($route->getAction(), [$request]);
+           $response = call_user_func_array($route->getCallback(), [$request]);
 
            if (is_string($response)) {
                return new Response(200, [], $response);
