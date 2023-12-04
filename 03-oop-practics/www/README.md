@@ -11,3 +11,5 @@ $ ./vendor/bin/phpunit tests/Framework/AppTest.php
 https://github.com/squizlabs/PHP_CodeSniffer
 $ ./vendor/bin/phpcs src/Framework/App.php
 ```
+
+./vendor/bin/phpunit; ./vendor/bin/phpcs
