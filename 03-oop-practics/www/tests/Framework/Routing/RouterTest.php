@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Framework;
+namespace Tests\Framework\Routing;
 
 
+use Framework\Routing\Router;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
-use Framework\Routing\Router;
 
 /**
  * Created by PhpStorm at 04.12.2023
@@ -15,9 +15,9 @@ use Framework\Routing\Router;
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
- * @package Tests\Framework
+ * @package Tests\Framework\Routing
  *
- * ./vendor/bin/phpunit tests/Framework/RouterTest.php --colors
+ * ./vendor/bin/phpunit tests/Framework/Routing/RouterTest.php --colors
  */
 class RouterTest extends TestCase
 {
