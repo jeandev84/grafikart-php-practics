@@ -30,8 +30,10 @@ class App
                       ->withHeader('Location', substr($uri, 0, -1));
            }
 
-           $response = new Response();
-           $response->getBody()->write('Bonjour');
-           return $response;
+           if ($uri === '/blog') {
+               return new Response(200, [], '<h1>Bienvenue sur le blog</h1>');
+           }
+
+           return new Response(404, [], '<h1>Error 404</h1>');
        }
 }
