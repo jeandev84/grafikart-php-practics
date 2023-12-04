@@ -12,7 +12,7 @@
     <title>Starter Template for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/bootstrap/v4/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
