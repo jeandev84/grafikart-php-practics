@@ -33,7 +33,7 @@ class BlogModule
          # Routing
          $router->get('/blog', [$this, 'index'], 'blog.index');
          $router->get('/blog/{slug}', [$this, 'show'], 'blog.show')
-                ->wheres(['slug' => '[a-z0-9\-]+']);
+                ->wheres(['slug' => '[a-z\-0-9]+']);
      }
 
 
