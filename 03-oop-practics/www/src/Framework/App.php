@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace Framework;
 
 
-use Framework\Routing\Route;
-use Framework\Routing\Router;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Framework\Routing\Router;
+
 
 /**
  * Created by PhpStorm at 04.12.2023
@@ -22,8 +22,18 @@ use Psr\Http\Message\ServerRequestInterface;
 class App
 {
 
-
+       /**
+        * List of modules
+        *
+        * @var array
+       */
        protected array $modules = [];
+
+
+       /**
+        * @var Router
+       */
+       protected Router $router;
 
 
        /**
@@ -33,9 +43,9 @@ class App
        */
        public function __construct(array $modules = [])
        {
-           $router = new Router();
+           $this->router = new Router();
            foreach ($modules as $module) {
-               $this->modules[] = new $module($router);
+               $this->modules[] = new $module($this->router);
            }
        }
 
@@ -57,10 +67,28 @@ class App
                       ->withHeader('Location', substr($uri, 0, -1));
            }
 
-           if ($uri === '/blog') {
-               return new Response(200, [], '<h1>Bienvenue sur le blog</h1>');
+           $route = $this->router->match(
+               $request->getMethod(),
+               $request->getUri()->getPath()
+           );
+
+           if (! $route) {
+               return new Response(404, [], '<h1>Error 404</h1>');
            }
 
-           return new Response(404, [], '<h1>Error 404</h1>');
+           $params  = $route->getParams();
+           $request = array_reduce(array_keys($params), function (ServerRequestInterface $request, $key) use ($params) {
+               return $request->withAttribute($key, $params[$key]);
+           }, $request);
+
+           $response = call_user_func_array($route->getAction(), [$request]);
+
+           if (is_string($response)) {
+               return new Response(200, [], $response);
+           } elseif ($response instanceof ResponseInterface) {
+               return $response;
+           } else {
+               throw new \Exception("The response is not a string of an instance of ResponseInterface");
+           }
        }
 }

@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Tests\Framework;
 
 
-use Framework\Routing\Router;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
+use Routing\Router;
 
 /**
  * Created by PhpStorm at 04.12.2023

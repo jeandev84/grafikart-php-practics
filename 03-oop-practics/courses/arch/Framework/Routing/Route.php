@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Framework\Routing;
+namespace ZFramework\Routing;
 
 
 /**
@@ -11,7 +11,7 @@ namespace Framework\Routing;
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
- * @package Framework\Routing
+ * @package ZFramework\Routing
  */
 class Route
 {
