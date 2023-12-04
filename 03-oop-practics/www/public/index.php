@@ -13,12 +13,12 @@ $modules = [
 # https://php-di.org/doc/getting-started.html
 $builder = new \DI\ContainerBuilder();
 $builder->addDefinitions(dirname(__DIR__). '/config/config.php');
-$builder->addDefinitions(dirname(__DIR__). '/config.php');
 foreach ($modules as $module) {
     if ($module::DEFINITIONS) {
         $builder->addDefinitions($module::DEFINITIONS);
     }
 }
+$builder->addDefinitions(dirname(__DIR__). '/config.php');
 $container = $builder->build();
 
 

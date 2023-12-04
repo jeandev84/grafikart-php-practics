@@ -1,5 +1,6 @@
 <?php
-
+# Ecrase la configuration de base
+# Redefinit une valeur
 return [
-    'config.view_path' => __DIR__. '/tests',
+    'blog.prefix' => '/news'
 ];
