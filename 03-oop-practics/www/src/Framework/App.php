@@ -90,7 +90,14 @@ class App
                return $request->withAttribute($key, $params[$key]);
            }, $request);
 
-           $response = call_user_func_array($route->getCallback(), [$request]);
+
+           $callback = $route->getAction();
+
+           if (is_string($callback)) {
+               $callback = $this->container->get($callback);
+           }
+
+           $response = call_user_func_array($callback, [$request]);
 
            if (is_string($response)) {
                return new Response(200, [], $response);

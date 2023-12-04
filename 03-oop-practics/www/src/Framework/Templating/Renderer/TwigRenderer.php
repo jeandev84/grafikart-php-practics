@@ -28,10 +28,10 @@ class TwigRenderer implements RendererInterface
     protected FilesystemLoader $loader;
 
 
-    public function __construct(string $path)
+    public function __construct(FilesystemLoader $loader, Environment $twig)
     {
-        $this->loader  = new \Twig\Loader\FilesystemLoader($path);
-        $this->twig    = new \Twig\Environment($this->loader, []);
+        $this->loader  = $loader;
+        $this->twig    = $twig;
     }
 
 

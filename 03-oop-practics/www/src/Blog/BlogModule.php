@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Blog;
 
 
+use App\Blog\Actions\BlogAction;
 use Framework\Module;
 use Framework\Routing\Router;
 use Framework\Templating\Renderer\RendererInterface;
@@ -28,28 +29,12 @@ class BlogModule extends Module
      public function __construct(string $prefix, Router $router, RendererInterface $renderer)
      {
          # Renderer
-         $this->renderer = $renderer;
-         $this->renderer->addPath('blog', __DIR__.'/views');
+         $renderer->addPath('blog', __DIR__.'/views');
 
          # Routing
-         $router->get($prefix, [$this, 'index'], 'blog.index');
-         $router->get($prefix .'/{slug}', [$this, 'show'], 'blog.show')
+         $router->get($prefix, BlogAction::class, 'blog.index');
+         $router->get($prefix .'/{slug}', BlogAction::class, 'blog.show')
                 ->wheres(['slug' => '[a-z\-0-9]+']);
      }
 
-
-
-
-     public function index(ServerRequestInterface $request): string
-     {
-         return $this->renderer->render('@blog/index');
-     }
-
-
-     public function show(ServerRequestInterface $request): string
-     {
-         return $this->renderer->render('@blog/show', [
-             'slug' => $request->getAttribute('slug')
-         ]);
-     }
 }
