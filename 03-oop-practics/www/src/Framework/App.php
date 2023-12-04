@@ -20,6 +20,21 @@ use Psr\Http\Message\ServerRequestInterface;
 class App
 {
 
+
+       protected array $modules = [];
+
+
+       public function __construct(array $modules)
+       {
+           $this->modules = $modules;
+       }
+
+
+
+       /**
+        * @param ServerRequestInterface $request
+        * @return ResponseInterface
+       */
        public function run(ServerRequestInterface $request): ResponseInterface
        {
            $uri = $request->getUri()->getPath();
