@@ -33,11 +33,6 @@ class App
        protected array $modules = [];
 
 
-       /**
-        * @var Router
-       */
-       protected Router $router;
-
 
        /**
         * @var ContainerInterface
@@ -57,6 +52,8 @@ class App
        */
        public function __construct(ContainerInterface $container, array $modules = [])
        {
+           $this->container = $container;
+
            foreach ($modules as $module) {
                $this->modules[] = $container->get($module);
            }
@@ -80,7 +77,9 @@ class App
                       ->withHeader('Location', substr($uri, 0, -1));
            }
 
-           $route = $this->router->match($request);
+           $router = $this->container->get(Router::class);
+           $route  = $router->match($request);
+
 
            if (! $route) {
                return new Response(404, [], '<h1>Error 404</h1>');
