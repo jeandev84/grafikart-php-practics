@@ -3,14 +3,9 @@ declare(strict_types=1);
 
 namespace Tests\Blog\Repository;
 
-
 use App\Blog\Entity\Post;
 use App\Blog\Repository\PostRepository;
-use PDO;
-use Phinx\Console\PhinxApplication;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\Console\Input\StringInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
+use Tests\DatabaseTestCase;
 
 /**
  * Created by PhpStorm at 05.12.2023
@@ -21,25 +16,35 @@ use Symfony\Component\Console\Output\ConsoleOutput;
  *
  * @package Tests\Blog\Repository
  */
-class PostRepositoryTest extends TestCase
+class PostRepositoryTest extends DatabaseTestCase
 {
+
+      protected $postRepository;
+
+
+      public function setUp()
+      {
+          parent::setUp();
+          $this->postRepository = new PostRepository($this->pdo);
+      }
+
+
 
       public function testFind()
       {
-           $pdo = new \PDO('sqlite::memory:', null, null, [
-               PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
-               PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-           ]);
+           /*
+           $count = (int)$this->pdo->query("SELECT COUNT(id) FROM posts")->fetchColumn();
+           $this->assertEquals(100, $count);
+           */
 
-           $app = new PhinxApplication();
-           $app->setAutoExit(false);
-           $app->run(new StringInput('migrate -e test'), new ConsoleOutput());
-
-           $pdo->exec('CREATE TABLE posts (
-               name varchar(255))'
-           );
-           $postRepository = new PostRepository($pdo);
-           $post = $postRepository->find(1);
+           $post = $this->postRepository->find(1);
            $this->assertInstanceOf(Post::class, $post);
       }
+
+
+    public function testFindNotFoundRecord()
+    {
+        $post = $this->postRepository->find(1000000);
+        $this->assertNull($post);
+    }
 }
