@@ -7,6 +7,7 @@ use Framework\Session\SessionInterface;
 use Framework\Templating\Renderer\RendererInterface;
 use Framework\Templating\Renderer\TwigRendererFactory;
 use Framework\Twig\FlashExtension;
+use Framework\Twig\FormExtension;
 use Framework\Twig\PagerFantaExtension;
 use Framework\Twig\TextExtension;
 use Framework\Twig\TimeExtension;
@@ -23,6 +24,7 @@ return [
         \DI\get(TextExtension::class),
         \DI\get(TimeExtension::class),
         \DI\get(FlashExtension::class),
+        \DI\get(FormExtension::class),
     ],
     SessionInterface::class => \DI\object(PHPSession::class),
     Router::class => \DI\object(),
