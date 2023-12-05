@@ -38,8 +38,8 @@ class FormExtension extends AbstractExtension
          $class = 'form-group';
          $attributes = [
              'class' => 'form-control',
-             'id'    => $key,
-             'name'  => $key
+             'name'  => $key,
+             'id'    => $key
          ];
          if ($error) {
              $class .= ' has-danger';
