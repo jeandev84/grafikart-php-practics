@@ -37,7 +37,6 @@ class BlogModule extends Module
          $container->get(RendererInterface::class)->addPath('blog', __DIR__.'/views');
 
          # Routing
-         /** @var Router $router */
          $router = $container->get(Router::class);
          $prefix = $container->get('blog.prefix');
 
