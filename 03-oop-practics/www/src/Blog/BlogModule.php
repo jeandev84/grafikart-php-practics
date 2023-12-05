@@ -47,6 +47,7 @@ class BlogModule extends Module
          if ($container->has('admin.prefix')) {
              $prefix = $container->get('admin.prefix');
              $router->get("$prefix/posts", AdminBlogAction::class, 'blog.admin.index');
+             $router->map("GET|POST", "$prefix/posts/new", AdminBlogAction::class, 'blog.admin.create');
              $router->map("GET|POST", "$prefix/posts/{id}", AdminBlogAction::class, 'blog.admin.edit')
                     ->where('id', '\d+');
          }

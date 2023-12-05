@@ -42,6 +42,12 @@ class AdminBlogAction
 
     public function __invoke(Request $request)
     {
+        // BAD practics
+        $requestUri = (string)$request->getUri();
+
+        if (substr($requestUri, -3) === 'new') {
+              return $this->create($request);
+        }
         if ($request->getAttribute('id')) {
             return $this->edit($request);
         }
@@ -73,15 +79,41 @@ class AdminBlogAction
          $item = $this->postRepository->find($id);
 
          if ($request->getMethod() === 'POST') {
-               $params = array_filter($request->getParsedBody(), function ($key) {
-                    return in_array($key, ['name', 'slug', 'content']);
-               }, ARRAY_FILTER_USE_KEY);
-
+               $params = $this->getParams($request);
                $this->postRepository->update($params, $item->id);
-
                return $this->redirect('blog.admin.index');
          }
 
          return $this->renderer->render("@blog/admin/edit", compact('item'));
+    }
+
+
+
+
+    public function create(Request $request): mixed
+    {
+        if ($request->getMethod() === 'POST') {
+            $params = $this->getParams($request);
+            $this->postRepository->insert($params);
+            return $this->redirect('blog.admin.index');
+        }
+
+        return $this->renderer->render("@blog/admin/create");
+    }
+
+
+
+
+
+    /**
+     * @param Request $request
+     *
+     * @return array
+    */
+    private function getParams(Request $request): array
+    {
+        return array_filter($request->getParsedBody(), function ($key) {
+            return in_array($key, ['name', 'slug', 'content']);
+        }, ARRAY_FILTER_USE_KEY);
     }
 }

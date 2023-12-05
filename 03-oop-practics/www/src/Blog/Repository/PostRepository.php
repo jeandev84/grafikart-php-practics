@@ -78,11 +78,36 @@ class PostRepository
         */
         public function update(array $data, int $id): bool
         {
-            $fieldQuery = join(", ", array_map(function (string $column) {
-                    return "$column = :$column";
-            }, array_keys($data)));
-
+            $fieldQuery = $this->buildFieldQuery($data);
+            $data['id'] = $id;
             $query = $this->pdo->prepare("UPDATE posts SET $fieldQuery WHERE id = :id");
-            return $query->execute(array_merge($data, compact('id')));
+            return $query->execute($data);
+        }
+
+
+
+
+        /**
+         * @param array $data
+         *
+         * @return int
+        */
+        public function insert(array $data): int
+        {
+
+        }
+
+
+
+
+        /**
+         * @param array $data
+         * @return string
+        */
+        protected function buildFieldQuery(array $data): string
+        {
+            return join(", ", array_map(function (string $column) {
+                return "$column = :$column";
+            }, array_keys($data)));
         }
 }
