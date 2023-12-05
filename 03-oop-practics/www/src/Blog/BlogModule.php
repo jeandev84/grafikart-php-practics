@@ -36,8 +36,8 @@ class BlogModule extends Module
 
          # Routing
          $router->get($prefix, BlogAction::class, 'blog.index');
-         $router->get($prefix .'/{slug}', BlogAction::class, 'blog.show')
-                ->wheres(['slug' => '[a-z\-0-9]+']);
+         $router->get($prefix .'/{slug}-{id}', BlogAction::class, 'blog.show')
+                ->wheres(['slug' => '[a-z\-0-9]+', 'id' => '[0-9]+']);
      }
 
 }
