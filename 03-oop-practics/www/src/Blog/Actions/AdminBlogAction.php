@@ -9,6 +9,8 @@ namespace App\Blog\Actions;
 use App\Blog\Repository\PostRepository;
 use Framework\Actions\RouterAwareAction;
 use Framework\Routing\Router;
+use Framework\Session\FlashService;
+use Framework\Session\SessionInterface;
 use Framework\Templating\Renderer\RendererInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -27,15 +29,23 @@ class AdminBlogAction
 
     protected Router $router;
 
-    protected $postRepository;
+    protected PostRepository $postRepository;
+
+    protected FlashService $flash;
 
     use RouterAwareAction;
 
-    public function __construct(RendererInterface $renderer, Router $router, PostRepository $postRepository)
+    public function __construct(
+        RendererInterface $renderer,
+        Router $router,
+        PostRepository $postRepository,
+        FlashService $flash
+    )
     {
         $this->renderer  = $renderer;
         $this->router    = $router;
         $this->postRepository = $postRepository;
+        $this->flash = $flash;
     }
 
 
@@ -62,12 +72,14 @@ class AdminBlogAction
 
     public function index(Request $request): string
     {
-        $params = $request->getQueryParams();
-        $page   = (int)($params['p'] ?? 1);
-        $items = $this->postRepository->findPaginated(12, $page);
+        $params  = $request->getQueryParams();
+        $page    = (int)($params['p'] ?? 1);
+        $items   = $this->postRepository->findPaginated(12, $page);
 
         return $this->renderer->render('@blog/admin/index', compact('items'));
     }
+
+
 
 
 
@@ -86,6 +98,7 @@ class AdminBlogAction
                $params = $this->getParams($request);
                $params['updated_at'] = date('Y-m-d H:i:s');
                $this->postRepository->update($params, $item->id);
+               $this->flash->success("L' article a bien ete modifie");
                return $this->redirect('blog.admin.index');
          }
 

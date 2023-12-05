@@ -41,8 +41,7 @@ class BlogModule extends Module
          $prefix = $container->get('blog.prefix');
 
          $router->get($prefix, BlogAction::class, 'blog.index');
-         $router->get($prefix .'/{slug}-{id}', BlogAction::class, 'blog.show')
-                 ->wheres(['slug' => '[a-z\-0-9]+', 'id' => '[0-9]+']);
+         $router->get($prefix .'/{slug}-{id}', BlogAction::class, 'blog.show')->wheres(['slug' => '[a-z\-0-9]+', 'id' => '[0-9]+']);
 
          if ($container->has('admin.prefix')) {
              $prefix = $container->get('admin.prefix');
