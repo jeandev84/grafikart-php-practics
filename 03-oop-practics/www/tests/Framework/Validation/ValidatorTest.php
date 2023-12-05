@@ -19,13 +19,58 @@ use PHPUnit\Framework\TestCase;
 class ValidatorTest extends TestCase
 {
 
-     public function testRequired()
+     private function makeValidator(array $params): Validator
      {
-          $errors = (new Validator([
-              'name' => 'Joe'
-          ]))->required('name', 'content')
-             ->getErrors();
+         return new Validator($params);
+     }
+
+
+
+     public function testRequiredIfFail()
+     {
+          $errors = $this->makeValidator(['name' => 'Joe'])
+                         ->required('name', 'content')
+                         ->getErrors();
 
           $this->assertCount(1, $errors);
      }
+
+
+
+    public function testRequiredIfSuccess()
+    {
+        $errors = $this->makeValidator(['name' => 'Joe', 'content' => 'content'])
+                       ->required('name', 'content')
+                       ->getErrors();
+
+        $this->assertCount(0, $errors);
+    }
+
+
+
+    public function testSlugSuccess()
+    {
+        $errors = $this->makeValidator(['slug' => 'aze-aze-azeaze'])
+                       ->slug('slug')
+                       ->getErrors();
+
+        $this->assertCount(0, $errors);
+    }
+
+
+
+    public function testSlugError()
+    {
+        $errors = $this->makeValidator([
+            'slug1' => 'aze-aze-azeAze34',
+            'slug2' => 'aze-aze_azeAze34',
+            'slug3' => 'aze--aze-aze',
+         ])
+         ->slug('slug1')
+         ->slug('slug2')
+         ->slug('slug3')
+         ->getErrors();
+
+        $this->assertCount(3, $errors);
+    }
 }

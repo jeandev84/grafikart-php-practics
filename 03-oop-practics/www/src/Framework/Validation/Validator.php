@@ -49,7 +49,7 @@ class Validator
        {
            foreach ($keys as $key) {
                if (! array_key_exists($key, $this->params)) {
-                   $this->errors[$key] = "Le champs $key est vide";
+                   $this->addError($key, 'required');
                }
            }
 
@@ -57,11 +57,48 @@ class Validator
        }
 
 
+
        /**
-        * @return array
+        * @param string $key
+        *
+        * @return $this
+       */
+       public function slug(string $key): self
+       {
+            $pattern = '/^([a-z0-9]+-?)+$/';
+
+            if (! preg_match($pattern, $this->params[$key])) {
+                $this->addError($key, 'slug');
+            }
+
+            return $this;
+       }
+
+
+
+
+
+
+       /**
+        * @return ValidationError[]
        */
        public function getErrors(): array
        {
             return $this->errors;
+       }
+
+
+
+
+       /**
+         * @param string $key
+         * @param string $rule
+         * @return $this
+       */
+       protected function addError(string $key, string $rule): self
+       {
+            $this->errors[$key] = new ValidationError($key, $rule);
+
+            return $this;
        }
 }
