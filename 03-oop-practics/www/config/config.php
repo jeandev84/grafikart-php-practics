@@ -5,6 +5,8 @@ use Framework\Routing\Router;
 use Framework\Templating\Renderer\RendererInterface;
 use Framework\Templating\Renderer\TwigRendererFactory;
 use Framework\Twig\PagerFantaExtension;
+use Framework\Twig\TextExtension;
+use Framework\Twig\TimeExtension;
 
 return [
     'database.host'     => 'localhost',
@@ -15,6 +17,8 @@ return [
     'twig.extensions'   => [
         \DI\get(RouterTwigExtension::class),
         \DI\get(PagerFantaExtension::class),
+        \DI\get(TextExtension::class),
+        \DI\get(TimeExtension::class),
     ],
     Router::class => \DI\object(),
     RendererInterface::class => \DI\factory(TwigRendererFactory::class),

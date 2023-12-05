@@ -5,6 +5,7 @@ namespace Tests\Blog\Actions;
 
 
 use App\Blog\Actions\BlogAction;
+use App\Blog\Entity\Post;
 use App\Blog\Repository\PostRepository;
 use Framework\Routing\Router;
 use Framework\Templating\Renderer\RendererInterface;
@@ -44,9 +45,9 @@ class BlogActionTest extends TestCase
     }
 
 
-    public function makePost(int $id, string $slug): \stdClass
+    public function makePost(int $id, string $slug): Post
     {
-        $post = new \stdClass();
+        $post = new Post();
         $post->id = $id;
         $post->slug = $slug;
         return $post;
