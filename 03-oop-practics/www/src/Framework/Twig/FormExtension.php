@@ -22,7 +22,7 @@ class FormExtension extends AbstractExtension
      public function getFunctions()
      {
          return [
-             new TwigFunction('field', [$this, 'field'])
+             new TwigFunction('field', [$this, 'field'], ['is_safe' => ['html']])
          ];
      }
 
