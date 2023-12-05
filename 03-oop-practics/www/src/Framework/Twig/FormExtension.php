@@ -28,13 +28,58 @@ class FormExtension extends AbstractExtension
 
 
 
-     public function field(string $key, $value, string $label, array $options = [])
+     public function field(string $key, $value, string $label, array $options = []): string
      {
-         return <<<HTML
-             <div class="form-group">
-                <label for="name">$label</label>
-                <input type="text" class="form-control" name="$key" id="$key" value="$value">
-            </div>
-HTML;
+         $type = $options['type'] ?? 'text';
+
+         if ($type === 'textarea') {
+             $input = $this->textarea($key, $value);
+         } else {
+             $input  = $this->input($key, $value);
+         }
+
+         return <<<FIELD
+                 <div class="form-group">
+                    <label for="name">$label</label>
+                    $input 
+                </div>
+FIELD;
+     }
+
+
+
+
+
+    /**
+     * @param string $key
+     *
+     * @param $value
+     *
+     * @return string
+    */
+    public function input(string $key, $value): string
+    {
+        return <<<INPUT
+          <input type="text" class="form-control" name="$key" id="$key" value="$value">
+INPUT;
+
+    }
+
+
+
+
+     /**
+      * @param string $key
+      *
+      * @param $value
+      *
+      * @return string
+     */
+     public function textarea(string $key, $value): string
+     {
+         return <<<TEXTAREA
+             <textarea class="form-control" name="$key" id="$key">{$value}</textarea>
+TEXTAREA;
+
      }
 }

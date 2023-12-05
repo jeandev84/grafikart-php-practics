@@ -25,22 +25,48 @@ class FormExtensionTest extends TestCase
 
       public function setUp(): void
       {
-         $this->formExtension = new FormExtension();
+          $this->formExtension = new FormExtension();
       }
 
 
+
+      private function trim(string $string): string
+      {
+          $lines  = explode("\n", $string);
+          $lines  = array_map('trim', $lines);
+          return implode('', $lines);
+      }
+
+
+
+      public function assertSimilar(string $expected, string $actual)
+      {
+          $this->assertEquals($this->trim($expected), $this->trim($actual));
+      }
 
 
       public function testField()
       {
            $html = $this->formExtension->field("name", "demo", 'Titre');
 
-           $this->assertEquals($this->inputFormat('name', 'Titre', 'demo'), $html);
+           $this->assertSimilar($this->input('name', 'Titre', 'demo'), $html);
       }
 
 
 
-      private function inputFormat(string $key, string $label, $value)
+
+    public function testTextarea()
+    {
+        $html = $this->formExtension->field("name", "demo", 'Titre', ['type' => 'textarea']);
+
+        $this->assertSimilar($this->textarea('name', 'Titre', 'demo'), $html);
+    }
+
+
+
+
+
+      private function input(string $key, string $label, $value): string
       {
           return <<<HTML
              <div class="form-group">
@@ -48,6 +74,17 @@ class FormExtensionTest extends TestCase
                 <input type="text" class="form-control" name="$key" id="$key" value="$value">
             </div>
 HTML;
-
       }
+
+
+
+    private function textarea(string $key, string $label, $value): string
+    {
+        return <<<HTML
+             <div class="form-group">
+                <label for="name">$label</label>
+                <textarea class="form-control" name="$key" id="$key">{$value}</textarea>
+            </div>
+HTML;
+    }
 }
