@@ -80,6 +80,7 @@ class AdminBlogAction
 
          if ($request->getMethod() === 'POST') {
                $params = $this->getParams($request);
+               $params['updated_at'] = date('Y-m-d H:i:s');
                $this->postRepository->update($params, $item->id);
                return $this->redirect('blog.admin.index');
          }
@@ -94,6 +95,10 @@ class AdminBlogAction
     {
         if ($request->getMethod() === 'POST') {
             $params = $this->getParams($request);
+            $params = array_merge($params, [
+                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => date('Y-m-d H:i:s')
+            ]);
             $this->postRepository->insert($params);
             return $this->redirect('blog.admin.index');
         }

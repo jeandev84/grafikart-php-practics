@@ -90,24 +90,32 @@ class PostRepository
         /**
          * @param array $data
          *
-         * @return int
+         * @return bool
         */
-        public function insert(array $data): int
+        public function insert(array $data): bool
         {
+            $fields = array_keys($data);
+            $values = array_map(function (string $field) {
+                 return ':'. $field;
+            }, $fields);
 
+            $columns = join(', ', $fields);
+            $valueBindings = join(', ', $values);
+            $query = $this->pdo->prepare("INSERT INTO posts ($columns) VALUES ($valueBindings)");
+            return $query->execute($data);
         }
 
 
 
 
         /**
-         * @param array $data
+         * @param array $params
          * @return string
         */
-        protected function buildFieldQuery(array $data): string
+        protected function buildFieldQuery(array $params): string
         {
             return join(", ", array_map(function (string $column) {
                 return "$column = :$column";
-            }, array_keys($data)));
+            }, array_keys($params)));
         }
 }
