@@ -53,7 +53,7 @@ class BlogAction
 
     public function index(): string
     {
-        $posts = $this->postRepository->findPaginated();
+        $posts = $this->postRepository->findPaginated(12);
 
         return $this->renderer->render('@blog/index', compact('posts'));
     }
