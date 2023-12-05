@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Blog\Actions;
 
 
-use App\Blog\Table\PostTable;
+use App\Blog\Repository\PostRepository;
 use Framework\Actions\RouterAwareAction;
 use Framework\Routing\Router;
 use Framework\Templating\Renderer\RendererInterface;
@@ -28,15 +28,15 @@ class BlogAction
 
     protected Router $router;
 
-    protected $postTable;
+    protected $postRepository;
 
     use RouterAwareAction;
 
-    public function __construct(RendererInterface $renderer, Router $router, PostTable $postTable)
+    public function __construct(RendererInterface $renderer, Router $router, PostRepository $postRepository)
     {
         $this->renderer  = $renderer;
         $this->router    = $router;
-        $this->postTable = $postTable;
+        $this->postRepository = $postRepository;
     }
 
 
@@ -53,10 +53,7 @@ class BlogAction
 
     public function index(): string
     {
-        $posts = $this->pdo
-                      ->query("SELECT * FROM posts ORDER BY created_at LIMIT 10")
-                      ->fetchAll();
-
+        $posts = $this->postRepository->findPaginated();
 
         return $this->renderer->render('@blog/index', compact('posts'));
     }
@@ -64,17 +61,11 @@ class BlogAction
 
     public function show(Request $request): mixed
     {
-        $id   = $request->getAttribute('id');
+        $id   = (int)$request->getAttribute('id');
         $slug = $request->getAttribute('slug');
-        $post = $this->postTable->find($id);
+        $post = $this->postRepository->find($id);
 
         if ($post->slug !== $slug) {
-            /*
-            $redirectUri = $this->router->generateUri('blog.show', ['slug' => $post->slug, 'id' => $post->id]);
-            return (new Response())
-                   ->withStatus(301)
-                   ->withHeader('Location', $redirectUri);
-            */
             return $this->redirect('blog.show', ['slug' => $post->slug, 'id' => $post->id]);
         }
 

@@ -5,6 +5,7 @@ namespace Tests\Blog\Actions;
 
 
 use App\Blog\Actions\BlogAction;
+use App\Blog\Repository\PostRepository;
 use Framework\Routing\Router;
 use Framework\Templating\Renderer\RendererInterface;
 use GuzzleHttp\Psr7\ServerRequest;
@@ -24,49 +25,70 @@ class BlogActionTest extends TestCase
 {
 
 
-    protected BlogAction $action;
-
+    protected $action;
     protected $renderer;
-    protected $pdo;
+    protected $postRepository;
     protected $router;
 
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         $this->renderer = $this->prophesize(RendererInterface::class);
-        $this->renderer->render(Argument::any())->willReturn('');
-
-        // Article de test
-        $post = new \stdClass();
-        $post->id = 9;
-        $post->slug = 'demo-test';
-
-        // PDO
-        $this->pdo = $this->prophesize(\PDO::class);
-        $pdoStatement     = $this->prophesize(\PDOStatement::class);
-        $this->pdo->prepare(Argument::any())->willReturn($pdoStatement);
-        $pdoStatement->execute(Argument::any())->willReturn(null);
-        $pdoStatement->fetch()->willReturn($post);
-
-        // Router
+        $this->postRepository = $this->prophesize(PostRepository::class);
         $this->router = $this->prophesize(Router::class);
-
-        // Action
         $this->action = new BlogAction(
             $this->renderer->reveal(),
-            $this->pdo->reveal(),
-            $this->router->reveal()
+            $this->router->reveal(),
+            $this->postRepository->reveal()
         );
     }
 
 
+    public function makePost(int $id, string $slug): \stdClass
+    {
+        $post = new \stdClass();
+        $post->id = $id;
+        $post->slug = $slug;
+        return $post;
+    }
+
+
+
     public function testShowRedirect()
      {
-          $this->router->generateUri('blog.show', ['id' => 9, 'slug' => 'demo-test'])->willReturn('/demo2');
+          $post = $this->makePost(9, 'azeaze-azeaze');
           $request = (new ServerRequest('GET', '/'))
-                     ->withAttribute('id', 9)
+                     ->withAttribute('id', $post->id)
                      ->withAttribute('slug', 'demo');
+
+          $this->router->generateUri('blog.show', ['id' => $post->id, 'slug' => $post->slug])->willReturn('/demo2');
+          $this->postRepository->find($post->id)->willReturn($post);
+
+
           $response = call_user_func_array($this->action, [$request]);
           $this->assertEquals(301, $response->getStatusCode());
-     }
+          $this->assertEquals(['/demo2'], $response->getHeader('Location'));
+    }
+
+
+
+
+
+
+    public function testShowRender()
+    {
+        $post = $this->makePost(9, 'azeaze-azeaze');
+        $request = (new ServerRequest('GET', '/'))
+            ->withAttribute('id', $post->id)
+            ->withAttribute('slug', $post->slug);
+
+        $this->postRepository->find($post->id)->willReturn($post);
+        $this->renderer->render('@blog/show', ['post' => $post])->willReturn('');
+
+        $response = call_user_func_array($this->action, [$request]);
+        $this->assertEquals(true, true);
+    }
+
+
+
 }

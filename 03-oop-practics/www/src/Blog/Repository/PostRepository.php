@@ -1,19 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Blog\Table;
+namespace App\Blog\Repository;
 
 
 /**
  * Created by PhpStorm at 05.12.2023
  *
- * @PostTable
+ * @PostRepository
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
- * @package App\Blog\Table
+ * @package App\Blog\Repository
  */
-class PostTable
+class PostRepository
 {
 
         protected $pdo;
@@ -29,12 +29,13 @@ class PostTable
         */
         public function findPaginated(): array
         {
-
+            return $this->pdo->query("SELECT * FROM posts ORDER BY created_at LIMIT 10")
+                             ->fetchAll();
         }
 
 
 
-        public function find(int $id): \stdClass
+        public function find(int $id): mixed
         {
             $query = $this->pdo->prepare("SELECT * FROM posts WHERE id = ?");
             $query->execute([$id]);
