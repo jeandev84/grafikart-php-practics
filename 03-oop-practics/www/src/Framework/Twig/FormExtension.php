@@ -119,7 +119,7 @@ TEXTAREA;
               return $value->format('Y-m-d H:i:s');
           }
 
-          return $value;
+          return (string)$value;
      }
 
 

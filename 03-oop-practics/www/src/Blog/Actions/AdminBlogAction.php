@@ -162,7 +162,7 @@ class AdminBlogAction
             return in_array($key, ['name', 'slug', 'content', 'created_at']);
         }, ARRAY_FILTER_USE_KEY);
 
-        $params = array_merge($params, ['updated_at' => date('Y-m-d H:i:s')]);
+        return array_merge($params, ['updated_at' => date('Y-m-d H:i:s')]);
     }
 
 
