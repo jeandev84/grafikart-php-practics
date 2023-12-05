@@ -45,6 +45,10 @@ class AdminBlogAction
         // BAD practics
         $requestUri = (string)$request->getUri();
 
+        if ($request->getMethod() === 'DELETE') {
+            return 'Salut';
+        }
+
         if (substr($requestUri, -3) === 'new') {
               return $this->create($request);
         }

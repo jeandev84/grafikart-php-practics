@@ -60,16 +60,24 @@ class App
        }
 
 
-
-
-
        /**
         * @param ServerRequestInterface $request
         * @return ResponseInterface
+        * @throws ContainerExceptionInterface
+        * @throws NotFoundExceptionInterface
        */
        public function run(ServerRequestInterface $request): ResponseInterface
        {
-           $uri = $request->getUri()->getPath();
+           $uri         = $request->getUri()->getPath();
+           $parsedBody  = $request->getParsedBody();
+
+           // will be moved to the middleware
+           if (
+               array_key_exists('_method', $parsedBody) &&
+               in_array($parsedBody['_method'], ['DELETE', 'PUT', 'PATCH'])
+           ) {
+               $request = $request->withMethod($parsedBody['_method']);
+           }
 
            if (!empty($uri) && $uri[-1] === "/") {
                return (new Response())
@@ -80,7 +88,7 @@ class App
            $router = $this->container->get(Router::class);
            $route  = $router->match($request);
 
-
+           dd($route);
            if (! $route) {
                return new Response(404, [], '<h1>Error 404</h1>');
            }

@@ -444,14 +444,7 @@ class Route implements RouteInterface
     */
     public function match(string $method, string $path): bool
     {
-        $matchedPath   = $this->matchPath($path);
-        $matchedMethod = $this->matchMethod($method);
-
-        if ($matchedPath && !$matchedMethod) {
-             $this->createAllowedMethodsException($path);
-        }
-
-        return $matchedPath && $matchedMethod;
+        return $this->matchPath($path) && $this->matchMethod($method);
     }
 
 
