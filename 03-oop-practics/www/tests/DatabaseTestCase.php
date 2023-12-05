@@ -26,7 +26,7 @@ class DatabaseTestCase extends TestCase
 {
 
      protected PDO $pdo;
-
+     protected Manager $manager;
 
      public function setUp() {
 
@@ -35,9 +35,9 @@ class DatabaseTestCase extends TestCase
          ]);
 
          /*
-         $app = new PhinxApplication();
-         $app->setAutoExit(false);
-         $app->run(new StringInput('migrate -e test'), new ConsoleOutput());
+          $app = new PhinxApplication();
+          $app->setAutoExit(false);
+          $app->run(new StringInput('migrate -e test'), new ConsoleOutput());
          */
 
          $configArray = require('phinx.php');
@@ -45,11 +45,22 @@ class DatabaseTestCase extends TestCase
              'adapter'    => 'sqlite',
              'connection' => $pdo
          ];
+
          $config  = new Config($configArray);
          $manager = new Manager($config, new StringInput(''), new NullOutput());
          $manager->migrate('test');
-         $manager->seed('test');
+         $this->manager = $manager;
          $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
          $this->pdo = $pdo;
+     }
+
+
+
+
+     public function seedDatabase(): void
+     {
+         $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_BOTH);
+         $this->manager->seed('test');
+         $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
      }
 }

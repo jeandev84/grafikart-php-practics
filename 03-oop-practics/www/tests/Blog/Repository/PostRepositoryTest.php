@@ -44,7 +44,7 @@ class PostRepositoryTest extends DatabaseTestCase
            $count = (int)$this->pdo->query("SELECT COUNT(id) FROM posts")->fetchColumn();
            $this->assertEquals(100, $count);
            */
-
+           $this->seedDatabase();
            $post = $this->postRepository->find(1);
            $this->assertInstanceOf(Post::class, $post);
       }
@@ -52,7 +52,7 @@ class PostRepositoryTest extends DatabaseTestCase
 
     public function testFindNotFoundRecord()
     {
-        $post = $this->postRepository->find(1000000);
+        $post = $this->postRepository->find(1);
         $this->assertNull($post);
     }
 }
