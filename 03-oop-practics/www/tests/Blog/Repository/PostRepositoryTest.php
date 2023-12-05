@@ -26,6 +26,14 @@ class PostRepositoryTest extends DatabaseTestCase
       {
           parent::setUp();
           $this->postRepository = new PostRepository($this->pdo);
+          # $this->pdo->beginTransaction();
+      }
+
+
+
+      protected function tearDown(): void
+      {
+          # $this->pdo->rollBack();
       }
 
 

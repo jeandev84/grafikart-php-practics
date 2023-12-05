@@ -6,6 +6,7 @@ namespace Framework\Templating\Renderer;
 
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
+use Twig\Loader\LoaderInterface;
 
 /**
  * Created by PhpStorm at 04.12.2023
@@ -23,15 +24,13 @@ class TwigRenderer implements RendererInterface
 
 
     protected Environment $twig;
+    protected LoaderInterface $loader;
 
 
-    protected FilesystemLoader $loader;
-
-
-    public function __construct(FilesystemLoader $loader, Environment $twig)
+    public function __construct(Environment $twig)
     {
-        $this->loader  = $loader;
         $this->twig    = $twig;
+        $this->loader  = $twig->getLoader();
     }
 
 
