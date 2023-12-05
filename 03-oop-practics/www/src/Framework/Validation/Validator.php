@@ -125,7 +125,7 @@ class Validator
             $date   = \DateTime::createFromFormat($format, $value);  /* dump($date); */
             $errors = \DateTime::getLastErrors(); /* dump($errors); */
 
-            if ($errors['error_count'] > 0 || $errors['warning_count'] > 0) {
+            if ($errors['error_count'] > 0 || $errors['warning_count'] > 0 || $date === false) {
                 $this->addError($key, 'datetime', [$format]);
             }
 
