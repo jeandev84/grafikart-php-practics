@@ -32,7 +32,7 @@ class FormExtensionTest extends TestCase
 
       private function trim(string $string): string
       {
-          $lines  = explode("\n", $string);
+          $lines  = explode(PHP_EOL, $string);
           $lines  = array_map('trim', $lines);
           return implode('', $lines);
       }
@@ -65,10 +65,10 @@ class FormExtensionTest extends TestCase
 
 
 
-    public function testFieldWithError()
+    public function testFieldWithErrors()
     {
         $context = ['errors' => ['name' => 'erreur']];
-        $html = $this->formExtension->field($context, "name", "demo", 'Titre', ['type' => 'textarea']);
+        $html = $this->formExtension->field($context, "name", "demo", 'Titre');
         $this->assertSimilar($this->inputError('name', 'Titre', 'demo'), $html);
     }
 
@@ -99,7 +99,7 @@ HTML;
 
 
 
-    private function textarea(string $key, string $label, ?string $value, string $error = 'erreur'): string
+    private function textarea(string $key, string $label, ?string $value): string
     {
         return <<<HTML
              <div class="form-group">
