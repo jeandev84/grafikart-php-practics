@@ -40,14 +40,14 @@ class PostRepository
                              ->fetchAll();
             */
 
-            $paginatedQuery = new PaginatedQuery(
+            $query = new PaginatedQuery(
                 $this->pdo,
           "SELECT * FROM posts ORDER BY created_at DESC",
      "SELECT COUNT(id) FROM posts",
                 Post::class
             );
 
-            return (new Pagerfanta($paginatedQuery))
+            return (new Pagerfanta($query))
                    ->setMaxPerPage($perPage)
                    ->setCurrentPage($currentPage);
         }
