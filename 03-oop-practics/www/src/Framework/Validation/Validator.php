@@ -65,9 +65,10 @@ class Validator
        */
        public function slug(string $key): self
        {
+            $value   = $this->getValue($key);
             $pattern = '/^([a-z0-9]+-?)+$/';
 
-            if (! preg_match($pattern, $this->params[$key])) {
+            if ($value && ! preg_match($pattern, $value)) {
                 $this->addError($key, 'slug');
             }
 
@@ -100,5 +101,26 @@ class Validator
             $this->errors[$key] = new ValidationError($key, $rule);
 
             return $this;
+       }
+
+
+
+
+       /**
+        * @param string $key
+        *
+        * @return mixed
+       */
+       protected function getValue(string $key): mixed
+       {
+           return $this->params[$key] ?? null;
+       }
+
+
+
+
+       protected function hasParam(string $key): bool
+       {
+           return array_key_exists($key, $this->params);
        }
 }
