@@ -28,6 +28,9 @@ class FlashService
      protected string $sessionKey = 'flash';
 
 
+     protected $messages;
+
+
      public function __construct(SessionInterface $session)
      {
          $this->session = $session;
@@ -74,13 +77,12 @@ class FlashService
      */
      public function get(string $type): ?string
      {
-         $flash = $this->session->get($this->sessionKey, []);
-
-         if (array_key_exists($type, $flash)) {
-             return $flash[$type];
+         if (is_null($this->messages)) {
+             $this->messages = $this->session->get($this->sessionKey, []);
+             $this->session->delete($this->sessionKey);
          }
 
-         return null;
+         return $this->messages[$type] ?? null;
      }
 
 
