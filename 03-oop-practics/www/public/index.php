@@ -6,7 +6,8 @@ require dirname(__DIR__).'/vendor/autoload.php';
 
 
 $modules = [
-    \App\Blog\BlogModule::class
+    \App\Admin\AdminModule::class,
+    \App\Blog\BlogModule::class,
 ];
 
 

@@ -53,12 +53,36 @@ class PostRepository
         }
 
 
-
+        /**
+         * @param int $id
+         *
+         * @return Post|null
+        */
         public function find(int $id): ?Post
         {
             $query = $this->pdo->prepare("SELECT * FROM posts WHERE id = ?");
             $query->execute([$id]);
             $query->setFetchMode(\PDO::FETCH_CLASS, Post::class);
             return $query->fetch() ?: null;
+        }
+
+
+
+
+        /**
+         * @param array $data
+         *
+         * @param int $id
+         *
+         * @return bool
+        */
+        public function update(array $data, int $id): bool
+        {
+            $fieldQuery = join(", ", array_map(function (string $column) {
+                    return "$column = :$column";
+            }, array_keys($data)));
+
+            $query = $this->pdo->prepare("UPDATE posts SET $fieldQuery WHERE id = :id");
+            return $query->execute(array_merge($data, compact('id')));
         }
 }
