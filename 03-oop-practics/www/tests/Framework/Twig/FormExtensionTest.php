@@ -47,7 +47,7 @@ class FormExtensionTest extends TestCase
 
       public function testField()
       {
-           $html = $this->formExtension->field("name", "demo", 'Titre');
+           $html = $this->formExtension->field([], "name", "demo", 'Titre');
 
            $this->assertSimilar($this->input('name', 'Titre', 'demo'), $html);
       }
@@ -57,7 +57,7 @@ class FormExtensionTest extends TestCase
 
     public function testTextarea()
     {
-        $html = $this->formExtension->field("name", "demo", 'Titre', ['type' => 'textarea']);
+        $html = $this->formExtension->field([], "name", "demo", 'Titre', ['type' => 'textarea']);
 
         $this->assertSimilar($this->textarea('name', 'Titre', 'demo'), $html);
     }
@@ -65,8 +65,16 @@ class FormExtensionTest extends TestCase
 
 
 
+    public function testFieldWithError()
+    {
+        $context = ['errors' => ['name' => 'erreur']];
+        $html = $this->formExtension->field($context, "name", "demo", 'Titre', ['type' => 'textarea']);
+        $this->assertSimilar($this->inputError('name', 'Titre', 'demo'), $html);
+    }
 
-      private function input(string $key, string $label, $value): string
+
+
+      private function input(string $key, string $label, ?string $value): string
       {
           return <<<HTML
              <div class="form-group">
@@ -78,12 +86,39 @@ HTML;
 
 
 
-    private function textarea(string $key, string $label, $value): string
+    private function inputError(string $key, string $label, ?string $value): string
+    {
+        return <<<HTML
+             <div class="form-group has-danger">
+                <label for="name">$label</label>
+                <input type="text" class="form-control form-control-danger" name="$key" id="$key" value="$value">
+                <small class="form-text text-muted">erreur</small>
+            </div>
+HTML;
+    }
+
+
+
+    private function textarea(string $key, string $label, ?string $value, string $error = 'erreur'): string
     {
         return <<<HTML
              <div class="form-group">
                 <label for="name">$label</label>
                 <textarea class="form-control" name="$key" id="$key">{$value}</textarea>
+            </div>
+HTML;
+    }
+
+
+
+
+    private function textareaError(string $key, string $label, ?string $value): string
+    {
+        return <<<HTML
+             <div class="form-group has-danger">
+                <label for="name">$label</label>
+                <textarea class="form-control form-control-danger" name="$key" id="$key">{$value}</textarea>
+                <small class="form-text text-muted">erreur</small>
             </div>
 HTML;
     }
