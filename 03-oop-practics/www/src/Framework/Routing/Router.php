@@ -483,6 +483,25 @@ class Router implements RouterInterface
     }
 
 
+
+
+
+    /**
+     * @param string $prefixPath
+     * @param $action
+     * @param string $prefixName
+     * @return void
+    */
+    public function crud(string $prefixPath, $action, string $prefixName): void
+    {
+        $this->get("$prefixPath", $action, "$prefixName.index");
+        $this->map("GET|POST", "$prefixPath/new", $action, "$prefixName.create");
+        $this->map("GET|POST", "$prefixPath/{id}", $action, "$prefixName.edit")->where('id', '\d+');
+        $this->delete("$prefixPath/{id}", $action, "$prefixName.delete")->where('id', '\d+');
+    }
+
+
+
     /**
      * @param ServerRequestInterface $request
      * @return Route|false

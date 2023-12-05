@@ -23,7 +23,7 @@
                 <td>{{ item.name }}</td>
                 <td>
                     <a href="{{ path('blog.admin.edit', {'id': item.id }) }}" class="btn btn-primary">Editer</a>
-                    <form action="{{ path('blog.admin.delete', {'id': item.id }) }}" method="POST" style="display: inline">
+                    <form action="{{ path('blog.admin.delete', {'id': item.id }) }}" method="POST" style="display: inline" onsubmit="return confirm('Etre vous sur ?')">
                         <input type="hidden" name="_method" value="DELETE">
                         <button class="btn btn-danger">Supprimer</button>
                     </form>

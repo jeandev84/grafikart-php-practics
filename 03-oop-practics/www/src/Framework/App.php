@@ -88,7 +88,6 @@ class App
            $router = $this->container->get(Router::class);
            $route  = $router->match($request);
 
-           dd($route);
            if (! $route) {
                return new Response(404, [], '<h1>Error 404</h1>');
            }

@@ -46,7 +46,7 @@ class AdminBlogAction
         $requestUri = (string)$request->getUri();
 
         if ($request->getMethod() === 'DELETE') {
-            return 'Salut';
+            return $this->delete($request);
         }
 
         if (substr($requestUri, -3) === 'new') {
@@ -108,6 +108,15 @@ class AdminBlogAction
         }
 
         return $this->renderer->render("@blog/admin/create");
+    }
+
+
+
+    public function delete(Request $request): mixed
+    {
+        $this->postRepository->delete((int)$request->getAttribute('id'));
+
+        return $this->redirect('blog.admin.index');
     }
 
 

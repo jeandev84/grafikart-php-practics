@@ -59,13 +59,25 @@ class PostRepositoryTest extends DatabaseTestCase
 
 
 
-    public function testUpdate()
+     public function testUpdate()
     {
-         $this->seedDatabase();
-         $this->postRepository->update([
-             'name' => 'Salut',
-             'slug' => 'demo'
-         ], 1);
+        $this->seedDatabase();
+        $this->postRepository->update([
+            'name' => 'Salut',
+            'slug' => 'demo'
+        ], 1);
+
+        $post = $this->postRepository->find(1);
+        $this->assertEquals('Salut', $post->name);
+        $this->assertEquals('demo', $post->slug);
+    }
+
+
+
+
+    public function testInsert()
+    {
+         $this->postRepository->insert(['name' => 'Salut', 'slug' => 'demo']);
 
          $post = $this->postRepository->find(1);
          $this->assertEquals('Salut', $post->name);
@@ -75,15 +87,16 @@ class PostRepositoryTest extends DatabaseTestCase
 
 
 
-    public function testInsert()
-    {
-         $this->postRepository->insert([
-             'name' => 'Salut',
-             'slug' => 'demo'
-         ]);
 
-         $post = $this->postRepository->find(1);
-        $this->assertEquals('Salut', $post->name);
-        $this->assertEquals('demo', $post->slug);
+    public function testDelete()
+    {
+        $this->postRepository->insert(['name' => 'Salut', 'slug' => 'demo']);
+        $this->postRepository->insert(['name' => 'Salut', 'slug' => 'demo']);
+        $count = (int)$this->pdo->query("SELECT COUNT(id) FROM posts")->fetchColumn();
+        $this->assertEquals(2, $count);
+        $this->postRepository->delete((int)$this->pdo->lastInsertId());
+        $count = (int)$this->pdo->query("SELECT COUNT(id) FROM posts")->fetchColumn();
+        $this->assertEquals(1, $count);
     }
+
 }

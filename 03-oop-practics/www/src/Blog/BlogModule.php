@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Blog;
 
 
-use Admin\AdminModule;
 use App\Blog\Actions\AdminBlogAction;
 use App\Blog\Actions\BlogAction;
 use Framework\Module;
@@ -12,6 +11,7 @@ use Framework\Routing\Router;
 use Framework\Templating\Renderer\RendererInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
+
 
 
 /**
@@ -37,6 +37,7 @@ class BlogModule extends Module
          $container->get(RendererInterface::class)->addPath('blog', __DIR__.'/views');
 
          # Routing
+         /** @var Router $router */
          $router = $container->get(Router::class);
          $prefix = $container->get('blog.prefix');
 
@@ -46,10 +47,7 @@ class BlogModule extends Module
 
          if ($container->has('admin.prefix')) {
              $prefix = $container->get('admin.prefix');
-             $router->get("$prefix/posts", AdminBlogAction::class, 'blog.admin.index');
-             $router->map("GET|POST", "$prefix/posts/new", AdminBlogAction::class, 'blog.admin.create');
-             $router->map("GET|POST", "$prefix/posts/{id}", AdminBlogAction::class, 'blog.admin.edit')->where('id', '\d+');
-             $router->delete("$prefix/posts/{id}", AdminBlogAction::class, 'blog.admin.delete')->where('id', '\d+');
+             $router->crud("$prefix/posts", AdminBlogAction::class, 'blog.admin');
          }
      }
 

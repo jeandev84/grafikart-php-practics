@@ -109,6 +109,18 @@ class PostRepository
 
 
         /**
+         * @param int $id
+         * @return bool
+        */
+        public function delete(int $id): bool
+        {
+            $query = $this->pdo->prepare("DELETE FROM posts WHERE id = :id");
+            return $query->execute(compact('id'));
+        }
+
+
+
+        /**
          * @param array $params
          * @return string
         */
