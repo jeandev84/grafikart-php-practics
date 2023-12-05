@@ -12,6 +12,7 @@ use Framework\Routing\Router;
 use Framework\Session\FlashService;
 use Framework\Session\SessionInterface;
 use Framework\Templating\Renderer\RendererInterface;
+use Framework\Validation\Validator;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
@@ -91,18 +92,25 @@ class AdminBlogAction
     */
     public function edit(Request $request): mixed
     {
-         $id   = (int)$request->getAttribute('id');
-         $item = $this->postRepository->find($id);
+         $id     = (int)$request->getAttribute('id');
+         $item   = $this->postRepository->find($id);
+         $errors = [];
 
          if ($request->getMethod() === 'POST') {
                $params = $this->getParams($request);
                $params['updated_at'] = date('Y-m-d H:i:s');
-               $this->postRepository->update($params, $item->id);
-               $this->flash->success("L' article a bien ete modifie");
-               return $this->redirect('blog.admin.index');
+               $validator = $this->getValidator($request);
+               if ($validator->isValid()) {
+                   $this->postRepository->update($params, $item->id);
+                   $this->flash->success("L' article a bien ete modifie");
+                   return $this->redirect('blog.admin.index');
+               }
+               $errors = $validator->getErrors();
+               $params['id'] = $item->id;
+               $item         = $params;
          }
 
-         return $this->renderer->render("@blog/admin/edit", compact('item'));
+         return $this->renderer->render("@blog/admin/edit", compact('item', 'errors'));
     }
 
 
@@ -113,18 +121,29 @@ class AdminBlogAction
      */
     public function create(Request $request): mixed
     {
+        $errors = [];
+
         if ($request->getMethod() === 'POST') {
+
             $params = $this->getParams($request);
             $params = array_merge($params, [
                 'updated_at' => date('Y-m-d H:i:s'),
                 'created_at' => date('Y-m-d H:i:s')
             ]);
-            $this->postRepository->insert($params);
-            $this->flash->success("L' article a bien ete cree");
-            return $this->redirect('blog.admin.index');
+
+            $validator = $this->getValidator($request);
+
+            if ($validator->isValid()) {
+                $this->postRepository->insert($params);
+                $this->flash->success("L' article a bien ete cree");
+                return $this->redirect('blog.admin.index');
+            }
+
+            $item   = $params;
+            $errors = $validator->getErrors();
         }
 
-        return $this->renderer->render("@blog/admin/create");
+        return $this->renderer->render("@blog/admin/create", compact('item', 'errors'));
     }
 
 
@@ -150,5 +169,17 @@ class AdminBlogAction
         return array_filter($request->getParsedBody(), function ($key) {
             return in_array($key, ['name', 'slug', 'content']);
         }, ARRAY_FILTER_USE_KEY);
+    }
+
+
+
+    private function getValidator(Request $request): Validator
+    {
+         return (new Validator($request->getParsedBody()))
+                ->required('content', 'name', 'slug')
+                ->length('content', 10)
+                ->length('name', 2, 250)
+                ->length('slug', 2, 50)
+                ->slug('slug');
     }
 }

@@ -117,8 +117,11 @@ class Validator
        }
 
 
-
-
+       /**
+        * @param string $key
+        * @param string $format
+        * @return $this
+       */
        public function dateTime(string $key, string $format = 'Y-m-d H:i:s'): self
        {
             $value  = $this->getValue($key);
@@ -131,6 +134,16 @@ class Validator
 
             return $this;
        }
+
+
+
+
+       public function isValid(): bool
+       {
+           return empty($this->errors);
+       }
+
+
 
 
 
