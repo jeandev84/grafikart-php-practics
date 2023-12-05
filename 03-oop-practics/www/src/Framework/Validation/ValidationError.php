@@ -15,24 +15,54 @@ namespace Framework\Validation;
  */
 class ValidationError
 {
+
+      /**
+       * @var string
+      */
       protected string $key;
 
+
+      /**
+       * @var string
+      */
       protected string $rule;
+
+
+      /**
+       * @var array
+      */
+      protected array $attributes = [];
+
 
 
       /**
        *  @var array
       */
       protected array $messages = [
-          'required' => 'Le champs %s est requis'
+          'required'  => 'Le champs %s est requis',
+          'empty'     => 'Le champs %s ne peut etre vide',
+          'slug'      => "Le champs %s n'est pas un slug valide",
+          'minLength' => "Le champs %s doit contenir plus de %d caracteres",
+          'maxLength' => "Le champs %s doit contenir moins de %d caracteres",
+          'betweenLength' => "Le champs %s doit contenir entre %d et %d caracteres",
       ];
 
 
 
-      public function __construct(string $key, string $rule)
+
+
+      /**
+       * @param string $key
+       *
+       * @param string $rule
+       *
+       * @param array $attributes
+      */
+      public function __construct(string $key, string $rule, array $attributes = [])
       {
           $this->key = $key;
           $this->rule = $rule;
+          $this->attributes = $attributes;
       }
 
 
@@ -43,6 +73,7 @@ class ValidationError
       */
       public function __toString(): string
       {
-           return sprintf($this->messages[$this->rule], $this->key);
+           $params = array_merge([$this->messages[$this->rule], $this->key], $this->attributes);
+           return (string)call_user_func_array('sprintf', $params);
       }
 }

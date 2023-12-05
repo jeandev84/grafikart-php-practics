@@ -37,6 +37,18 @@ class ValidatorTest extends TestCase
 
 
 
+
+    public function testNotEmpty()
+    {
+        $errors = $this->makeValidator(['name' => 'Joe', 'content' => ''])
+            ->notEmpty('content')
+            ->getErrors();
+
+        $this->assertCount(1, $errors);
+    }
+
+
+
     public function testRequiredIfSuccess()
     {
         $errors = $this->makeValidator(['name' => 'Joe', 'content' => 'content'])
@@ -69,8 +81,26 @@ class ValidatorTest extends TestCase
          ->slug('slug1')
          ->slug('slug2')
          ->slug('slug3')
+         ->slug('slug4')
          ->getErrors();
 
         $this->assertCount(3, $errors);
     }
+
+
+
+
+    public function testLength()
+    {
+        $params = ['slug' => '123456789'];
+        $this->assertCount(0, $this->makeValidator($params)->length('slug', 3)->getErrors());
+        $errors = $this->makeValidator($params)->length('slug', 12)->getErrors();
+        $this->assertCount(1, $errors);
+        $this->assertEquals("Le champs slug doit contenir plus de 12 caracteres", $errors['slug']);
+        $this->assertCount(1, $this->makeValidator($params)->length('slug', 3, 4)->getErrors());
+        $this->assertCount(0, $this->makeValidator($params)->length('slug', 3, 20)->getErrors());
+        $this->assertCount(0, $this->makeValidator($params)->length('slug', null, 20)->getErrors());
+        $this->assertCount(1, $this->makeValidator($params)->length('slug', null, 8)->getErrors());
+    }
+
 }
