@@ -523,13 +523,15 @@ class Router implements RouterInterface
     /**
      * @inheritDoc
     */
-    public function generateUri(string $name, array $parameters = []): ?string
+    public function generateUri(string $name, array $parameters = [], array $queryParams = []): ?string
     {
          if (! $route = $this->collection->getRoute($name)) {
              return null;
          }
 
-         return $route->generateUri($parameters);
+         $qs = $queryParams ? "?". http_build_query($queryParams) : '';
+
+         return $route->generateUri($parameters) . $qs;
     }
 
 
