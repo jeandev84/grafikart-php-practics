@@ -47,13 +47,15 @@ class BlogAction
              return $this->show($request);
          }
 
-         return $this->index();
+         return $this->index($request);
     }
 
 
-    public function index(): string
+    public function index(Request $request): string
     {
-        $posts = $this->postRepository->findPaginated(12);
+        $params = $request->getQueryParams();
+        $page   = (int)($params['p'] ?? 1);
+        $posts  = $this->postRepository->findPaginated(12, $page);
 
         return $this->renderer->render('@blog/index', compact('posts'));
     }

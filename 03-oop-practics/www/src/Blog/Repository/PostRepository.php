@@ -27,10 +27,12 @@ class PostRepository
         }
 
 
-        /**
+       /**
+         * @param int $perPage
+         * @param int $currentPage
          * @return Pagerfanta
         */
-        public function findPaginated(int $perPage): Pagerfanta
+        public function findPaginated(int $perPage, int $currentPage): Pagerfanta
         {
             /*
             return $this->pdo->query("SELECT * FROM posts ORDER BY created_at LIMIT 10")
@@ -44,7 +46,9 @@ class PostRepository
             );
 
             return (new Pagerfanta($paginatedQuery))
-                   ->setMaxPerPage($perPage);
+                   ->setMaxPerPage($perPage)
+                   ->setCurrentPage($currentPage)
+                ;
         }
 
 

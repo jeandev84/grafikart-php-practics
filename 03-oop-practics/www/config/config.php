@@ -4,6 +4,7 @@ use Framework\Routing\Extension\RouterTwigExtension;
 use Framework\Routing\Router;
 use Framework\Templating\Renderer\RendererInterface;
 use Framework\Templating\Renderer\TwigRendererFactory;
+use Framework\Twig\PagerFantaExtension;
 
 return [
     'database.host'     => 'localhost',
@@ -12,7 +13,8 @@ return [
     'database.name'     => 'monsupersite',
     'views.path'        => dirname(__DIR__). '/views',
     'twig.extensions'   => [
-        \DI\get(RouterTwigExtension::class)
+        \DI\get(RouterTwigExtension::class),
+        \DI\get(PagerFantaExtension::class),
     ],
     Router::class => \DI\object(),
     RendererInterface::class => \DI\factory(TwigRendererFactory::class),
