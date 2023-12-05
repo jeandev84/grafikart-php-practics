@@ -36,8 +36,9 @@ class FormExtension extends AbstractExtension
          $type  = $options['type'] ?? 'text';
          $error = $this->getErrorHtml($context, $key);
          $class = 'form-group';
+         $value = $this->convertValue($value);
          $attributes = [
-             'class' => 'form-control',
+             'class' => trim('form-control '. ($options['class'] ?? '')),
              'name'  => $key,
              'id'    => $key
          ];
@@ -108,6 +109,17 @@ INPUT;
              <textarea {$attr}>{$value}</textarea>
 TEXTAREA;
 
+     }
+
+
+
+     private function convertValue($value): string
+     {
+          if ($value instanceof \DateTime) {
+              return $value->format('Y-m-d H:i:s');
+          }
+
+          return $value;
      }
 
 

@@ -74,12 +74,26 @@ class FormExtensionTest extends TestCase
 
 
 
-      private function input(string $key, string $label, ?string $value): string
+    public function testFieldWithClass()
+    {
+        $html = $this->formExtension->field([],
+            "name",
+            "demo",
+            'Titre',
+            ['class' => 'demo']
+        );
+        $this->assertSimilar($this->input('name', 'Titre', 'demo', ['class' => 'demo']), $html);
+    }
+
+
+
+      private function input(string $key, string $label, ?string $value, array $options = []): string
       {
+          $class = !empty($options['class']) ?  ' '. $options['class'] : '';
           return <<<HTML
              <div class="form-group">
                 <label for="name">$label</label>
-                <input type="text" class="form-control" name="$key" id="$key" value="$value">
+                <input type="text" class="form-control$class" name="$key" id="$key" value="$value">
             </div>
 HTML;
       }
@@ -91,7 +105,7 @@ HTML;
         return <<<HTML
              <div class="form-group has-danger">
                 <label for="name">$label</label>
-                <input type="text" class="form-control form-control-danger" name="$key" id="$key" value="$value">
+                <input type="text" class="form-control is-invalid" name="$key" id="$key" value="$value">
                 <small class="form-text text-muted">erreur</small>
             </div>
 HTML;
