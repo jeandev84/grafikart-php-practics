@@ -26,16 +26,15 @@ class PaginatedQuery implements AdapterInterface
     protected string $countQuery;
 
 
-    protected string $entity;
+    protected ?string $entity = null;
 
 
 
-    protected string $classMapping;
     public function __construct(
         \PDO $pdo,
         string $query,
         string $countQuery,
-        string $entity
+        ?string $entity
     )
     {
         $this->pdo = $pdo;
@@ -62,7 +61,9 @@ class PaginatedQuery implements AdapterInterface
         $statement = $this->pdo->prepare($this->query . " LIMIT :offset, :length");
         $statement->bindParam('offset', $offset, \PDO::PARAM_INT);
         $statement->bindParam('length', $length, \PDO::PARAM_INT);
-        $statement->setFetchMode(\PDO::FETCH_CLASS, $this->entity);
+        if ($this->entity) {
+            $statement->setFetchMode(\PDO::FETCH_CLASS, $this->entity);
+        }
         $statement->execute();
         return $statement->fetchAll();
     }
