@@ -62,8 +62,12 @@ class ValidatorTest extends TestCase
 
     public function testSlugSuccess()
     {
-        $errors = $this->makeValidator(['slug' => 'aze-aze-azeaze'])
+        $errors = $this->makeValidator([
+                         'slug'  => 'aze-aze-azeaze34',
+                         'slug2' => 'azeaze'
+                       ])
                        ->slug('slug')
+                       ->slug('slug2')
                        ->getErrors();
 
         $this->assertCount(0, $errors);
