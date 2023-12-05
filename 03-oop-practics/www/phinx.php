@@ -29,6 +29,11 @@ return
             'name'    => $app->getContainer()->get('database.name'),
             'user'    => $app->getContainer()->get('database.username'),
             'pass'    => $app->getContainer()->get('database.password')
+        ],
+        'test' => [
+            'adapter' => 'sqlite',
+            'memory'  => true,
+            'name'    => 'test'
         ]
     ],
     'version_order' => 'creation'
