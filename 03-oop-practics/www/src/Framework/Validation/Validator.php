@@ -121,11 +121,11 @@ class Validator
 
        public function dateTime(string $key, string $format = 'Y-m-d H:i:s'): self
        {
-            $value = $this->getValue($key);
-            $dateTime  = \DateTime::createFromFormat($format, $value);
-            $errors    = \DateTime::getLastErrors(); /* dump($errors); */
+            $value  = $this->getValue($key);
+            $date   = \DateTime::createFromFormat($format, $value);  /* dump($date); */
+            $errors = \DateTime::getLastErrors(); /* dump($errors); */
 
-            if ($errors['error_count'] > 0) {
+            if ($errors['error_count'] > 0 || $errors['warning_count'] > 0) {
                 $this->addError($key, 'datetime', [$format]);
             }
 
