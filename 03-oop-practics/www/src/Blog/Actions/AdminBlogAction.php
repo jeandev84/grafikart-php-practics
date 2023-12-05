@@ -106,8 +106,11 @@ class AdminBlogAction
     }
 
 
-
-
+    /**
+     * @param Request $request
+     *
+     * @return mixed
+     */
     public function create(Request $request): mixed
     {
         if ($request->getMethod() === 'POST') {
@@ -117,6 +120,7 @@ class AdminBlogAction
                 'created_at' => date('Y-m-d H:i:s')
             ]);
             $this->postRepository->insert($params);
+            $this->flash->success("L' article a bien ete cree");
             return $this->redirect('blog.admin.index');
         }
 

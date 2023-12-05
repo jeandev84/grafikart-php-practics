@@ -63,10 +63,20 @@ class FlashService
      */
      public function success(string $message): void
      {
-          $flash = $this->session->get($this->sessionKey, []);
-          $flash['success'] = $message;
-          $this->session->set($this->sessionKey, $flash);
+          $this->addFlash('success', $message);
      }
+
+
+
+    /**
+     * @param string $message
+     * @return void
+     */
+    public function error(string $message): void
+    {
+        $this->addFlash('error', $message);
+    }
+
 
 
 
