@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Blog\Actions;
 
 
+use App\Blog\Table\PostTable;
 use Framework\Actions\RouterAwareAction;
 use Framework\Routing\Router;
 use Framework\Templating\Renderer\RendererInterface;
@@ -25,17 +26,17 @@ class BlogAction
 
     protected RendererInterface $renderer;
 
-    protected \PDO $pdo;
-
     protected Router $router;
+
+    protected $postTable;
 
     use RouterAwareAction;
 
-    public function __construct(RendererInterface $renderer, \PDO $pdo, Router $router)
+    public function __construct(RendererInterface $renderer, Router $router, PostTable $postTable)
     {
-        $this->renderer = $renderer;
-        $this->pdo      = $pdo;
-        $this->router   = $router;
+        $this->renderer  = $renderer;
+        $this->router    = $router;
+        $this->postTable = $postTable;
     }
 
 
@@ -63,12 +64,9 @@ class BlogAction
 
     public function show(Request $request): mixed
     {
-        $id = $request->getAttribute('id');
+        $id   = $request->getAttribute('id');
         $slug = $request->getAttribute('slug');
-
-        $statement = $this->pdo->prepare("SELECT * FROM posts WHERE id = ?");
-        $statement->execute([$id]);
-        $post = $statement->fetch();
+        $post = $this->postTable->find($id);
 
         if ($post->slug !== $slug) {
             /*
