@@ -43,7 +43,7 @@ class FormExtension extends AbstractExtension
          ];
          if ($error) {
              $class .= ' has-danger';
-             $attributes['class'] .= ' form-control-danger';
+             $attributes['class'] .= ' is-invalid';
          }
 
          if ($type === 'textarea') {
