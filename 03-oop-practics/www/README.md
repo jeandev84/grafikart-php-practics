@@ -33,3 +33,12 @@ Pagerfanta
 ```
 https://github.com/whiteoctober/Pagerfanta
 ```
+
+
+GIT 
+```
+$ git status
+$ git add .
+$ git commit --amend
+$ git log --all --decorate --oneline --graph
+```
