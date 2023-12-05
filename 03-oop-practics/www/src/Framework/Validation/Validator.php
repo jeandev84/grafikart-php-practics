@@ -119,6 +119,22 @@ class Validator
 
 
 
+       public function dateTime(string $key, string $format = 'Y-m-d H:i:s'): self
+       {
+            $value = $this->getValue($key);
+            $dateTime  = \DateTime::createFromFormat($format, $value);
+            $errors    = \DateTime::getLastErrors(); /* dump($errors); */
+
+            if ($errors['error_count'] > 0) {
+                $this->addError($key, 'datetime', [$format]);
+            }
+
+            return $this;
+       }
+
+
+
+
 
        /**
         * @return ValidationError[]
@@ -127,6 +143,10 @@ class Validator
        {
             return $this->errors;
        }
+
+
+
+
 
 
        /**

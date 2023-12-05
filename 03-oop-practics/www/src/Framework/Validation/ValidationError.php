@@ -39,12 +39,13 @@ class ValidationError
        *  @var array
       */
       protected array $messages = [
-          'required'  => 'Le champs %s est requis',
-          'empty'     => 'Le champs %s ne peut etre vide',
-          'slug'      => "Le champs %s n'est pas un slug valide",
-          'minLength' => "Le champs %s doit contenir plus de %d caracteres",
-          'maxLength' => "Le champs %s doit contenir moins de %d caracteres",
+          'required'      => 'Le champs %s est requis',
+          'empty'         => 'Le champs %s ne peut etre vide',
+          'slug'          => "Le champs %s n'est pas un slug valide",
+          'minLength'     => "Le champs %s doit contenir plus de %d caracteres",
+          'maxLength'     => "Le champs %s doit contenir moins de %d caracteres",
           'betweenLength' => "Le champs %s doit contenir entre %d et %d caracteres",
+          'datetime'      => "Le champs %s doit etre une date valide (%s)",
       ];
 
 
