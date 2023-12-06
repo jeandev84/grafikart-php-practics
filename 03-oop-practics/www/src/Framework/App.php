@@ -6,12 +6,14 @@ namespace Framework;
 
 use DI\ContainerBuilder;
 use GuzzleHttp\Psr7\Response;
+use Psr\Http\Server\MiddlewareInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Framework\Routing\Router;
+use Psr\Http\Server\RequestHandlerInterface;
 
 
 /**
@@ -23,7 +25,7 @@ use Framework\Routing\Router;
  *
  * @package Framework
 */
-class App
+class App implements RequestHandlerInterface
 {
 
        /**
@@ -121,15 +123,17 @@ class App
         *
         * @throws NotFoundExceptionInterface
        */
-       public function process(ServerRequestInterface $request): ResponseInterface
+       public function handle(ServerRequestInterface $request): ResponseInterface
        {
             $middleware = $this->getMiddleware();
 
             if (is_null($middleware)) {
                 throw new \Exception("Aucun middleware n' a intercepter cette requette");
+            } elseif (is_callable($middleware)) {
+                return call_user_func_array($middleware, [$request, [$this, 'handle']]);
+            } elseif ($middleware instanceof MiddlewareInterface) {
+                 return $middleware->process($request, $this);
             }
-
-            return call_user_func_array($middleware, [$request, [$this, 'process']]);
        }
 
 
@@ -148,38 +152,7 @@ class App
                $this->getContainer()->get($module);
            }
 
-           return $this->process($request);
-
-            /*
-             $router = $this->container->get(Router::class);
-             $route  = $router->match($request);
-
-             if (! $route) {
-                 return new Response(404, [], '<h1>Error 404</h1>');
-             }
-
-             $params  = $route->getParams();
-             $request = array_reduce(array_keys($params), function (ServerRequestInterface $request, $key) use ($params) {
-                 return $request->withAttribute($key, $params[$key]);
-             }, $request);
-
-
-             $callback = $route->getAction();
-
-             if (is_string($callback)) {
-                 $callback = $this->container->get($callback);
-             }
-
-             $response = call_user_func_array($callback, [$request]);
-
-             if (is_string($response)) {
-                 return new Response(200, [], $response);
-             } elseif ($response instanceof ResponseInterface) {
-                 return $response;
-             } else {
-                 throw new \Exception("The response is not a string of an instance of ResponseInterface");
-             }
-         */
+           return $this->handle($request);
        }
 
 
@@ -212,7 +185,7 @@ class App
         * @throws ContainerExceptionInterface
         * @throws NotFoundExceptionInterface
        */
-       private function getMiddleware(): ?callable
+       private function getMiddleware(): ?object
        {
            $container = $this->getContainer();
 
