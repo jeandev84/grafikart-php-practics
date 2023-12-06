@@ -5,6 +5,7 @@ namespace Framework\Database\ORM;
 
 
 use App\Blog\Entity\Post;
+use Framework\Database\ORM\Exceptions\NoRecordException;
 use Framework\Database\PaginatedQuery;
 use Pagerfanta\Pagerfanta;
 use PDO;
@@ -113,12 +114,18 @@ class EntityRepository implements EntityRepositoryInterface
     */
     public function find(int $id): mixed
     {
-        $query = $this->connection->prepare("SELECT * FROM $this->table WHERE id = :id");
-        $query->execute(compact('id'));
+        $statement = $this->connection->prepare("SELECT * FROM $this->table WHERE id = :id");
+        $statement->execute(compact('id'));
         if ($this->classname) {
-            $query->setFetchMode(\PDO::FETCH_CLASS, $this->classname);
+            $statement->setFetchMode(\PDO::FETCH_CLASS, $this->classname);
         }
-        return $query->fetch() ?: null;
+        $record = $statement->fetch();
+
+        if ($record === false) {
+            throw new NoRecordException();
+        }
+
+        return $record;
     }
 
 
@@ -137,6 +144,37 @@ class EntityRepository implements EntityRepositoryInterface
             $query->setFetchMode(PDO::FETCH_OBJ);
         }
         return $query->fetchAll();
+    }
+
+
+    /**
+     * Recuperere une ligne par rapport un champs
+     *
+     * @param string $field
+     * @param $value
+     * @return mixed
+     */
+    public function findBy(string $field, $value): mixed
+    {
+        $sql = "SELECT * FROM {$this->table} WHERE $field = ?";
+
+        $statement = $this->connection->prepare($sql);
+
+        $statement->execute([$value]);
+
+        if ($this->classname) {
+            $statement->setFetchMode(\PDO::FETCH_CLASS, $this->classname);
+        } else {
+            $statement->setFetchMode(PDO::FETCH_OBJ);
+        }
+
+        $record = $statement->fetch();
+
+        if ($record === false) {
+            throw new NoRecordException();
+        }
+
+        return $record;
     }
 
 

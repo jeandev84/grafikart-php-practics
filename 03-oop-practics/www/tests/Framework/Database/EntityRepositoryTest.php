@@ -81,6 +81,19 @@ class EntityRepositoryTest extends TestCase
     }
 
 
+
+
+    public function testFindBy()
+    {
+        $this->repository->getPdo()->exec('INSERT INTO test (name) VALUES ("a1")');
+        $this->repository->getPdo()->exec('INSERT INTO test (name) VALUES ("a2")');
+        $this->repository->getPdo()->exec('INSERT INTO test (name) VALUES ("a1")');
+        $category = $this->repository->findBy('name', 'a1');
+        $this->assertInstanceOf(\stdClass::class, $category);
+        $this->assertEquals('1', (int)$category->id);
+    }
+
+
     public function testExists()
     {
         $this->repository->getPdo()->exec('INSERT INTO test (name) VALUES ("a1")');
