@@ -5,6 +5,7 @@ namespace Tests\Blog\Actions;
 
 
 use App\Blog\Actions\BlogAction;
+use App\Blog\Actions\PostShowAction;
 use App\Blog\Entity\Post;
 use App\Blog\Repository\PostRepository;
 use Framework\Routing\Router;
@@ -21,6 +22,8 @@ use Prophecy\Argument;
  * @author Jean-Claude <jeanyao@ymail.com>
  *
  * @package Tests\Blog\Actions
+ *
+ * FIX BUG prophesize()
  */
 class PostShowActionTest extends TestCase
 {
@@ -37,7 +40,7 @@ class PostShowActionTest extends TestCase
         $this->renderer = $this->prophesize(RendererInterface::class);
         $this->postRepository = $this->prophesize(PostRepository::class);
         $this->router = $this->prophesize(Router::class);
-        $this->action = new BlogAction(
+        $this->action = new PostShowAction(
             $this->renderer->reveal(),
             $this->router->reveal(),
             $this->postRepository->reveal()

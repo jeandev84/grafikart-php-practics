@@ -23,8 +23,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  */
 class PostIndexAction
 {
-
-
     protected RendererInterface $renderer;
 
     protected PostRepository $postRepository;

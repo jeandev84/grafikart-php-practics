@@ -45,7 +45,15 @@
         {{ paginate(posts, 'blog.index') }}
     </div>
     <div class="col-md-3">
-
+        <ul class="list-group">
+            {% for category in categories %}
+                <li class="list-group-item">
+                    <a href="{{ path('blog.category', {slug: category.slug}) }}">
+                        {{ category.name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 
