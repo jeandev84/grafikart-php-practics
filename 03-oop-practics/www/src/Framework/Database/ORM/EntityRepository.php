@@ -186,6 +186,19 @@ class EntityRepository implements EntityRepositoryInterface
     }
 
 
+    /**
+     * Verifie qu' un enregistrement exist
+     *
+     * @param $id
+     *
+     * @return bool
+    */
+    public function exists($id): bool
+    {
+         $statement = $this->connection->prepare("SELECT id FROM {$this->table} WHERE id = ?");
+         $statement->execute([$id]);
+         return $statement->fetchColumn() !== false;
+    }
 
 
     /**

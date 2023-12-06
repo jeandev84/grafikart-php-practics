@@ -102,10 +102,11 @@ class PostCrudAction extends CrudAction
     protected function getValidator(ServerRequestInterface $request): Validator
     {
          return parent::getValidator($request)
-                ->required('content', 'name', 'slug', 'created_at')
+                ->required('content', 'name', 'slug', 'created_at', 'category_id')
                 ->length('content', 10)
                 ->length('name', 2, 250)
                 ->length('slug', 2, 50)
+                ->exists('category_id', $this->categoryRepository)
                 ->dateTime('created_at')
                 ->slug('slug');
     }

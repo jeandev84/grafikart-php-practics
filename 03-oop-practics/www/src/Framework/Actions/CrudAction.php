@@ -6,6 +6,7 @@ namespace Framework\Actions;
 
 use App\Blog\Entity\Post;
 use App\Blog\Repository\PostRepository;
+use Framework\Database\ORM\EntityRepository;
 use Framework\Routing\Router;
 use Framework\Session\FlashService;
 use Framework\Templating\Renderer\RendererInterface;
@@ -28,7 +29,7 @@ class CrudAction
 
     protected Router $router;
 
-    protected $repository;
+    protected EntityRepository $repository;
 
     protected FlashService $flash;
 
@@ -51,12 +52,13 @@ class CrudAction
     ];
 
 
+
     use RouterAwareAction;
 
     public function __construct(
         RendererInterface $renderer,
         Router            $router,
-                          $repository,
+        EntityRepository  $repository,
         FlashService      $flash
     )
     {

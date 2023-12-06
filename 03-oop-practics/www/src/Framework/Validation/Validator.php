@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Framework\Validation;
 
 
+use Framework\Database\ORM\EntityRepository;
+
 /**
  * Created by PhpStorm at 05.12.2023
  *
@@ -139,7 +141,29 @@ class Validator
 
 
 
-       public function isValid(): bool
+      /**
+       * @param string $key
+       *
+       * @param string $id
+       *
+       * @param EntityRepository $repository
+       *
+       * @return $this
+     */
+     public function exists(string $key, string $id, EntityRepository $repository): self
+     {
+          if (! $repository->exists($id)) {
+              $this->addError($key, 'exists', [$repository->getTable()]);
+          }
+
+          return $this;
+     }
+
+
+
+
+
+    public function isValid(): bool
        {
            return empty($this->errors);
        }
