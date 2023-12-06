@@ -131,6 +131,9 @@ class CsrfMiddleware implements MiddlewareInterface
         return $this->sessionKey;
     }
 
+
+
+
     private function limitTokens(): void
     {
         $tokens = $this->session[$this->sessionKey] ?? [];
@@ -147,12 +150,12 @@ class CsrfMiddleware implements MiddlewareInterface
 
 
     /**
-     * @param string $token
+     * @param $token
      * @return void
     */
-    private function useToken(string $token): void
+    private function useToken($token): void
     {
-        $tokens = array_filter($this->session[$this->formKey], function (string $tokenParam) use ($token) {
+        $tokens = array_filter($this->session[$this->sessionKey], function ($tokenParam) use ($token) {
                          return $token !== $tokenParam;
                  });
 

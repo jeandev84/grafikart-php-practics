@@ -38,7 +38,7 @@ class CsrfExtension extends AbstractExtension
       public function getFunctions(): array
       {
           return [
-              new TwigFunction('csrf_input', [$this, 'csrfInput'])
+              new TwigFunction('csrf_input', [$this, 'csrfInput'], ['is_safe' => ['html']])
           ];
       }
 
