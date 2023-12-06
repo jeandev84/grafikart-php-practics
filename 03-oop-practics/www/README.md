@@ -47,6 +47,11 @@ $ php -S localhost:8000 -t ./public -d display_errors=1 -d opcache.enable_cli=1
 $ env ENV=dev php -S localhost:8000 -t public -d display_errors=1 -d opcache.enable_cli=1
 ```
 
+7. QueryBuilder example 
+```
+https://github.com/envms/fluentpdo
+```
+
 GIT 
 ```
 $ git status
