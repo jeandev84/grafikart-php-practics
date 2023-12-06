@@ -21,15 +21,21 @@ $ ./vendor/bin/phpcs src/Framework/App.php
 $ ./vendor/bin/phinx init .
 $ $EDITOR phinx.yml
 $ mkdir -p db/migrations db/seeds
-$ vendor/bin/phnix create MyFirstMigration
-$ vendor/bin/phinx create CreatePostsTable
-$ vendor/bin/phinx migrate -e development [ vendor/bin/phinx migrate ]
-$ vendor/bin/phinx seed:create MyNewSeeder
-$ vendor/bin/phinx seed:run
+$ ./vendor/bin/phnix create MyFirstMigration
+$ ./vendor/bin/phinx create CreatePostsTable
+$ ./vendor/bin/phinx migrate -e development [ vendor/bin/phinx migrate ]
+$ ./vendor/bin/phinx seed:create MyNewSeeder
+$ ./vendor/bin/phinx seed:run
 ```
 
+4. Refresh Migration 
+```
+$ ./vendor/bin/phinx rollback -t 0
+$ ./vendor/bin/phinx migrate
+$ ./vendor/bin/phinx seed:run
+```
 
-Pagerfanta 
+5. Pagerfanta 
 ```
 https://github.com/whiteoctober/Pagerfanta
 ```
