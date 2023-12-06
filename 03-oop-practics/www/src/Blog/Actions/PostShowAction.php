@@ -30,47 +30,23 @@ class PostShowAction
 
     protected PostRepository $postRepository;
 
-    protected CategoryRepository $categoryRepository;
-
     use RouterAwareAction;
 
     public function __construct(
         RendererInterface $renderer,
         Router $router,
-        PostRepository $postRepository,
-        CategoryRepository $categoryRepository
+        PostRepository $postRepository
     )
     {
         $this->renderer  = $renderer;
         $this->router    = $router;
         $this->postRepository = $postRepository;
-        $this->categoryRepository = $categoryRepository;
     }
 
 
 
 
     public function __invoke(Request $request)
-    {
-         if ($request->getAttribute('id')) {
-             return $this->show($request);
-         }
-
-         return $this->index($request);
-    }
-
-
-    public function index(Request $request): string
-    {
-        $params = $request->getQueryParams();
-        $page   = (int)($params['p'] ?? 1);
-        $posts  = $this->postRepository->findPaginatedPublic(12, $page);
-
-        return $this->renderer->render('@blog/index', compact('posts'));
-    }
-
-
-    public function show(Request $request): mixed
     {
         $id   = (int)$request->getAttribute('id');
         $slug = $request->getAttribute('slug');
@@ -81,7 +57,7 @@ class PostShowAction
         }
 
         return $this->renderer->render('@blog/show', [
-             'post' => $post
+            'post' => $post
         ]);
     }
 }

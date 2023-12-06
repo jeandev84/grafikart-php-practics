@@ -16,13 +16,13 @@ use Prophecy\Argument;
 /**
  * Created by PhpStorm at 05.12.2023
  *
- * @BlogActionTest
+ * @PostShowActionTest
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
  * @package Tests\Blog\Actions
  */
-class BlogActionTest extends TestCase
+class PostShowActionTest extends TestCase
 {
 
 

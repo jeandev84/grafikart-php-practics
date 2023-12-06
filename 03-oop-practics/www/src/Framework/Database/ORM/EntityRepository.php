@@ -133,6 +133,8 @@ class EntityRepository implements EntityRepositoryInterface
         $query->execute();
         if ($this->classname) {
             $query->setFetchMode(\PDO::FETCH_CLASS, $this->classname);
+        } else {
+            $query->setFetchMode(PDO::FETCH_OBJ);
         }
         return $query->fetchAll();
     }
