@@ -21,11 +21,12 @@ class PostRepositoryTest extends DatabaseTestCase
 
       protected $postRepository;
 
-
       public function setUp()
       {
           parent::setUp();
-          $this->postRepository = new PostRepository($this->pdo);
+          $pdo = $this->getPdo();
+          $this->migrateDatabase($pdo);
+          $this->postRepository = new PostRepository($pdo);
           # $this->pdo->beginTransaction();
       }
 
@@ -44,7 +45,7 @@ class PostRepositoryTest extends DatabaseTestCase
            $count = (int)$this->pdo->query("SELECT COUNT(id) FROM posts")->fetchColumn();
            $this->assertEquals(100, $count);
            */
-           $this->seedDatabase();
+           $this->seedDatabase($this->postRepository->getPdo());
            $post = $this->postRepository->find(1);
            $this->assertInstanceOf(Post::class, $post);
       }
@@ -61,7 +62,7 @@ class PostRepositoryTest extends DatabaseTestCase
 
      public function testUpdate()
     {
-        $this->seedDatabase();
+        $this->seedDatabase($this->postRepository->getPdo());
         $this->postRepository->update([
             'name' => 'Salut',
             'slug' => 'demo'
@@ -90,12 +91,13 @@ class PostRepositoryTest extends DatabaseTestCase
 
     public function testDelete()
     {
+        $pdo = $this->postRepository->getPdo();
         $this->postRepository->insert(['name' => 'Salut', 'slug' => 'demo']);
         $this->postRepository->insert(['name' => 'Salut', 'slug' => 'demo']);
-        $count = (int)$this->pdo->query("SELECT COUNT(id) FROM posts")->fetchColumn();
+        $count = (int)$pdo->query("SELECT COUNT(id) FROM posts")->fetchColumn();
         $this->assertEquals(2, $count);
-        $this->postRepository->delete((int)$this->pdo->lastInsertId());
-        $count = (int)$this->pdo->query("SELECT COUNT(id) FROM posts")->fetchColumn();
+        $this->postRepository->delete((int)$pdo->lastInsertId());
+        $count = (int)$pdo->query("SELECT COUNT(id) FROM posts")->fetchColumn();
         $this->assertEquals(1, $count);
     }
 
