@@ -44,8 +44,11 @@ class CsrfExtension extends AbstractExtension
 
 
 
-      public function csrfInput()
+      public function csrfInput(): string
       {
-          return sprintf('<input type="hidden" name="" value=""/>');
+          return sprintf('<input type="hidden" name="%s" value="%s"/>',
+                 $this->csrfMiddleware->getFormKey(),
+                 $this->csrfMiddleware->generateToken()
+          );
       }
 }
