@@ -21,6 +21,7 @@ class Post
      public ?string $content = null;
      public $created_at;
      public $updated_at;
+     public ?string $category_name = null;
 
 
      public function __construct()

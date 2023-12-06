@@ -87,6 +87,25 @@ class EntityRepository implements EntityRepositoryInterface
     }
 
 
+    /**
+     * Recupere la liste cle valeur de nos enregistrement
+     *
+     * @return array
+    */
+    public function findList(): array
+    {
+         $results = $this->connection
+                        ->query("SELECT id, name FROM {$this->table}")
+                        ->fetchAll(PDO::FETCH_NUM);
+         $list = [];
+         foreach ($results as $result) {
+             $list[$result[0]] = $result[1];
+         }
+         return $list;
+    }
+
+
+
 
     /**
      * @inheritDoc

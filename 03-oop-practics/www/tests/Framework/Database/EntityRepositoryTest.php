@@ -53,4 +53,14 @@ class EntityRepositoryTest extends TestCase
           $this->assertInstanceOf(\stdClass::class, $test);
           $this->assertEquals('a1', $test->name);
       }
+
+
+
+
+      public function testFindList()
+      {
+          $this->repository->getConnection()->exec('INSERT INTO test (name) VALUES ("a1")');
+          $this->repository->getConnection()->exec('INSERT INTO test (name) VALUES ("a2")');
+          $this->assertEquals(['1' => 'a1', '2' => 'a2'], $this->repository->findList());
+      }
 }
