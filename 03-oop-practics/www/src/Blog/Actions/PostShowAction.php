@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Blog\Actions;
 
 
+use App\Blog\Repository\CategoryRepository;
 use App\Blog\Repository\PostRepository;
 use Framework\Actions\RouterAwareAction;
 use Framework\Routing\Router;
@@ -14,30 +15,38 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 /**
  * Created by PhpStorm at 04.12.2023
  *
- * @BlogAction
+ * @PostShowAction
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
  * @package App\Blog\Actions
  */
-class BlogAction
+class PostShowAction
 {
-
 
     protected RendererInterface $renderer;
 
     protected Router $router;
 
-    protected $postRepository;
+    protected PostRepository $postRepository;
+
+    protected CategoryRepository $categoryRepository;
 
     use RouterAwareAction;
 
-    public function __construct(RendererInterface $renderer, Router $router, PostRepository $postRepository)
+    public function __construct(
+        RendererInterface $renderer,
+        Router $router,
+        PostRepository $postRepository,
+        CategoryRepository $categoryRepository
+    )
     {
         $this->renderer  = $renderer;
         $this->router    = $router;
         $this->postRepository = $postRepository;
+        $this->categoryRepository = $categoryRepository;
     }
+
 
 
 
@@ -55,7 +64,7 @@ class BlogAction
     {
         $params = $request->getQueryParams();
         $page   = (int)($params['p'] ?? 1);
-        $posts  = $this->postRepository->findPaginated(12, $page);
+        $posts  = $this->postRepository->findPaginatedPublic(12, $page);
 
         return $this->renderer->render('@blog/index', compact('posts'));
     }

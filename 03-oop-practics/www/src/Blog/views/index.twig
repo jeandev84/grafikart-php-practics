@@ -6,39 +6,47 @@
 <h1>Bienvenue sur le blog</h1>
 
 <div class="row">
+    <div class="col-md-9">
+        <div class="row">
 
-    {% for row in posts | batch(4) %}
+            {% for row in posts | batch(4) %}
 
-        <div class="card-deck">
-            {% for post in  row %}
-                <div class="card mb-2">
-                    <div class="card-header">
-                       <h2>
-                           <a href="{{  path('blog.show', {'slug': post.slug, 'id': post.id}) }}">
-                               {{ post.name }}
-                           </a>
-                       </h2>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            {{ post.content | excerpt | nl2br }}
-                        </p>
-                        <p class="text-muted">
-                            {{ post.created_at | ago }}
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="{{  path('blog.show', {'slug': post.slug, 'id': post.id}) }}" class="btn btn-primary">
-                            Voir l' article
-                        </a>
-                    </div>
+                <div class="card-deck">
+                    {% for post in  row %}
+                        <div class="card mb-2">
+                            {% if post.category_name %}
+                                <div class="card-header">{{ post.category_name }}</div>
+                            {% endif %}
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="{{  path('blog.show', {'slug': post.slug, 'id': post.id}) }}">
+                                        {{ post.name }}
+                                    </a>
+                                </h4>
+                                <p class="card-text">
+                                    {{ post.content | excerpt | nl2br }}
+                                </p>
+                                <p class="text-muted">
+                                    {{ post.created_at | ago }}
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="{{  path('blog.show', {'slug': post.slug, 'id': post.id}) }}" class="btn btn-primary">
+                                    Voir l' article
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
+
             {% endfor %}
+
         </div>
+        {{ paginate(posts, 'blog.index') }}
+    </div>
+    <div class="col-md-3">
 
-    {% endfor %}
-
+    </div>
 </div>
-{{ paginate(posts, 'blog.index') }}
 
 {% endblock %}

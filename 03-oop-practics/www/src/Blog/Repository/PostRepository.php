@@ -41,4 +41,23 @@ class PostRepository extends EntityRepository
                    LEFT JOIN categories as c ON p.category_id = c.id
                    ORDER BY created_at DESC";
        }
+
+
+
+       public function findPaginatedPublic(int $perPage, int $currentPage): Pagerfanta
+       {
+            $query = new PaginatedQuery(
+               $this->connection,
+         "SELECT p.*, c.name as category_name, c.slug as category_slug
+                FROM posts p 
+                LEFT JOIN categories c ON c.id = p.category_id 
+                ORDER BY p.created_at DESC",
+    "SELECT COUNT(id) FROM {$this->table}",
+               $this->classname
+            );
+
+            return (new Pagerfanta($query))
+                   ->setMaxPerPage($perPage)
+                   ->setCurrentPage($currentPage);
+       }
 }

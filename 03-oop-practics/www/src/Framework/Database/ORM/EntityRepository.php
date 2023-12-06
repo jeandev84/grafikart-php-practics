@@ -65,8 +65,9 @@ class EntityRepository implements EntityRepositoryInterface
     public function findPaginated(int $perPage, int $currentPage): Pagerfanta
     {
         $query = new PaginatedQuery(
-            $this->connection, $this->paginationQuery(),
-            "SELECT COUNT(id) FROM {$this->table}",
+            $this->connection,
+            $this->paginationQuery(),
+ "SELECT COUNT(id) FROM {$this->table}",
             $this->classname
         );
 
@@ -128,7 +129,7 @@ class EntityRepository implements EntityRepositoryInterface
     */
     public function findAll(): array
     {
-        $query = $this->connection->prepare("SELECT * FROM $this->table");
+        $query = $this->connection->prepare("SELECT * FROM {$this->table}");
         $query->execute();
         if ($this->classname) {
             $query->setFetchMode(\PDO::FETCH_CLASS, $this->classname);
