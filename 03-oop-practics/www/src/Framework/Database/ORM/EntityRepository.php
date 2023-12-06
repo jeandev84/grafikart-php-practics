@@ -143,6 +143,18 @@ class EntityRepository implements EntityRepositoryInterface
 
 
 
+    /**
+     * Recupere le nombres d 'enregistrement
+     *
+     * @return int
+    */
+    public function count(): int
+    {
+        return $this->fetchColumn("SELECT COUNT(id) FROM {$this->table}");
+    }
+
+
+
 
 
     /**
@@ -208,6 +220,8 @@ class EntityRepository implements EntityRepositoryInterface
     }
 
 
+
+
     /**
      * @return string
     */
@@ -269,6 +283,28 @@ class EntityRepository implements EntityRepositoryInterface
 
         return $record;
     }
+
+
+    /**
+     * Recupere la premiere colonne
+     *
+     * @param string $sql
+     * @param array $params
+     * @return mixed
+    */
+    protected function fetchColumn(string $sql, array $params = []): mixed
+    {
+        $statement = $this->connection->prepare($sql);
+        $statement->execute($params);
+
+        if ($this->classname) {
+            $statement->setFetchMode(\PDO::FETCH_CLASS, $this->classname);
+        }
+
+        return $statement->fetchColumn();
+    }
+
+
 
 
 

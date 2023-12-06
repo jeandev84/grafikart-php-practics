@@ -102,4 +102,15 @@ class EntityRepositoryTest extends TestCase
         $this->assertTrue($this->repository->exists(2));
         $this->assertFalse($this->repository->exists(3123));
     }
+
+
+
+
+    public function testCount()
+    {
+        $this->repository->getPdo()->exec('INSERT INTO test (name) VALUES ("a1")');
+        $this->repository->getPdo()->exec('INSERT INTO test (name) VALUES ("a2")');
+        $this->repository->getPdo()->exec('INSERT INTO test (name) VALUES ("a3")');
+        $this->assertEquals(3, $this->repository->count());
+    }
 }
