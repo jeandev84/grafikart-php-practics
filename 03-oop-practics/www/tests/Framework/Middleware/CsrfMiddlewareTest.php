@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\Framework\Middleware;
 
 
+use Framework\Exception\CsrfInvalidException;
 use Framework\Middleware\CsrfMiddleware;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
@@ -64,7 +65,7 @@ class CsrfMiddlewareTest extends TestCase
         // Je m' attends a ce que la method "handle" ne soit jamais appele  (never)
         $handler->expects($this->never())->method('handle')->willReturn(new Response());
         $request = (new ServerRequest('POST', '/demo'));
-        $this->expectException(\Exception::class);
+        $this->expectException(CsrfInvalidException::class);
         $this->middleware->process($request, $handler);
     }
 
@@ -83,7 +84,7 @@ class CsrfMiddlewareTest extends TestCase
         $this->middleware->generateToken();
         $request = (new ServerRequest('POST', '/demo'));
         $request = $request->withParsedBody(['_csrf' => 'azeaz']);
-        $this->expectException(\Exception::class);
+        $this->expectException(CsrfInvalidException::class);
         $this->middleware->process($request, $handler);
     }
 
@@ -121,7 +122,7 @@ class CsrfMiddlewareTest extends TestCase
         $token   = $this->middleware->generateToken();
         $request = $request->withParsedBody(['_csrf' => $token]);
         $this->middleware->process($request, $handler);
-        $this->expectException(\Exception::class);
+        $this->expectException(CsrfInvalidException::class);
         $this->middleware->process($request, $handler);
     }
 

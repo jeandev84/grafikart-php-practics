@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Framework\Middleware;
 
 
+use Framework\Exception\CsrfInvalidException;
 use Framework\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -227,7 +228,7 @@ class CsrfMiddleware implements MiddlewareInterface
 
     private function reject(): void
     {
-         throw new \Exception();
+         throw new CsrfInvalidException();
     }
 
 }
