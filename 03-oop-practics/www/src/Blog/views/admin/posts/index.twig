@@ -33,6 +33,6 @@
         </tbody>
     </table>
 
-{{ paginate(items, 'blog.admin.index') }}
+{{ paginate(items, routePrefix ~ '.index') }}
 
 {% endblock %}
