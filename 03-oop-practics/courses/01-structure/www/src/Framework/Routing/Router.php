@@ -2,7 +2,7 @@
 namespace Framework\Routing;
 
 
-use App\Blog\Actions\AdminBlogAction;
+use App\Blog\Actions\PostCrudAction;
 use Closure;
 use Framework\Routing\Resource\ApiResource;
 use Framework\Routing\Resource\Types\ResourceType;

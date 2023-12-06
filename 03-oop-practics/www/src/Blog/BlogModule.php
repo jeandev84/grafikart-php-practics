@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Blog;
 
 
-use App\Blog\Actions\AdminBlogAction;
+use App\Blog\Actions\PostCrudAction;
 use App\Blog\Actions\BlogAction;
 use Framework\Module;
 use Framework\Routing\Router;
@@ -45,7 +45,7 @@ class BlogModule extends Module
 
          if ($container->has('admin.prefix')) {
              $prefix = $container->get('admin.prefix');
-             $router->crud("$prefix/posts", AdminBlogAction::class, 'blog.admin');
+             $router->crud("$prefix/posts", PostCrudAction::class, 'blog.admin');
          }
      }
 
