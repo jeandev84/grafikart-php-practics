@@ -7,6 +7,7 @@ namespace App\Blog\Repository;
 use App\Blog\Entity\Category;
 use App\Blog\Entity\Post;
 use Framework\Database\ORM\EntityRepository;
+use Framework\Database\ORM\Exceptions\NoRecordException;
 use Framework\Database\PaginatedQuery;
 use Pagerfanta\Pagerfanta;
 
@@ -29,18 +30,6 @@ class PostRepository extends EntityRepository
        public function __construct(\PDO $connection)
        {
            parent::__construct($connection, Post::class, 'posts');
-       }
-
-
-       /**
-        * @return string
-       */
-       protected function paginationQuery(): string
-       {
-           return "SELECT p.id, p.name, c.name as category_name 
-                   FROM {$this->table} as p
-                   LEFT JOIN categories as c ON p.category_id = c.id
-                   ORDER BY created_at DESC";
        }
 
 
@@ -81,5 +70,38 @@ class PostRepository extends EntityRepository
             return (new Pagerfanta($query))
                    ->setMaxPerPage($perPage)
                    ->setCurrentPage($currentPage);
+    }
+
+
+
+
+    public function findWithCategory(string $slug)
+    {
+        $statement = $this->connection->prepare("SELECT * FROM $this->table WHERE id = :id");
+        $statement->execute(compact('id'));
+        if ($this->classname) {
+            $statement->setFetchMode(\PDO::FETCH_CLASS, $this->classname);
+        }
+        $record = $statement->fetch();
+
+        if ($record === false) {
+            throw new NoRecordException();
+        }
+
+        return $record;
+    }
+
+
+
+
+    /**
+     * @return string
+     */
+    protected function paginationQuery(): string
+    {
+        return "SELECT p.id, p.name, c.name as category_name 
+                   FROM {$this->table} as p
+                   LEFT JOIN categories as c ON p.category_id = c.id
+                   ORDER BY created_at DESC";
     }
 }

@@ -50,7 +50,7 @@ class PostShowAction
     {
         $id   = (int)$request->getAttribute('id');
         $slug = $request->getAttribute('slug');
-        $post = $this->postRepository->find($id);
+        $post = $this->postRepository->findWithCategory($id);
 
         if ($post->slug !== $slug) {
             return $this->redirect('blog.show', [

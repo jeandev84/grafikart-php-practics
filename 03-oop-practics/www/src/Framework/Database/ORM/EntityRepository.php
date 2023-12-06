@@ -81,15 +81,6 @@ class EntityRepository implements EntityRepositoryInterface
 
 
     /**
-     * @return string
-     */
-    protected function paginationQuery(): string
-    {
-        return "SELECT * FROM {$this->table}";
-    }
-
-
-    /**
      * Recupere la liste cle valeur de nos enregistrement
      *
      * @return array
@@ -114,19 +105,9 @@ class EntityRepository implements EntityRepositoryInterface
     */
     public function find(int $id): mixed
     {
-        $statement = $this->connection->prepare("SELECT * FROM $this->table WHERE id = :id");
-        $statement->execute(compact('id'));
-        if ($this->classname) {
-            $statement->setFetchMode(\PDO::FETCH_CLASS, $this->classname);
-        }
-        $record = $statement->fetch();
-
-        if ($record === false) {
-            throw new NoRecordException();
-        }
-
-        return $record;
+        return $this->fetchOrFail("SELECT * FROM $this->table WHERE id = :id", compact('id'));
     }
+
 
 
 
@@ -153,28 +134,11 @@ class EntityRepository implements EntityRepositoryInterface
      * @param string $field
      * @param $value
      * @return mixed
-     */
+     * @throws NoRecordException
+    */
     public function findBy(string $field, $value): mixed
     {
-        $sql = "SELECT * FROM {$this->table} WHERE $field = ?";
-
-        $statement = $this->connection->prepare($sql);
-
-        $statement->execute([$value]);
-
-        if ($this->classname) {
-            $statement->setFetchMode(\PDO::FETCH_CLASS, $this->classname);
-        } else {
-            $statement->setFetchMode(PDO::FETCH_OBJ);
-        }
-
-        $record = $statement->fetch();
-
-        if ($record === false) {
-            throw new NoRecordException();
-        }
-
-        return $record;
+        return $this->fetchOrFail("SELECT * FROM {$this->table} WHERE $field = :$field", [$field => $value]);
     }
 
 
@@ -227,6 +191,8 @@ class EntityRepository implements EntityRepositoryInterface
     }
 
 
+
+
     /**
      * Verifie qu' un enregistrement exist
      *
@@ -271,6 +237,49 @@ class EntityRepository implements EntityRepositoryInterface
     {
         return $this->connection;
     }
+
+
+
+
+
+    /**
+     * Permet d' executer une requete et retourner le premier resultat
+     *
+     * @param string $sql
+     * @param array $params
+     * @return mixed
+     * @throws NoRecordException
+     */
+    protected function fetchOrFail(string $sql, array $params = []): mixed
+    {
+        $statement = $this->connection->prepare($sql);
+        $statement->execute($params);
+
+        if ($this->classname) {
+            $statement->setFetchMode(\PDO::FETCH_CLASS, $this->classname);
+        } else {
+            $statement->setFetchMode(PDO::FETCH_OBJ);
+        }
+
+        $record = $statement->fetch();
+
+        if ($record === false) {
+            throw new NoRecordException();
+        }
+
+        return $record;
+    }
+
+
+
+    /**
+     * @return string
+    */
+    protected function paginationQuery(): string
+    {
+        return "SELECT * FROM {$this->table}";
+    }
+
 
 
 
