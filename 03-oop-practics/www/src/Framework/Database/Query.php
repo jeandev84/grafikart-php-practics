@@ -108,7 +108,7 @@ class Query
            $parts[] = 'FROM';
            $parts[] = join(', ', array_values($this->from));
 
-           if ($this->where) {
+           if (!empty($this->where)) {
                $parts[] = "WHERE";
                $parts[] = "(" . join(") AND (", $this->where) . ")";
            }
