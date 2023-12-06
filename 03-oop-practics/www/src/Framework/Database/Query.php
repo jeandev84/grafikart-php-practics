@@ -16,13 +16,26 @@ namespace Framework\Database;
 class Query
 {
 
+      protected ?\PDO $pdo;
+
       protected array $selects = [];
-      protected string $from   = "";
+      protected array $from    = [];
       protected array $where   = [];
-      protected array $group   = [];
-      protected array $order   = [];
-      protected int  $limit    = 0;
-      protected int  $offset   = 0;
+      protected array $params = [];
+      protected array $groupBy = [];
+      protected array $orderBy = [];
+      protected int   $limit   = 0;
+      protected int   $offset  = 0;
+
+
+      /**
+       * @param \PDO $pdo
+      */
+      public function __construct(?\PDO $pdo = null)
+      {
+          $this->pdo = $pdo;
+      }
+
 
 
       public function select(string ...$fields): self
@@ -33,22 +46,52 @@ class Query
       }
 
 
+
       public function from(string $table, string $alias = ''): self
       {
-           $this->from = $table;
+           $this->from[$table] = ($alias ? "$table as $alias" : $table);
 
            return $this;
       }
 
 
 
-      public function where(string ...$conditions): self
+      public function where(string ...$condition): self
       {
-          $this->where = $conditions;
+          $this->where = array_merge($this->where, $condition);
 
           return $this;
       }
 
+
+      public function params(array $params): self
+      {
+          $this->params = array_merge($this->params, $params);
+
+          return $this;
+      }
+
+
+
+
+      public function count(): int
+      {
+          $this->select("COUNT(id)");
+          return $this->execute()->fetchColumn();
+      }
+
+
+      private function execute(): \PDOStatement|false
+      {
+           $query = $this->__toString();
+           if ($this->params) {
+               $statement = $this->pdo->prepare($query);
+               $statement->execute($this->params);
+               return $statement;
+           }
+
+           return $this->pdo->query($query);
+      }
 
 
 
@@ -63,7 +106,7 @@ class Query
            }
 
            $parts[] = 'FROM';
-           $parts[] = $this->from;
+           $parts[] = join(', ', array_values($this->from));
 
            if ($this->where) {
                $parts[] = "WHERE";

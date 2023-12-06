@@ -6,6 +6,9 @@ namespace Tests\Framework\Database;
 
 use Framework\Database\Query;
 use PHPUnit\Framework\TestCase;
+use Tests\DatabaseTestCase;
+
+
 
 /**
  * Created by PhpStorm at 07.12.2023
@@ -16,7 +19,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @package Tests\Framework\Database
  */
-class QueryTest extends TestCase
+class QueryTest extends DatabaseTestCase
 {
 
       public function testSimpleQuery()
@@ -30,10 +33,39 @@ class QueryTest extends TestCase
 
     public function testWithWhere()
     {
-        $query = (new Query())
+        $query1 = (new Query())
                  ->from('posts', 'p')
                  ->where('a = :a OR b = :b', 'c = :c');
 
-        $this->assertEquals("SELECT * FROM posts as p WHERE (a = :a OR b = :b) AND (c = :c)", $query);
+
+        $query2 = (new Query())
+                  ->from('posts', 'p')
+                  ->where('a = :a OR b = :b')
+                  ->where('c = :c');
+
+        $this->assertEquals("SELECT * FROM posts as p WHERE (a = :a OR b = :b) AND (c = :c)", $query1);
+        $this->assertEquals("SELECT * FROM posts as p WHERE (a = :a OR b = :b) AND (c = :c)", $query2);
+    }
+
+
+
+    public function testFetchAll()
+    {
+        $pdo = $this->getPdo();
+        $this->migrateDatabase($pdo);
+        $this->seedDatabase($pdo);
+
+        $posts = (new Query($pdo))->from('posts', 'p')->count();
+        $this->assertEquals(105, $posts);
+
+        $posts = (new Query($pdo))
+                 ->from('posts', 'p')
+                 ->where('p.id < :number')
+                 ->params([
+                     'number' => 30
+                 ])
+                 ->count();
+
+        $this->assertEquals(29, $posts);
     }
 }
