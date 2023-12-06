@@ -73,8 +73,11 @@ class PostRepository extends EntityRepository
     }
 
 
-
-
+    /**
+     * @param int $id
+     * @return mixed
+     * @throws NoRecordException
+     */
     public function findWithCategory(int $id)
     {
         return $this->fetchOrFail(
