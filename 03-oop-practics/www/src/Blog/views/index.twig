@@ -47,7 +47,12 @@
             {% endfor %}
 
         </div>
-        {{ paginate(posts, 'blog.index') }}
+
+        {% if category %}
+            {{ paginate(posts, 'blog.category', {slug: category.slug}) }}
+        {% else %}
+            {{ paginate(posts, 'blog.index') }}
+        {% endif %}
     </div>
     <div class="col-md-3">
         <ul class="list-group">
