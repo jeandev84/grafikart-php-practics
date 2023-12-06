@@ -226,7 +226,7 @@ class EntityRepository implements EntityRepositoryInterface
     /**
      * @return PDO
     */
-    public function getConnection(): PDO
+    public function getPdo(): PDO
     {
         return $this->connection;
     }

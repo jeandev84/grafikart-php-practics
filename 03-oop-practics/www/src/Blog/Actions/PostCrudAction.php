@@ -106,7 +106,7 @@ class PostCrudAction extends CrudAction
                 ->length('content', 10)
                 ->length('name', 2, 250)
                 ->length('slug', 2, 50)
-                ->exists('category_id', $this->categoryRepository)
+                ->exists('category_id', $this->categoryRepository->getTable(), $this->categoryRepository->getPdo())
                 ->dateTime('created_at')
                 ->slug('slug');
     }

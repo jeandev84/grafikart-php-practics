@@ -139,27 +139,48 @@ class Validator
        }
 
 
-
-
-      /**
-       * @param string $key
-       *
-       * @param string $id
-       *
-       * @param EntityRepository $repository
-       *
-       * @return $this
+     /**
+      * @param string $key
+      *
+      * @param string $table
+      *
+      * @param \PDO $pdo
+      *
+      * @return $this
      */
-     public function exists(string $key, EntityRepository $repository): self
+     public function exists(string $key, string $table, \PDO $pdo): self
      {
-          $value = $this->getValue($key);
-
-          if (! $repository->exists($value)) {
-              $this->addError($key, 'exists', [$repository->getTable()]);
+          $id = $this->getValue($key);
+          $statement = $pdo->prepare("SELECT id FROM {$table} WHERE id = ?");
+          $statement->execute([$id]);
+          if ($statement->fetchColumn() === false) {
+                $this->addError($key, 'exists', [$table]);
           }
 
           return $this;
      }
+
+
+
+
+
+    /**
+     * @param string $key
+     *
+     * @param EntityRepository $repository
+     *
+     * @return $this
+    */
+    public function existsFromRepository(string $key, EntityRepository $repository): self
+    {
+        $value = $this->getValue($key);
+
+        if (! $repository->exists($value)) {
+            $this->addError($key, 'exists', [$repository->getTable()]);
+        }
+
+        return $this;
+    }
 
 
 

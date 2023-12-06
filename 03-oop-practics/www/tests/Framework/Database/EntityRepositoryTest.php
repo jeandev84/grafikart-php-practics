@@ -47,8 +47,8 @@ class EntityRepositoryTest extends TestCase
 
       public function testFind()
       {
-          $this->repository->getConnection()->exec('INSERT INTO test (name) VALUES ("a1")');
-          $this->repository->getConnection()->exec('INSERT INTO test (name) VALUES ("a2")');
+          $this->repository->getPdo()->exec('INSERT INTO test (name) VALUES ("a1")');
+          $this->repository->getPdo()->exec('INSERT INTO test (name) VALUES ("a2")');
           $test = $this->repository->find(1);
           $this->assertInstanceOf(\stdClass::class, $test);
           $this->assertEquals('a1', $test->name);
@@ -59,8 +59,8 @@ class EntityRepositoryTest extends TestCase
 
       public function testFindList()
       {
-          $this->repository->getConnection()->exec('INSERT INTO test (name) VALUES ("a1")');
-          $this->repository->getConnection()->exec('INSERT INTO test (name) VALUES ("a2")');
+          $this->repository->getPdo()->exec('INSERT INTO test (name) VALUES ("a1")');
+          $this->repository->getPdo()->exec('INSERT INTO test (name) VALUES ("a2")');
           $this->assertEquals(['1' => 'a1', '2' => 'a2'], $this->repository->findList());
       }
 
@@ -69,8 +69,8 @@ class EntityRepositoryTest extends TestCase
 
     public function testExists()
     {
-        $this->repository->getConnection()->exec('INSERT INTO test (name) VALUES ("a1")');
-        $this->repository->getConnection()->exec('INSERT INTO test (name) VALUES ("a2")');
+        $this->repository->getPdo()->exec('INSERT INTO test (name) VALUES ("a1")');
+        $this->repository->getPdo()->exec('INSERT INTO test (name) VALUES ("a2")');
         $this->assertTrue($this->repository->exists(1));
         $this->assertTrue($this->repository->exists(2));
         $this->assertFalse($this->repository->exists(3123));
