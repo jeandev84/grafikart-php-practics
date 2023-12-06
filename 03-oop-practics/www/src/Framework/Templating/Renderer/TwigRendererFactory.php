@@ -28,7 +28,7 @@ class TwigRendererFactory
            $loader   = new FilesystemLoader($viewPath);
            $twig     = new Environment($loader, [
                'debug' => $debug,
-               'cache' => $debug ? false : 'temp/views',
+               'cache' => $debug ? false : 'tmp/views',
                'auto_reload' => $debug
            ]);
 

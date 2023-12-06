@@ -6,6 +6,7 @@ namespace Framework;
 
 use DI\ContainerBuilder;
 use Doctrine\Common\Cache\ApcuCache;
+use Doctrine\Common\Cache\FilesystemCache;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Container\ContainerExceptionInterface;
@@ -168,7 +169,8 @@ class App implements RequestHandlerInterface
                $builder = new ContainerBuilder();
                $env     = $_ENV['ENV'] ?? 'production';
                if ($env === 'production') {
-                   $builder->setDefinitionCache(new ApcuCache());
+                   # $builder->setDefinitionCache(new ApcuCache());
+                   $builder->setDefinitionCache(new FilesystemCache('tmp/di'));
                    $builder->writeProxiesToFile(true, 'tmp/proxies');
                }
                $builder->addDefinitions($this->definition);
