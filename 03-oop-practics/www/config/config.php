@@ -1,5 +1,6 @@
 <?php
 
+use Framework\Middleware\CsrfMiddleware;
 use Framework\Routing\Router;
 use Framework\Session\PHPSession;
 use Framework\Session\SessionInterface;
@@ -27,6 +28,7 @@ return [
         \DI\get(FormExtension::class),
     ],
     SessionInterface::class => \DI\object(PHPSession::class),
+    CsrfMiddleware::class => \DI\object()->constructor(\DI\get(SessionInterface::class)),
     Router::class => \DI\object(),
     RendererInterface::class => \DI\factory(TwigRendererFactory::class),
     PDO::class => function(\Psr\Container\ContainerInterface $container) {
