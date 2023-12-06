@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Blog;
+namespace App\Blog\Widgets;
 
-use App\Admin\AdminWidgetInterface;
+use App\Admin\Widgets\AdminWidgetInterface;
 use App\Blog\Repository\PostRepository;
 use Framework\Templating\Renderer\RendererInterface;
 
@@ -15,7 +15,7 @@ use Framework\Templating\Renderer\RendererInterface;
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
- * @package App\Blog
+ * @package App\Blog\Widgets
  */
 class BlogWidget implements AdminWidgetInterface
 {
@@ -50,6 +50,11 @@ class BlogWidget implements AdminWidgetInterface
     public function render(): string
     {
          $count = $this->postRepository->count();
-         return $this->renderer->render("@blog/admin/widget");
+         return $this->renderer->render("@blog/admin/widget", compact('count'));
+    }
+
+    public function renderMenu(): string
+    {
+        return $this->renderer->render("@blog/admin/menu");
     }
 }

@@ -65,4 +65,13 @@ class TwigRenderer implements RendererInterface
     {
          return $this->twig->render($view . ".twig", $params);
     }
+
+
+    /**
+     * @return Environment
+    */
+    public function getTwig(): Environment
+    {
+        return $this->twig;
+    }
 }

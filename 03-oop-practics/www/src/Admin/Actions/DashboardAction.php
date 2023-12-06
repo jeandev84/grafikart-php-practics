@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace App\Admin\Actions;
 
 
-use App\Admin\AdminWidgetInterface;
+use App\Admin\Widgets\AdminWidgetInterface;
 use Framework\Templating\Renderer\RendererInterface;
-use Grafikart\Http\Request\Request;
+
 
 /**
  * Created by PhpStorm at 06.12.2023

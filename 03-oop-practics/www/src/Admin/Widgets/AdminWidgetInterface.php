@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Admin;
+
+namespace App\Admin\Widgets;
 
 
 /**
@@ -11,9 +12,11 @@ namespace App\Admin;
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
- * @package App\Admin
+ * @package App\Admin\Widgets
  */
 interface AdminWidgetInterface
 {
      public function render(): string;
+
+     public function renderMenu(): string;
 }

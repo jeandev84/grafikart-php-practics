@@ -5,9 +5,11 @@ namespace App\Admin;
 
 
 use App\Admin\Actions\DashboardAction;
+use App\Admin\Extensions\AdminTwigExtension;
 use Framework\Module;
 use Framework\Routing\Router;
 use Framework\Templating\Renderer\RendererInterface;
+use Framework\Templating\Renderer\TwigRenderer;
 
 /**
  * Created by PhpStorm at 05.12.2023
@@ -29,10 +31,19 @@ class AdminModule extends Module
 
 
 
-     public function __construct(RendererInterface $renderer, Router $router, string $prefix)
+     public function __construct(
+         RendererInterface  $renderer,
+         Router             $router,
+         AdminTwigExtension $adminTwigExtension,
+         string             $prefix
+     )
      {
          $renderer->addPath('admin', __DIR__.'/views');
          $router->get($prefix, DashboardAction::class, 'admin');
+
+         if ($renderer instanceof TwigRenderer) {
+             $renderer->getTwig()->addExtension($adminTwigExtension);
+         }
      }
 
 }
