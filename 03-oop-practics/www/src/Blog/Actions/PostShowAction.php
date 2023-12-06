@@ -53,7 +53,10 @@ class PostShowAction
         $post = $this->postRepository->find($id);
 
         if ($post->slug !== $slug) {
-            return $this->redirect('blog.show', ['slug' => $post->slug, 'id' => $post->id]);
+            return $this->redirect('blog.show', [
+                'slug' => $post->slug,
+                'id' => $post->id
+            ]);
         }
 
         return $this->renderer->render('@blog/show', [
