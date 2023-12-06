@@ -167,7 +167,7 @@ class App implements RequestHandlerInterface
        {
            if (is_null($this->container)) {
                $builder = new ContainerBuilder();
-               $env     = $_ENV['ENV'] ?? 'production';
+               $env     = getenv('ENV') ?: 'production';
                if ($env === 'production') {
                    # $builder->setDefinitionCache(new ApcuCache());
                    $builder->setDefinitionCache(new FilesystemCache('tmp/di'));
