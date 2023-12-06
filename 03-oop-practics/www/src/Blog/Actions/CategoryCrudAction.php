@@ -64,11 +64,9 @@ class CategoryCrudAction extends CrudAction
      */
     protected function getParams(ServerRequestInterface $request): array
     {
-        $params =  array_filter($request->getParsedBody(), function ($key) {
+        return array_filter($request->getParsedBody(), function ($key) {
             return in_array($key, ['name', 'slug']);
         }, ARRAY_FILTER_USE_KEY);
-
-        return array_merge($params, ['updated_at' => date('Y-m-d H:i:s')]);
     }
 
 

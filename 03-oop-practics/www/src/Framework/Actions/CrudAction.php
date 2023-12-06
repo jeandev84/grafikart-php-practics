@@ -169,7 +169,7 @@ class CrudAction
     {
         $this->repository->delete((int)$request->getAttribute('id'));
 
-        return $this->redirect('blog.admin.index');
+        return $this->redirect("{$this->routePrefix}.index");
     }
 
 
