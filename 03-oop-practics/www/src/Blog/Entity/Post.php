@@ -15,10 +15,10 @@ namespace App\Blog\Entity;
  */
 class Post
 {
-     public $id;
-     public $name;
-     public $slug;
-     public $content;
+     public ?int $id = null;
+     public ?string $name = null;
+     public ?string $slug = null;
+     public ?string $content = null;
      public $created_at;
      public $updated_at;
 

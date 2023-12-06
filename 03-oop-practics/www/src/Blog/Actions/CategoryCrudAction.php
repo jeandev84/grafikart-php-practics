@@ -4,11 +4,10 @@ declare(strict_types=1);
 namespace App\Blog\Actions;
 
 
-
-
+use App\Blog\Entity\Category;
 use App\Blog\Entity\Post;
+use App\Blog\Repository\CategoryRepository;
 use App\Blog\Repository\PostRepository;
-use Framework\Actions\CrudAction;
 use Framework\Routing\Router;
 use Framework\Session\FlashService;
 use Framework\Templating\Renderer\RendererInterface;
@@ -16,26 +15,27 @@ use Framework\Validation\Validator;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Created by PhpStorm at 05.12.2023
+ * Created by PhpStorm at 06.12.2023
  *
- * @PostCrudAction
+ * @CategoryCrudAction
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
- * @package App\Admin\Actions
+ * @package App\Blog\Actions
  */
-class PostCrudAction extends CrudAction
+class CategoryCrudAction
 {
+
     /**
      * @var string
      */
-    protected string $viewPath = '@blog/admin/posts';
+    protected string $viewPath = '@blog/admin/categories';
 
 
     /**
      * @var string
-    */
-    protected string $routePrefix = 'blog.admin.post';
+     */
+    protected string $routePrefix = 'blog.admin.category';
 
 
     /**
@@ -43,11 +43,11 @@ class PostCrudAction extends CrudAction
      *
      * @param Router $router
      *
-     * @param PostRepository $repository
+     * @param CategoryRepository $repository
      *
      * @param FlashService $flash
-    */
-    public function __construct(RendererInterface $renderer, Router $router, PostRepository $repository, FlashService $flash)
+     */
+    public function __construct(RendererInterface $renderer, Router $router, CategoryRepository $repository, FlashService $flash)
     {
         parent::__construct($renderer, $router, $repository, $flash);
     }
@@ -60,7 +60,7 @@ class PostCrudAction extends CrudAction
      * @param ServerRequestInterface $request
      *
      * @return array
-    */
+     */
     protected function getParams(ServerRequestInterface $request): array
     {
         $params =  array_filter($request->getParsedBody(), function ($key) {
@@ -74,23 +74,20 @@ class PostCrudAction extends CrudAction
 
     protected function getValidator(ServerRequestInterface $request): Validator
     {
-         return parent::getValidator($request)
-                ->required('content', 'name', 'slug', 'created_at')
-                ->length('content', 10)
+        return parent::getValidator($request)
+                ->required('name', 'slug')
                 ->length('name', 2, 250)
                 ->length('slug', 2, 50)
-                ->dateTime('created_at')
                 ->slug('slug');
     }
 
 
+
     /**
      * @return mixed
-    */
+     */
     protected function getNewEntity(): mixed
     {
-         $post = new Post();
-         $post->created_at = new \DateTime();
-         return $post;
+        return new Category();
     }
 }

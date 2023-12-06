@@ -145,7 +145,7 @@ class CrudAction
     public function create(Request $request): mixed
     {
         $errors = [];
-        $item = [];
+        $item = $this->getNewEntity();
 
         if ($request->getMethod() === 'POST') {
             $params = $this->getParams($request);
@@ -193,5 +193,11 @@ class CrudAction
     protected function getValidator(Request $request): Validator
     {
         return new Validator($request->getParsedBody());
+    }
+
+
+    protected function getNewEntity(): mixed
+    {
+         return [];
     }
 }
