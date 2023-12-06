@@ -1,33 +1,34 @@
 <?php
 
+use App\Admin\AdminModule;
+use App\Blog\BlogModule;
+use Framework\Middleware\MethodMiddleware;
+use Framework\Middleware\NotFoundMiddleware;
+use Framework\Middleware\RouteDispatcherMiddleware;
+use Framework\Middleware\RouterMiddleware;
+use Framework\Middleware\TrailingSlashMiddleware;
 use Framework\Templating\Renderer\RendererInterface;
 
 require dirname(__DIR__).'/vendor/autoload.php';
 
 
 $modules = [
-    \App\Admin\AdminModule::class,
-    \App\Blog\BlogModule::class,
+    AdminModule::class,
+    BlogModule::class,
 ];
 
 
-# https://php-di.org/doc/getting-started.html
-$builder = new \DI\ContainerBuilder();
-$builder->addDefinitions(dirname(__DIR__). '/config/config.php');
-foreach ($modules as $module) {
-    if ($module::DEFINITIONS) {
-        $builder->addDefinitions($module::DEFINITIONS);
-    }
-}
-$builder->addDefinitions(dirname(__DIR__). '/config.php');
-$container = $builder->build();
+$app = (new \Framework\App(dirname(__DIR__). '/config/config.php'))
+       ->addModule(AdminModule::class)
+       ->addModule(BlogModule::class)
+       ->pipe(TrailingSlashMiddleware::class)
+       ->pipe(MethodMiddleware::class)
+       ->pipe(RouterMiddleware::class)
+       ->pipe(RouteDispatcherMiddleware::class)
+       ->pipe(NotFoundMiddleware::class)
+;
 
 
-# Application
-$app = new \Framework\App($container, $modules);
-
-# Response
-# Execute, si on est pas en ligne de command
 if (php_sapi_name() !== "cli") {
     $response = $app->run(\GuzzleHttp\Psr7\ServerRequest::fromGlobals());
     \Http\Response\send($response);
