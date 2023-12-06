@@ -48,13 +48,20 @@ class CategoryShowAction
 
     public function __invoke(Request $request)
     {
+        $params = $request->getQueryParams();
+
         /** @var Category $category */
         $category = $this->categoryRepository->findBy('slug', $request->getAttribute('slug'));
-        $params = $request->getQueryParams();
         $page   = (int)($params['p'] ?? 1);
+
         $posts  = $this->postRepository->findPaginatedPublicForCategory(12, $page, $category->id);
         $categories = $this->categoryRepository->findAll();
 
-        return $this->renderer->render('@blog/index', compact('posts', 'categories', 'category'));
+        return $this->renderer->render('@blog/index', [
+            'posts' => $posts,
+            'categories' => $categories,
+            'category' => $category,
+            'page'     => $page
+        ]);
     }
 }

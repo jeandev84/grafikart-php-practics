@@ -3,7 +3,12 @@
 {% block title "Mes articles" %}
 
 {% block body %}
-<h1>Bienvenue sur le blog</h1>
+
+{% if category %}
+    <h1>Categorie: {{ category.name }}{% if page >1 %}, page {{ page }}{% endif %}</h1>
+{% else %}
+    <h1>Bienvenue sur le blog{% if page >1 %}, page {{ page }}{% endif %}</h1>
+{% endif %}
 
 <div class="row">
     <div class="col-md-9">
