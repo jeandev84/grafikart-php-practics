@@ -75,20 +75,16 @@ class PostRepository extends EntityRepository
 
 
 
-    public function findWithCategory(string $slug)
+    public function findWithCategory(int $id)
     {
-        $statement = $this->connection->prepare("SELECT * FROM $this->table WHERE id = :id");
-        $statement->execute(compact('id'));
-        if ($this->classname) {
-            $statement->setFetchMode(\PDO::FETCH_CLASS, $this->classname);
-        }
-        $record = $statement->fetch();
-
-        if ($record === false) {
-            throw new NoRecordException();
-        }
-
-        return $record;
+        return $this->fetchOrFail(
+            "SELECT p.*, c.name category_name, c.slug category_slug 
+                 FROM posts as p 
+                 LEFT JOIN categories c ON  c.id = p.category_id
+                 WHERE p.id = :id
+                 ",
+                 compact('id')
+        );
     }
 
 
