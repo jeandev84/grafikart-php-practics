@@ -6,6 +6,7 @@ use Framework\Session\PHPSession;
 use Framework\Session\SessionInterface;
 use Framework\Templating\Renderer\RendererInterface;
 use Framework\Templating\Renderer\TwigRendererFactory;
+use Framework\Twig\CsrfExtension;
 use Framework\Twig\FlashExtension;
 use Framework\Twig\FormExtension;
 use Framework\Twig\PagerFantaExtension;
@@ -26,6 +27,7 @@ return [
         \DI\get(TimeExtension::class),
         \DI\get(FlashExtension::class),
         \DI\get(FormExtension::class),
+        \DI\get(CsrfExtension::class),
     ],
     SessionInterface::class => \DI\object(PHPSession::class),
     CsrfMiddleware::class => \DI\object()->constructor(\DI\get(SessionInterface::class)),
