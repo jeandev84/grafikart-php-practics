@@ -1,7 +1,17 @@
 {# field() from own twig extension inside src/Framework/Twig/FormExtension.php #}
 
-{{  field('name', item.name, "Titre de l' article") }}
-{{  field('slug', item.slug, "Lien") }}
+<div class="row">
+    <div class="col-md-4">
+        {{  field('name', item.name, "Titre de l' article") }}
+    </div>
+    <div class="col-md-4">
+        {{  field('category_id', item.category_id, "Categorie") }}
+    </div>
+    <div class="col-md-4">
+        {{  field('slug', item.slug, "Lien") }}
+    </div>
+</div>
+
 {{  field('content', item.content, "Contenu", {type: 'textarea'}) }}
 {{  field('created_at', item.created_at, "Date de creation", {class: 'datepicker'}) }}
 
