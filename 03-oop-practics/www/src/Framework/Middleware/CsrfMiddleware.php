@@ -112,8 +112,24 @@ class CsrfMiddleware implements MiddlewareInterface
 
 
 
+    /**
+     * @return string
+    */
+    public function getFormKey(): string
+    {
+        return $this->formKey;
+    }
 
 
+
+
+    /**
+     * @return string
+    */
+    public function getSessionKey(): string
+    {
+        return $this->sessionKey;
+    }
 
     private function limitTokens(): void
     {
