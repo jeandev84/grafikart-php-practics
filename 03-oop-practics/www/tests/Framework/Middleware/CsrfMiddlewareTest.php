@@ -130,7 +130,7 @@ class CsrfMiddlewareTest extends TestCase
 
     public function testLimitTheTokenNumber()
     {
-        $token = '';
+        # $token = '';
         for ($i = 0; $i < 100; ++$i) {
             $token = $this->middleware->generateToken();
         }

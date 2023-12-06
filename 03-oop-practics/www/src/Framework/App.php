@@ -161,7 +161,7 @@ class App implements RequestHandlerInterface
        /**
         * @return ContainerInterface
        */
-       private function getContainer(): ContainerInterface
+       public function getContainer(): ContainerInterface
        {
            if (is_null($this->container)) {
                $builder = new ContainerBuilder();
