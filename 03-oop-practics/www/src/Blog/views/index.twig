@@ -63,8 +63,8 @@
     <div class="col-md-3">
         <ul class="list-group">
             {% for c in categories %}
-                <li class="list-group-item">
-                    <a href="{{ path('blog.category', {slug: c.slug}) }}">
+                <li class="list-group-item {% if c.id == category.id%}active{% endif %}">
+                    <a href="{{ path('blog.category', {slug: c.slug}) }}" style="color: inherit;">
                         {{ c.name }}
                     </a>
                 </li>
