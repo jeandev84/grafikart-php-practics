@@ -8,6 +8,7 @@ use App\Blog\Entity\Category;
 use App\Blog\Entity\Post;
 use App\Blog\Repository\CategoryRepository;
 use App\Blog\Repository\PostRepository;
+use Framework\Actions\CrudAction;
 use Framework\Routing\Router;
 use Framework\Session\FlashService;
 use Framework\Templating\Renderer\RendererInterface;
@@ -23,7 +24,7 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @package App\Blog\Actions
  */
-class CategoryCrudAction
+class CategoryCrudAction extends CrudAction
 {
 
     /**
@@ -64,7 +65,7 @@ class CategoryCrudAction
     protected function getParams(ServerRequestInterface $request): array
     {
         $params =  array_filter($request->getParsedBody(), function ($key) {
-            return in_array($key, ['name', 'slug', 'content', 'created_at']);
+            return in_array($key, ['name', 'slug']);
         }, ARRAY_FILTER_USE_KEY);
 
         return array_merge($params, ['updated_at' => date('Y-m-d H:i:s')]);
@@ -79,15 +80,5 @@ class CategoryCrudAction
                 ->length('name', 2, 250)
                 ->length('slug', 2, 50)
                 ->slug('slug');
-    }
-
-
-
-    /**
-     * @return mixed
-     */
-    protected function getNewEntity(): mixed
-    {
-        return new Category();
     }
 }
