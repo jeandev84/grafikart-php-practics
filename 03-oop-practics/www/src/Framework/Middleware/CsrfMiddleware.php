@@ -42,9 +42,9 @@ class CsrfMiddleware implements MiddlewareInterface
 
 
     /**
-     * @var array
+     * @var mixed
     */
-    protected array $session;
+    protected $session;
 
 
     /**
@@ -57,12 +57,13 @@ class CsrfMiddleware implements MiddlewareInterface
      * @param string $sessionKey
     */
     public function __construct(
-        array &$session,
+        &$session,
         int $maxLimitTokens = 50,
         string $formKey = '_csrf',
         string $sessionKey = 'csrf'
     )
     {
+        $this->validSession($session);
         $this->session    = &$session;
         $this->maxLimitTokens = $maxLimitTokens;
         $this->formKey    = $formKey;
@@ -195,6 +196,14 @@ class CsrfMiddleware implements MiddlewareInterface
         return in_array($method, ['POST', 'PUT', 'DELETE']);
     }
 
+
+
+    private function validSession($session)
+    {
+        if (!is_array($session) && !$session instanceof \ArrayAccess) {
+             throw new \TypeError("La session passee au middleware CSRF n' est pas tratable comme un tableau");
+        }
+    }
 
 
     private function reject(): void
