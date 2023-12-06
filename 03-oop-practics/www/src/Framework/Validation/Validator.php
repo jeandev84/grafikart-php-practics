@@ -140,6 +140,8 @@ class Validator
 
 
      /**
+      * Verifie si le champs exists dans la table
+      *
       * @param string $key
       *
       * @param string $table
@@ -159,6 +161,39 @@ class Validator
 
           return $this;
      }
+
+
+    /**
+     * Verifie que la cle est unique
+     *
+     * @param string $key
+     *
+     * @param string $table
+     *
+     * @param \PDO $pdo
+     * @param int|null $exclude
+     * @return $this
+     */
+    public function unique(string $key, string $table, \PDO $pdo, ?int $exclude = null): self
+    {
+        $value = $this->getValue($key);
+        $query  = "SELECT id FROM $table WHERE $key = :$key";
+        $params = [$key => $value];
+
+        if ($exclude !== null) {
+            $query  .= " AND id != :id";
+            $params = array_merge($params, ['id' => $exclude]);
+        }
+
+        $statement = $pdo->prepare($query);
+        $statement->execute($params);
+
+        if ($statement->fetchColumn() !== false) {
+            $this->addError($key, 'unique', [$value]);
+        }
+
+        return $this;
+    }
 
 
 
