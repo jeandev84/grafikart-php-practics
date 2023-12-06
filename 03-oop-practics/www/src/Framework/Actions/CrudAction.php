@@ -70,7 +70,11 @@ class CrudAction
 
     public function __invoke(Request $request)
     {
-        // BAD practics
+        // Add Gloabals variables
+        $this->renderer->addGlobal('viewPath', $this->viewPath);
+        $this->renderer->addGlobal('routePrefix', $this->routePrefix);
+
+        // Request
         $requestUri = (string)$request->getUri();
 
         if ($request->getMethod() === 'DELETE') {
