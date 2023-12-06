@@ -1,6 +1,12 @@
 {% extends 'layout.twig' %}
 
-{% block title "Mes articles" %}
+{% block title %}
+    {% if category %}
+        Categorie: {{ category.name }}{% if page >1 %}, page {{ page }}{% endif %}
+    {% else %}
+        Blog{% if page >1 %}, page {{ page }}{% endif %}
+    {% endif %}
+{% endblock %}
 
 {% block body %}
 
