@@ -150,9 +150,11 @@ class Validator
        *
        * @return $this
      */
-     public function exists(string $key, string $id, EntityRepository $repository): self
+     public function exists(string $key, EntityRepository $repository): self
      {
-          if (! $repository->exists($id)) {
+          $value = $this->getValue($key);
+
+          if (! $repository->exists($value)) {
               $this->addError($key, 'exists', [$repository->getTable()]);
           }
 
@@ -163,7 +165,7 @@ class Validator
 
 
 
-    public function isValid(): bool
+       public function isValid(): bool
        {
            return empty($this->errors);
        }
