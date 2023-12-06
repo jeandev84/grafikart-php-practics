@@ -2,6 +2,7 @@
 
 use App\Admin\AdminModule;
 use App\Blog\BlogModule;
+use GuzzleHttp\Psr7\ServerRequest;
 use Middlewares\Whoops;
 use Framework\Middleware\{
     TrailingSlashMiddleware,
@@ -34,6 +35,6 @@ $app = (new \Framework\App(dirname(__DIR__). '/config/config.php'))
 
 
 if (php_sapi_name() !== "cli") {
-    $response = $app->run(\GuzzleHttp\Psr7\ServerRequest::fromGlobals());
+    $response = $app->run(ServerRequest::fromGlobals());
     \Http\Response\send($response);
 }
