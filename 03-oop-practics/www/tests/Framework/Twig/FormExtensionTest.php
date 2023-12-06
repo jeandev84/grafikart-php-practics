@@ -6,6 +6,7 @@ namespace Tests\Framework\Twig;
 
 use Framework\Twig\FormExtension;
 use PHPUnit\Framework\TestCase;
+use Tests\Framework\Twig\Traits\InputHelpersTrait;
 
 /**
  * Created by PhpStorm at 05.12.2023
@@ -18,6 +19,8 @@ use PHPUnit\Framework\TestCase;
  */
 class FormExtensionTest extends TestCase
 {
+
+      use InputHelpersTrait;
 
 
       protected FormExtension $formExtension;
@@ -87,53 +90,17 @@ class FormExtensionTest extends TestCase
 
 
 
-      private function input(string $key, string $label, ?string $value, array $options = []): string
-      {
-          $class = !empty($options['class']) ?  ' '. $options['class'] : '';
-          return <<<HTML
-             <div class="form-group">
-                <label for="name">$label</label>
-                <input type="text" class="form-control$class" name="$key" id="$key" value="$value">
-            </div>
-HTML;
-      }
 
-
-
-    private function inputError(string $key, string $label, ?string $value): string
+    public function testSelect()
     {
-        return <<<HTML
-             <div class="form-group has-danger">
-                <label for="name">$label</label>
-                <input type="text" class="form-control is-invalid" name="$key" id="$key" value="$value">
-                <small class="form-text text-muted">erreur</small>
-            </div>
-HTML;
-    }
+          $html = $this->formExtension->field(
+              [],
+              'name',
+              2,
+              'Titre',
+              ['options' => [1 => 'Demo', '2' => 'Demo2']]
+          );
 
-
-
-    private function textarea(string $key, string $label, ?string $value): string
-    {
-        return <<<HTML
-             <div class="form-group">
-                <label for="name">$label</label>
-                <textarea class="form-control" name="$key" id="$key">{$value}</textarea>
-            </div>
-HTML;
-    }
-
-
-
-
-    private function textareaError(string $key, string $label, ?string $value): string
-    {
-        return <<<HTML
-             <div class="form-group has-danger">
-                <label for="name">$label</label>
-                <textarea class="form-control form-control-danger" name="$key" id="$key">{$value}</textarea>
-                <small class="form-text text-muted">erreur</small>
-            </div>
-HTML;
+          $this->assertSimilar($this->select(), $html);
     }
 }

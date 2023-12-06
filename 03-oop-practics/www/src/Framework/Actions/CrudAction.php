@@ -130,7 +130,10 @@ class CrudAction
             $item         = $params;
         }
 
-        return $this->renderer->render("$this->viewPath/edit", compact('item', 'errors'));
+        return $this->renderer->render(
+            "$this->viewPath/edit",
+            $this->formParams(compact('item', 'errors'))
+        );
     }
 
 
@@ -160,7 +163,10 @@ class CrudAction
             $errors = $validator->getErrors();
         }
 
-        return $this->renderer->render("$this->viewPath/create", compact('item', 'errors'));
+        return $this->renderer->render(
+            "$this->viewPath/create",
+            $this->formParams(compact('item', 'errors'))
+        );
     }
 
 
@@ -199,5 +205,17 @@ class CrudAction
     protected function getNewEntity(): mixed
     {
          return [];
+    }
+
+
+    /**
+     * Traiter les parametres a envoyer a la vue
+     *
+     * @param array $params
+     * @return array
+    */
+    protected function formParams(array $params): array
+    {
+        return $params;
     }
 }

@@ -7,6 +7,7 @@ namespace App\Blog\Actions;
 
 
 use App\Blog\Entity\Post;
+use App\Blog\Repository\CategoryRepository;
 use App\Blog\Repository\PostRepository;
 use Framework\Actions\CrudAction;
 use Framework\Routing\Router;
@@ -38,6 +39,14 @@ class PostCrudAction extends CrudAction
     protected string $routePrefix = 'blog.admin.post';
 
 
+
+
+    /**
+     * @var CategoryRepository
+    */
+    protected CategoryRepository $categoryRepository;
+
+
     /**
      * @param RendererInterface $renderer
      *
@@ -47,11 +56,29 @@ class PostCrudAction extends CrudAction
      *
      * @param FlashService $flash
     */
-    public function __construct(RendererInterface $renderer, Router $router, PostRepository $repository, FlashService $flash)
+    public function __construct(
+        RendererInterface $renderer,
+        Router $router,
+        PostRepository $repository,
+        FlashService $flash,
+        CategoryRepository $categoryRepository
+    )
     {
         parent::__construct($renderer, $router, $repository, $flash);
+        $this->categoryRepository = $categoryRepository;
     }
 
+
+    /**
+     * @param array $params
+     * @return array
+    */
+    protected function formParams(array $params): array
+    {
+        $params['categories'] = $this->categoryRepository->findList();
+
+        return $params;
+    }
 
 
 
