@@ -156,18 +156,6 @@ SELECT;
 
      private function getHtmlFromArray(array $attributes): string
      {
-
-         /*
-          return implode(' ', array_map(function ($key, $value) {
-               if ($value === true) {
-                  return $key;
-               } elseif ($value === false) {
-                   return false;
-               }
-               return sprintf('%s="%s"', $key, $value);
-          }, array_keys($attributes), $attributes));
-         */
-
          $htmlParts = [];
          foreach ($attributes as $key => $value) {
              if ($value === true) {
