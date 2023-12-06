@@ -1,6 +1,5 @@
 <?php
 
-use Framework\Routing\Extension\RouterTwigExtension;
 use Framework\Routing\Router;
 use Framework\Session\PHPSession;
 use Framework\Session\SessionInterface;
@@ -9,6 +8,7 @@ use Framework\Templating\Renderer\TwigRendererFactory;
 use Framework\Twig\FlashExtension;
 use Framework\Twig\FormExtension;
 use Framework\Twig\PagerFantaExtension;
+use Framework\Twig\RouterTwigExtension;
 use Framework\Twig\TextExtension;
 use Framework\Twig\TimeExtension;
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Framework\Templating\Renderer;
 
 
-use Framework\Routing\Extension\RouterTwigExtension;
 use Psr\Container\ContainerInterface;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
