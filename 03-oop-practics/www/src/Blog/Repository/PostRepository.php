@@ -37,18 +37,29 @@ class PostRepository extends EntityRepository
 
 
 
+
+       /**
+        * @return Query
+       */
+       public function findAll(): Query
+       {
+           $category = new CategoryRepository($this->connection);
+
+           return $this->makeQuery()
+               ->select('p.*, c.name as category_name, c.slug as category_slug')
+               ->from('posts', 'p')
+               ->join($category->getTable(). ' as c', 'c.id = p.category_id')
+               ->orderBy('p.created_at DESC');
+       }
+
+
+
        /**
         * @return Query
        */
        public function findPublic(): Query
        {
-            $categoryTable = CategoryRepository::getTableName();
-
-            return $this->makeQuery()
-                        ->select('p.*, c.name as category_name, c.slug as category_slug')
-                        ->from('posts', 'p')
-                        ->join($categoryTable. ' as c', 'c.id = p.category_id')
-                        ->orderBy('p.created_at DESC');
+            return $this->findAll();
        }
 
 

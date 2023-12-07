@@ -99,7 +99,7 @@ class CrudAction
     {
         $params  = $request->getQueryParams();
         $page    = (int)($params['p'] ?? 1);
-        $items   = $this->repository->findPaginated(12, $page);
+        $items   = $this->repository->findAll()->paginate(12, $page);
 
         return $this->renderer->render("$this->viewPath/index", compact('items'));
     }

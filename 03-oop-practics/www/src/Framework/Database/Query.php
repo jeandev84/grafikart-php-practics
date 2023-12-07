@@ -6,6 +6,7 @@ namespace Framework\Database;
 
 use Framework\Database\ORM\Exceptions\NoRecordException;
 use Pagerfanta\Pagerfanta;
+use Traversable;
 
 /**
  * Created by PhpStorm at 07.12.2023
@@ -16,7 +17,7 @@ use Pagerfanta\Pagerfanta;
  *
  * @package Framework\Database
  */
-class Query
+class Query implements \IteratorAggregate
 {
 
       /**
@@ -380,5 +381,15 @@ class Query
           }
 
           return join(', ', $from);
+      }
+
+
+
+      /**
+       * @inheritDoc
+      */
+      public function getIterator(): Traversable
+      {
+          return $this->fetchAll();
       }
 }

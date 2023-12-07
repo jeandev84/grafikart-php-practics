@@ -59,46 +59,15 @@ class EntityRepository implements EntityRepositoryInterface
 
 
 
+    /**
+     * @return Query
+    */
     public function makeQuery(): Query
     {
          return (new Query($this->connection))
                 ->from($this->table, $this->table[0])
                 ->into($this->classname);
     }
-
-
-
-
-//    /**
-//     * @param int $perPage
-//     * @param int $currentPage
-//     * @return Pagerfanta
-//     */
-//    public function findPaginated(int $perPage, int $currentPage): Pagerfanta
-//    {
-//        $query = new PaginatedQuery(
-//            $this->connection,
-//            $this->paginationQuery(),
-//            "SELECT COUNT(id) FROM {$this->table}",
-//            $this->classname
-//        );
-//
-//        return (new Pagerfanta($query))
-//            ->setMaxPerPage($perPage)
-//            ->setCurrentPage($currentPage);
-//    }
-//
-//
-//
-//
-//    /**
-//     * @return string
-//     */
-//    protected function paginationQuery(): string
-//    {
-//        return "SELECT * FROM {$this->table}";
-//    }
-
 
 
 
@@ -126,9 +95,9 @@ class EntityRepository implements EntityRepositoryInterface
     /**
      * @inheritDoc
     */
-    public function findAll(): QueryResult
+    public function findAll(): Query
     {
-        return $this->makeQuery()->fetchAll();
+        return $this->makeQuery();
     }
 
 
