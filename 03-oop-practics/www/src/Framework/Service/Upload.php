@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Framework\Service;
 
 
+use Intervention\Image\ImageManager;
 use Psr\Http\Message\UploadedFileInterface;
 
 /**
@@ -47,25 +48,56 @@ class Upload
     {
         $this->delete($oldFile);
 
-        $targetPath = $this->addSuffix($this->path($file->getClientFilename()));
+        $targetPath = $this->addCopySuffix($this->path($file->getClientFilename()));
         $dirname    = pathinfo($targetPath, PATHINFO_DIRNAME);
         if (! is_dir($dirname)) {
             mkdir($dirname, 0777, true);
         }
 
+        // Upload file
         $file->moveTo($targetPath);
+
+        // Generate formats (thumb)
+        $this->generateFormats($targetPath);
+
         return pathinfo($targetPath)['basename'];
+    }
+
+
+
+    private function generateFormats(string $targetPath)
+    {
+         foreach ($this->formats as $format => $size) {
+             $manager          = new ImageManager(['driver' => 'gd']);
+             $destination      = $this->getPathWithSuffix($targetPath, $format);
+             [$width, $height] = $size;
+             $manager->make($targetPath)->fit($width, $height)->save($destination);
+         }
+    }
+
+
+
+    private function getPathWithSuffix(string $path, string $suffix): string
+    {
+        $info = pathinfo($path);
+        return  $info['dirname'] . DIRECTORY_SEPARATOR . $info['filename'] . '_'. $suffix . '.'. $info['extension'];
     }
 
 
 
     private function delete(?string $oldFile): void
     {
+        // remove old file
         if ($oldFile) {
             $oldPath = $this->path($oldFile);
             if (file_exists($oldPath)) {
                 unlink($oldPath);
             }
+        }
+
+        // remove resized files
+        foreach ($this->formats as $format => $_) {
+             unlink($this->getPathWithSuffix($oldFile, $format));
         }
     }
 
@@ -75,12 +107,10 @@ class Upload
      * @param string $targetPath
      * @return string
     */
-    public function addSuffix(string $targetPath): string
+    private function addCopySuffix(string $targetPath): string
     {
          if (file_exists($targetPath)) {
-             $info = pathinfo($targetPath);
-             $targetPath = $info['dirname'] . DIRECTORY_SEPARATOR . $info['filename'] . '_copy.'. $info['extension'];
-             return $this->addSuffix($targetPath);
+             return $this->addCopySuffix($this->getPathWithSuffix($targetPath, '_copy'));
          }
 
          return $targetPath;
@@ -88,7 +118,7 @@ class Upload
 
 
 
-    public function path(string $filename): string
+    private function path(string $filename): string
     {
         return $this->path. DIRECTORY_SEPARATOR. $filename;
     }

@@ -1,6 +1,14 @@
 ### Grafikart framework
 
 
+GIT
+```
+$ git status
+$ git add .
+$ git commit --amend
+$ git log --all --decorate --oneline --graph
+```
+
 1. Lunch Tests 
 ```
 $ ./vendor/bin/phpunit tests/Framework/AppTest.php
@@ -52,13 +60,14 @@ $ env ENV=dev php -S localhost:8000 -t public -d display_errors=1 -d opcache.ena
 https://github.com/envms/fluentpdo
 ```
 
-GIT 
+8. Upload Images 
 ```
-$ git status
-$ git add .
-$ git commit --amend
-$ git log --all --decorate --oneline --graph
+https://github.com/intervention/image
+$ composer require intervention/image
+
 ```
+
+
 
 
 

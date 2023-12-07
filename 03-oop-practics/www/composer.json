@@ -27,6 +27,7 @@
         "guzzlehttp/psr7": "^2.6",
         "http-interop/response-sender": "^1.0",
         "middlewares/whoops": "^1.2",
-        "doctrine/cache": "~1.4"
+        "doctrine/cache": "~1.4",
+        "intervention/image": "^2.4"
     }
 }
