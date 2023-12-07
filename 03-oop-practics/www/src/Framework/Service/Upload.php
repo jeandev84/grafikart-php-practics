@@ -40,8 +40,12 @@ class Upload
 
     public function upload(UploadedFileInterface $file): string
     {
-        $filename   = $file->getClientFilename();
-        $targetPath = $this->addSuffix($this->path. DIRECTORY_SEPARATOR. $filename);
+        $targetPath = $this->addSuffix($this->path. DIRECTORY_SEPARATOR. $file->getClientFilename());
+        $dirname    = pathinfo($targetPath, PATHINFO_DIRNAME);
+        if (! is_dir($dirname)) {
+            mkdir($dirname, 0777, true);
+        }
+
         $file->moveTo($targetPath);
         return pathinfo($targetPath)['basename'];
     }
