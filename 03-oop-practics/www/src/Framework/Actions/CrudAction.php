@@ -168,7 +168,7 @@ class CrudAction
                 return $this->redirect("{$this->routePrefix}.index");
             }
 
-            Hydrator::hydrate($request->getParsedBody(), $item);
+            $item   = $request->getParsedBody();
             $errors = $validator->getErrors();
         }
 

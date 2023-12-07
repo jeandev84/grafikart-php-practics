@@ -54,15 +54,10 @@ class CategoryCrudAction extends CrudAction
     }
 
 
-
-
-
     /**
-     * @param ServerRequestInterface $request
-     *
-     * @return array
-     */
-    protected function getParams(ServerRequestInterface $request): array
+     * @inheritdoc
+    */
+    protected function getParams(ServerRequestInterface $request, $item): array
     {
         return array_filter($request->getParsedBody(), function ($key) {
             return in_array($key, ['name', 'slug']);
