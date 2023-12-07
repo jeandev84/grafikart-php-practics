@@ -164,11 +164,11 @@ class Validator
        {
            /** @var UploadedFileInterface $file */
            $file = $this->getValue($key);
-           if ($file !== null && $file->getError() === UPLOAD_ERR_OK) {
-               $type  = $file->getClientMediaType();
+           if ($file !== null && ($file->getError() === UPLOAD_ERR_OK)) {
+               $mimeType  = $file->getClientMediaType();
                $extension = mb_strtolower(pathinfo($file->getClientFilename(), PATHINFO_EXTENSION));
-               $expectedType = self::MIME_TYPES[$extension] ?? null;
-               if (!in_array($extension, $extensions) || $expectedType !== $type) {
+               $expectedMimeType = self::MIME_TYPES[$extension] ?? null;
+               if (!in_array($extension, $extensions) || ($expectedMimeType !== $mimeType)) {
                    $this->addError($key, 'filetype', [join(', ', $extensions)]);
                }
            }
