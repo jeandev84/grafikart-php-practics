@@ -41,26 +41,33 @@ class Upload
 
     /**
      * @param UploadedFileInterface $file
+     *
      * @param string|null $oldFile
-     * @return string
+     *
+     * @return string|null
     */
-    public function upload(UploadedFileInterface $file, ?string $oldFile = null): string
+    public function upload(UploadedFileInterface $file, ?string $oldFile = null): ?string
     {
-        $this->delete($oldFile);
+          if ($file->getError() === UPLOAD_ERR_OK) {
 
-        $targetPath = $this->addCopySuffix($this->path($file->getClientFilename()));
-        $dirname    = pathinfo($targetPath, PATHINFO_DIRNAME);
-        if (! is_dir($dirname)) {
-            mkdir($dirname, 0777, true);
-        }
+              $this->delete($oldFile);
 
-        // Upload file
-        $file->moveTo($targetPath);
+              $targetPath = $this->addCopySuffix($this->path($file->getClientFilename()));
+              $dirname    = pathinfo($targetPath, PATHINFO_DIRNAME);
+              if (! is_dir($dirname)) {
+                  mkdir($dirname, 0777, true);
+              }
 
-        // Generate formats (thumb)
-        $this->generateFormats($targetPath);
+              // Upload file
+              $file->moveTo($targetPath);
 
-        return pathinfo($targetPath)['basename'];
+              // Generate formats (thumb)
+              $this->generateFormats($targetPath);
+
+              return pathinfo($targetPath)['basename'];
+          }
+
+          return null;
     }
 
 
