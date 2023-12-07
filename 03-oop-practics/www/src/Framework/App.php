@@ -223,15 +223,11 @@ class App implements RequestHandlerInterface
        private function getMiddleware(): ?object
        {
            $container = $this->getContainer();
-
            if (array_key_exists($this->index, $this->middlewares)) {
-
+               $middleware = $this->middlewares[$this->index];
                if (is_string($this->middlewares[$this->index])) {
                    $middleware =  $container->get($this->middlewares[$this->index]);
-               } else {
-                   $middleware = $this->middlewares[$this->index];
                }
-
                $this->index++;
                return $middleware;
            }
