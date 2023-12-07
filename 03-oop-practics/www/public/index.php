@@ -3,6 +3,7 @@
 use App\Admin\AdminModule;
 use App\Auth\AuthModule;
 use App\Blog\BlogModule;
+use Framework\Security\Middleware\LoggedInMiddleware;
 use GuzzleHttp\Psr7\ServerRequest;
 use Middlewares\Whoops;
 use Framework\Middleware\{CsrfMiddleware,
@@ -24,6 +25,7 @@ $app = (new \Framework\App('config/config.php'))
        ->addModule(AuthModule::class)
        ->pipe(Whoops::class)
        ->pipe(TrailingSlashMiddleware::class)
+       ->pipe(LoggedInMiddleware::class)
        ->pipe(MethodMiddleware::class)
        ->pipe(CsrfMiddleware::class)
        ->pipe(RouterMiddleware::class)

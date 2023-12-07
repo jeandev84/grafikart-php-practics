@@ -17,12 +17,17 @@ interface UserInterface
 {
 
        /**
+        * Returns user name
+        *
         * @return string
        */
        public function getUsername(): string;
 
 
+
        /**
+        * Returns user roles
+        *
         * @return array
        */
        public function getRoles(): array;
