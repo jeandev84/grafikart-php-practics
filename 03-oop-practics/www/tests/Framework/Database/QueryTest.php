@@ -81,7 +81,9 @@ class QueryTest extends DatabaseTestCase
 
         $posts = (new Query($pdo))
                  ->from('posts', 'p')
-                 ->into(Demo::class);
+                 ->into(Demo::class)
+                 ->all()
+        ;
 
         $this->assertEquals('demo', substr($posts[0]->getSlug(), -4));
     }
@@ -97,7 +99,8 @@ class QueryTest extends DatabaseTestCase
 
         $posts = (new Query($pdo))
             ->from('posts', 'p')
-            ->into(Demo::class);
+            ->into(Demo::class)
+            ->all();
 
         $post1 = $posts[0];
         $post2 = $posts[0];
