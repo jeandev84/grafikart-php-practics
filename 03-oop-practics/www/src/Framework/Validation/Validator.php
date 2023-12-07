@@ -241,8 +241,13 @@ class Validator
        }
 
 
-
-
+      /**
+       * @return array
+      */
+      public function getParams(): array
+      {
+          return $this->params;
+      }
 
 
        /**

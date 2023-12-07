@@ -19,6 +19,8 @@ final class AddImageToPost extends AbstractMigration
      */
     public function change(): void
     {
-
+         $this->table('posts')
+              ->addColumn('image', 'string', ['null' => true])
+              ->update();
     }
 }

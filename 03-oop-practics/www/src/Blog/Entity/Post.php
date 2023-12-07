@@ -22,6 +22,7 @@ class Post
      public $createdAt;
      public $updatedAt;
      public ?string $categoryName = null;
+     public $image;
 
 
 

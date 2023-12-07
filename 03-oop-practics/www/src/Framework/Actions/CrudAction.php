@@ -120,21 +120,22 @@ class CrudAction
         $errors = [];
 
         if ($request->getMethod() === 'POST') {
-            $params = $this->getParams($request);
             $validator = $this->getValidator($request);
             if ($validator->isValid()) {
-                $this->repository->update($params, $item->id);
+                $this->repository->update($this->getParams($request), $item->id);
                 $this->flash->success($this->messages['edit']);
                 return $this->redirect("{$this->routePrefix}.index");
             }
+
             $errors = $validator->getErrors();
+            $params       = $request->getParsedBody();
             $params['id'] = $item->id;
             $item         = $params;
         }
 
         return $this->renderer->render(
             "$this->viewPath/edit",
-            $this->formParams(compact('item', 'errors'))
+             $this->formParams(compact('item', 'errors'))
         );
     }
 
@@ -153,15 +154,14 @@ class CrudAction
         $item = $this->getNewEntity();
 
         if ($request->getMethod() === 'POST') {
-            $params = $this->getParams($request);
             $validator = $this->getValidator($request);
             if ($validator->isValid()) {
-                $this->repository->insert($params);
+                $this->repository->insert($this->getParams($request));
                 $this->flash->success($this->messages['create']);
                 return $this->redirect("{$this->routePrefix}.index");
             }
 
-            $item   = $params;
+            $item   = $request->getParsedBody();
             $errors = $validator->getErrors();
         }
 
@@ -200,7 +200,8 @@ class CrudAction
 
     protected function getValidator(Request $request): Validator
     {
-        return new Validator($request->getParsedBody());
+        $params = array_merge($request->getParsedBody(), $request->getUploadedFiles());
+        return new Validator($params);
     }
 
 
