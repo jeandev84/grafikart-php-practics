@@ -5,8 +5,11 @@ namespace App\Auth\Security;
 
 
 use App\Auth\Repository\UserRepository;
+use Framework\Database\ORM\Exceptions\NoRecordException;
 use Framework\Security\Auth;
+use Framework\Security\Hash\PasswordHash;
 use Framework\Security\User\UserInterface;
+use Framework\Session\SessionInterface;
 
 
 /**
@@ -27,15 +30,39 @@ class DatabaseAuth implements Auth
     protected UserRepository $userRepository;
 
 
+    /**
+     * @var SessionInterface
+    */
+    protected SessionInterface $session;
+
+
+
+    /**
+     * @var UserInterface|null
+    */
+    protected ?UserInterface $user = null;
+
+
+
+    /**
+     * @var string
+    */
+    protected string $authKey = 'auth.user';
+
+
 
     /**
      * @param UserRepository $userRepository
+     *
+     * @param SessionInterface $session
     */
     public function __construct(
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        SessionInterface $session
     )
     {
         $this->userRepository = $userRepository;
+        $this->session = $session;
     }
 
 
@@ -47,6 +74,8 @@ class DatabaseAuth implements Auth
      * @param string $password
      *
      * @return UserInterface|null
+     *
+     * @throws NoRecordException
     */
     public function login(string $username, string $password): ?UserInterface
     {
@@ -56,12 +85,15 @@ class DatabaseAuth implements Auth
 
           $user = $this->userRepository->findByUsername($username);
 
-          if (! $user) {
-               return null;
+          if ($user && PasswordHash::match($password, $user->getPassword())) {
+              $this->session->set($this->authKey, $user->id);
+              return $user;
           }
 
-          return $user;
+          return null;
     }
+
+
 
 
 
@@ -71,6 +103,19 @@ class DatabaseAuth implements Auth
     */
     public function getUser(): ?UserInterface
     {
+        if ($this->user) { return $this->user; }
+
+        $userId = $this->session->get($this->authKey);
+
+        if ($userId) {
+            try {
+                $this->user = $this->userRepository->find($userId);
+                return $this->user;
+            } catch (NoRecordException $e) {
+                $this->session->delete($this->authKey);
+            }
+        }
+
         return null;
     }
 }

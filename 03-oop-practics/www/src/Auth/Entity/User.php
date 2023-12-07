@@ -22,28 +22,26 @@ class User implements UserInterface
     /**
      * @var int|null
     */
-    protected ?int $id = null;
+    public ?int $id = null;
 
 
 
     /**
      * @var string|null
     */
-    protected ?string $username = null;
+    public ?string $username = null;
 
 
     /**
      * @var string|null
     */
-    protected ?string $email = null;
+    public ?string $email = null;
 
 
     /**
      * @var string|null
     */
-    protected ?string $password = null;
-
-
+    public ?string $password = null;
 
 
 
@@ -54,6 +52,9 @@ class User implements UserInterface
     {
         return $this->username;
     }
+
+
+
 
 
     /**
