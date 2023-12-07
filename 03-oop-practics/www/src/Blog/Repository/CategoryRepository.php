@@ -23,4 +23,10 @@ class CategoryRepository extends EntityRepository
       {
           parent::__construct($connection, Category::class, 'categories');
       }
+
+
+      public static function getTableName()
+      {
+           return 'categories';
+      }
 }

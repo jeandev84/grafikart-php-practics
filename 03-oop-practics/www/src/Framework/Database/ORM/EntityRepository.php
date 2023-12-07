@@ -7,6 +7,8 @@ namespace Framework\Database\ORM;
 use App\Blog\Entity\Post;
 use Framework\Database\ORM\Exceptions\NoRecordException;
 use Framework\Database\PaginatedQuery;
+use Framework\Database\Query;
+use Framework\Database\QueryResult;
 use Pagerfanta\Pagerfanta;
 use PDO;
 
@@ -43,39 +45,60 @@ class EntityRepository implements EntityRepositoryInterface
 
 
     /**
-     * @param PDO $connection
+     * @param PDO|null $connection
      * @param string $classname
      * @param string $tableName
     */
-    public function __construct(PDO $connection, string $classname, string $tableName)
+    public function __construct(?PDO $connection, string $classname, string $tableName)
     {
         $this->connection = $connection;
-        $this->classname  = $classname;
+        $this->classname  = $classname ?: \stdClass::class;
         $this->table  = $tableName;
     }
 
 
 
 
-
-    /**
-     * @param int $perPage
-     * @param int $currentPage
-     * @return Pagerfanta
-     */
-    public function findPaginated(int $perPage, int $currentPage): Pagerfanta
+    public function makeQuery(): Query
     {
-        $query = new PaginatedQuery(
-            $this->connection,
-            $this->paginationQuery(),
- "SELECT COUNT(id) FROM {$this->table}",
-            $this->classname
-        );
-
-        return (new Pagerfanta($query))
-            ->setMaxPerPage($perPage)
-            ->setCurrentPage($currentPage);
+         return (new Query($this->connection))
+                ->from($this->table, $this->table[0])
+                ->into($this->classname);
     }
+
+
+
+
+//    /**
+//     * @param int $perPage
+//     * @param int $currentPage
+//     * @return Pagerfanta
+//     */
+//    public function findPaginated(int $perPage, int $currentPage): Pagerfanta
+//    {
+//        $query = new PaginatedQuery(
+//            $this->connection,
+//            $this->paginationQuery(),
+//            "SELECT COUNT(id) FROM {$this->table}",
+//            $this->classname
+//        );
+//
+//        return (new Pagerfanta($query))
+//            ->setMaxPerPage($perPage)
+//            ->setCurrentPage($currentPage);
+//    }
+//
+//
+//
+//
+//    /**
+//     * @return string
+//     */
+//    protected function paginationQuery(): string
+//    {
+//        return "SELECT * FROM {$this->table}";
+//    }
+
 
 
 
@@ -103,29 +126,12 @@ class EntityRepository implements EntityRepositoryInterface
     /**
      * @inheritDoc
     */
-    public function find(int $id): mixed
+    public function findAll(): QueryResult
     {
-        return $this->fetchOrFail("SELECT * FROM $this->table WHERE id = :id", compact('id'));
+        return $this->makeQuery()->fetchAll();
     }
 
 
-
-
-
-    /**
-     * @inheritDoc
-    */
-    public function findAll(): array
-    {
-        $query = $this->connection->prepare("SELECT * FROM {$this->table}");
-        $query->execute();
-        if ($this->classname) {
-            $query->setFetchMode(\PDO::FETCH_CLASS, $this->classname);
-        } else {
-            $query->setFetchMode(PDO::FETCH_OBJ);
-        }
-        return $query->fetchAll();
-    }
 
 
     /**
@@ -138,7 +144,22 @@ class EntityRepository implements EntityRepositoryInterface
     */
     public function findBy(string $field, $value): mixed
     {
-        return $this->fetchOrFail("SELECT * FROM {$this->table} WHERE $field = :$field", [$field => $value]);
+        return $this->makeQuery()
+                    ->where("$field = :$field")
+                    ->params([$field => $value])
+                    ->fetchOrFail();
+    }
+
+
+
+
+
+    /**
+     * @inheritDoc
+    */
+    public function find(int $id): mixed
+    {
+        return $this->findBy('id', $id);
     }
 
 
@@ -150,7 +171,7 @@ class EntityRepository implements EntityRepositoryInterface
     */
     public function count(): int
     {
-        return $this->fetchColumn("SELECT COUNT(id) FROM {$this->table}");
+        return $this->makeQuery()->count();
     }
 
 
@@ -251,71 +272,6 @@ class EntityRepository implements EntityRepositoryInterface
     {
         return $this->connection;
     }
-
-
-
-
-
-    /**
-     * Permet d' executer une requete et retourner le premier resultat
-     *
-     * @param string $sql
-     * @param array $params
-     * @return mixed
-     * @throws NoRecordException
-     */
-    protected function fetchOrFail(string $sql, array $params = []): mixed
-    {
-        $statement = $this->connection->prepare($sql);
-        $statement->execute($params);
-
-        if ($this->classname) {
-            $statement->setFetchMode(\PDO::FETCH_CLASS, $this->classname);
-        } else {
-            $statement->setFetchMode(PDO::FETCH_OBJ);
-        }
-
-        $record = $statement->fetch();
-
-        if ($record === false) {
-            throw new NoRecordException();
-        }
-
-        return $record;
-    }
-
-
-    /**
-     * Recupere la premiere colonne
-     *
-     * @param string $sql
-     * @param array $params
-     * @return mixed
-    */
-    protected function fetchColumn(string $sql, array $params = []): mixed
-    {
-        $statement = $this->connection->prepare($sql);
-        $statement->execute($params);
-
-        if ($this->classname) {
-            $statement->setFetchMode(\PDO::FETCH_CLASS, $this->classname);
-        }
-
-        return $statement->fetchColumn();
-    }
-
-
-
-
-
-    /**
-     * @return string
-    */
-    protected function paginationQuery(): string
-    {
-        return "SELECT * FROM {$this->table}";
-    }
-
 
 
 
