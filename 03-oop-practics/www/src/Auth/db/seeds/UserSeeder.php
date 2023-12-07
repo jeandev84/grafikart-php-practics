@@ -22,6 +22,6 @@ class UserSeeder extends AbstractSeed
                  'username' => 'admin',
                  'email'    => 'admin@admin.fr',
                  'password' =>  PasswordHash::hash('admin')
-             ]);
+             ])->save();
     }
 }
