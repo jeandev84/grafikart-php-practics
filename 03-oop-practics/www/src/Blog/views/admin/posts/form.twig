@@ -1,17 +1,22 @@
 {# field() from own twig extension inside src/Framework/Twig/FormExtension.php #}
 {{ csrf_input() }}
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         {{  field('name', item.name, "Titre de l' article") }}
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         {{  field('category_id', item.category_id, "Categorie", {options: categories}) }}
-    </div>
-    <div class="col-md-4">
-        {{  field('slug', item.slug, "Lien") }}
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-6">
+        {{  field('image', item.image, "Image", {type: 'file'}) }}
+    </div>
+    <div class="col-md-6">
+        {{  field('slug', item.slug, "Lien") }}
+    </div>
+</div>
 {{  field('content', item.content, "Contenu", {type: 'textarea'}) }}
 {{  field('created_at', item.created_at, "Date de creation", {class: 'datepicker'}) }}
 

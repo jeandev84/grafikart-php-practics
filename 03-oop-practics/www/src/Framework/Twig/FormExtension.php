@@ -56,6 +56,8 @@ class FormExtension extends AbstractExtension
 
          if ($type === 'textarea') {
              $input = $this->textarea($value, $attributes);
+         } elseif ($type === 'file') {
+             $input = $this->file($attributes);
          } elseif (array_key_exists('options', $options)) {
              $input  = $this->select($value, $options['options'], $attributes);
          } else {
@@ -104,6 +106,18 @@ INPUT;
 
     }
 
+
+    /***
+     * @param array $attributes
+     * @return string
+    */
+    public function file(array $attributes): string
+    {
+        $attr = $this->getHtmlFromArray($attributes);
+        return <<<FILE
+          <input type="file" {$attr}>
+FILE;
+    }
 
      /**
       * @param string|null $value
