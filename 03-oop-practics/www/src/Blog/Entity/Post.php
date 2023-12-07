@@ -42,4 +42,15 @@ class Post
              $this->updatedAt = new \DateTime($datetime);
          }
      }
+
+
+
+
+     /**
+      * @return string
+     */
+     public function getThumb(): string
+     {
+         return '/uploads/posts/'. $this->image;
+     }
 }
