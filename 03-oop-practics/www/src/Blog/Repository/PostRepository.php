@@ -55,13 +55,27 @@ class PostRepository extends EntityRepository
 
 
        /**
-        * @param int $id Category ID
+        * @param int $categoryId
         *
         * @return Query
        */
-       public function findPublicForCategory(int $id): Query
+       public function findPublicForCategory(int $categoryId): Query
        {
-           return $this->findPublic()->where("p.category_id = $id");
+           return $this->findPublic()->where("p.category_id = $categoryId");
+       }
+
+
+
+
+
+       /**
+        * @param int $postId
+        *
+        * @return Post
+       */
+       public function findWithCategory(int $postId): Post
+       {
+            return $this->findPublic()->where("p.id = $postId")->fetch();
        }
 
 }
