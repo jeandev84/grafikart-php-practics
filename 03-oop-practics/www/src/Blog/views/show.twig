@@ -9,7 +9,7 @@
  <p class="text-muted">
   {% if post.categoryId %}
     <a href="{{ path('blog.category', {slug: post.categorySlug}) }}" title="{{ post.categoryName }}">
-     {{ post.category_name }}
+     {{ post.categoryName }}
     </a>
   {% endif %}
   {{ post.createdAt | ago }}
