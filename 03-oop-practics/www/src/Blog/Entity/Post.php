@@ -60,8 +60,14 @@ class Post implements HasImageInterface
 
 
 
+     public function getImageUrl(): string
+     {
+          return $this->getOriginalImage();
+     }
 
 
+
+     
      /**
       * @inheritdoc
      */
