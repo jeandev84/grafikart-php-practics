@@ -19,20 +19,26 @@ class Post
      public ?string $name = null;
      public ?string $slug = null;
      public ?string $content = null;
-     public $created_at;
-     public $updated_at;
-     public ?string $category_name = null;
+     public $createdAt;
+     public $updatedAt;
+     public ?string $categoryName = null;
 
 
-     public function __construct()
+
+     public function setCreatedAt($datetime)
      {
-         if ($this->created_at) {
-             $this->created_at = new \DateTime($this->created_at);
+         if (is_string($datetime)) {
+             $this->createdAt = new \DateTime($datetime);
          }
+     }
 
 
-         if ($this->updated_at) {
-             $this->updated_at = new \DateTime($this->updated_at);
+
+
+     public function setUpdatedAt($datetime)
+     {
+         if (is_string($datetime)) {
+             $this->updatedAt = new \DateTime($datetime);
          }
      }
 }

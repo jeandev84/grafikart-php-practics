@@ -7,7 +7,7 @@ namespace Tests\Framework\Database;
 use Framework\Database\Query;
 use PHPUnit\Framework\TestCase;
 use Tests\DatabaseTestCase;
-
+use Tests\Framework\Database\Entity\Demo;
 
 
 /**
@@ -67,5 +67,22 @@ class QueryTest extends DatabaseTestCase
                  ->count();
 
         $this->assertEquals(29, $posts);
+    }
+
+
+
+
+
+    public function testHydrateEntity()
+    {
+        $pdo = $this->getPdo();
+        $this->migrateDatabase($pdo);
+        $this->seedDatabase($pdo);
+
+        $posts = (new Query($pdo))
+                 ->from('posts', 'p')
+                 ->into(Demo::class);
+
+        $this->assertEquals('demo', substr($posts[0]->slug, -4));
     }
 }

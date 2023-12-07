@@ -13,7 +13,7 @@ namespace Framework\Database;
  *
  * @package Framework\Database
  */
-class Query
+class Query implements \ArrayAccess, \Iterator
 {
 
       protected ?\PDO $pdo;
@@ -26,6 +26,9 @@ class Query
       protected array $orderBy = [];
       protected int   $limit   = 0;
       protected int   $offset  = 0;
+      protected ?string $entity = null;
+      protected $records;
+      protected int $index = 0;
 
 
       /**
@@ -73,6 +76,36 @@ class Query
 
 
 
+      public function into(string $entity): self
+      {
+          $this->entity = $entity;
+
+          return $this;
+      }
+
+
+
+      public function all(): array
+      {
+           if (is_null($this->records)) {
+               $this->records = $this->execute()->fetchAll(\PDO::FETCH_ASSOC);
+           }
+
+           return $this->records;
+      }
+
+
+
+      public function get(int $index)
+      {
+          if ($this->entity) {
+               return Hydrator::hydrate($this->all()[$index], $this->entity);
+          }
+
+          return $this->entity;
+      }
+
+
 
       public function count(): int
       {
@@ -116,4 +149,101 @@ class Query
            return join(' ', $parts);
       }
 
+
+
+     /**
+      * @inheritDoc
+     */
+     public function current(): mixed
+     {
+         return $this->get($this->index);
+     }
+
+
+
+
+     /**
+      * @inheritDoc
+     */
+     public function next(): void
+     {
+          $this->index++;
+     }
+
+
+
+
+
+    /**
+     * @inheritDoc
+     */
+    public function key(): mixed
+    {
+        return $this->index;
+    }
+
+
+
+    /**
+     * @inheritDoc
+    */
+    public function valid(): bool
+    {
+         return isset($this->all()[$this->index]);
+    }
+
+
+
+
+    /**
+     * @inheritDoc
+     */
+    public function rewind(): void
+    {
+        $this->index = 0;
+    }
+
+
+
+
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetExists(mixed $offset): bool
+    {
+         return isset($this->all()[$offset]);
+    }
+
+
+
+    /**
+     * @inheritDoc
+    */
+    public function offsetGet(mixed $offset): mixed
+    {
+        return $this->get($offset);
+    }
+
+
+
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        throw new \Exception("Cannot alter records");
+    }
+
+
+
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetUnset(mixed $offset): void
+    {
+        throw new \Exception("Cannot alter records");
+    }
 }
