@@ -80,6 +80,27 @@ class PostCrudAction extends CrudAction
     }
 
 
+
+
+    /**
+     * @param ServerRequestInterface $request
+     *
+     * @return mixed
+    */
+    public function delete(ServerRequestInterface $request): mixed
+    {
+        /** @var Post $post */
+        $post = $this->repository->find((int)$request->getAttribute('id'));
+        $this->postUpload->delete($post->image);
+
+        return parent::delete($request);
+    }
+
+
+
+
+
+
     /**
      * @param array $params
      * @return array
@@ -133,6 +154,10 @@ class PostCrudAction extends CrudAction
 
          return $validator;
     }
+
+
+
+
 
 
     /**

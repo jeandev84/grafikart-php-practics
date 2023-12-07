@@ -100,14 +100,13 @@ class Upload
      *
      * @return void
     */
-    private function delete(?string $oldFile): void
+    public function delete(?string $oldFile): void
     {
         if ($oldFile) {
-
             // remove old file
-            $oldPath = $this->path($oldFile);
-            if (file_exists($oldPath)) {
-                unlink($oldPath);
+            $oldFile = $this->path($oldFile);
+            if (file_exists($oldFile)) {
+                unlink($oldFile);
             }
 
             // remove resized files
@@ -129,7 +128,7 @@ class Upload
     private function addCopySuffix(string $targetPath): string
     {
          if (file_exists($targetPath)) {
-             return $this->addCopySuffix($this->getPathWithSuffix($targetPath, '_copy'));
+             return $this->addCopySuffix($this->getPathWithSuffix($targetPath, 'copy'));
          }
 
          return $targetPath;

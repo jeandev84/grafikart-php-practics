@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Blog\Entity;
 
 
+use Framework\Database\ORM\Contract\HasImageInterface;
+
 /**
  * Created by PhpStorm at 05.12.2023
  *
@@ -13,7 +15,7 @@ namespace App\Blog\Entity;
  *
  * @package App\Blog\Entity
  */
-class Post
+class Post implements HasImageInterface
 {
      public ?int $id = null;
      public ?string $name = null;
@@ -47,10 +49,36 @@ class Post
 
 
      /**
-      * @return string
+      * @inheritdoc
      */
      public function getThumb(): string
      {
-         return '/uploads/posts/'. $this->image;
+         ['filename' => $filename, 'extension' => $extension] = pathinfo($this->image);
+
+         return $this->getImagePath() . '/'. $filename .'_thumb.'. $extension ;
+     }
+
+
+
+
+
+     /**
+      * @inheritdoc
+     */
+     public function getOriginalImage(): string
+     {
+         return $this->getImagePath() . '/'. $this->image;
+     }
+
+
+
+
+
+     /**
+      * @inheritDoc
+     */
+     public function getImagePath(): string
+     {
+         return '/uploads/posts';
      }
 }
