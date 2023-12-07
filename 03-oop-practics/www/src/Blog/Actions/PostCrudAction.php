@@ -54,6 +54,17 @@ class PostCrudAction extends CrudAction
     protected PostUpload $postUpload;
 
 
+
+    /**
+     * @var array|string[]
+    */
+    protected array $fields = [
+        'name', 'slug', 'content', 'created_at', 'category_id', 'image', 'published'
+    ];
+
+
+
+
     /**
      * @param RendererInterface $renderer
      *
@@ -133,7 +144,7 @@ class PostCrudAction extends CrudAction
         }
 
         $params =  array_filter($params, function ($key) {
-            return in_array($key, ['name', 'slug', 'content', 'created_at', 'category_id', 'image']);
+            return in_array($key, $this->fields);
         }, ARRAY_FILTER_USE_KEY);
 
         return array_merge($params, ['updated_at' => date('Y-m-d H:i:s')]);

@@ -58,6 +58,8 @@ class FormExtension extends AbstractExtension
              $input = $this->textarea($value, $attributes);
          } elseif ($type === 'file') {
              $input = $this->file($attributes);
+         } elseif ($type === 'checkbox') {
+             $input = $this->checkbox($value, $attributes);
          } elseif (array_key_exists('options', $options)) {
              $input  = $this->select($value, $options['options'], $attributes);
          } else {
@@ -85,11 +87,14 @@ FIELD;
      private function getErrorHtml(array $context, string $key): string
      {
           $error = $context['errors'][$key] ?? false;
-          if ($error) {
-              return sprintf('<small class="form-text text-muted">%s</small>', $error);
+          if (!$error) {
+              return '';
           }
-          return "";
+         return sprintf('<small class="form-text text-muted">%s</small>', $error);
      }
+
+
+
 
 
     /**
@@ -99,12 +104,26 @@ FIELD;
      */
     public function input(?string $value, array $attributes): string
     {
-        $attr = $this->getHtmlFromArray($attributes);
-        return <<<INPUT
-          <input type="text" {$attr} value="$value">
-INPUT;
-
+        return sprintf('<input type="text" %s value="%s">', $this->getHtmlFromArray($attributes), $value);
     }
+
+
+
+
+    /**
+     * @param string|null $value
+     * @param array $attributes
+     * @return string
+     */
+    public function checkbox(?string $value, array $attributes): string
+    {
+        $html = sprintf('<input type="hidden" name="%s" value="0">',  $attributes['name']);
+        if ($value) { $attributes['checked'] = true; }
+        return sprintf('%s<input type="checkbox" %s value="1">', $html, $this->getHtmlFromArray($attributes));
+    }
+
+
+
 
 
     /***
@@ -113,11 +132,11 @@ INPUT;
     */
     public function file(array $attributes): string
     {
-        $attr = $this->getHtmlFromArray($attributes);
-        return <<<FILE
-          <input type="file" {$attr}>
-FILE;
+        return sprintf('<input type="file" %s>', $this->getHtmlFromArray($attributes));
     }
+
+
+
 
      /**
       * @param string|null $value
@@ -126,13 +145,11 @@ FILE;
      */
      public function textarea(?string $value, array $attributes): string
      {
-         $attr = $this->getHtmlFromArray($attributes);
-
-         return <<<TEXTAREA
-             <textarea {$attr}>{$value}</textarea>
-TEXTAREA;
-
+         return sprintf('<textarea %s>%s</textarea>', $this->getHtmlFromArray($attributes), $value);
      }
+
+
+
 
 
     /**
@@ -143,16 +160,12 @@ TEXTAREA;
      */
      public function select(?string $value, array $options, array $attributes): string
      {
-         $attr        = $this->getHtmlFromArray($attributes);
          $htmlOptions = array_reduce(array_keys($options), function (string $html, string $key) use ($options, $value) {
                 $params = ['value' => $key, 'selected' => ($key === $value)];
                 return $html . '<option '. $this->getHtmlFromArray($params) .'>'. $options[$key] .'</option>';
          }, "");
 
-         return <<<SELECT
-            <select $attr>$htmlOptions</select>
-SELECT;
-
+         return sprintf('<select %s>%s</select>', $this->getHtmlFromArray($attributes), $htmlOptions);
      }
 
 
