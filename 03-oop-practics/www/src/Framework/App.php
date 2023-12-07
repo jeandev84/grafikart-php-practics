@@ -7,6 +7,7 @@ namespace Framework;
 use DI\ContainerBuilder;
 use Doctrine\Common\Cache\ApcuCache;
 use Doctrine\Common\Cache\FilesystemCache;
+use Framework\Middleware\RoutePrefixedMiddleware;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Container\ContainerExceptionInterface;
@@ -101,13 +102,23 @@ class App implements RequestHandlerInterface
        /**
         * Rajoute un middleware ( en un mot rajoute un comportement )
         *
-        * @param string $middleware
+        * @param string $routePrefix
+        * @param string|null $middleware
         *
         * @return $this
        */
-       public function pipe(string $middleware): self
+       public function pipe(string $routePrefix, ?string $middleware = null): self
        {
-           $this->middlewares[] = $middleware;
+           if (is_null($middleware)) {
+               $this->middlewares[] = $routePrefix;
+           } else {
+               $this->middlewares[] = new RoutePrefixedMiddleware(
+                   $this->getContainer(),
+                   $routePrefix,
+                   $middleware
+               );
+           }
+
 
            return $this;
        }
@@ -214,7 +225,13 @@ class App implements RequestHandlerInterface
            $container = $this->getContainer();
 
            if (array_key_exists($this->index, $this->middlewares)) {
-               $middleware =  $container->get($this->middlewares[$this->index]);
+
+               if (is_string($this->middlewares[$this->index])) {
+                   $middleware =  $container->get($this->middlewares[$this->index]);
+               } else {
+                   $middleware = $this->middlewares[$this->index];
+               }
+
                $this->index++;
                return $middleware;
            }

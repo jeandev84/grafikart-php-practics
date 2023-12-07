@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Framework\Security\Middleware;
+namespace Framework\Middleware\Security;
 
 
-use Framework\Security\AuthenticatorInterface;
+use Framework\Security\Auth;
 use Framework\Security\Exceptions\ForbiddenException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -18,25 +18,26 @@ use Psr\Http\Server\RequestHandlerInterface;
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
- * @package Framework\Security\Middleware
+ * @package Framework\Middleware\Security
  */
 class LoggedInMiddleware implements MiddlewareInterface
 {
 
     /**
-     * @var AuthenticatorInterface
+     * @var Auth
     */
-    protected AuthenticatorInterface $auth;
+    protected Auth $auth;
 
 
 
     /**
-     * @param AuthenticatorInterface $auth
+     * @param Auth $auth
     */
-    public function __construct(AuthenticatorInterface $auth)
+    public function __construct(Auth $auth)
     {
         $this->auth = $auth;
     }
+
 
 
 
