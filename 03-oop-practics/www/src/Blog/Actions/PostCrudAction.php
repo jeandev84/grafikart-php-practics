@@ -90,6 +90,8 @@ class PostCrudAction extends CrudAction
     */
     protected function getParams(ServerRequestInterface $request): array
     {
+        var_dump($request->getUploadedFiles());
+        die;
         $params =  array_filter($request->getParsedBody(), function ($key) {
             return in_array($key, ['name', 'slug', 'content', 'created_at', 'category_id']);
         }, ARRAY_FILTER_USE_KEY);
