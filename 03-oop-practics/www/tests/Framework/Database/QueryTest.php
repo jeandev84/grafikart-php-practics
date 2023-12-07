@@ -85,8 +85,6 @@ class QueryTest extends DatabaseTestCase
                  ->all()
         ;
 
-        var_dump($posts);
-        die;
         $this->assertEquals('demo', substr($posts[0]->getSlug(), -4));
     }
 
