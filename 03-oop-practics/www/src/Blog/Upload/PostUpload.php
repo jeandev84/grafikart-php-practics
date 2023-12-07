@@ -17,6 +17,15 @@ use Framework\Service\Upload;
  */
 class PostUpload extends Upload
 {
+
+    /**
+     * @var array
+    */
+    protected array $formats = [
+        'thumb' => [320, 180]
+    ];
+
+
     public function __construct()
     {
         parent::__construct('public/uploads/posts');
