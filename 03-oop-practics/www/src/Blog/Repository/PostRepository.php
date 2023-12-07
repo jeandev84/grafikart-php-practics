@@ -37,6 +37,9 @@ class PostRepository extends EntityRepository
 
 
 
+       /**
+        * @return Query
+       */
        public function findPublic(): Query
        {
             $categoryTable = CategoryRepository::getTableName();
@@ -46,6 +49,19 @@ class PostRepository extends EntityRepository
                         ->from('posts', 'p')
                         ->join($categoryTable. ' as c', 'c.id = p.category_id')
                         ->orderBy('p.created_at DESC');
+       }
+
+
+
+
+       /**
+        * @param int $id Category ID
+        *
+        * @return Query
+       */
+       public function findPublicForCategory(int $id): Query
+       {
+           return $this->findPublic()->where("p.category_id = $id");
        }
 
 }

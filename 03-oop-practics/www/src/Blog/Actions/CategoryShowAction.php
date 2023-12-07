@@ -54,7 +54,7 @@ class CategoryShowAction
         $category = $this->categoryRepository->findBy('slug', $request->getAttribute('slug'));
         $page   = (int)($params['p'] ?? 1);
 
-        $posts  = $this->postRepository->findPaginatedPublicForCategory(12, $page, $category->id);
+        $posts  = $this->postRepository->findPublicForCategory($category->id)->paginate(12, $page);
         $categories = $this->categoryRepository->findAll();
 
         return $this->renderer->render('@blog/index', [
