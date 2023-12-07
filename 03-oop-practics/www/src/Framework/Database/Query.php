@@ -27,6 +27,7 @@ class Query implements \ArrayAccess, \Iterator
       protected int   $limit   = 0;
       protected int   $offset  = 0;
       protected ?string $entity = null;
+      protected array $hydratedRecords = [];
       protected $records;
       protected int $index = 0;
 
@@ -99,7 +100,10 @@ class Query implements \ArrayAccess, \Iterator
       public function get(int $index)
       {
           if ($this->entity) {
-               return Hydrator::hydrate($this->all()[$index], $this->entity);
+               if (! isset($this->hydratedRecords[$index])) {
+                   $this->hydratedRecords[$index] = Hydrator::hydrate($this->all()[$index], $this->entity);
+               }
+               return $this->hydratedRecords[$index];
           }
 
           return $this->entity;

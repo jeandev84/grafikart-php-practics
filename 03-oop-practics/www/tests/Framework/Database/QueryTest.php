@@ -85,4 +85,23 @@ class QueryTest extends DatabaseTestCase
 
         $this->assertEquals('demo', substr($posts[0]->getSlug(), -4));
     }
+
+
+
+
+    public function testLazyHydrate()
+    {
+        $pdo = $this->getPdo();
+        $this->migrateDatabase($pdo);
+        $this->seedDatabase($pdo);
+
+        $posts = (new Query($pdo))
+            ->from('posts', 'p')
+            ->into(Demo::class);
+
+        $post1 = $posts[0];
+        $post2 = $posts[0];
+
+        $this->assertSame($post1, $post2);
+    }
 }
