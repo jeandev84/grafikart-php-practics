@@ -71,12 +71,21 @@ class Upload
              $manager          = new ImageManager(['driver' => 'gd']);
              $destination      = $this->getPathWithSuffix($targetPath, $format);
              [$width, $height] = $size;
+
              $manager->make($targetPath)->fit($width, $height)->save($destination);
          }
     }
 
 
 
+
+    /**
+     * @param string $path
+     *
+     * @param string $suffix
+     *
+     * @return string
+    */
     private function getPathWithSuffix(string $path, string $suffix): string
     {
         $info = pathinfo($path);
@@ -85,19 +94,29 @@ class Upload
 
 
 
+
+    /**
+     * @param string|null $oldFile
+     *
+     * @return void
+    */
     private function delete(?string $oldFile): void
     {
-        // remove old file
         if ($oldFile) {
+
+            // remove old file
             $oldPath = $this->path($oldFile);
             if (file_exists($oldPath)) {
                 unlink($oldPath);
             }
-        }
 
-        // remove resized files
-        foreach ($this->formats as $format => $_) {
-             unlink($this->getPathWithSuffix($oldFile, $format));
+            // remove resized files
+            foreach ($this->formats as $format => $_) {
+                $oldFileWithFormat = $this->getPathWithSuffix($oldFile, $format);
+                if (file_exists($oldFileWithFormat)) {
+                    unlink($oldFileWithFormat);
+                }
+            }
         }
     }
 
