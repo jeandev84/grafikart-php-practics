@@ -83,6 +83,6 @@ class QueryTest extends DatabaseTestCase
                  ->from('posts', 'p')
                  ->into(Demo::class);
 
-        $this->assertEquals('demo', substr($posts[0]->slug, -4));
+        $this->assertEquals('demo', substr($posts[0]->getSlug(), -4));
     }
 }
