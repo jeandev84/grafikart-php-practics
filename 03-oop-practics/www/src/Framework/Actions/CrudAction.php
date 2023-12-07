@@ -11,6 +11,7 @@ use Framework\Routing\Router;
 use Framework\Session\FlashService;
 use Framework\Templating\Renderer\RendererInterface;
 use Framework\Validation\Validator;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
@@ -122,7 +123,7 @@ class CrudAction
         if ($request->getMethod() === 'POST') {
             $validator = $this->getValidator($request);
             if ($validator->isValid()) {
-                $this->repository->update($this->getParams($request), $item->id);
+                $this->repository->update($this->getParams($request, $item), $item->id);
                 $this->flash->success($this->messages['edit']);
                 return $this->redirect("{$this->routePrefix}.index");
             }
@@ -156,7 +157,7 @@ class CrudAction
         if ($request->getMethod() === 'POST') {
             $validator = $this->getValidator($request);
             if ($validator->isValid()) {
-                $this->repository->insert($this->getParams($request));
+                $this->repository->insert($this->getParams($request, $item));
                 $this->flash->success($this->messages['create']);
                 return $this->redirect("{$this->routePrefix}.index");
             }
@@ -181,15 +182,12 @@ class CrudAction
     }
 
 
-
-
-
     /**
      * @param Request $request
-     *
+     * @param mixed $item
      * @return array
-     */
-    protected function getParams(Request $request): array
+    */
+    protected function getParams(ServerRequestInterface $request, mixed $item): array
     {
         return array_filter($request->getParsedBody(), function ($key) {
             return in_array($key, []);
@@ -198,7 +196,7 @@ class CrudAction
 
 
 
-    protected function getValidator(Request $request): Validator
+    protected function getValidator(ServerRequestInterface $request): Validator
     {
         $params = array_merge($request->getParsedBody(), $request->getUploadedFiles());
         return new Validator($params);
