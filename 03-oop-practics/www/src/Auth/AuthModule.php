@@ -4,8 +4,14 @@ declare(strict_types=1);
 namespace App\Auth;
 
 
+use App\Auth\Actions\LoginAction;
+use App\Auth\Actions\LoginAttemptAction;
 use Framework\Module;
+use Framework\Routing\Router;
+use Framework\Templating\Renderer\RendererInterface;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Created by PhpStorm at 07.12.2023
@@ -31,10 +37,16 @@ class AuthModule extends Module
 
 
       /**
-       * @param ContainerInterface $container
+        * @param ContainerInterface $container
+        * @param Router $router
+        * @param RendererInterface $renderer
+        * @throws ContainerExceptionInterface
+        * @throws NotFoundExceptionInterface
       */
-      public function __construct(ContainerInterface $container)
+      public function __construct(ContainerInterface $container, Router $router, RendererInterface $renderer)
       {
-          $this->container = $container;
+          $renderer->addPath('auth', __DIR__.'/views');
+          $router->get($container->get('auth.login'), LoginAction::class, 'auth.login');
+          $router->post($container->get('auth.login'), LoginAttemptAction::class, '');
       }
 }

@@ -4,5 +4,6 @@ use App\Auth\Security\DatabaseAuth;
 use Framework\Security\Auth;
 
 return [
-  Auth::class => \DI\get(DatabaseAuth::class)
+  'auth.login' => '/login', // authentication path
+  Auth::class  => \DI\get(DatabaseAuth::class)
 ];
