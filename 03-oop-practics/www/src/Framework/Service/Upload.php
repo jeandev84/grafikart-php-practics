@@ -38,9 +38,16 @@ class Upload
     }
 
 
-    public function upload(UploadedFileInterface $file): string
+    /**
+     * @param UploadedFileInterface $file
+     * @param string|null $oldFile
+     * @return string
+    */
+    public function upload(UploadedFileInterface $file, ?string $oldFile = null): string
     {
-        $targetPath = $this->addSuffix($this->path. DIRECTORY_SEPARATOR. $file->getClientFilename());
+        $this->delete($oldFile);
+
+        $targetPath = $this->addSuffix($this->path($file->getClientFilename()));
         $dirname    = pathinfo($targetPath, PATHINFO_DIRNAME);
         if (! is_dir($dirname)) {
             mkdir($dirname, 0777, true);
@@ -52,12 +59,27 @@ class Upload
 
 
 
+    private function delete(?string $oldFile): void
+    {
+        if ($oldFile) {
+            $oldPath = $this->path($oldFile);
+            if (file_exists($oldPath)) {
+                unlink($oldPath);
+            }
+        }
+    }
 
+
+
+    /**
+     * @param string $targetPath
+     * @return string
+    */
     public function addSuffix(string $targetPath): string
     {
          if (file_exists($targetPath)) {
              $info = pathinfo($targetPath);
-             $targetPath = $info['dirname'] . DIRECTORY_SEPARATOR . $info['filename'] . '_copy'. $info['extension'];
+             $targetPath = $info['dirname'] . DIRECTORY_SEPARATOR . $info['filename'] . '_copy.'. $info['extension'];
              return $this->addSuffix($targetPath);
          }
 
@@ -65,8 +87,9 @@ class Upload
     }
 
 
+
     public function path(string $filename): string
     {
-
+        return $this->path. DIRECTORY_SEPARATOR. $filename;
     }
 }

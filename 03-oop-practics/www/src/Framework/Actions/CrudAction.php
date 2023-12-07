@@ -128,7 +128,7 @@ class CrudAction
             }
 
             $errors = $validator->getErrors();
-            $params       = $request->getParsedBody();
+            $params = $request->getParsedBody();
             $params['id'] = $item->id;
             $item         = $params;
         }

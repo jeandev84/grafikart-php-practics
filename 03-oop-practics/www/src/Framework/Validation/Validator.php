@@ -5,6 +5,7 @@ namespace Framework\Validation;
 
 
 use Framework\Database\ORM\EntityRepository;
+use Psr\Http\Message\UploadedFileInterface;
 
 /**
  * Created by PhpStorm at 05.12.2023
@@ -17,6 +18,15 @@ use Framework\Database\ORM\EntityRepository;
  */
 class Validator
 {
+
+       private const MIME_TYPES = [
+           'jpg' => 'image/jpeg',
+           'png' => 'image/png',
+           'pdf' => 'application/pdf',
+       ];
+
+
+
        /**
         * @var array
        */
@@ -139,17 +149,67 @@ class Validator
        }
 
 
-     /**
-      * Verifie si le champs exists dans la table
-      *
-      * @param string $key
-      *
-      * @param string $table
-      *
-      * @param \PDO $pdo
-      *
-      * @return $this
-     */
+
+
+       /**
+        * Verifie le format des fichiers
+        *
+        * @param string $key
+        *
+        * @param array $extensions
+        *
+        * @return self
+       */
+       public function extension(string $key, array $extensions): self
+       {
+           /** @var UploadedFileInterface $file */
+           $file = $this->getValue($key);
+           if ($file !== null && $file->getError() === UPLOAD_ERR_OK) {
+               $type  = $file->getClientMediaType();
+               $extension = mb_strtolower(pathinfo($file->getClientFilename(), PATHINFO_EXTENSION));
+               $expectedType = self::MIME_TYPES[$extension] ?? null;
+               if (!in_array($extension, $extensions) || $expectedType !== $type) {
+                   $this->addError($key, 'filetype', [join(', ', $extensions)]);
+               }
+           }
+
+           return $this;
+       }
+
+
+
+
+       /**
+        * Verifie si le fichier a bien ete uploader
+        *
+        * @param string $key
+        * @return $this
+       */
+       public function uploaded(string $key): self
+       {
+           /** @var UploadedFileInterface $file */
+           $file = $this->getValue($key);
+           if ($file === null || ($file->getError() !== UPLOAD_ERR_OK)) {
+                 $this->addError($key, 'uploaded');
+           }
+           return $this;
+       }
+
+
+
+
+
+       /**
+        * Verifie si le champs exists dans la table
+        *
+        * @param string $key
+        *
+        * @param string $table
+        *
+        * @param \PDO $pdo
+        *
+        * @return $this
+      */
      public function exists(string $key, string $table, \PDO $pdo): self
      {
           $id = $this->getValue($key);
@@ -161,6 +221,8 @@ class Validator
 
           return $this;
      }
+
+
 
 
     /**

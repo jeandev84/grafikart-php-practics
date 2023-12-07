@@ -117,14 +117,21 @@ class PostCrudAction extends CrudAction
 
     protected function getValidator(ServerRequestInterface $request): Validator
     {
-         return parent::getValidator($request)
-                ->required('content', 'name', 'slug', 'created_at', 'category_id')
-                ->length('content', 10)
-                ->length('name', 2, 250)
-                ->length('slug', 2, 50)
-                ->exists('category_id', $this->categoryRepository->getTable(), $this->categoryRepository->getPdo())
-                ->dateTime('created_at')
-                ->slug('slug');
+         $validator = parent::getValidator($request)
+                            ->required('content', 'name', 'slug', 'created_at', 'category_id')
+                            ->length('content', 10)
+                            ->length('name', 2, 250)
+                            ->length('slug', 2, 50)
+                            ->exists('category_id', $this->categoryRepository->getTable(), $this->categoryRepository->getPdo())
+                            ->dateTime('created_at')
+                            ->extension('image', ['jpg', 'png'])
+                            ->slug('slug');
+
+         if (is_null($request->getAttribute('id'))) {
+              $validator->uploaded('image');
+         }
+
+         return $validator;
     }
 
 
