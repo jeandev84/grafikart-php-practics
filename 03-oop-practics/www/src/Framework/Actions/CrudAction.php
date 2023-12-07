@@ -6,6 +6,7 @@ namespace Framework\Actions;
 
 use App\Blog\Entity\Post;
 use App\Blog\Repository\PostRepository;
+use Framework\Database\Hydrator;
 use Framework\Database\ORM\EntityRepository;
 use Framework\Routing\Router;
 use Framework\Session\FlashService;
@@ -95,6 +96,13 @@ class CrudAction
     }
 
 
+
+
+    /**
+     * @param Request $request
+     *
+     * @return string
+    */
     public function index(Request $request): string
     {
         $params  = $request->getQueryParams();
@@ -129,9 +137,7 @@ class CrudAction
             }
 
             $errors = $validator->getErrors();
-            $params = $request->getParsedBody();
-            $params['id'] = $item->id;
-            $item         = $params;
+            Hydrator::hydrate($request->getParsedBody(), $item);
         }
 
         return $this->renderer->render(
@@ -162,7 +168,7 @@ class CrudAction
                 return $this->redirect("{$this->routePrefix}.index");
             }
 
-            $item   = $request->getParsedBody();
+            Hydrator::hydrate($request->getParsedBody(), $item);
             $errors = $validator->getErrors();
         }
 
@@ -180,6 +186,10 @@ class CrudAction
 
         return $this->redirect("{$this->routePrefix}.index");
     }
+
+
+
+
 
 
     /**

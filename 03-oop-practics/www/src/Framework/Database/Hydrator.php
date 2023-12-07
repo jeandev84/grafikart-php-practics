@@ -17,7 +17,8 @@ class Hydrator
 {
       public static function hydrate(array $array, $object)
       {
-           $instance = new $object();
+           $instance = (is_string($object) ? new $object() : $object);
+
            foreach ($array as $key => $value) {
                $method = static::getSetter($key);
                if (method_exists($instance, $method)) {

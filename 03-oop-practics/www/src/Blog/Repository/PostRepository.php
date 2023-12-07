@@ -59,7 +59,9 @@ class PostRepository extends EntityRepository
        */
        public function findPublic(): Query
        {
-            return $this->findAll();
+            return $this->findAll()
+                        ->where('p.published = 1')
+                        ->where('p.created_at < NOW()');
        }
 
 

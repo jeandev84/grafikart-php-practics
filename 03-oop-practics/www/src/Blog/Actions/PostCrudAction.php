@@ -125,7 +125,12 @@ class PostCrudAction extends CrudAction
         $params = array_merge($request->getParsedBody(), $request->getUploadedFiles());
 
         // Uploader le fichier
-        $params['image'] = $this->postUpload->upload($params['image'], $item->image);
+        $image = $this->postUpload->upload($params['image'], $item->image);
+        if($image) {
+            $params['image'] = $image;
+        } else {
+            unset($params['image']);
+        }
 
         $params =  array_filter($params, function ($key) {
             return in_array($key, ['name', 'slug', 'content', 'created_at', 'category_id', 'image']);
