@@ -186,6 +186,22 @@ class App implements RequestHandlerInterface
        }
 
 
+      /**
+       * @return array
+      */
+      public function getModules(): array
+      {
+          return $this->modules;
+      }
+
+
+     /**
+      * @return array
+     */
+     public function getMiddlewares(): array
+     {
+          return $this->middlewares;
+     }
 
 
        /**
