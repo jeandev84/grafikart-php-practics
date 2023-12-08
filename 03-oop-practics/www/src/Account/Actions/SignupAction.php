@@ -53,6 +53,9 @@ class SignupAction
                        ->required('username', 'email', 'password', 'password_confirm')
                        ->length('username', 5)
                        ->email('email')
-                       ->confirm('password');
+                       ->confirm('password')
+                       ->unique('username', '', '')
+                       ->unique('username', '', '')
+          ;
       }
 }

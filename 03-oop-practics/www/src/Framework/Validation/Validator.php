@@ -222,7 +222,7 @@ class Validator
 
 
 
-    /**
+       /**
         * Verifie le format des fichiers
         *
         * @param string $key
@@ -286,6 +286,24 @@ class Validator
             }
 
             return $this;
+        }
+
+
+
+        /**
+         * @param string $key
+         * @return self
+        */
+        public function confirm(string $key): self
+        {
+              $value        = $this->getValue($key);
+              $valueConfirm = $this->getValue($key . '_confirm');
+
+              if ($value !== $valueConfirm) {
+                  $this->addError($key, 'confirm');
+              }
+
+              return $this;
         }
 
 

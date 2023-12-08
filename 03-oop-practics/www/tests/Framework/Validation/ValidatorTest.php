@@ -174,4 +174,12 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertFalse($this->makeValidator(['email' => 'azeeaz'])->email('email')->isValid());
     }
 
+
+
+    public function testConfirm()
+    {
+        $this->assertFalse($this->makeValidator(['slug' => 'aze'])->confirm('slug')->isValid());
+        $this->assertFalse($this->makeValidator(['slug' => 'aze', 'slug_confirm' => 'azeaze'])->confirm('slug')->isValid());
+        $this->assertTrue($this->makeValidator(['slug' => 'aze', 'slug_confirm' => 'aze'])->confirm('slug')->isValid());
+    }
 }
