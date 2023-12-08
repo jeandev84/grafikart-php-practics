@@ -15,5 +15,7 @@ namespace Framework\Mailer;
  */
 interface MessageInterface
 {
-
+      public function getBody(): mixed;
+      public function getFrom(): mixed;
+      public function getTo(): mixed;
 }
