@@ -42,10 +42,10 @@ class CrudActionTest extends TestCase
         });
         $action = new CrudAction($this->renderer, $router, $this->repository, $this->flash);
         $property = (new \ReflectionClass($action))->getProperty('viewPath');
-        $property->setAccessible(true);
+        #$property->setAccessible(true);
         $property->setValue($action, '@demo');
         $property = (new \ReflectionClass($action))->getProperty('acceptedParams');
-        $property->setAccessible(true);
+        #$property->setAccessible(true);
         $property->setValue($action, ['name']);
         return $action;
     }

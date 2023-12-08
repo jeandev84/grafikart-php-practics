@@ -102,12 +102,12 @@ class App implements RequestHandlerInterface
        /**
         * Rajoute un middleware ( en un mot rajoute un comportement )
         *
-        * @param string $routePrefix
-        * @param string|null $middleware
+        * @param string|callable|MiddlewareInterface $routePrefix
+        * @param string|callable|MiddlewareInterface $middleware
         *
         * @return $this
        */
-       public function pipe(string $routePrefix, ?string $middleware = null): self
+       public function pipe($routePrefix, $middleware = null): self
        {
            if (is_null($middleware)) {
                $this->middlewares[] = $routePrefix;

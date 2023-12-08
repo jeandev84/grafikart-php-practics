@@ -223,8 +223,10 @@ class CrudAction
 
     protected function getNewEntity(): mixed
     {
-         return [];
+         return new \stdClass();
     }
+
+
 
 
     /**
