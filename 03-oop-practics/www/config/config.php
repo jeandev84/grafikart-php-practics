@@ -46,5 +46,8 @@ return [
            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
        ]);
-    }
+    },
+    // MAILER
+    'mail.to' => 'admin@admin.fr',
+    Swift_Mailer::class => \DI\factory()
 ];

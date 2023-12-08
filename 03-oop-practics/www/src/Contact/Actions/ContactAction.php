@@ -23,7 +23,7 @@ use Swift_Mailer;
 class ContactAction
 {
 
-      protected string $contact;
+      protected string $to;
       protected RendererInterface $renderer;
       protected FlashService $flashService;
       protected Swift_Mailer $mailer;
@@ -37,7 +37,7 @@ class ContactAction
           Swift_Mailer      $mailer
       )
       {
-          $this->contact = $to;
+          $this->to = $to;
           $this->renderer = $renderer;
           $this->flashService = $flashService;
           $this->mailer  = $mailer;
@@ -56,15 +56,24 @@ class ContactAction
                return $this->renderer->render('@contact/contact');
            }
 
-           $validator = (new Validator($request->getParsedBody()))
+           $params    = $request->getParsedBody();
+           $validator = (new Validator($params))
                         ->required('name', 'email', 'content')
                         ->length('name', 5)
                         ->email('email')
                         ->length('content', 15);
 
            if ($validator->isValid()) {
+
                $this->flashService->success('Merci pour votre email');
+
+               $message = new \Swift_Message('Formulaire de contact','salut');
+               $message->setTo($this->to);
+               $message->setFrom($params['email']); // or setReplyTo()
+               $this->mailer->send($message);
+
                return new RedirectResponse((string)$request->getUri());
+
            } else {
                $errors = $validator->getErrors();
                return $this->renderer->render('@contact/contact', compact('errors'));
