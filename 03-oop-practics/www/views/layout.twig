@@ -29,7 +29,7 @@
             <a href="{{ path('blog.index') }}" class="nav-link">Blog</a>
         </li>
     </ul>
-    <div class="navbar-nav mr-auto">
+    <div class="navbar-nav">
         {% if current_user() %}
             <div class="navbar-text">Connecte en tant que {{ current_user().username }}</div>
             <form class="nav-item active" method="POST" action="{{ path('auth.logout') }}">

@@ -2,7 +2,7 @@
 
 use App\Admin\AdminModule;
 use App\Auth\AuthModule;
-use App\Auth\Middleware\ForbiddenMiddleware;
+use App\Auth\Security\Middleware\ForbiddenMiddleware;
 use App\Blog\BlogModule;
 use Framework\Middleware\{CsrfMiddleware,
     MethodMiddleware,

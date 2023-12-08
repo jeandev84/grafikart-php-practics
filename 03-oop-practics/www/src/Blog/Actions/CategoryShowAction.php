@@ -8,6 +8,7 @@ use App\Blog\Entity\Category;
 use App\Blog\Repository\CategoryRepository;
 use App\Blog\Repository\PostRepository;
 use Framework\Actions\RouterAwareAction;
+use Framework\Security\User\UserInterface;
 use Framework\Templating\Renderer\RendererInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -30,12 +31,15 @@ class CategoryShowAction
 
     protected CategoryRepository $categoryRepository;
 
+    protected UserInterface $user;
+
     use RouterAwareAction;
 
     public function __construct(
         RendererInterface $renderer,
         PostRepository $postRepository,
-        CategoryRepository $categoryRepository
+        CategoryRepository $categoryRepository,
+        UserInterface $user
     )
     {
         $this->renderer  = $renderer;

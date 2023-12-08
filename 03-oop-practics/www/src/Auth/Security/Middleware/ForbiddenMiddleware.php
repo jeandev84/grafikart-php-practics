@@ -1,11 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Auth\Middleware;
+namespace App\Auth\Security\Middleware;
 
 
 use Framework\Http\Response\RedirectResponse;
 use Framework\Security\Exceptions\ForbiddenException;
+use Framework\Security\User\UserInterface;
 use Framework\Session\FlashService;
 use Framework\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -20,7 +21,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
- * @package App\Auth\Middleware
+ * @package App\Auth\Security\Middleware
  */
 class ForbiddenMiddleware implements MiddlewareInterface
 {
@@ -60,13 +61,23 @@ class ForbiddenMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         try {
-
             return $handler->handle($request);
         } catch (ForbiddenException $exception) {
-            $this->session->set('auth.redirect', $request->getUri()->getPath());
-            (new FlashService($this->session))->error("Vous devez posseder un compte pour acceder a cette page.");
+            return $this->redirectLogin($request);
+        } catch (\TypeError $error) {
+            if (stripos($error->getMessage(), UserInterface::class)) {
+                return $this->redirectLogin($request);
+            }
         }
+        return $this->redirectLogin($request);
+    }
 
+
+
+    private function redirectLogin(ServerRequestInterface $request): RedirectResponse
+    {
+        $this->session->set('auth.redirect', $request->getUri()->getPath());
+        (new FlashService($this->session))->error("Vous devez posseder un compte pour acceder a cette page.");
         return new RedirectResponse($this->loginPath);
     }
 }
