@@ -133,6 +133,28 @@ class Validator
 
 
 
+        /**
+         * @param string $key
+         * @param string $format
+         * @return $this
+         */
+        public function dateTime(string $key, string $format = 'Y-m-d H:i:s'): self
+        {
+            $value  = $this->getValue($key);
+            $date   = \DateTime::createFromFormat($format, $value);  /* dump($date); */
+            $errors = \DateTime::getLastErrors(); /* dump($errors); */
+
+            if ($errors['error_count'] > 0 || $errors['warning_count'] > 0 || $date === false) {
+                $this->addError($key, 'datetime', [$format]);
+            }
+
+            return $this;
+        }
+
+
+
+
+
     /**
      * Verifie si le champs exists dans la table
      *
@@ -157,28 +179,50 @@ class Validator
     }
 
 
-       /**
-        * @param string $key
-        * @param string $format
-        * @return $this
-       */
-       public function dateTime(string $key, string $format = 'Y-m-d H:i:s'): self
-       {
-            $value  = $this->getValue($key);
-            $date   = \DateTime::createFromFormat($format, $value);  /* dump($date); */
-            $errors = \DateTime::getLastErrors(); /* dump($errors); */
-
-            if ($errors['error_count'] > 0 || $errors['warning_count'] > 0 || $date === false) {
-                $this->addError($key, 'datetime', [$format]);
-            }
-
-            return $this;
-       }
 
 
 
 
-       /**
+    /**
+     * Verifie que la cle est unique
+     *
+     * @param string $key
+     *
+     * @param string $table
+     *
+     * @param \PDO $pdo
+     * @param int|null $exclude
+     * @return $this
+     */
+    public function unique(string $key, string $table, \PDO $pdo, ?int $exclude = null): self
+    {
+        $value = $this->getValue($key);
+        $query  = "SELECT id FROM $table WHERE $key = :$key";
+        $params = [$key => $value];
+
+        if ($exclude !== null) {
+            $query  .= " AND id != :id";
+            $params = array_merge($params, ['id' => $exclude]);
+        }
+
+        $statement = $pdo->prepare($query);
+        $statement->execute($params);
+
+        if ($statement->fetchColumn() !== false) {
+            $this->addError($key, 'unique', [$value]);
+        }
+
+        return $this;
+    }
+
+
+
+
+
+
+
+
+    /**
         * Verifie le format des fichiers
         *
         * @param string $key
@@ -243,46 +287,6 @@ class Validator
 
             return $this;
         }
-
-
-
-
-
-
-
-    /**
-     * Verifie que la cle est unique
-     *
-     * @param string $key
-     *
-     * @param string $table
-     *
-     * @param \PDO $pdo
-     * @param int|null $exclude
-     * @return $this
-     */
-    public function unique(string $key, string $table, \PDO $pdo, ?int $exclude = null): self
-    {
-        $value = $this->getValue($key);
-        $query  = "SELECT id FROM $table WHERE $key = :$key";
-        $params = [$key => $value];
-
-        if ($exclude !== null) {
-            $query  .= " AND id != :id";
-            $params = array_merge($params, ['id' => $exclude]);
-        }
-
-        $statement = $pdo->prepare($query);
-        $statement->execute($params);
-
-        if ($statement->fetchColumn() !== false) {
-            $this->addError($key, 'unique', [$value]);
-        }
-
-        return $this;
-    }
-
-
 
 
 

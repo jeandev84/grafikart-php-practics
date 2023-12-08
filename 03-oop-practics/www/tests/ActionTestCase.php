@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 class ActionTestCase extends TestCase
 {
 
-      public function makeRequest(string $path, array $params = [])
+      public function makeRequest(string $path = '/', array $params = [])
       {
            $method = empty($params) ? 'GET' : 'POST';
 
