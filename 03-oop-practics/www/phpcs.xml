@@ -7,7 +7,12 @@
 
     <!-- scan tout le fichier src -->
     <file>src</file>
+    <file>tests</file>
     <file>public/index.php</file>
 
-    <rule ref="PSR2"></rule>
+    <exclude-pattern>*</exclude-pattern>
+
+    <rule ref="PSR2">
+        <exclude name="PSR1.Classes.ClassDeclaration.MissingNamespace"/>
+    </rule>
 </ruleset>
