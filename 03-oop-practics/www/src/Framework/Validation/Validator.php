@@ -130,6 +130,33 @@ class Validator
        }
 
 
+
+
+
+    /**
+     * Verifie si le champs exists dans la table
+     *
+     * @param string $key
+     *
+     * @param string $table
+     *
+     * @param \PDO $pdo
+     *
+     * @return $this
+     */
+    public function exists(string $key, string $table, \PDO $pdo): self
+    {
+        $id = $this->getValue($key);
+        $statement = $pdo->prepare("SELECT id FROM {$table} WHERE id = ?");
+        $statement->execute([$id]);
+        if ($statement->fetchColumn() === false) {
+            $this->addError($key, 'exists', [$table]);
+        }
+
+        return $this;
+    }
+
+
        /**
         * @param string $key
         * @param string $format
@@ -199,28 +226,26 @@ class Validator
 
 
 
-       /**
-        * Verifie si le champs exists dans la table
-        *
-        * @param string $key
-        *
-        * @param string $table
-        *
-        * @param \PDO $pdo
-        *
-        * @return $this
-      */
-     public function exists(string $key, string $table, \PDO $pdo): self
-     {
-          $id = $this->getValue($key);
-          $statement = $pdo->prepare("SELECT id FROM {$table} WHERE id = ?");
-          $statement->execute([$id]);
-          if ($statement->fetchColumn() === false) {
-                $this->addError($key, 'exists', [$table]);
-          }
 
-          return $this;
-     }
+
+        /**
+         * @param string $key
+         *
+         * @return $this
+         */
+        public function email(string $key): self
+        {
+            $value = $this->getValue($key);
+
+            if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
+                $this->addError($key, 'email');
+            }
+
+            return $this;
+        }
+
+
+
 
 
 
@@ -258,26 +283,6 @@ class Validator
     }
 
 
-
-
-
-    /**
-     * @param string $key
-     *
-     * @param EntityRepository $repository
-     *
-     * @return $this
-    */
-    public function existsFromRepository(string $key, EntityRepository $repository): self
-    {
-        $value = $this->getValue($key);
-
-        if (! $repository->exists($value)) {
-            $this->addError($key, 'exists', [$repository->getTable()]);
-        }
-
-        return $this;
-    }
 
 
 

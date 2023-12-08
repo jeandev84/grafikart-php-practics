@@ -50,6 +50,7 @@ class ValidationError
           'unique'        => "Le champs %s doit etre unique",
           'filetype'      => "Le champs %s n'est pas au format valide (%s)",
           'uploaded'      => "Vous devez telecharger un fichier",
+          'email'         => "Cet email ne semble pas valide",
       ];
 
 

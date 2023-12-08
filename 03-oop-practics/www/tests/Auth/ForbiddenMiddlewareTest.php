@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Auth;
+namespace Tests\Auth;
 
 use App\Auth\Security\Middleware\ForbiddenMiddleware;
 use Framework\Security\Exceptions\ForbiddenException;

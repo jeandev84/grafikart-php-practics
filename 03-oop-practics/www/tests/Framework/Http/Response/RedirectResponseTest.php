@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Framework\Response;
+namespace Tests\Framework\Http\Response;
 
 use Framework\Http\Response\RedirectResponse;
 use PHPUnit\Framework\TestCase;
