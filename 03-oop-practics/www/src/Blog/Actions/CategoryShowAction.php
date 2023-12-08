@@ -31,15 +31,12 @@ class CategoryShowAction
 
     protected CategoryRepository $categoryRepository;
 
-    protected UserInterface $user;
-
     use RouterAwareAction;
 
     public function __construct(
         RendererInterface $renderer,
         PostRepository $postRepository,
-        CategoryRepository $categoryRepository,
-        UserInterface $user
+        CategoryRepository $categoryRepository
     )
     {
         $this->renderer  = $renderer;
