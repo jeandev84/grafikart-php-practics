@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Auth\Security;
 
 
+use App\Auth\Entity\User;
 use App\Auth\Repository\UserRepository;
 use Framework\Database\ORM\Exceptions\NoRecordException;
 use Framework\Security\Auth;
@@ -86,7 +87,7 @@ class DatabaseAuth implements Auth
           $user = $this->userRepository->findByUsername($username);
 
           if ($user && PasswordHash::match($password, $user->getPassword())) {
-              $this->session->set($this->authKey, $user->id);
+              $this->setUser($user);
               return $user;
           }
 
@@ -94,6 +95,14 @@ class DatabaseAuth implements Auth
     }
 
 
+
+
+
+    public function setUser(?User $user): void
+    {
+        $this->session->set($this->authKey, $user->id);
+        $this->user = $user;
+    }
 
 
 

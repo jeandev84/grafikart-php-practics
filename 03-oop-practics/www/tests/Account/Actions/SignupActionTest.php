@@ -5,7 +5,9 @@ namespace Tests\Account\Actions;
 
 
 use App\Account\Actions\SignupAction;
+use App\Auth\Entity\User;
 use App\Auth\Repository\UserRepository;
+use App\Auth\Security\DatabaseAuth;
 use Framework\Routing\Router;
 use Framework\Security\Auth;
 use Framework\Templating\Renderer\RendererInterface;
@@ -77,12 +79,13 @@ class SignupActionTest extends ActionTestCase
            $this->router->generateUri(Argument::any(), Argument::any())->willReturn('');
 
            // Auth
-           $this->auth = $this->prophesize(Auth::class);
+           $this->auth = $this->prophesize(DatabaseAuth::class);
 
            $this->action = new SignupAction(
                $this->renderer->reveal(),
                $this->userRepository->reveal(),
-               $this->router->reveal()
+               $this->router->reveal(),
+               $this->auth->reveal()
            );
        }
 
@@ -124,6 +127,13 @@ class SignupActionTest extends ActionTestCase
             $this->assertTrue(password_verify('0000', $userParams['password']));
             return true;
         }))->shouldBeCalled();
+
+        $this->auth->setUser(Argument::that(function (User $user) {
+             $this->assertEquals('John Doe', $user->username);
+             $this->assertEquals('john@doe.fr', $user->email);
+             return true;
+        }))->shouldBeCalled();
+
         $this->renderer->render()->shouldNotBeCalled();
         $response = call_user_func($this->action, $this->makeRequest('/demo', [
             'username'  => 'John Doe',

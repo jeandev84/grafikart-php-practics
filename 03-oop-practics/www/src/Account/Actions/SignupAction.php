@@ -87,7 +87,7 @@ class SignupAction
                    'email'    => $params['email'],
                    'password' => PasswordHash::hash($params['password']),
                ]);
-               return new RedirectResponse($this->router->generateUri('auth.login'));
+               return new RedirectResponse($this->router->generateUri('account.profile'));
            }
 
            $errors = $validator->getErrors();
