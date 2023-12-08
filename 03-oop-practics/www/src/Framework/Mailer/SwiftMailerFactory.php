@@ -19,6 +19,13 @@ use Psr\Container\ContainerInterface;
 class SwiftMailerFactory
 {
 
+
+      /**
+       * @param ContainerInterface $container
+       * @return \Swift_Mailer
+       * @throws \Psr\Container\ContainerExceptionInterface
+       * @throws \Psr\Container\NotFoundExceptionInterface
+      */
       public function __invoke(ContainerInterface $container): \Swift_Mailer
       {
            if ($container->get('env') === 'production') {

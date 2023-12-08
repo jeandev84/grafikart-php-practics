@@ -21,6 +21,9 @@ use Framework\Templating\Renderer\RendererInterface;
 class ContactModule extends Module
 {
 
+       const DEFINITIONS = __DIR__ . '/definitions.php';
+
+
       public function __construct(Router $router, RendererInterface $renderer)
       {
           $renderer->addPath('contact', __DIR__);
