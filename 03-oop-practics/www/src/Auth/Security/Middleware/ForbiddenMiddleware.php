@@ -68,8 +68,8 @@ class ForbiddenMiddleware implements MiddlewareInterface
             if (stripos($error->getMessage(), UserInterface::class)) {
                 return $this->redirectLogin($request);
             }
+            throw $error;
         }
-        return $this->redirectLogin($request);
     }
 
 
