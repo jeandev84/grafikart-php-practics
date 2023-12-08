@@ -5,6 +5,9 @@ namespace App\Account\Actions;
 
 
 use App\Auth\Repository\UserRepository;
+use Framework\Http\Response\RedirectResponse;
+use Framework\Routing\Router;
+use Framework\Security\Hash\PasswordHash;
 use Framework\Templating\Renderer\RendererInterface;
 use Framework\Validation\Validator;
 use Psr\Http\Message\ServerRequestInterface;
@@ -34,6 +37,10 @@ class SignupAction
       protected UserRepository $userRepository;
 
 
+      /**
+       * @var Router
+      */
+      protected Router $router;
 
 
       /**
@@ -43,11 +50,13 @@ class SignupAction
       */
       public function __construct(
           RendererInterface $renderer,
-          UserRepository $userRepository
+          UserRepository $userRepository,
+          Router $router
       )
       {
           $this->renderer = $renderer;
           $this->userRepository = $userRepository;
+          $this->router = $router;
       }
 
 
@@ -73,7 +82,12 @@ class SignupAction
                        ->unique('username', $this->userRepository);
 
            if ($validator->isValid()) {
-
+               $this->userRepository->insert([
+                   'name'     => $params['username'],
+                   'email'    => $params['email'],
+                   'password' => PasswordHash::hash($params['password']),
+               ]);
+               return new RedirectResponse($this->router->generateUri('auth.login'));
            }
 
            $errors = $validator->getErrors();

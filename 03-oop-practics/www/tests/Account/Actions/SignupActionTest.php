@@ -6,6 +6,8 @@ namespace Tests\Account\Actions;
 
 use App\Account\Actions\SignupAction;
 use App\Auth\Repository\UserRepository;
+use Framework\Routing\Router;
+use Framework\Security\Auth;
 use Framework\Templating\Renderer\RendererInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -41,9 +43,22 @@ class SignupActionTest extends ActionTestCase
        protected $userRepository;
 
 
+       /**
+        * @var Router|\Prophecy\Prophecy\ObjectProphecy
+       */
+       protected $router;
+
+
+
+       /**
+        * @var Auth|\Prophecy\Prophecy\ObjectProphecy
+       */
+       protected $auth;
+
 
        protected function setUp()
        {
+           // UserRepository
            $this->userRepository = $this->prophesize(UserRepository::class);
            $pdo = $this->prophesize(\PDO::class);
            $statement = $this->getMockBuilder(\PDOStatement::class)->getMock();
@@ -52,11 +67,22 @@ class SignupActionTest extends ActionTestCase
            $this->userRepository->getPdo()->willReturn('fake');
            $this->userRepository->getPdo()->willReturn($pdo->reveal());
 
+           // Renderer
            $this->renderer = $this->prophesize(RendererInterface::class);
            $this->renderer->render(Argument::any(), Argument::any())->willReturn('');
+
+
+           // Router
+           $this->router = $this->prophesize(Router::class);
+           $this->router->generateUri(Argument::any(), Argument::any())->willReturn('');
+
+           // Auth
+           $this->auth = $this->prophesize(Auth::class);
+
            $this->action = new SignupAction(
                $this->renderer->reveal(),
-               $this->userRepository->reveal()
+               $this->userRepository->reveal(),
+               $this->router->reveal()
            );
        }
 
@@ -85,4 +111,26 @@ class SignupActionTest extends ActionTestCase
                  return true;
            }))->shouldHaveBeenCalled();
        }
+
+
+
+    public function testPostValid()
+    {
+        $this->userRepository->insert(Argument::that(function (array $userParams) {
+            $this->assertArraySubset([
+                'username' => 'John Doe',
+                'email' => 'john@doe.fr'
+            ]);
+            $this->assertTrue(password_verify('0000', $userParams['password']));
+            return true;
+        }))->shouldBeCalled();
+        $this->renderer->render()->shouldNotBeCalled();
+        $response = call_user_func($this->action, $this->makeRequest('/demo', [
+            'username'  => 'John Doe',
+            'email'     => 'john@doe.fr',
+            'password'  => '0000',
+            'password_confirm' => '0000'
+        ]));
+        $this->assertRedirect($response, 'auth.login');
+    }
 }
