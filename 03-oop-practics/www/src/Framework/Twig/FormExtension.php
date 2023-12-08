@@ -63,6 +63,7 @@ class FormExtension extends AbstractExtension
          } elseif (array_key_exists('options', $options)) {
              $input  = $this->select($value, $options['options'], $attributes);
          } else {
+             $attributes['type'] = $options['type'] ?? 'text';
              $input  = $this->input($value, $attributes);
          }
 
@@ -104,7 +105,7 @@ FIELD;
      */
     public function input(?string $value, array $attributes): string
     {
-        return sprintf('<input type="text" %s value="%s">', $this->getHtmlFromArray($attributes), $value);
+        return sprintf('<input %s value="%s">', $this->getHtmlFromArray($attributes), $value);
     }
 
 

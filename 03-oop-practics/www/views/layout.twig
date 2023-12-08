@@ -37,7 +37,7 @@
             <div class="navbar-text">Connecte en tant que {{ current_user().username }}</div>
             <form class="nav-item active" method="POST" action="{{ path('auth.logout') }}">
                 {{ csrf_input() }}
-                <button type="submit" class="nav-link">Se deconnecter</button>
+                <button type="submit" class="btn btn-danger">Se deconnecter</button>
             </form>
         {% else %}
             <div class="nav-item active">

@@ -36,7 +36,7 @@ class RoutePrefixedMiddleware implements MiddlewareInterface
 
     public function __construct(
         ContainerInterface $container,
-        string $prefix,
+        $prefix,
         $middleware
     )
     {
@@ -56,9 +56,10 @@ class RoutePrefixedMiddleware implements MiddlewareInterface
 
           if (stripos($path, $this->prefix) === 0) {
               if (is_string($this->middleware)) {
-                  $this->middleware = $this->container->get($this->middleware);
+                  return $this->container->get($this->middleware)->process($request, $handler);
+              } else {
+                  return $this->middleware->process($request, $handler);
               }
-              return $this->middleware->process($request, $handler);
           }
 
           return $handler->handle($request);
