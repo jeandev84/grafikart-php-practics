@@ -11,6 +11,7 @@ use Framework\Database\Hydrator;
 use Framework\Http\Response\RedirectResponse;
 use Framework\Routing\Router;
 use Framework\Security\Hash\PasswordHash;
+use Framework\Session\FlashService;
 use Framework\Templating\Renderer\RendererInterface;
 use Framework\Validation\Validator;
 use Psr\Http\Message\ServerRequestInterface;
@@ -53,21 +54,32 @@ class SignupAction
 
 
       /**
+       * @var FlashService
+      */
+      protected FlashService $flashService;
+
+
+      /**
        * @param RendererInterface $renderer
        *
        * @param UserRepository $userRepository
+       * @param Router $router
+       * @param DatabaseAuth $auth
+       * @param FlashService $flashService
       */
       public function __construct(
           RendererInterface $renderer,
           UserRepository $userRepository,
           Router $router,
-          DatabaseAuth $auth
+          DatabaseAuth $auth,
+          FlashService $flashService
       )
       {
           $this->renderer = $renderer;
           $this->userRepository = $userRepository;
           $this->router = $router;
           $this->auth   = $auth;
+          $this->flashService = $flashService;
       }
 
 

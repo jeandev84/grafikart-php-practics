@@ -10,6 +10,7 @@ use App\Auth\Repository\UserRepository;
 use App\Auth\Security\DatabaseAuth;
 use Framework\Routing\Router;
 use Framework\Security\Auth;
+use Framework\Session\FlashService;
 use Framework\Templating\Renderer\RendererInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -58,6 +59,11 @@ class SignupActionTest extends ActionTestCase
        protected $auth;
 
 
+        /**
+         * @var FlashService|\Prophecy\Prophecy\ObjectProphecy
+        */
+       protected $flashService;
+
        protected function setUp()
        {
            // UserRepository
@@ -74,6 +80,8 @@ class SignupActionTest extends ActionTestCase
            $this->renderer = $this->prophesize(RendererInterface::class);
            $this->renderer->render(Argument::any(), Argument::any())->willReturn('');
 
+           // Flash
+           $this->flashService = $this->prophesize(FlashService::class);
 
            // Router
            $this->router = $this->prophesize(Router::class);
@@ -86,7 +94,8 @@ class SignupActionTest extends ActionTestCase
                $this->renderer->reveal(),
                $this->userRepository->reveal(),
                $this->router->reveal(),
-               $this->auth->reveal()
+               $this->auth->reveal(),
+               $this->flashService->reveal()
            );
        }
 
@@ -137,6 +146,7 @@ class SignupActionTest extends ActionTestCase
         }))->shouldBeCalled();
 
         $this->renderer->render()->shouldNotBeCalled();
+        $this->flashService->success(Argument::type('string'));
         $response = call_user_func($this->action, $this->makeRequest('/demo', [
             'username'  => 'John Doe',
             'email'     => 'john@doe.fr',
