@@ -66,6 +66,7 @@ class SignupActionTest extends ActionTestCase
            $statement = $this->getMockBuilder(\PDOStatement::class)->getMock();
            $statement->expects($this->any())->method('fetchColumn')->willReturn(false);
            $pdo->prepare(Argument::any())->willReturn($statement);
+            $pdo->lastInsertId()->willReturn(3);
            $this->userRepository->getPdo()->willReturn('fake');
            $this->userRepository->getPdo()->willReturn($pdo->reveal());
 
@@ -131,6 +132,7 @@ class SignupActionTest extends ActionTestCase
         $this->auth->setUser(Argument::that(function (User $user) {
              $this->assertEquals('John Doe', $user->username);
              $this->assertEquals('john@doe.fr', $user->email);
+             $this->assertEquals(3, $user->id);
              return true;
         }))->shouldBeCalled();
 

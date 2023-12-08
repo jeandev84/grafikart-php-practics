@@ -4,7 +4,10 @@ declare(strict_types=1);
 namespace App\Account\Actions;
 
 
+use App\Auth\Entity\User;
 use App\Auth\Repository\UserRepository;
+use App\Auth\Security\DatabaseAuth;
+use Framework\Database\Hydrator;
 use Framework\Http\Response\RedirectResponse;
 use Framework\Routing\Router;
 use Framework\Security\Hash\PasswordHash;
@@ -44,6 +47,12 @@ class SignupAction
 
 
       /**
+       * @var DatabaseAuth
+      */
+      protected DatabaseAuth $auth;
+
+
+      /**
        * @param RendererInterface $renderer
        *
        * @param UserRepository $userRepository
@@ -51,12 +60,14 @@ class SignupAction
       public function __construct(
           RendererInterface $renderer,
           UserRepository $userRepository,
-          Router $router
+          Router $router,
+          DatabaseAuth $auth
       )
       {
           $this->renderer = $renderer;
           $this->userRepository = $userRepository;
           $this->router = $router;
+          $this->auth   = $auth;
       }
 
 
@@ -82,11 +93,17 @@ class SignupAction
                        ->unique('username', $this->userRepository);
 
            if ($validator->isValid()) {
-               $this->userRepository->insert([
+               $userParams = [
                    'name'     => $params['username'],
                    'email'    => $params['email'],
                    'password' => PasswordHash::hash($params['password']),
-               ]);
+               ];
+
+               $this->userRepository->insert($userParams);
+               $user = Hydrator::hydrate($userParams, new User());
+               $user->id = (int)$this->userRepository->getPdo()->lastInsertId();
+               $this->auth->setUser($user);
+
                return new RedirectResponse($this->router->generateUri('account.profile'));
            }
 
