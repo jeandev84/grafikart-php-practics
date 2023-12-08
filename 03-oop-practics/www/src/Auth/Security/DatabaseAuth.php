@@ -118,4 +118,13 @@ class DatabaseAuth implements Auth
 
         return null;
     }
+
+
+
+
+
+    public function logout(): void
+    {
+         $this->session->delete($this->authKey);
+    }
 }

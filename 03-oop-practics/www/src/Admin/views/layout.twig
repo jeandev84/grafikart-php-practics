@@ -25,9 +25,15 @@
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <a class="navbar-brand" href="{{ path('admin') }}">Administration</a>
-    <ul class="nav navbar-nav">
+    <ul class="nav navbar-nav mr-auto">
         {{ admin_menu() }}
     </ul>
+    <div class="navbar-nav">
+        <form class="nav-item active" method="POST" action="{{ path('auth.logout') }}">
+            {{ csrf_input() }}
+            <button type="submit" class="nav-link">Se deconnecter</button>
+        </form>
+    </div>
 </nav>
 
 <div class="container">

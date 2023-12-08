@@ -2,6 +2,7 @@
 
 use App\Admin\AdminModule;
 use App\Auth\AuthModule;
+use App\Auth\Middleware\ForbiddenMiddleware;
 use App\Blog\BlogModule;
 use Framework\Middleware\{CsrfMiddleware,
     MethodMiddleware,
@@ -27,6 +28,7 @@ $app = (new \Framework\App('config/config.php'))
 $container = $app->getContainer();
 $app->pipe(Whoops::class)
     ->pipe(TrailingSlashMiddleware::class)
+    ->pipe(ForbiddenMiddleware::class)
     ->pipe($container->get('admin.prefix'), LoggedInMiddleware::class)
     ->pipe(MethodMiddleware::class)
     ->pipe(CsrfMiddleware::class)

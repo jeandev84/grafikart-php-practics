@@ -6,6 +6,7 @@ namespace App\Auth;
 
 use App\Auth\Actions\LoginAction;
 use App\Auth\Actions\LoginAttemptAction;
+use App\Auth\Actions\LogoutAction;
 use Framework\Module;
 use Framework\Routing\Router;
 use Framework\Templating\Renderer\RendererInterface;
@@ -48,5 +49,6 @@ class AuthModule extends Module
           $renderer->addPath('auth', __DIR__.'/views');
           $router->get($container->get('auth.login'), LoginAction::class, 'auth.login');
           $router->post($container->get('auth.login'), LoginAttemptAction::class, '');
+          $router->post('/logout', LogoutAction::class, 'auth.logout');
       }
 }
