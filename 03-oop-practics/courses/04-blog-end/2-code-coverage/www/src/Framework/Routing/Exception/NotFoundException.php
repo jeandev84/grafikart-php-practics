@@ -1,0 +1,19 @@
+<?php
+namespace Framework\Routing\Exception;
+
+/**
+ * @NotFoundRouteException
+ *
+ * @author Jean-Claude <jeanyao@ymail.com>
+ *
+ * @license https://github.com/jeandev84/laventure-framework/blob/master/LICENSE
+ *
+ * @package Framework\Routing\Exception
+*/
+class NotFoundException extends \Exception
+{
+     public function __construct(string $message = "")
+     {
+         parent::__construct($message, 404);
+     }
+}
