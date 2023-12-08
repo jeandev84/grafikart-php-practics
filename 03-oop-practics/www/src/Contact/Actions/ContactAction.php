@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Contact\Actions;
 
 
+use App\Contact\Service\MailerService;
 use Framework\Http\Response\RedirectResponse;
 use Framework\Session\FlashService;
 use Framework\Templating\Renderer\RendererInterface;
@@ -67,7 +68,9 @@ class ContactAction
 
                $this->flashService->success('Merci pour votre email');
 
-               $message = new \Swift_Message('Formulaire de contact','salut');
+               $message = new \Swift_Message('Formulaire de contact');
+               $message->setBody($this->renderer->render('@contact/email/contact.text', $params));
+               $message->addPart($this->renderer->render('@contact/email/contact.html', $params), 'text/html');
                $message->setTo($this->to);
                $message->setFrom($params['email']); // or setReplyTo()
                $this->mailer->send($message);
