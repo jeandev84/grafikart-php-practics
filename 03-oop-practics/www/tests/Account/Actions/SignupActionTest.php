@@ -155,4 +155,22 @@ class SignupActionTest extends ActionTestCase
         ]));
         $this->assertRedirect($response, 'auth.login');
     }
+
+
+
+
+    public function testPostWithNoPassword()
+    {
+        call_user_func($this->action, $this->makeRequest('/demo', [
+            'username'  => 'John Doe',
+            'email'     => 'azeaze',
+            'password'  => '',
+            'password_confirm' => ''
+        ]));
+        $this->renderer->render('@account/signup', Argument::that(function ($params) {
+            $this->assertArrayHasKey('errors', $params);
+            $this->assertEquals(['email', 'password'], array_keys($params['errors']));
+            return true;
+        }))->shouldHaveBeenCalled();
+    }
 }

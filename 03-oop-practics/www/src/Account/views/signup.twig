@@ -5,8 +5,8 @@
 
     <form action="{{ path('account.signup') }}" method="POST">
         {{ csrf_input() }}
-        {{ field('username', null, "Nom de l' utilsateur") }}
-        {{ field('email', null, "Email", {type: 'email'}) }}
+        {{ field('username', user.username, "Nom de l' utilsateur") }}
+        {{ field('email', user.email, "Email", {type: 'email'}) }}
         {{ field('password', null, "Mot de passe", {type: 'password'}) }}
         {{ field('password_confirm', null, "Confirmez le mot de passe", {type: 'password'}) }}
         <button class="btn btn-primary" type="submit">S'inscrire</button>

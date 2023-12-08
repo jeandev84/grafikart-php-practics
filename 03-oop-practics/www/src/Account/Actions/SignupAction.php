@@ -101,6 +101,7 @@ class SignupAction
                        ->length('username', 5)
                        ->email('email')
                        ->confirm('password')
+                       ->length('password', 4)
                        ->unique('username', $this->userRepository)
                        ->unique('username', $this->userRepository);
 
@@ -119,7 +120,12 @@ class SignupAction
                return new RedirectResponse($this->router->generateUri('account.profile'));
            }
 
-           $errors = $validator->getErrors();
-           return $this->renderer->render('@account/signup', compact('errors'));
+           return $this->renderer->render('@account/signup', [
+               'errors' => $validator->getErrors(),
+               'user'   => [
+                   'username' => $params['username'],
+                   'email'    => $params['email']
+               ]
+           ]);
       }
 }
