@@ -115,7 +115,7 @@ class SignupAction
                $user = Hydrator::hydrate($userParams, new User());
                $user->id = (int)$this->userRepository->getPdo()->lastInsertId();
                $this->auth->setUser($user);
-
+               $this->flashService->success("Votre compte a bien ete cree");
                return new RedirectResponse($this->router->generateUri('account.profile'));
            }
 

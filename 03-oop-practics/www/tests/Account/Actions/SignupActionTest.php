@@ -146,7 +146,7 @@ class SignupActionTest extends ActionTestCase
         }))->shouldBeCalled();
 
         $this->renderer->render()->shouldNotBeCalled();
-        $this->flashService->success(Argument::type('string'));
+        $this->flashService->success(Argument::type('string'))->shouldBeCalled();
         $response = call_user_func($this->action, $this->makeRequest('/demo', [
             'username'  => 'John Doe',
             'email'     => 'john@doe.fr',
