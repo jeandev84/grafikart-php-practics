@@ -1,8 +1,13 @@
-<!-- https://phpunit.de/documentation.html -->
 <phpunit bootstrap="./vendor/autoload.php" colors="true">
     <testsuites>
         <testsuite name="Framework">
            <directory>tests</directory>
         </testsuite>
     </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>src/Framework</directory>
+        </whitelist>
+    </filter>
 </phpunit>

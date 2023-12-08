@@ -39,6 +39,13 @@ class CategoryCrudAction extends CrudAction
     protected string $routePrefix = 'blog.admin.category';
 
 
+
+    /**
+     * @var string[]
+    */
+    protected  $acceptedParams = ['name', 'slug'];
+
+
     /**
      * @param RendererInterface $renderer
      *
@@ -51,17 +58,6 @@ class CategoryCrudAction extends CrudAction
     public function __construct(RendererInterface $renderer, Router $router, CategoryRepository $repository, FlashService $flash)
     {
         parent::__construct($renderer, $router, $repository, $flash);
-    }
-
-
-    /**
-     * @inheritdoc
-    */
-    protected function getParams(ServerRequestInterface $request, $item): array
-    {
-        return array_filter($request->getParsedBody(), function ($key) {
-            return in_array($key, ['name', 'slug']);
-        }, ARRAY_FILTER_USE_KEY);
     }
 
 

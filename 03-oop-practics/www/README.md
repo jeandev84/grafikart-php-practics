@@ -64,8 +64,22 @@ https://github.com/envms/fluentpdo
 ```
 https://github.com/intervention/image
 $ composer require intervention/image
-
 ```
+
+
+
+9. PHPUnit 
+```
+<!-- https://phpunit.de/documentation.html
+env ENV=dev ./vendor/bin/phpunit --coverage-text
+==================================================================
+Exporter le coverage dans un fichier:
+env ENV=dev ./vendor/bin/phpunit -coverage-html ./tmp
+==================================================================
+env ENV=dev ./vendor/bin/phpunit --stop-on-error
+env ENV=dev ./vendor/bin/phpunit --stop-on-failure
+-->
+````
 
 
 

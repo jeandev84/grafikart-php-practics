@@ -48,11 +48,19 @@ class CrudAction
     protected string $routePrefix;
 
 
+    /**
+     * @var array|string[]
+    */
     protected array $messages = [
         'create' => "L' element a bien ete cree",
         'edit'   => "L' element a bien ete modifie"
     ];
 
+
+    /**
+     * @var string[]
+    */
+    protected  $acceptedParams = [];
 
 
     use RouterAwareAction;
@@ -200,7 +208,7 @@ class CrudAction
     protected function getParams(ServerRequestInterface $request, mixed $item): array
     {
         return array_filter($request->getParsedBody(), function ($key) {
-            return in_array($key, []);
+            return in_array($key, $this->acceptedParams);
         }, ARRAY_FILTER_USE_KEY);
     }
 

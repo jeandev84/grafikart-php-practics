@@ -66,17 +66,17 @@ class App implements RequestHandlerInterface
        /**
         * global configuration path modules
         *
-        * @var string
+        * @var string|array|null
        */
-       protected string $definition;
+       protected $definition;
 
 
 
 
        /**
-        * @param string $definition
+        * @param string|array|null $definition
        */
-       public function __construct(string $definition)
+       public function __construct($definition = null)
        {
            $this->definition = $definition;
        }
@@ -179,12 +179,17 @@ class App implements RequestHandlerInterface
            if (is_null($this->container)) {
                $builder = new ContainerBuilder();
                $env     = getenv('ENV') ?: 'production';
+
                if ($env === 'production') {
                    # $builder->setDefinitionCache(new ApcuCache());
                    $builder->setDefinitionCache(new FilesystemCache('tmp/di'));
                    $builder->writeProxiesToFile(true, 'tmp/proxies');
                }
-               $builder->addDefinitions($this->definition);
+
+               if ($this->definition) {
+                   $builder->addDefinitions($this->definition);
+               }
+
                foreach ($this->modules as $module) {
                    if ($module::DEFINITIONS) {
                        $builder->addDefinitions($module::DEFINITIONS);
