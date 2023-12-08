@@ -188,14 +188,19 @@ class Validator
      *
      * @param string $key
      *
-     * @param string $table
+     * @param string|EntityRepository $table
      *
      * @param \PDO $pdo
      * @param int|null $exclude
      * @return $this
      */
-    public function unique(string $key, string $table, \PDO $pdo, ?int $exclude = null): self
+    public function unique(string $key, $table, \PDO $pdo = null, ?int $exclude = null): self
     {
+        if ($table instanceof EntityRepository) {
+             $pdo   = $table->getPdo();
+             $table = $table->getTable();
+        }
+
         $value = $this->getValue($key);
         $query  = "SELECT id FROM $table WHERE $key = :$key";
         $params = [$key => $value];

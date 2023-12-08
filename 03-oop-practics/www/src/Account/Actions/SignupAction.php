@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Account\Actions;
 
 
+use App\Auth\Repository\UserRepository;
 use Framework\Templating\Renderer\RendererInterface;
 use Framework\Validation\Validator;
 use Psr\Http\Message\ServerRequestInterface;
@@ -28,11 +29,25 @@ class SignupAction
 
 
       /**
-       * @param RendererInterface $renderer
+       * @var UserRepository
       */
-      public function __construct(RendererInterface $renderer)
+      protected UserRepository $userRepository;
+
+
+
+
+      /**
+       * @param RendererInterface $renderer
+       *
+       * @param UserRepository $userRepository
+      */
+      public function __construct(
+          RendererInterface $renderer,
+          UserRepository $userRepository
+      )
       {
           $this->renderer = $renderer;
+          $this->userRepository = $userRepository;
       }
 
 
@@ -54,8 +69,14 @@ class SignupAction
                        ->length('username', 5)
                        ->email('email')
                        ->confirm('password')
-                       ->unique('username', '', '')
-                       ->unique('username', '', '')
-          ;
+                       ->unique('username', $this->userRepository)
+                       ->unique('username', $this->userRepository);
+
+           if ($validator->isValid()) {
+
+           }
+
+           $errors = $validator->getErrors();
+           return $this->renderer->render('@account/signup', compact('errors'));
       }
 }
