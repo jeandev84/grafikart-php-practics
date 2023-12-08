@@ -7,8 +7,10 @@ namespace App\Auth\Actions;
 use App\Auth\Security\DatabaseAuth;
 use Framework\Actions\RouterAwareAction;
 use Framework\Database\ORM\Exceptions\NoRecordException;
+use Framework\Http\Response\RedirectResponse;
 use Framework\Routing\Router;
 use Framework\Session\FlashService;
+use Framework\Session\SessionInterface;
 use Framework\Templating\Renderer\RendererInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -44,7 +46,7 @@ class LoginAttemptAction
     /**
      * @var FlashService
     */
-    protected FlashService $flashService;
+    protected SessionInterface $session;
 
 
     use RouterAwareAction;
@@ -55,19 +57,19 @@ class LoginAttemptAction
      *
      * @param DatabaseAuth $auth
      * @param Router $router
-     * @param FlashService $flashService
+     * @param SessionInterface $session
     */
     public function __construct(
         RendererInterface $renderer,
         DatabaseAuth $auth,
         Router $router,
-        FlashService $flashService
+        SessionInterface $session
     )
     {
-        $this->renderer     = $renderer;
-        $this->auth         = $auth;
-        $this->router       = $router;
-        $this->flashService = $flashService;
+        $this->renderer  = $renderer;
+        $this->auth      = $auth;
+        $this->router    = $router;
+        $this->session   = $session;
     }
 
 
@@ -86,10 +88,12 @@ class LoginAttemptAction
         $user = $this->auth->login($params['username'], $params['password']);
 
         if ($user) {
-            return $this->redirect('admin');
+            $path = $this->session->get('auth.redirect') ?: $this->router->generateUri('admin');
+            $this->session->delete('auth.redirect');
+            return new RedirectResponse($path);
         }
 
-        $this->flashService->error("Identifiant ou mot de passe incorrect");
+        (new FlashService($this->session))->error("Identifiant ou mot de passe incorrect");
         return $this->redirect('auth.login');
     }
 }
