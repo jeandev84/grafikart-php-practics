@@ -221,9 +221,14 @@ class CrudAction
     }
 
 
+    /**
+     * @return mixed
+    */
     protected function getNewEntity(): mixed
     {
-         return new \stdClass();
+         $entity = $this->repository->getClassname();
+
+         return new $entity();
     }
 
 

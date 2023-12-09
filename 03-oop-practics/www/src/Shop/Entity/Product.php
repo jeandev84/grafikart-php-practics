@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Shop\Entity;
 
 
+use App\Framework\Database\ORM\Entity\Timestamp;
+
 /**
  * Created by PhpStorm at 10.12.2023
  *
@@ -16,6 +18,7 @@ namespace App\Shop\Entity;
 class Product
 {
 
+      use Timestamp;
       protected ?int $id = null;
       protected ?string $name = null;
       protected ?string $description = null;

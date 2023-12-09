@@ -80,6 +80,6 @@ trait Timestamp
    */
     public function getCreatedAt(): ?DateTime
     {
-        return $this->createdAt;
+        return $this->createdAt ?: new DateTime();
     }
 }
