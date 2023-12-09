@@ -7,6 +7,7 @@ namespace App\Account\Actions;
 use App\Auth\Repository\UserRepository;
 use Framework\Http\Response\RedirectResponse;
 use Framework\Security\Auth;
+use Framework\Security\Hash\PasswordHash;
 use Framework\Session\FlashService;
 use Framework\Templating\Renderer\RendererInterface;
 use Framework\Validation\Validator;
@@ -71,19 +72,28 @@ class ProfileEditAction
         $params = $request->getParsedBody();
 
         $validator = (new Validator($params))
-            ->required('firstname', 'lastname');
+                     ->confirm('password')
+                     ->required('firstname', 'lastname');
 
         if ($validator->isValid()) {
-            $this->userRepository->update([
+
+            $userParams = [
                 'firstname' => $params['firstname'],
                 'lastname'  => $params['lastname']
-            ], $user->id);
+            ];
+
+            if (!empty($params['password'])) {
+                $userParams['password'] = PasswordHash::hash($params['password']);
+            }
+
+            $this->userRepository->update($userParams, $user->id);
             $this->flashService->success("Votre compte a bien ete mis a jour");
             return new RedirectResponse($request->getUri()->getPath());
         }
 
         return $this->renderer->render('@account/profile', [
-            'user' => $user
+            'user'   => $user,
+            'errors' => $validator->getErrors()
         ]);
     }
 }
