@@ -36,9 +36,18 @@ class AdminProductAction extends CrudAction
        protected string $routePrefix = 'shop.admin.products';
 
 
-       /**
-        * @inheritdoc
-       */
+
+       protected $acceptedParams = [
+           'name', 'slug', 'created_at', 'description', 'price'
+       ];
+
+
+        /**
+         * @param RendererInterface $renderer
+         * @param Router $router
+         * @param ProductRepository $repository
+         * @param FlashService $flash
+        */
        public function __construct(
            RendererInterface $renderer,
            Router $router,

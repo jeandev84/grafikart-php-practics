@@ -23,10 +23,17 @@ class Product
       protected ?float $price = null;
       protected ?string $image = null;
 
-    public function getId(): ?int
-    {
+     public function getId(): ?int
+     {
         return $this->id;
-    }
+     }
+
+     public function setId(?int $id): self
+     {
+         $this->id = $id;
+
+         return $this;
+     }
 
 
 

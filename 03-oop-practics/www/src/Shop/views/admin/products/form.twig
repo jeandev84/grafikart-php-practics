@@ -2,13 +2,13 @@
 {{ csrf_input() }}
 <div class="row">
     <div class="col-md-4">
-        {{  field('name', item.name, "Titre de l' article") }}
+        {{  field('name', item.name, "Nom du produit") }}
     </div>
     <div class="col-md-4">
-        {{  field('category_id', item.categoryId, "Categorie", {options: categories}) }}
+        {{  field('slug', item.slug, "Lien") }}
     </div>
     <div class="col-md-4">
-        {{  field('published', item.published, "En ligne ?", {type: 'checkbox'}) }}
+        {{  field('price', item.price, "Prix", {type: 'number'}) }}
     </div>
 </div>
 
@@ -19,12 +19,12 @@
         {% endif %}
     </div>
     <div class="col-md-4">
-        {{  field('image', item.image, "Image", {type: 'file'}) }}
+        {{  field('image', null, "Image", {type: 'file'}) }}
     </div>
     <div class="col-md-4">
-        {{  field('slug', item.slug, "Lien") }}
+        {{  field('pdf', null, "PDF", {type: 'file'}) }}
     </div>
 </div>
-{{  field('content', item.content, "Contenu", {type: 'textarea'}) }}
+{{  field('description', item.description, "Description", {type: 'textarea'}) }}
 {{  field('created_at', item.createdAt, "Date de creation", {class: 'datepicker'}) }}
 

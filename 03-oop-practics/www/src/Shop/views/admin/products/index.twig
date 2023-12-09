@@ -1,12 +1,12 @@
 {% extends '@admin/layout.twig' %}
 
-{% block title "Editer les articles" %}
+{% block title "Editer les produits" %}
 
 {% block body %}
 
     <p class="text-right">
         <a href="{{ path(routePrefix ~ '.create') }}" class="btn btn-primary">
-            Ajouter un article
+            Ajouter un produit
         </a>
     </p>
 
@@ -14,7 +14,7 @@
         <thead>
            <tr>
                <th>Titre</th>
-               <th>Categorie</th>
+               <th>Prix</th>
                <th>Actions</th>
            </tr>
         </thead>
@@ -23,7 +23,7 @@
         {% for item in items %}
             <tr>
                 <td>{{ item.name }}</td>
-                <td>{{ item.categoryName }}</td>
+                <td>{{ item.price | number_format(2, ',') }}</td>
                 <td>
                     <a href="{{ path(routePrefix ~ '.edit', {'id': item.id }) }}" class="btn btn-primary">Editer</a>
                     <form action="{{ path(routePrefix ~ '.delete', {'id': item.id }) }}" method="POST" style="display: inline" onsubmit="return confirm('Etre vous sur ?')">

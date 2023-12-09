@@ -139,7 +139,7 @@ class CrudAction
         if ($request->getMethod() === 'POST') {
             $validator = $this->getValidator($request);
             if ($validator->isValid()) {
-                $this->repository->update($this->getParams($request, $item), $item->id);
+                $this->repository->update($this->getParams($request, $item), $id);
                 $this->flash->success($this->messages['edit']);
                 return $this->redirect("{$this->routePrefix}.index");
             }
