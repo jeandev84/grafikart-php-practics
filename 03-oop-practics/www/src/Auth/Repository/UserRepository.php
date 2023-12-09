@@ -7,6 +7,7 @@ namespace App\Auth\Repository;
 use App\Auth\Entity\User;
 use Framework\Database\ORM\EntityRepository;
 use Framework\Database\ORM\Exceptions\NoRecordException;
+use Framework\Security\Hash\PasswordHash;
 use Framework\Security\User\UserInterface;
 use PDO;
 use Ramsey\Uuid\Uuid;
@@ -60,5 +61,18 @@ class UserRepository extends EntityRepository
           ], $userId);
 
           return $token;
+     }
+
+
+
+
+     public function updatePassword(int $id, string $password): mixed
+     {
+          $this->update([
+              'password'          => PasswordHash::hash($password),
+              'password_reset'    => null,
+              'password_reset_at' => null
+          ], $id);
+
      }
 }

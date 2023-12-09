@@ -103,7 +103,7 @@ class PasswordResetAction
                            ->confirm('password');
 
               if ($validator->isValid()) {
-
+                  $this->userRepository->updatePassword($user->id, $user->password);
               } else {
                   return $this->renderer->render("@auth/password/reset", [
                       'errors' => $validator->getErrors()
