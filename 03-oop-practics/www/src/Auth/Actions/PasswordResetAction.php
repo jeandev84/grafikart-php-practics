@@ -90,6 +90,7 @@ class PasswordResetAction
          $user = $this->userRepository->find((int)$request->getAttribute('id'));
 
          if (
+             $user->getPasswordReset() !== null &&
              $user->getPasswordReset() === $request->getAttribute('token') &&
              time() - $user->getPasswordResetAt()->getTimestamp() < 600
          ) {
