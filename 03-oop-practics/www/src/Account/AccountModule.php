@@ -5,6 +5,7 @@ namespace App\Account;
 
 
 use App\Account\Actions\ProfileAction;
+use App\Account\Actions\ProfileEditAction;
 use App\Account\Actions\SignupAction;
 use App\Contact\Actions\ContactAction;
 use Framework\Middleware\Security\LoggedInMiddleware;
@@ -33,8 +34,8 @@ class AccountModule extends Module
           $renderer->addPath('account', __DIR__.'/views');
           $router->map('GET|POST', '/signup', SignupAction::class, 'account.signup');
           $router->get('/profile', ProfileAction::class, 'account.profile')
-                 ->middleware([
-                     LoggedInMiddleware::class
-                 ]);
+                 ->middleware([LoggedInMiddleware::class]);
+          $router->post('/profile', ProfileEditAction::class, '')
+              ->middleware([LoggedInMiddleware::class]);
       }
 }
