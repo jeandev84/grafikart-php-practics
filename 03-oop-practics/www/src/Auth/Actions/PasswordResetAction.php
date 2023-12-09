@@ -103,7 +103,9 @@ class PasswordResetAction
                            ->confirm('password');
 
               if ($validator->isValid()) {
-                  $this->userRepository->updatePassword($user->id, $user->password);
+                  $this->userRepository->updatePassword($user->getId(), $params['password']);
+                  $this->flashService->success('Votre mot de passe a bien ete change');
+                  return new RedirectResponse($this->router->generateUri('auth.login'));
               } else {
                   return $this->renderer->render("@auth/password/reset", [
                       'errors' => $validator->getErrors()

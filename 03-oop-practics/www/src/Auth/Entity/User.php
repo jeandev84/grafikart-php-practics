@@ -67,6 +67,23 @@ class User implements UserInterface
     public ?\DateTime $passwordResetAt = null;
 
 
+    /**
+     * @return int|null
+    */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+
+    /**
+     * @return string|null
+    */
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
 
 
 
