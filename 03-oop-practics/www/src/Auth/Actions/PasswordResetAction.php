@@ -93,7 +93,22 @@ class PasswordResetAction
              $user->getPasswordReset() === $request->getAttribute('token') &&
              time() - $user->getPasswordResetAt()->getTimestamp() < 600
          ) {
-              return $this->renderer->render("@auth/password/reset");
+              if ($request->getMethod() === 'GET') {
+                  return $this->renderer->render("@auth/password/reset");
+              }
+
+              $params    = $request->getParsedBody();
+              $validator = (new Validator($params))
+                           ->length('password', 4)
+                           ->confirm('password');
+
+              if ($validator->isValid()) {
+
+              } else {
+                  return $this->renderer->render("@auth/password/reset", [
+                      'errors' => $validator->getErrors()
+                  ]);
+              }
          }
 
          $this->flashService->error('Token invalid');

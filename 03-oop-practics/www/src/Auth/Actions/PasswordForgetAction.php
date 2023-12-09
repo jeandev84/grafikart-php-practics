@@ -93,7 +93,6 @@ class PasswordForgetAction
                       ->notEmpty('email')
                       ->email('email');
 
-         $errors = [];
          if ($validator->isValid()) {
              try {
                   $user  = $this->userRepository->findBy('email', $params['email']);
@@ -106,13 +105,14 @@ class PasswordForgetAction
                   return new RedirectResponse($request->getUri()->getPath());
              } catch (NoRecordException $e) {
                  $errors = ['email' => 'Aucun utilisateur ne correspond a cet email'];
+                 return $this->renderer->render("@auth/password/forget", [
+                     'errors' => $errors
+                 ]);
              }
          }
 
-         $errors = $validator->getErrors();
-
          return $this->renderer->render("@auth/password/forget", [
-             'errors' => $errors
+             'errors' => $validator->getErrors()
          ]);
     }
 }
