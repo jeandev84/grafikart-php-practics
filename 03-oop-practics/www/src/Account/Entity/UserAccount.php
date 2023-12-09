@@ -17,25 +17,25 @@ use App\Auth\Entity\User;
  */
 class UserAccount extends User
 {
-      protected string $firstname;
-      protected string $lastname;
+      protected ?string $firstname = null;
+      protected ?string $lastname = null;
 
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getFirstname(): string
+    public function getFirstname(): ?string
     {
         return $this->firstname;
     }
 
 
     /**
-     * @param string $firstname
+     * @param string|null $firstname
      *
      * @return $this
     */
-    public function setFirstname(string $firstname): self
+    public function setFirstname(?string $firstname): self
     {
         $this->firstname = $firstname;
 
@@ -44,9 +44,9 @@ class UserAccount extends User
 
 
     /**
-     * @return string
+     * @return string|null
     */
-    public function getLastname(): string
+    public function getLastname(): ?string
     {
         return $this->lastname;
     }
@@ -54,11 +54,11 @@ class UserAccount extends User
 
 
     /**
-     * @param string $lastname
+     * @param string|null $lastname
      *
      * @return $this
     */
-    public function setLastname(string $lastname): self
+    public function setLastname(?string $lastname): self
     {
         $this->lastname = $lastname;
 

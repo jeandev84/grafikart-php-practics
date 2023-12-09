@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Framework;
 
 
+use App\Framework\Middleware\CombinedMiddleware;
+use App\Framework\Middleware\Pipeline\CombinedMiddlewareHandler;
 use DI\ContainerBuilder;
 use Doctrine\Common\Cache\ApcuCache;
 use Doctrine\Common\Cache\FilesystemCache;
@@ -132,21 +134,17 @@ class App implements RequestHandlerInterface
         *
         * @return ResponseInterface
         *
-        * @throws ContainerExceptionInterface
-        *
-        * @throws NotFoundExceptionInterface
-       */
+        * @throws NotFoundExceptionInterface|\Exception
+        */
        public function handle(ServerRequestInterface $request): ResponseInterface
        {
-            $middleware = $this->getMiddleware();
-
-            if (is_null($middleware)) {
-                throw new \Exception("Aucun middleware n' a intercepter cette requette");
-            } elseif (is_callable($middleware)) {
-                return call_user_func_array($middleware, [$request, [$this, 'handle']]);
-            } elseif ($middleware instanceof MiddlewareInterface) {
-                 return $middleware->process($request, $this);
+            $this->index++;
+            if ($this->index > 1) {
+                throw new \Exception();
             }
+
+            $middleware = new CombinedMiddleware($this->getContainer(), $this->middlewares);
+            return $middleware->process($request, $this);
        }
 
 
@@ -218,25 +216,4 @@ class App implements RequestHandlerInterface
      {
           return $this->middlewares;
      }
-
-
-       /**
-        * @return callable|null
-        * @throws ContainerExceptionInterface
-        * @throws NotFoundExceptionInterface
-       */
-       private function getMiddleware(): ?object
-       {
-           $container = $this->getContainer();
-           if (array_key_exists($this->index, $this->middlewares)) {
-               $middleware = $this->middlewares[$this->index];
-               if (is_string($this->middlewares[$this->index])) {
-                   $middleware =  $container->get($this->middlewares[$this->index]);
-               }
-               $this->index++;
-               return $middleware;
-           }
-
-           return null;
-       }
 }

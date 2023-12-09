@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Framework\Middleware;
 
 
+use App\Framework\Middleware\CombinedMiddleware;
 use Framework\Routing\Route\Route;
 use GuzzleHttp\Psr7\Response;
 use Psr\Container\ContainerExceptionInterface;
@@ -11,6 +12,8 @@ use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * Created by PhpStorm at 06.12.2023
@@ -21,7 +24,7 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @package Framework\Middleware
  */
-class RouteDispatcherMiddleware
+class RouteDispatcherMiddleware implements MiddlewareInterface
 {
 
 
@@ -43,35 +46,22 @@ class RouteDispatcherMiddleware
 
     /**
      * @param ServerRequestInterface $request
-     *
-     * @param callable $next
-     *
-     * @return mixed
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
+     * @param RequestHandlerInterface $handler
+     * @return ResponseInterface
+     * @throws \Exception
     */
-    public function __invoke(ServerRequestInterface $request, callable $next): mixed
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        /** @var Route $route */
         $route = $request->getAttribute(Route::class);
 
         if (is_null($route)) {
-            return $next($request);
+            return $handler->handle($request);
         }
 
-        $callback = $route->getAction();
+        $middlewares   = $route->getMiddlewares();
+        $middlewares[] = $route->getAction();
 
-        if (is_string($callback)) {
-            $callback = $this->container->get($callback);
-        }
-
-        $response = call_user_func_array($callback, [$request]);
-
-        if (is_string($response)) {
-            return new Response(200, [], $response);
-        } elseif ($response instanceof ResponseInterface) {
-            return $response;
-        } else {
-            throw new \Exception("The response is not a string of an instance of ResponseInterface");
-        }
+        return (new CombinedMiddleware($this->container, $middlewares))->process($request, $handler);
     }
 }

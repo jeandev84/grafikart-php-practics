@@ -7,6 +7,7 @@ namespace App\Account;
 use App\Account\Actions\ProfileAction;
 use App\Account\Actions\SignupAction;
 use App\Contact\Actions\ContactAction;
+use Framework\Middleware\Security\LoggedInMiddleware;
 use Framework\Module;
 use Framework\Routing\Router;
 use Framework\Templating\Renderer\RendererInterface;
@@ -31,6 +32,9 @@ class AccountModule extends Module
       {
           $renderer->addPath('account', __DIR__.'/views');
           $router->map('GET|POST', '/signup', SignupAction::class, 'account.signup');
-          $router->get('/profile', ProfileAction::class, 'account.profile');
+          $router->get('/profile', ProfileAction::class, 'account.profile')
+                 ->middleware([
+                     LoggedInMiddleware::class
+                 ]);
       }
 }
