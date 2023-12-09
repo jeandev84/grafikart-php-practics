@@ -97,13 +97,13 @@ class User implements UserInterface
 
 
     /**
-     * @param \DateTime|string $date
+     * @param \DateTime|string|null $date
      *
      * @return $this
      *
      * @throws \Exception
     */
-    public function setPasswordResetAt(\DateTime|string $date): self
+    public function setPasswordResetAt($date): self
     {
          if (is_string($date)) {
              $date = new \DateTime($date);
@@ -127,11 +127,11 @@ class User implements UserInterface
 
 
     /**
-     * @param string $passwordReset
+     * @param string|null $passwordReset
      *
      * @return $this
     */
-    public function setPasswordReset(string $passwordReset): self
+    public function setPasswordReset(?string $passwordReset): self
     {
         $this->passwordReset = $passwordReset;
 

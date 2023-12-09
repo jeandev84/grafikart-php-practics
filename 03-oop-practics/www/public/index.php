@@ -8,6 +8,7 @@ use App\Blog\BlogModule;
 use App\Contact\ContactModule;
 use App\Framework\Middleware\Security\RoleMiddleware;
 use App\Framework\Middleware\Security\RoleMiddlewareFactory;
+use App\Shop\ShopModule;
 use Framework\Middleware\{CsrfMiddleware,
     MethodMiddleware,
     NotFoundMiddleware,
@@ -31,6 +32,7 @@ $app = (new \Framework\App('config/config.php'))
        ->addModule(BlogModule::class)
        ->addModule(AuthModule::class)
        ->addModule(AccountModule::class)
+       ->addModule(ShopModule::class)
 ;
 
 $container = $app->getContainer();

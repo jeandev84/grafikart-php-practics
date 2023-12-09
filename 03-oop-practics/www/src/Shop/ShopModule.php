@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Shop;
 
+use App\Shop\Actions\AdminProductAction;
 use Framework\Module;
 use Framework\Routing\Router;
 use Framework\Templating\Renderer\RendererInterface;
@@ -28,6 +29,6 @@ class ShopModule extends Module
       {
           $container->get(RendererInterface::class)->addPath('shop', __DIR__.'/views');
           $router = $container->get(Router::class);
-          $router->crud($container->get('admin.prefix'). '/products', '', 'shop.admin.products');
+          $router->crud($container->get('admin.prefix'). '/products', AdminProductAction::class, 'shop.admin.products');
       }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Shop\Actions;
 
 
+use App\Shop\Repository\ProductRepository;
 use Framework\Actions\CrudAction;
 use Framework\Database\ORM\EntityRepository;
 use Framework\Routing\Router;
@@ -41,7 +42,7 @@ class AdminProductAction extends CrudAction
        public function __construct(
            RendererInterface $renderer,
            Router $router,
-           EntityRepository $repository,
+           ProductRepository $repository,
            FlashService $flash
        )
        {
