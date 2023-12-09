@@ -25,13 +25,13 @@ class RoutePrefixedMiddleware implements MiddlewareInterface
 
     protected ContainerInterface $container;
 
-    protected string $prefix;
+    protected $prefix;
 
 
     /**
      * @var string|MiddlewareInterface
     */
-    protected string $middleware;
+    protected $middleware;
 
 
     public function __construct(

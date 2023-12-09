@@ -30,6 +30,9 @@ class RoleMiddleware implements MiddlewareInterface
     protected Auth $auth;
 
 
+    /**
+     * @var string
+    */
     protected string $role;
 
     public function __construct(
@@ -40,6 +43,9 @@ class RoleMiddleware implements MiddlewareInterface
         $this->auth = $auth;
         $this->role = $role;
     }
+
+
+
 
     /**
      * @param ServerRequestInterface $request
