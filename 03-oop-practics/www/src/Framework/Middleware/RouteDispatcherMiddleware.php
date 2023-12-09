@@ -60,7 +60,7 @@ class RouteDispatcherMiddleware implements MiddlewareInterface
         }
 
         $middlewares   = $route->getMiddlewares();
-        $middlewares[] = $route->getAction();
+        $middlewares[] = $route->getAction(); // L'action est pris en compte comme un middleware
 
         return (new CombinedMiddleware($this->container, $middlewares))->process($request, $handler);
     }
