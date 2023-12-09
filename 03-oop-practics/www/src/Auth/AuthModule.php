@@ -51,6 +51,7 @@ class AuthModule extends Module
           $router->get($container->get('auth.login'), LoginAction::class, 'auth.login');
           $router->post($container->get('auth.login'), LoginAttemptAction::class, '');
           $router->post('/logout', LogoutAction::class, 'auth.logout');
-          $router->map('GET|POST', '/password-forget', PasswordForgetAction::class,'auth.password.forget');
+          $router->map('GET|POST', '/password/forget', PasswordForgetAction::class,'auth.password.forget');
+          $router->map('GET|POST', '/password/reset', PasswordForgetAction::class,'auth.password.reset');
       }
 }

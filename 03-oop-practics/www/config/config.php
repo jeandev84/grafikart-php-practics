@@ -49,5 +49,6 @@ return [
     },
     // MAILER
     'mail.to' => 'admin@admin.fr',
-    Swift_Mailer::class => \DI\factory(\Framework\Mailer\SwiftMailerFactory::class)
+    'mail.from' => 'no-reply@admin.fr',
+     Swift_Mailer::class => \DI\factory(\Framework\Mailer\SwiftMailerFactory::class)
 ];

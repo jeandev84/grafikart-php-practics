@@ -8,6 +8,7 @@ use App\Auth\Mailer\PasswordResetMailer;
 use App\Auth\Repository\UserRepository;
 use Framework\Database\ORM\Exceptions\NoRecordException;
 use Framework\Http\Response\RedirectResponse;
+use Framework\Session\FlashService;
 use Framework\Templating\Renderer\RendererInterface;
 use Framework\Validation\Validator;
 use Psr\Http\Message\ServerRequestInterface;
@@ -44,6 +45,13 @@ class PasswordForgetAction
 
 
 
+    /**
+     * @var FlashService
+    */
+    protected FlashService $flashService;
+
+
+
 
     /**
      * @param RendererInterface $renderer
@@ -51,16 +59,19 @@ class PasswordForgetAction
      * @param UserRepository $userRepository
      *
      * @param PasswordResetMailer $mailer
-     */
+     * @param FlashService $flashService
+    */
     public function __construct(
         RendererInterface $renderer,
         UserRepository $userRepository,
-        PasswordResetMailer $mailer
+        PasswordResetMailer $mailer,
+        FlashService $flashService
     )
     {
         $this->renderer = $renderer;
         $this->userRepository = $userRepository;
         $this->mailer = $mailer;
+        $this->flashService = $flashService;
     }
 
 
@@ -90,6 +101,7 @@ class PasswordForgetAction
                       'id'    => $user->id,
                       'token' => $token
                   ]);
+                  $this->flashService->success('Un email vous a ete envoye');
                   return new RedirectResponse($request->getUri()->getPath());
              } catch (NoRecordException $e) {
                  $errors = ['email' => 'Aucun utilisateur ne correspond a cet email'];
