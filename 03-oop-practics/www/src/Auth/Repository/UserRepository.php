@@ -23,9 +23,9 @@ use PDO;
 class UserRepository extends EntityRepository
 {
 
-     public function __construct(PDO $connection)
+     public function __construct(PDO $connection, string $entity= User::class)
      {
-         parent::__construct($connection, User::class, 'users');
+         parent::__construct($connection, $entity, 'users');
      }
 
 
