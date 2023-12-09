@@ -85,7 +85,7 @@ class PasswordForgetAction
     public function __invoke(ServerRequestInterface $request): mixed
     {
          if ($request->getMethod() === 'GET') {
-             return $this->renderer->render('@auth/password');
+             return $this->renderer->render('@auth/password/forget');
          }
 
          $params    = $request->getParsedBody();
@@ -93,6 +93,7 @@ class PasswordForgetAction
                       ->notEmpty('email')
                       ->email('email');
 
+         $errors = [];
          if ($validator->isValid()) {
              try {
                   $user  = $this->userRepository->findBy('email', $params['email']);
@@ -110,7 +111,7 @@ class PasswordForgetAction
 
          $errors = $validator->getErrors();
 
-         return $this->renderer->render("@auth/password", [
+         return $this->renderer->render("@auth/password/forget", [
              'errors' => $errors
          ]);
     }

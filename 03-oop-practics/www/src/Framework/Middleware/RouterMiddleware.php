@@ -49,7 +49,7 @@ class RouterMiddleware
         $route = $this->router->match($request);
 
         // Si la route n' a pas ete trouve on passe au middleware suivant par example NotFoundMiddleware
-        if (is_null($route)) {
+        if (! $route) {
             return $next($request);
         }
 

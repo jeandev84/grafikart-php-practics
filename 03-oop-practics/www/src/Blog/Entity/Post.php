@@ -28,22 +28,55 @@ class Post implements HasImageInterface
 
 
 
-     public function setCreatedAt($datetime)
+     public function setCreatedAt(\DateTime|string $datetime): self
      {
          if (is_string($datetime)) {
-             $this->createdAt = new \DateTime($datetime);
+             $datetime = new \DateTime($datetime);
          }
+
+         $this->createdAt = $datetime;
+
+         return $this;
      }
 
 
 
 
-     public function setUpdatedAt($datetime)
+    /**
+     * @return \DateTime|null
+     */
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->createdAt;
+    }
+
+
+    /**
+     * @param \DateTime|string $datetime
+     * @return $this
+     * @throws \Exception
+     */
+     public function setUpdatedAt(\DateTime|string $datetime): self
      {
          if (is_string($datetime)) {
-             $this->updatedAt = new \DateTime($datetime);
+             $datetime = new \DateTime($datetime);
          }
+
+         $this->updatedAt = $datetime;
+
+         return $this;
      }
+
+
+
+
+    /**
+     * @return \DateTime|null
+    */
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updatedAt;
+    }
 
 
 

@@ -52,6 +52,76 @@ class User implements UserInterface
 
 
 
+
+    /**
+     * @var string|null
+    */
+    public ?string $passwordReset = null;
+
+
+
+
+    /**
+     * @var \DateTime|null
+    */
+    public ?\DateTime $passwordResetAt = null;
+
+
+
+
+
+    /**
+     * @return string|null
+    */
+    public function getPasswordReset(): ?string
+    {
+        return $this->passwordReset;
+    }
+
+
+    /**
+     * @param \DateTime|string $date
+     *
+     * @return $this
+     *
+     * @throws \Exception
+    */
+    public function setPasswordResetAt(\DateTime|string $date): self
+    {
+         if (is_string($date)) {
+             $date = new \DateTime($date);
+         }
+
+         $this->passwordResetAt = $date;
+
+         return $this;
+    }
+
+
+
+
+    /**
+     * @return \DateTime|null
+    */
+    public function getPasswordResetAt(): ?\DateTime
+    {
+        return $this->passwordResetAt;
+    }
+
+
+    /**
+     * @param string $passwordReset
+     *
+     * @return $this
+    */
+    public function setPasswordReset(string $passwordReset): self
+    {
+        $this->passwordReset = $passwordReset;
+
+        return $this;
+    }
+
+
     /**
      * @inheritDoc
     */
@@ -80,5 +150,26 @@ class User implements UserInterface
     public function getRoles(): array
     {
         return [$this->role];
+    }
+
+
+    /**
+     * @param string $token
+     * @return bool
+    */
+    public function matchPasswordToken(string $token): bool
+    {
+         return $this->passwordReset === $token;
+    }
+
+
+
+
+    /**
+     * @return bool
+    */
+    public function expiredPasswordToken(): bool
+    {
+        return (time() - $this->getPasswordResetAt()?->getTimestamp() < 600);
     }
 }
