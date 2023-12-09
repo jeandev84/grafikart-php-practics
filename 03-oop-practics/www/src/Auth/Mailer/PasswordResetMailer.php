@@ -63,7 +63,10 @@ class PasswordResetMailer
        */
        public function send(string $to, array $params): int
        {
-           $message = new \Swift_Message("Reinitialisation de votre mot de passe", $this->renderer->render("@auth/email/password.text", $params));
+           $message = new \Swift_Message(
+        "Reinitialisation de votre mot de passe",
+               $this->renderer->render("@auth/email/password.text", $params)
+           );
            $message->addPart($this->renderer->render("@auth/email/password.html", $params), 'text/html');
            $message->setTo($to);
            $message->setFrom($this->from);
