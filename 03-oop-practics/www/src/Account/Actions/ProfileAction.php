@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Account\Actions;
 
 
+use Framework\Security\Auth;
 use Framework\Templating\Renderer\RendererInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -21,18 +22,23 @@ class ProfileAction
 
        protected RendererInterface $renderer;
 
+       protected Auth $auth;
 
        public function __construct(
-           RendererInterface $renderer
+           RendererInterface $renderer,
+           Auth $auth
        )
        {
            $this->renderer = $renderer;
+           $this->auth     = $auth;
        }
 
 
 
        public function __invoke(ServerRequestInterface $request): mixed
        {
-           return $this->renderer->render('@account/profile');
+           return $this->renderer->render('@account/profile', [
+                'user' => $this->auth->getUser()
+           ]);
        }
 }

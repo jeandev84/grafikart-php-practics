@@ -107,7 +107,7 @@ class SignupAction
 
            if ($validator->isValid()) {
                $userParams = [
-                   'name'     => $params['username'],
+                   'username' => $params['username'],
                    'email'    => $params['email'],
                    'password' => PasswordHash::hash($params['password']),
                ];
