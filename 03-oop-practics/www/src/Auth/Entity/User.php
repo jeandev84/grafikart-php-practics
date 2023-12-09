@@ -46,6 +46,13 @@ class User implements UserInterface
 
 
     /**
+     * @var string|null
+    */
+    public ?string $role = null;
+
+
+
+    /**
      * @inheritDoc
     */
     public function getUsername(): string
@@ -72,6 +79,6 @@ class User implements UserInterface
     */
     public function getRoles(): array
     {
-        return [];
+        return [$this->role];
     }
 }
