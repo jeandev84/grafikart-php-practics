@@ -9,6 +9,7 @@ use Framework\Database\ORM\EntityRepository;
 use Framework\Database\ORM\Exceptions\NoRecordException;
 use Framework\Security\User\UserInterface;
 use PDO;
+use Ramsey\Uuid\Uuid;
 
 
 /**
@@ -41,5 +42,23 @@ class UserRepository extends EntityRepository
      public function findByUsername(string $username): ?User
      {
           return $this->findBy('username', $username);
+     }
+
+
+     /**
+      * @param int $userId
+      *
+      * @return string
+     */
+     public function resetPassword(int $userId): string
+     {
+          $token = Uuid::uuid4()->toString();
+
+          $this->update([
+              'password_reset'    => $token,
+              'password_reset_at' => date('Y-m-d H:i:s')
+          ], $userId);
+
+          return $token;
      }
 }

@@ -7,6 +7,7 @@ namespace App\Auth;
 use App\Auth\Actions\LoginAction;
 use App\Auth\Actions\LoginAttemptAction;
 use App\Auth\Actions\LogoutAction;
+use App\Auth\Actions\PasswordForgetAction;
 use Framework\Module;
 use Framework\Routing\Router;
 use Framework\Templating\Renderer\RendererInterface;
@@ -50,5 +51,6 @@ class AuthModule extends Module
           $router->get($container->get('auth.login'), LoginAction::class, 'auth.login');
           $router->post($container->get('auth.login'), LoginAttemptAction::class, '');
           $router->post('/logout', LogoutAction::class, 'auth.logout');
+          $router->map('GET|POST', '/password-forget', PasswordForgetAction::class,'auth.password.forget');
       }
 }
