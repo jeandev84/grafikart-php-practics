@@ -34,6 +34,7 @@ $container = $app->getContainer();
 $app->pipe(Whoops::class)
     ->pipe(TrailingSlashMiddleware::class)
     ->pipe(ForbiddenMiddleware::class)
+    /* ->pipe($container->get('admin.prefix'), LoggedInMiddleware::class) */
     ->pipe($container->get('admin.prefix'), LoggedInMiddleware::class)
     ->pipe(MethodMiddleware::class)
     ->pipe(CsrfMiddleware::class)
