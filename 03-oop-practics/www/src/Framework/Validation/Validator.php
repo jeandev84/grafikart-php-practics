@@ -53,12 +53,16 @@ class Validator
 
 
        /**
-        * @param string ...$keys
+        * @param mixed[] ...$keys
         *
         * @return $this
        */
-       public function required(string ...$keys): self
+       public function required(...$keys): self
        {
+           if (is_array($keys[0])) {
+               $keys = $keys[0];
+           }
+
            foreach ($keys as $key) {
                $value = $this->getValue($key);
                if (is_null($value)) {
@@ -314,11 +318,31 @@ class Validator
 
 
 
+        /**
+         * @param string $key
+         * @return self
+        */
+        public function numeric(string $key): self
+        {
+            $value = $this->getValue($key);
 
-       public function isValid(): bool
-       {
+            if (!is_numeric($value)) {
+                $this->addError($key, 'numeric');
+            }
+
+            return $this;
+        }
+
+
+
+
+        /**
+         * @return bool
+        */
+        public function isValid(): bool
+        {
            return empty($this->errors);
-       }
+        }
 
 
 

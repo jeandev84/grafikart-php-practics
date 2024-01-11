@@ -18,13 +18,16 @@ use App\Framework\Database\ORM\Entity\Timestamp;
 class Product
 {
 
-      use Timestamp;
       protected ?int $id = null;
       protected ?string $name = null;
       protected ?string $description = null;
       protected ?string $slug = null;
       protected ?float $price = null;
       protected ?string $image = null;
+
+
+      use Timestamp;
+
 
      public function getId(): ?int
      {
