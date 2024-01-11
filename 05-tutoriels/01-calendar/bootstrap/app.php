@@ -1,37 +1,27 @@
 <?php
+
+use App\Controller\HomeController;
+
 require '../vendor/autoload.php';
+require '../src/helpers.php';
 
+$app = \App\App::instance();
 
-/**
- * @return \App\Database\Connection\PdoConnection
- * @throws \App\Database\Connection\Exception\ConnectionException
-*/
-function getPdo(): \App\Database\Connection\PdoConnection {
+$app->bind('basePath', realpath(__DIR__.'/../'));
+
+$app->bind('connection', function () {
     return \App\Database\Connection\ConnectionFactory::make();
-}
+});
+
+$app->bind('router', function () {
+    $router = new \App\Routing\Router();
+    $router->get('/', [HomeController::class, 'index']);
+    $router->get('/event', [\App\Controller\EventController::class, '']);
+    return $router;
+});
+
+$app->bind('view', function (\App\App $app) {
+    return new \App\Templating\Renderer($app->get('basePath') . '/views');
+});
 
 
-/**
- * @param string|null $value
- * @return string
-*/
-function h(?string $value): string {
-    if ($value === null) {
-        return '';
-    }
-    return htmlentities($value);
-}
-
-function render(string $view, array $params = []): void {
-    extract($params);
-    include "../views/{$view}.php";
-}
-
-
-/**
- * @return void
-*/
-function e404(): void {
-    require '../public/404.php';
-    exit;
-}
