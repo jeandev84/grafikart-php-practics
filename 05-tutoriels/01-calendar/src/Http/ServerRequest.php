@@ -60,7 +60,7 @@ class ServerRequest
       */
       public function __construct(string $method, string $uri, array $serverParams = [])
       {
-          $this->method = $method;
+          $this->method = strtoupper($method);
           $this->uri    = $uri;
           $this->serverParams = $serverParams;
       }
@@ -104,6 +104,15 @@ class ServerRequest
           return $this->method;
       }
 
+
+      /**
+       * @param string $method
+       * @return bool
+      */
+      public function isMethod(string $method): bool
+      {
+          return $this->method === strtoupper($method);
+      }
 
 
 

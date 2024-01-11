@@ -24,4 +24,4 @@ $app->bind('view', function (\App\App $app) {
     return new \App\Templating\Renderer($app->get('basePath') . '/views');
 });
 
-
+return $app;
