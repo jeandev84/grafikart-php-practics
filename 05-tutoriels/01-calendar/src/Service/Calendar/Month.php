@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Calendar;
+namespace App\Service\Calendar;
 
 use DateTime;
 use Exception;
@@ -13,7 +13,7 @@ use Exception;
  *
  * @license https://github.com/jeandev84/laventure-framework/blob/master/LICENSE
  *
- * @package App\Calendar
+ * @package App\Service\Calendar
  *
  * @url http://localhost:8080/?month=4&year=2018
 */
