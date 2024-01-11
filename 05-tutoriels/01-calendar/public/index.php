@@ -19,7 +19,7 @@
    require '../src/Date/Month.php';
 
    $month   = new \App\Date\Month($_GET['month'] ?? null, $_GET['year'] ?? null);
-   $start = $month->getStartingDay()->modify('last monday');
+   $start = $month->getStart();
    ?>
 
    <div class="d-flex flex-row align-items-center justify-content-between mx-sm-3">

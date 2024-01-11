@@ -111,9 +111,17 @@ class Month
 
 
 
-    public function getFirstDayOfMonth(): DateTime
+
+    /**
+     * Recuperer le mois commencant par lundi
+     *
+     * @return DateTime
+    */
+    public function getStart(): DateTime
     {
         $start = $this->getStartingDay();
+
+        return $start->format('N') === '1' ? $start : $start->modify('last monday');
     }
 
 
