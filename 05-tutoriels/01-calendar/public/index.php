@@ -16,10 +16,19 @@
 
    <!-- example: Mars 2018 -->
    <?php
-   require '../src/Date/Month.php';
+   require '../vendor/autoload.php';
 
-   $month   = new \App\Date\Month($_GET['month'] ?? null, $_GET['year'] ?? null);
-   $start = $month->getStart();
+   $event   = new \App\Calendar\Events();
+   $month   = new \App\Calendar\Month($_GET['month'] ?? null, $_GET['year'] ?? null);
+   $weeks   = $month->getWeeks();
+
+   $start   = $month->getStart();
+   $end     = (clone $start)->modify('+'. (6 + 7 * ($weeks - 1)).' days');
+
+   $events  = $event->getEventsBetween($start, $end);
+
+   dump($events);
+
    ?>
 
    <div class="d-flex flex-row align-items-center justify-content-between mx-sm-3">
@@ -30,8 +39,8 @@
         </div>
    </div>
 
-   <table class="calendar__table calendar__table--<?= $month->getWeeks(); ?>weeks">
-      <?php for ($i = 0; $i < $month->getWeeks(); $i++): ?>
+   <table class="calendar__table calendar__table--<?= $weeks; ?>weeks">
+      <?php for ($i = 0; $i < $weeks; $i++): ?>
          <tr>
              <?php
              foreach ($month->days as $k => $day):
