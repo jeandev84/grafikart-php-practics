@@ -104,9 +104,16 @@ class Month
      *
      * @return DateTime
     */
+    public function getStartingDay(): DateTime
+    {
+        return new DateTime("{$this->year}-{$this->month}-01");
+    }
+
+
+
     public function getFirstDayOfMonth(): DateTime
     {
-       return new DateTime("{$this->year}-{$this->month}-01");
+        $start = $this->getStartingDay();
     }
 
 
@@ -131,7 +138,7 @@ class Month
     */
     public function getWeeks(): int
     {
-       $start = $this->getFirstDayOfMonth();
+       $start = $this->getStartingDay();
        $end   = (clone $start)->modify('+1 month -1 day');
        $weeks = intval($end->format('W')) - intval($start->format('W')) + 1;
        if ($weeks < 0) {
@@ -149,7 +156,7 @@ class Month
     */
     public function withInMonth(DateTime $date): bool
     {
-        return $this->getFirstDayOfMonth()->format('Y-m') === $date->format('Y-m');
+        return $this->getStartingDay()->format('Y-m') === $date->format('Y-m');
     }
 
 

@@ -19,7 +19,7 @@
    require '../src/Date/Month.php';
 
    $month   = new \App\Date\Month($_GET['month'] ?? null, $_GET['year'] ?? null);
-   $fistDay = $month->getFirstDayOfMonth()->modify('last monday');
+   $start = $month->getStartingDay()->modify('last monday');
    ?>
 
    <div class="d-flex flex-row align-items-center justify-content-between mx-sm-3">
@@ -35,7 +35,7 @@
          <tr>
              <?php
              foreach ($month->days as $k => $day):
-             $date = (clone $fistDay)->modify("+" . ($k + $i * 7) . " days");
+             $date = (clone $start)->modify("+" . ($k + $i * 7) . " days");
              ?>
              <td class="<?= $month->withInMonth($date) ? '' : 'calendar__othermonth'?>">
                  <?php if ($i === 0): ?>
