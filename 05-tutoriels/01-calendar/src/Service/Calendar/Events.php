@@ -95,4 +95,20 @@ class Events
 
         return $event;
     }
+
+
+    /**
+     * @param Event $event
+     * @return bool
+     * @throws \Exception
+     */
+    public function create(Event $event): bool
+    {
+        return $this->eventRepository->insert([
+            'name' => $event->getName(),
+            'description' => $event->getDescription(),
+            'start_at' => $event->getStartAt()->format('Y-m-d H:i:s'),
+            'end_at' => $event->getEndAt()->format('Y-m-d H:i:s'),
+        ]);
+    }
 }

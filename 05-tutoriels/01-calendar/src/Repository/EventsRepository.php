@@ -27,7 +27,15 @@ class EventsRepository
       /**
        * @var string
       */
-      protected string $classMapping = Event::class;
+      protected string $className = Event::class;
+
+
+
+      /**
+       * @var string
+      */
+      protected string $tableName = 'events';
+
 
 
       /**
@@ -64,7 +72,30 @@ class EventsRepository
      public function find(int $id): mixed
      {
          $sql        = 'SELECT * FROM events WHERE id = :id LIMIT 1';
-         $statement  = $this->connection->statement($sql, compact('id'), $this->classMapping);
+         $statement  = $this->connection->statement($sql, compact('id'), $this->className);
          return $statement->fetch();
+     }
+
+
+
+
+     /**
+      * @param array $data
+      * @return bool
+     */
+     public function insert(array $data): bool
+     {
+         $attributes = [];
+
+         foreach (array_keys($data) as $key) {
+             $attributes[$key] = ":$key";
+         }
+
+         $columns = join(', ', array_keys($attributes));
+         $values  = join(', ', array_values($attributes));
+
+         $sql = "INSERT INTO $this->tableName ($columns) VALUES($values)";
+
+         return $this->connection->statement($sql)->execute($data);
      }
 }

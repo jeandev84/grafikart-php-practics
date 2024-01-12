@@ -78,11 +78,11 @@ class Event
 
 
     /**
-     * @param string|null $startAt
-     */
-    public function setStartAt(?string $startAt): void
+     * @param string|null $start
+    */
+    public function setStartAt(?string $start): void
     {
-        $this->start_at = $startAt;
+        $this->start_at = $start;
     }
 
 
@@ -97,10 +97,10 @@ class Event
 
 
     /**
-     * @param string|null $endAt
+     * @param string|null $end
      */
-    public function setEndAt(?string $endAt): void
+    public function setEndAt(?string $end): void
     {
-        $this->end_at = $endAt;
+        $this->end_at = $end;
     }
 }

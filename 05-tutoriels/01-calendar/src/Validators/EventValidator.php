@@ -23,7 +23,7 @@ class EventValidator extends Validator
       public function validates(array $data): array
       {
           parent::validates($data);
-          $this->validate('name', 'minLength', 30);
+          $this->validate('name', 'minLength', 3);
           $this->validate('date', 'date');
           #$this->validate('start', 'time');
           #$this->validate('end', 'time');

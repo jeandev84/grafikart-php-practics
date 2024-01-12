@@ -60,7 +60,9 @@ class PdoConnection implements PdoConnectionInterface
        {
             $pdo = $this->getPdo();
             $statement = $pdo->prepare($sql);
-            $statement->execute($params);
+            if ($params) {
+                $statement->execute($params);
+            }
             if ($classMapping) {
                 $statement->setFetchMode(PDO::FETCH_CLASS, $classMapping);
             }
