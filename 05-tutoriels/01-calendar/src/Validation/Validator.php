@@ -17,38 +17,52 @@ class Validator implements ValidatorInterface
     /**
      * @var array
     */
-    protected $data = [];
+    protected array $data;
 
 
     /**
      * @var array
     */
-    protected $errors = [];
+    protected array $errors = [];
+
+
+
+    /**
+     * @param array $data
+    */
+    public function __construct(array $data = [])
+    {
+        $this->data = $data;
+    }
 
 
 
     /**
      * @inheritDoc
     */
-    public function validates(array $data)
+    public function validates(array $data): array
     {
         $this->errors = [];
         $this->data = $data;
+        return $this->errors;
     }
+
+
 
 
     /**
      * @param string $field
      * @param string $method
      * @param ...$parameters
-     * @return void
+     * @return bool
     */
-    public function validate(string $field, string $method, ...$parameters)
+    public function validate(string $field, string $method, ...$parameters): bool
     {
         if (empty($this->data[$field])) {
            $this->addError($field, "Le champs $field n' est pas rempli");
+           return false;
         } else {
-           call_user_func([$this, $method], $field, ...$parameters);
+           return call_user_func([$this, $method], $field, ...$parameters);
         }
     }
 

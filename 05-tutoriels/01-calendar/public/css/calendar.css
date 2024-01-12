@@ -17,6 +17,10 @@
     height: 20%;
 }
 
+.calendar__table td.is-today {
+    background-color: #e2e2e2;
+}
+
 
 /* pour les mois qui ont un peu plus de semaines */
 .calendar__table--6weeks td {

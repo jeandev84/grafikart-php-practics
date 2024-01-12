@@ -12,13 +12,25 @@ $connection      = \App\Database\Connection\ConnectionFactory::make();
 $eventRepository = new \App\Repository\EventsRepository($connection);
 $events          = new \App\Service\Calendar\Events($eventRepository);
 
+$data = [
+    'date'  => $_GET['date'] ?? date('Y-m-d'),
+    'start' => date('H:i'),
+    'end'   => date('H:i')
+];
+
+$validator = new Validator($data);
+if(!$validator->validate('date', 'date')) {
+    $data['date'] = date('Y-m-d');
+}
+
 $validator = new \App\Validators\EventValidator();
-$param     = new \App\Http\Parameter();
+$param     = new \App\Http\Parameter($data);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-   $errors = $validator->validates($_POST);
-   $param->add($validator->getData());
-   if (empty($errors)) {
+    $errors = $validator->validates($_POST);
+    $param->add($validator->getData());
+
+    if (empty($errors)) {
        $event = $events->hydrate(new Event(), $param);
        if(! $events->createEvent($event)) {
           throw new Exception("Something went wrong during create event");

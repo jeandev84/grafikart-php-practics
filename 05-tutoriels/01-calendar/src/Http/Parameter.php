@@ -15,17 +15,44 @@ namespace App\Http;
 class Parameter
 {
 
+    /**
+     * @var array
+    */
     protected $params = [];
 
+
+    /**
+     * @param array $params
+    */
     public function __construct(array $params = [])
     {
-        $this->params = $params;
+        $this->add($params);
     }
 
 
+
+
+    /**
+     * @param array $params
+     * @return $this
+     */
     public function add(array $params): static
     {
         $this->params = array_merge($this->params, $params);
+
+        return $this;
+    }
+
+
+
+    /**
+     * @param string $key
+     * @param $value
+     * @return $this
+    */
+    public function set(string $key, $value): static
+    {
+        $this->params[$key] = $value;
 
         return $this;
     }

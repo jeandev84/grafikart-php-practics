@@ -17,16 +17,15 @@ render('header');
 
 <div class="calendar">
 
-    <?php if (isset($_GET['success'])): ?>
-        <div class="container">
-            <div class="alert alert-success">
-                L' evenement a bien ete enregistre
-            </div>
-        </div>
-    <?php endif; ?>
-
     <div class="d-flex flex-row align-items-center justify-content-between mx-sm-3">
         <h1><?= $month->toString() ?></h1>
+        <?php if (isset($_GET['success'])): ?>
+            <div class="container">
+                <div class="alert alert-success">
+                    L' evenement a bien ete enregistre
+                </div>
+            </div>
+        <?php endif; ?>
         <div>
             <a href="<?= $month->previousMonthLink() ?>" class="btn btn-primary">&lt;</a>
             <a href="<?= $month->nextMonthLink() ?>" class="btn btn-primary">&gt;</a>
@@ -40,12 +39,24 @@ render('header');
                 foreach ($month->days as $k => $day):
                     $date = (clone $start)->modify("+" . ($k + $i * 7) . " days");
                     $eventsForDay = $events[$date->format('Y-m-d')] ?? [];
+                    $isToDay = (date('Y-m-d') === $date->format('Y-m-d'));
+
+                    $class = [];
+                    if (! $month->withInMonth($date)) {
+                        $class[] = 'calendar__othermonth';
+                    }
+                    if ($isToDay) {
+                        $class[] = 'is-today';
+                    }
+                    $tdStyle = join(' ', array_filter($class));
                     ?>
-                    <td class="<?= $month->withInMonth($date) ? '' : 'calendar__othermonth'?>">
+                    <td class="<?= $tdStyle ?>">
                         <?php if ($i === 0): ?>
                             <div class="calendar__weekday"><?= $day ?></div>
                         <?php endif; ?>
-                        <div class="calendar__day"><?= $date->format('d'); ?></div>
+                        <a href="add.php?date=<?= $date->format('Y-m-d'); ?>" class="calendar__day">
+                            <?= $date->format('d'); ?>
+                        </a>
                         <?php foreach ($eventsForDay as $event): ?>
                             <div class="calendar__event">
                                 <?= (new DateTime($event['start_at']))->format('H:i') ?> -
