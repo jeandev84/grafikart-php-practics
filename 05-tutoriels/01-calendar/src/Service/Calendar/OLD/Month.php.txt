@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Service\Calendar;
+namespace App\Service\Calendar\OLD;
 
 use DateTime;
 use DateTimeImmutable;
@@ -108,7 +108,7 @@ class Month
     */
     public function getStartingDay(): DateTimeInterface
     {
-        return new DateTimeImmutable("{$this->year}-{$this->month}-01");
+        return new DateTime("{$this->year}-{$this->month}-01");
     }
 
 
@@ -117,16 +117,14 @@ class Month
     /**
      * Recuperer le mois commencant par lundi
      *
-     * @return DateTimeInterface
+     * @return DateTime
     */
-    public function getStart(): DateTimeInterface
+    public function getStart(): DateTime
     {
         $start = $this->getStartingDay();
 
         return $start->format('N') === '1' ? $start : $start->modify('last monday');
     }
-
-
 
 
 
@@ -143,25 +141,21 @@ class Month
 
 
     /**
-     * NumberOfWeeks
-     *
-     * Retourne le nombre de semaines pour 1 mois
+     * Returns le nombre de semaines pour 1 mois
      * Example: 5 weeks
      *
      * @return int
     */
     public function getWeeks(): int
     {
-       $start     = $this->getStartingDay();
-       $end       = $start->modify('+1 month -1 day');
-       $startWeek = intval($start->format('W'));
-       $endWeek   = intval($end->format('W'));
+       $start = $this->getStartingDay();
+       $end   = (clone $start)->modify('+1 month -1 day');
+       $startWeek = intval($end->format('W'));
+       $endWeek   = intval($start->format('W'));
 
        if ($endWeek === 1) {
-           $endWeek = intval($end->modify('- 7 days')->format('W')) + 1;
+           $endWeek = intval((clone $end)->modify('- 7 days')->format('W')) + 1;
        }
-
-       /* dump($endWeek); */
 
        $weeks = $endWeek - $startWeek + 1;
 
@@ -176,10 +170,10 @@ class Month
     /**
      * Determine si le jour est dans le mois en cours
      *
-     * @param DateTimeInterface $date
+     * @param DateTime $date
      * @return bool
     */
-    public function withInMonth(DateTimeInterface $date): bool
+    public function withInMonth(DateTime $date): bool
     {
         return $this->getStartingDay()->format('Y-m') === $date->format('Y-m');
     }

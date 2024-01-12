@@ -8,7 +8,7 @@ $month           = new \App\Service\Calendar\Month($_GET['month'] ?? null, $_GET
 $weeks           = $month->getWeeks();
 
 $start   = $month->getStart();
-$end     = (clone $start)->modify('+'. (6 + 7 * ($weeks - 1)).' days');
+$end     = $start->modify('+'. (6 + 7 * ($weeks - 1)).' days');
 
 $events  = $events->getEventsBetweenByDay($start, $end);
 
@@ -37,7 +37,7 @@ render('header');
             <tr>
                 <?php
                 foreach ($month->days as $k => $day):
-                    $date = (clone $start)->modify("+" . ($k + $i * 7) . " days");
+                    $date = $start->modify("+" . ($k + $i * 7) . " days");
                     $eventsForDay = $events[$date->format('Y-m-d')] ?? [];
                     $isToDay = (date('Y-m-d') === $date->format('Y-m-d'));
 

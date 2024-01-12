@@ -31,4 +31,20 @@ class Format
 
           return $date;
       }
+
+
+    /**
+     * @param string $format
+     * @param string $datetime
+     * @return \DateTimeImmutable
+     * @throws Exception
+     */
+    public static function dateImmutable(string $format, string $datetime): \DateTimeImmutable
+    {
+        if(! $date = \DateTimeImmutable::createFromFormat($format, $datetime)) {
+            throw new Exception("Could not create datetime instance for [$format, $datetime]");
+        }
+
+        return $date;
+    }
 }

@@ -10,6 +10,7 @@ use App\Http\Parameter;
 use App\Repository\EventsRepository;
 use App\Utils\Format;
 use DateTime;
+use DateTimeInterface;
 
 /**
  * Events
@@ -40,11 +41,11 @@ class Events
     /**
      * Recupere tous les evenements commencant entre 2 dates
      *
-     * @param DateTime $start
-     * @param DateTime $end
+     * @param DateTimeInterface $start
+     * @param DateTimeInterface $end
      * @return array
      */
-     public function getEventsBetween(DateTime $start, DateTime $end): array
+     public function getEventsBetween(DateTimeInterface $start, DateTimeInterface $end): array
      {
         return $this->eventRepository->findEventsBetween(
             $start->format('Y-m-d 00:00:00'),
@@ -59,12 +60,12 @@ class Events
     /**
      * Recupere tous les evenements commencant entre 2 dates indexe par jour
      *
-     * @param DateTime $start
-     * @param DateTime $end
+     * @param DateTimeInterface $start
+     * @param DateTimeInterface $end
      * @return array
      * @throws ConnectionException
     */
-    public function getEventsBetweenByDay(DateTime $start, DateTime $end): array
+    public function getEventsBetweenByDay(DateTimeInterface $start, DateTimeInterface $end): array
     {
          $events = $this->getEventsBetween($start, $end);
          $days   = [];
@@ -96,8 +97,8 @@ class Events
         $event->setDescription($param->get('description'));
 
         $date  = $param->get('date');
-        $start = Format::date('Y-m-d H:i', $date . ' '. $param->get('start'));
-        $end   = Format::date('Y-m-d H:i', $date . ' '. $param->get('end'));
+        $start = Format::dateImmutable('Y-m-d H:i', $date . ' '. $param->get('start'));
+        $end   = Format::dateImmutable('Y-m-d H:i', $date . ' '. $param->get('end'));
         $event->setStartAt($start->format('Y-m-d H:i:s'));
         $event->setEndAt($end->format('Y-m-d H:i:s'));
         return $event;
