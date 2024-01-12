@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Exception;
 
 /**
@@ -32,13 +33,15 @@ class Event
     }
 
 
+
     /**
      * @return string|null
-     */
+    */
     public function getName(): ?string
     {
         return $this->name;
     }
+
 
 
     /**
@@ -68,12 +71,15 @@ class Event
     }
 
 
+
+
     /**
-     * @return DateTime
-     */
-    public function getStartAt(): DateTime
+     * @return DateTimeInterface
+     * @throws Exception
+    */
+    public function getStartAt(): DateTimeInterface
     {
-        return new DateTime($this->start_at);
+        return new DateTimeImmutable($this->start_at);
     }
 
 
@@ -86,13 +92,14 @@ class Event
     }
 
 
+
     /**
-     * @return DateTime
+     * @return DateTimeInterface
      * @throws Exception
-     */
-    public function getEndAt(): DateTime
+    */
+    public function getEndAt(): DateTimeInterface
     {
-        return new DateTime($this->end_at);
+        return new DateTimeImmutable($this->end_at);
     }
 
 

@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Database\Connection;
+namespace App\Database\Connection\OLD;
 
 use App\Database\Connection\Exception\ConnectionException;
+use App\Database\Connection\PdoConnection;
 use PDO;
 
 /**
@@ -24,11 +25,8 @@ class ConnectionFactory
      */
       public static function make(array $options = []): PdoConnection
       {
-          return new PdoConnection(
-              'mysql:host=127.0.0.1;dbname=tutocalendar;',
-          'root',
-          'secret',
-                   $options
-          );
+          return new PdoConnection('mysql:host=127.0.0.1;dbname=tutocalendar;', 'root', 'secret', [
+              #PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
+          ]);
       }
 }

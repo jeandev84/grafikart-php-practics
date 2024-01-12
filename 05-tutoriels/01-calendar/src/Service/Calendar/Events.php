@@ -43,7 +43,7 @@ class Events
      *
      * @param DateTimeInterface $start
      * @param DateTimeInterface $end
-     * @return array
+     * @return Event[]
      */
      public function getEventsBetween(DateTimeInterface $start, DateTimeInterface $end): array
      {
@@ -54,16 +54,13 @@ class Events
      }
 
 
-
-
-
     /**
      * Recupere tous les evenements commencant entre 2 dates indexe par jour
      *
      * @param DateTimeInterface $start
      * @param DateTimeInterface $end
-     * @return array
-     * @throws ConnectionException
+     * @return array<string,Event[]>
+     * @throws \Exception
     */
     public function getEventsBetweenByDay(DateTimeInterface $start, DateTimeInterface $end): array
     {
@@ -71,7 +68,8 @@ class Events
          $days   = [];
 
          foreach ($events as $event) {
-             $date = explode(' ', $event['start_at'])[0];
+             /* $date = explode(' ', $event['start_at'])[0]; */
+             $date = $event->getStartAt()->format('Y-m-d');
              if (! isset($days[$date])) {
                  $days[$date] = [$event];
              } else {
