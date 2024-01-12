@@ -6,7 +6,7 @@ $eventRepository = new \App\Repository\EventsRepository($connection);
 $events          = new \App\Service\Calendar\Events($eventRepository);
 
 if (! isset($_GET['id'])) {
-    header('Location: 404.php');
+    e404();
 }
 
 try {
@@ -15,21 +15,27 @@ try {
    e404();
 }
 
+$validator = new \App\Validators\EventValidator();
+$param     = new \App\Http\Parameter([
+    'name'  => $event->getName(),
+    'date'  => $event->getStartAt()->format('Y-m-d'),
+    'start' => $event->getStartAt()->format('H:i'),
+    'end'   => $event->getEndAt()->format('H:i'),
+    'description' => $event->getDescription()
+]);
+
+
 render('header', ['title' => $event->getName()])
 ?>
 
-<h1><?= h($event->getName()); ?></h1>
+<h1>Editer l' evenement <small><?= h($event->getName()); ?></small></h1>
 
-<ul>
-  <li>Date: <?= $event->getStartAt()->format('d/m/Y'); ?></li>
-  <li>Heure de demarrage: <?= $event->getStartAt()->format('H:i'); ?></li>
-  <li>Heure de fin: <?= $event->getEndAt()->format('H:i'); ?></li>
-  <li>
-      Description<br>
-      <?= h($event->getDescription()); ?>
-  </li>
-
-</ul>
+<form action="" method="post" class="form">
+    <?php render('calendar/form', ['param' => $param, 'validator' => $validator]); ?>
+    <div class="form-group">
+        <button class="btn btn-primary">Ajouter l' evenement</button>
+    </div>
+</form>
 
 <?php require '../views/footer.php'; ?>
 

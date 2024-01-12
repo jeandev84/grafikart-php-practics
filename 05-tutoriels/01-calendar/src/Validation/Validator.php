@@ -45,7 +45,7 @@ class Validator implements ValidatorInterface
     */
     public function validate(string $field, string $method, ...$parameters)
     {
-        if (!isset($this->data[$field])) {
+        if (empty($this->data[$field])) {
            $this->addError($field, "Le champs $field n' est pas rempli");
         } else {
            call_user_func([$this, $method], $field, ...$parameters);
