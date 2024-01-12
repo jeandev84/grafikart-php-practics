@@ -82,6 +82,31 @@ class Events
     }
 
 
+
+
+    /**
+     * @param Event $event
+     * @param Parameter $param
+     * @return Event
+     * @throws \Exception
+     */
+    public function hydrate(Event $event, Parameter $param): Event
+    {
+        $event->setName($param->get('name'));
+        $event->setDescription($param->get('description'));
+
+        $date  = $param->get('date');
+        $start = Format::date('Y-m-d H:i', $date . ' '. $param->get('start'));
+        $end   = Format::date('Y-m-d H:i', $date . ' '. $param->get('end'));
+        $event->setStartAt($start->format('Y-m-d H:i:s'));
+        $event->setEndAt($end->format('Y-m-d H:i:s'));
+        return $event;
+    }
+
+
+
+
+
     /**
      * Recupere un evenement donne
      *
@@ -89,7 +114,7 @@ class Events
      * @return Event
      * @throws \Exception
      */
-    public function find(int $id): Event
+    public function findEvent(int $id): Event
     {
         if(! $event = $this->eventRepository->find($id)) {
             throw new \Exception("Aucun resultat n' a ete trouve");
@@ -140,21 +165,17 @@ class Events
 
 
     /**
+     * Supprime un evenement
+     *
      * @param Event $event
-     * @param Parameter $param
-     * @return Event
-     * @throws \Exception
+     * @return bool
     */
-    public function hydrate(Event $event, Parameter $param): Event
+    public function deleteEvent(Event $event): bool
     {
-        $event->setName($param->get('name'));
-        $event->setDescription($param->get('description'));
+        if (! $id = $event->getId()) {
+            return false;
+        }
 
-        $date  = $param->get('date');
-        $start = Format::date('Y-m-d H:i', $date . ' '. $param->get('start'));
-        $end   = Format::date('Y-m-d H:i', $date . ' '. $param->get('end'));
-        $event->setStartAt($start->format('Y-m-d H:i:s'));
-        $event->setEndAt($end->format('Y-m-d H:i:s'));
-        return $event;
+        return $this->eventRepository->delete($id);
     }
 }

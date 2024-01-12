@@ -10,7 +10,7 @@ $events          = new \App\Service\Calendar\Events($eventRepository);
 
 
 try {
-    $event  = $events->find($_GET['id'] ?? 0);
+    $event  = $events->findEvent($_GET['id'] ?? 0);
 } catch (Throwable $e) {
    e404();
 }
