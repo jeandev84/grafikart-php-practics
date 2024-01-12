@@ -8,13 +8,10 @@ $connection      = \App\Database\Connection\ConnectionFactory::make();
 $eventRepository = new \App\Repository\EventsRepository($connection);
 $events          = new \App\Service\Calendar\Events($eventRepository);
 
-if (! isset($_GET['id'])) {
-    e404();
-}
 
 try {
-    $event  = $events->find($_GET['id']);
-} catch (Exception $e) {
+    $event  = $events->find($_GET['id'] ?? 0);
+} catch (Throwable $e) {
    e404();
 }
 
@@ -32,16 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = $validator->validates($_POST);
     $param->add($validator->getData());
     if (empty($errors)) {
-        $event->setName($param->get('name'));
-        $event->setDescription($param->get('description'));
-
-        $date  = $param->get('date');
-        $start = Format::date('Y-m-d H:i', $date . ' '. $param->get('start'));
-        $end   = Format::date('Y-m-d H:i', $date . ' '. $param->get('end'));
-        $event->setStartAt($start->format('Y-m-d H:i:s'));
-        $event->setEndAt($end->format('Y-m-d H:i:s'));
-        if(! $events->updateEvent($event, '')) {
-            throw new Exception("Something went wrong creating event");
+        $event = $events->hydrate($event, $param);
+        if(! $events->updateEvent($event)) {
+            throw new Exception("Something went wrong during update event");
         }
         header('Location: /?success=1');
         exit;

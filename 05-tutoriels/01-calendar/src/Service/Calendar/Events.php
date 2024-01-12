@@ -6,7 +6,9 @@ namespace App\Service\Calendar;
 use App\Database\Connection\ConnectionFactory;
 use App\Database\Connection\Exception\ConnectionException;
 use App\Entity\Event;
+use App\Http\Parameter;
 use App\Repository\EventsRepository;
+use App\Utils\Format;
 use DateTime;
 
 /**
@@ -132,5 +134,27 @@ class Events
             'start_at' => $event->getStartAt()->format('Y-m-d H:i:s'),
             'end_at' => $event->getEndAt()->format('Y-m-d H:i:s'),
         ], $id);
+    }
+
+
+
+
+    /**
+     * @param Event $event
+     * @param Parameter $param
+     * @return Event
+     * @throws \Exception
+    */
+    public function hydrate(Event $event, Parameter $param): Event
+    {
+        $event->setName($param->get('name'));
+        $event->setDescription($param->get('description'));
+
+        $date  = $param->get('date');
+        $start = Format::date('Y-m-d H:i', $date . ' '. $param->get('start'));
+        $end   = Format::date('Y-m-d H:i', $date . ' '. $param->get('end'));
+        $event->setStartAt($start->format('Y-m-d H:i:s'));
+        $event->setEndAt($end->format('Y-m-d H:i:s'));
+        return $event;
     }
 }

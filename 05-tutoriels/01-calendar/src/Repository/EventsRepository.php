@@ -56,7 +56,7 @@ class EventsRepository
      */
      public function findEventsBetween(string $start, string $end): array
      {
-         $sql        = 'SELECT * FROM events WHERE start_at BETWEEN :start AND :end';
+         $sql        = "SELECT * FROM  $this->tableName WHERE start_at BETWEEN :start AND :end ORDER BY start_at ASC";
          $statement  = $this->connection->statement($sql, compact('start', 'end'));
          #$statement  = $this->connection->statement($sql, compact('start', 'end'), $this->classMapping);
          return $statement->fetchAll();
@@ -120,9 +120,21 @@ class EventsRepository
 
         $data['id'] = $id;
 
-        dd($sql, $data);
-
         return $this->connection->statement($sql)->execute($data);
+    }
+
+
+
+
+    /**
+     * @param int $id
+     * @return bool
+    */
+    public function delete(int $id): bool
+    {
+        $sql = "DELETE FROM $this->tableName WHERE id = :id";
+
+        return $this->connection->statement($sql)->execute(compact('id'));
     }
 
 }

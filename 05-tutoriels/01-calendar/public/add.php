@@ -1,11 +1,10 @@
 <?php
 
+use App\Entity\Event;
 use App\Utils\Format;
 use App\Validation\Validator;
 
 require '../bootstrap/app.php';
-
-render('header', ['title' => 'Ajouter un evenement']);
 
 $errors = [];
 
@@ -20,22 +19,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    $errors = $validator->validates($_POST);
    $param->add($validator->getData());
    if (empty($errors)) {
-       $event = new \App\Entity\Event();
-       $event->setName($param->get('name'));
-       $event->setDescription($param->get('description'));
-
-       $date  = $param->get('date');
-       $start = Format::date('Y-m-d H:i', $date . ' '. $param->get('start'));
-       $end   = Format::date('Y-m-d H:i', $date . ' '. $param->get('end'));
-       $event->setStartAt($start->format('Y-m-d H:i:s'));
-       $event->setEndAt($end->format('Y-m-d H:i:s'));
+       $event = $events->hydrate(new Event(), $param);
        if(! $events->createEvent($event)) {
-          throw new Exception("Something went wrong creating event");
+          throw new Exception("Something went wrong during create event");
        }
        header('Location: /?success=1');
        exit;
    }
 }
+
+render('header', ['title' => 'Ajouter un evenement']);
 ?>
 
 <div class="container">
