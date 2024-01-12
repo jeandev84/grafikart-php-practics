@@ -12,11 +12,9 @@ $end             = $start->modify('last day of december')->modify('+ 1 day'); # 
 $events  = $events->getEventsBetween($start, $end);
 ?>
 
-<div>id;name;start;end</div>
+id;name;start;end
 <?php foreach ($events as $event): ?>
-<div>
-    <?= $event->getId() ?>;"<?= addslashes($event->getName()) ?>";"<?= $event->getStartAt()->format('Y-m-d') ?>";"<?= $event->getEndAt()->format('Y-m-d') ?>"
-</div>
+<?= $event->getId() ?>;"<?= addslashes($event->getName()) ?>";"<?= $event->getStartAt()->format('Y-m-d') ?>";"<?= $event->getEndAt()->format('Y-m-d') ?>"
 <?php endforeach; ?>
 
 
