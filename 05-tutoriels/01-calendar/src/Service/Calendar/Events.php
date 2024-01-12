@@ -102,13 +102,35 @@ class Events
      * @return bool
      * @throws \Exception
      */
-    public function create(Event $event): bool
+    public function createEvent(Event $event): bool
     {
-        return $this->eventRepository->insert([
+        return $this->eventRepository->create([
             'name' => $event->getName(),
             'description' => $event->getDescription(),
             'start_at' => $event->getStartAt()->format('Y-m-d H:i:s'),
             'end_at' => $event->getEndAt()->format('Y-m-d H:i:s'),
         ]);
+    }
+
+
+
+
+    /**
+     * @param Event $event
+     * @return bool
+     * @throws \Exception
+    */
+    public function updateEvent(Event $event): bool
+    {
+        if (! $id = $event->getId()) {
+            return false;
+        }
+
+        return $this->eventRepository->update([
+            'name' => $event->getName(),
+            'description' => $event->getDescription(),
+            'start_at' => $event->getStartAt()->format('Y-m-d H:i:s'),
+            'end_at' => $event->getEndAt()->format('Y-m-d H:i:s'),
+        ], $id);
     }
 }

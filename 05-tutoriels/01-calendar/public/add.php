@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
        $end   = Format::date('Y-m-d H:i', $date . ' '. $param->get('end'));
        $event->setStartAt($start->format('Y-m-d H:i:s'));
        $event->setEndAt($end->format('Y-m-d H:i:s'));
-       if(! $events->create($event)) {
+       if(! $events->createEvent($event)) {
           throw new Exception("Something went wrong creating event");
        }
        header('Location: /?success=1');

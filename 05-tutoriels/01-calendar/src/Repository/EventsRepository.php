@@ -83,7 +83,7 @@ class EventsRepository
       * @param array $data
       * @return bool
      */
-     public function insert(array $data): bool
+     public function create(array $data): bool
      {
          $attributes = [];
 
@@ -98,4 +98,31 @@ class EventsRepository
 
          return $this->connection->statement($sql)->execute($data);
      }
+
+
+
+    /**
+     * @param array $data
+     * @param int $id
+     * @return bool
+    */
+    public function update(array $data, int $id): bool
+    {
+        $attributes = [];
+
+        foreach (array_keys($data) as $key) {
+            $attributes[] = "$key = :$key";
+        }
+
+        $fields = join(', ', $attributes);
+
+        $sql = "UPDATE $this->tableName SET $fields WHERE id = :id";
+
+        $data['id'] = $id;
+
+        dd($sql, $data);
+
+        return $this->connection->statement($sql)->execute($data);
+    }
+
 }

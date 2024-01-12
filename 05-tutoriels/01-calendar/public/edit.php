@@ -1,4 +1,7 @@
 <?php
+
+use App\Utils\Format;
+
 require '../bootstrap/app.php';
 
 $connection      = \App\Database\Connection\ConnectionFactory::make();
@@ -25,17 +28,40 @@ $param     = new \App\Http\Parameter([
 ]);
 
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $errors = $validator->validates($_POST);
+    $param->add($validator->getData());
+    if (empty($errors)) {
+        $event->setName($param->get('name'));
+        $event->setDescription($param->get('description'));
+
+        $date  = $param->get('date');
+        $start = Format::date('Y-m-d H:i', $date . ' '. $param->get('start'));
+        $end   = Format::date('Y-m-d H:i', $date . ' '. $param->get('end'));
+        $event->setStartAt($start->format('Y-m-d H:i:s'));
+        $event->setEndAt($end->format('Y-m-d H:i:s'));
+        if(! $events->updateEvent($event, '')) {
+            throw new Exception("Something went wrong creating event");
+        }
+        header('Location: /?success=1');
+        exit;
+    }
+}
+
+
 render('header', ['title' => $event->getName()])
 ?>
 
-<h1>Editer l' evenement <small><?= h($event->getName()); ?></small></h1>
+<div class="container">
+    <h1>Editer l' evenement <small><?= h($event->getName()); ?></small></h1>
 
-<form action="" method="post" class="form">
-    <?php render('calendar/form', ['param' => $param, 'validator' => $validator]); ?>
-    <div class="form-group">
-        <button class="btn btn-primary">Ajouter l' evenement</button>
-    </div>
-</form>
+    <form action="" method="post" class="form">
+        <?php render('calendar/form', ['param' => $param, 'validator' => $validator]); ?>
+        <div class="form-group">
+            <button class="btn btn-primary">Modifier l' evenement</button>
+        </div>
+    </form>
+</div>
 
-<?php require '../views/footer.php'; ?>
+<?php render('footer'); ?>
 
