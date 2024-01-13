@@ -13,8 +13,7 @@ use Grafikart\Routing\Router;
 use Grafikart\Security\Auth;
 use Grafikart\Templating\Renderer;
 
-define('BASE_PATH', dirname(__DIR__));
-
+require __DIR__.'/constants.php';
 $config = require BASE_PATH . '/config/app.php';
 
 $app = Container::instance();
