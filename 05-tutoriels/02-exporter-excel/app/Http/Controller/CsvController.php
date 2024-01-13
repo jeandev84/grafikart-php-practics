@@ -42,7 +42,7 @@ class CsvController extends AbstractController
 
            $csv = CsvConvertor::convertToCsv($data);
 
-           $filename = 'csv-'. date('Y-m-d_H:i:s') . '.csv';
+           $filename = 'export-'. date('Y-m-d_H:i:s') . '.csv';
 
            return new Response($csv, 200, [
                'Content-Type' => 'text/csv',
@@ -67,7 +67,7 @@ class CsvController extends AbstractController
             'videos' => $videos
         ]);
 
-        $filename = 'csv-'. date('Y-m-d_H:i:s') . '.csv';
+        $filename = 'export-'. date('Y-m-d_H:i:s') . '.csv';
 
         return $response->withHeaders([
             'Content-Type' => 'text/csv',
