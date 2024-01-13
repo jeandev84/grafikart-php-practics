@@ -51,29 +51,4 @@ class CsvController extends AbstractController
                'Content-Disposition' => sprintf('attachment; filename="%s"', $filename)
            ]);
       }
-
-
-
-
-    /**
-     * @param ServerRequest $request
-     * @return Response
-     */
-    public function exportCsv1(ServerRequest $request): Response
-    {
-        $videoRepository = new VideoRepository($this->getConnection());
-
-        $videos = $videoRepository->findVideos();
-
-        $response = $this->render('csv/demo/export.php', [
-            'videos' => $videos
-        ]);
-
-        $filename = 'export-'. date('Y-m-d_H:i:s') . '.csv';
-
-        return $response->withHeaders([
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => sprintf('attachment; filename="%s"', $filename)
-        ]);
-    }
 }
