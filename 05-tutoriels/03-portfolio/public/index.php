@@ -3,9 +3,9 @@ ob_start();
 
 use Grafikart\Http\Request\ServerRequest;
 
-require '../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
-$app = require '../bootstrap/app.php';
+$app = require __DIR__.'/../bootstrap/app.php';
 
 $kernel = new \App\Http\Kernel($app);
 
