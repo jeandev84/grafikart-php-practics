@@ -86,6 +86,17 @@ interface SessionInterface
 
 
 
+
+       /**
+        * @param $type
+        * @return void
+       */
+       public function removeFlash($type): void;
+
+
+
+
+
        /**
         * @return bool
        */

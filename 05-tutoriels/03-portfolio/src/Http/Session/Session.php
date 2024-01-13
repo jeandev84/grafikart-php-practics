@@ -105,8 +105,7 @@ class Session implements SessionInterface
 
 
     /**
-     * @param $type
-     * @return void
+     * @inheritdoc
     */
     public function removeFlash($type): void
     {
