@@ -1,0 +1,133 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Entity\OLD;
+
+/**
+ * Video
+ *
+ * @author Jean-Claude <jeanyao@ymail.com>
+ *
+ * @license https://github.com/jeandev84/laventure-framework/blob/master/LICENSE
+ *
+ * @package  App\Entity
+ */
+class Video
+{
+     protected ?int $id;
+     protected ?string $title; // Decomposer un site en PHP
+     protected ?string $content; // <p>Dans ce tutoriel vous apprendrez ..</p>
+     protected ?float $duration; // 1077,3
+     protected ?string $vimeo;
+     protected ?string $daily; // xc8if6
+     protected ?string $blip; // 4380433
+     protected ?string $video; // Grafikart_Decomposer_site_obStart.mov
+     protected ?float $video_size; // 1.32347
+     protected ?int $source;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): Video
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(?string $content): Video
+    {
+        $this->content = $content;
+        return $this;
+    }
+
+    public function getDuration(): ?float
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(?float $duration): Video
+    {
+        $this->duration = $duration;
+        return $this;
+    }
+
+    public function getVimeo(): ?string
+    {
+        return $this->vimeo;
+    }
+
+    public function setVimeo(?string $vimeo): Video
+    {
+        $this->vimeo = $vimeo;
+        return $this;
+    }
+
+    public function getDaily(): ?string
+    {
+        return $this->daily;
+    }
+
+    public function setDaily(?string $daily): Video
+    {
+        $this->daily = $daily;
+        return $this;
+    }
+
+    public function getBlip(): ?string
+    {
+        return $this->blip;
+    }
+
+    public function setBlip(?string $blip): Video
+    {
+        $this->blip = $blip;
+        return $this;
+    }
+
+    public function getVideo(): ?string
+    {
+        return $this->video;
+    }
+
+    public function setVideo(?string $video): Video
+    {
+        $this->video = $video;
+        return $this;
+    }
+
+    public function getVideoSize(): ?float
+    {
+        return $this->video_size;
+    }
+
+    public function setVideoSize(?float $videoSize): Video
+    {
+        $this->video_size = $videoSize;
+        return $this;
+    }
+
+    public function getSource(): ?int
+    {
+        return $this->source;
+    }
+
+    public function setSource(?int $source): Video
+    {
+        $this->source = $source;
+
+        return $this;
+
+    }
+}
