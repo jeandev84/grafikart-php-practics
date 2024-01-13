@@ -38,7 +38,9 @@ class CsvController extends AbstractController
       {
            $videoRepository = new VideoRepository($this->getConnection());
 
-           $data = $videoRepository->findVideosToExport();
+           /* $data = $videoRepository->findVideosToExport(); */
+
+           $data = $videoRepository->findVideosToExportWithAliases();
 
            $csv = CsvConvertor::convertToCsv($data);
 

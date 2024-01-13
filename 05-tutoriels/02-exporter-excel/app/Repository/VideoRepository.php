@@ -58,4 +58,16 @@ class VideoRepository extends EntityRepository
 
            return $data;
       }
+
+
+
+    /**
+     * @return array
+     */
+    public function findVideosToExportWithAliases(): array
+    {
+        $sql = "SELECT id as ID, title as Titre, duration as Duree FROM $this->tableName";
+        $statement = $this->connection->statement($sql);
+        return $statement->fetchAll();
+    }
 }

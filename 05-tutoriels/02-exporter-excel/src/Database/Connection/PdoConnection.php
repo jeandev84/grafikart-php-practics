@@ -50,6 +50,24 @@ class PdoConnection implements PdoConnectionInterface
        }
 
 
+
+
+       /**
+        * @param $key
+        * @param $value
+        * @return $this
+       */
+       public function setAttribute($key, $value): static
+       {
+           $this->pdo->setAttribute($key, $value);
+
+           return $this;
+       }
+
+
+
+
+
        /**
         * @param string $sql
         * @param array $params
