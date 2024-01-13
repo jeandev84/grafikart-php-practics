@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Grafikart\Security\Permission\Debugger;
 
 use Grafikart\Security\Permission\Contract\Voter;
-use Grafikart\Security\User\Contract\UserInterface;
+use Grafikart\Security\User\UserInterface;
 
 /**
  * ConsoleDebugger

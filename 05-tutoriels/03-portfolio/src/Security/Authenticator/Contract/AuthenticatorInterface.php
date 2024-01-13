@@ -5,7 +5,7 @@ namespace Grafikart\Security\Authenticator\Contract;
 
 
 use Grafikart\Security\Authenticator\DTO\UserCredentialsInterface;
-use Grafikart\Security\User\Contract\UserInterface;
+use Grafikart\Security\User\UserInterface;
 
 /**
  * AuthenticatorInterface

@@ -90,17 +90,7 @@ class Router
     }
 
 
-
-
-
-    /**
-     * @return Route[]
-    */
-    public function getRoutes(): array
-    {
-        return $this->routes;
-    }
-
+    
 
     /**
      * @param string $requestMethod
@@ -116,5 +106,43 @@ class Router
          }
 
          return false;
+    }
+
+
+    
+    /**
+     * @param string $name
+     * @param array $params
+     * @return string
+    */
+    public function generate(string $name, array $params = []): string
+    {
+         if (! isset($this->namedRoutes[$name])) {
+              throw new \InvalidArgumentException("Could not resolve named route $name");
+         }
+         
+         return $this->namedRoutes[$name]->generate($params);
+    }
+    
+    
+
+
+    /**
+     * @return Route[]
+     */
+    public function getRoutes(): array
+    {
+        return $this->routes;
+    }
+
+
+
+
+    /**
+     * @return array
+    */
+    public function getNamedRoutes(): array
+    {
+        return $this->namedRoutes;
     }
 }

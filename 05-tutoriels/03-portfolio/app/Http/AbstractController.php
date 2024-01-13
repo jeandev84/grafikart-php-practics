@@ -5,7 +5,9 @@ namespace App\Http;
 
 use Grafikart\Container\Container;
 use Grafikart\Database\Connection\PdoConnection;
+use Grafikart\HTML\Form\Form;
 use Grafikart\Http\Response\Response;
+use Grafikart\Security\Auth;
 use Grafikart\Templating\Renderer;
 
 /**
@@ -25,6 +27,11 @@ abstract class AbstractController
       */
       protected Container $app;
 
+
+      /**
+       * @var Auth
+      */
+      protected Auth $auth;
 
 
       /**
@@ -47,7 +54,8 @@ abstract class AbstractController
       */
       public function __construct(Container $app)
       {
-          $this->app = $app;
+          $this->app  = $app;
+          $this->auth = $app['auth'];
       }
 
 
@@ -89,5 +97,20 @@ abstract class AbstractController
       public function getConnection(): PdoConnection
       {
           return $this->app[PdoConnection::class];
+      }
+
+
+      /**
+       * @param string $class
+       * @param array $data
+       * @param array $options
+       * @return Form
+      */
+      public function createForm(string $class, array $data = [], array $options = []): Form
+      {
+            $form  = new Form($data);
+            $class = new $class($this->app);
+            $class->buildForm($form);
+            return $form;
       }
 }

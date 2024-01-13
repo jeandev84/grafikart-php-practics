@@ -1,0 +1,19 @@
+<form action="/auth/login" method="POST">
+    <div class="form-group">
+        <?= $form->text('username', [
+            'label' => "Nom d'utilisateur",
+            'attrs' => [
+                'class' => 'form-control'
+            ]
+        ]) ?>
+    </div>
+    <div class="form-group">
+        <?= $form->input('password', 'password', [
+            'label' => "Mot de passe",
+            'attrs' => [
+                'class' => 'form-control'
+            ]
+        ]) ?>
+    </div>
+    <button type="submit" class="btn btn-default">Se connecter</button>
+</form>

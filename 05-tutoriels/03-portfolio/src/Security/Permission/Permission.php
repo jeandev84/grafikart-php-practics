@@ -5,7 +5,7 @@ namespace Grafikart\Security\Permission;
 
 use Grafikart\Security\Permission\Contract\Voter;
 use Grafikart\Security\Permission\Debugger\PermissionDebugger;
-use Grafikart\Security\User\Contract\UserInterface;
+use Grafikart\Security\User\UserInterface;
 
 /**
  * Permission

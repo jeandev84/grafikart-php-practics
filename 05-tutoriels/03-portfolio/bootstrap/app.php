@@ -18,29 +18,35 @@ $config = require BASE_PATH . '/config/app.php';
 
 $app = Container::instance();
 
-// TODO move logic starting session in middleware
+$app->bind('app.config', $config);
+
 $app->bind(SessionInterface::class, function () {
+    // TODO move logic starting session in middleware
      return new Session();
-});
-
-$app->bind('auth', function () {
-    return new Auth(
-        new UserAuthenticator()
-    );
-});
-
-$app->bind(RequestHandlerInterface::class, function () {
-   return new QueueRequestHandler(new NotFoundHandler());
 });
 
 $app->bind(PdoConnection::class, function () use ($config) {
     return PdoConnection::make($config['database']);
 });
 
+$app->bind(RequestHandlerInterface::class, function () {
+    return new QueueRequestHandler(new NotFoundHandler());
+});
+
 $app->bind(Router::class, function () {
     $router = new Router();
     $routes = require BASE_PATH . '/config/routes.php';
     return $routes($router);
+});
+
+$app->bind('auth', function (Container $app) {
+    $connection = $app->get(PdoConnection::class);
+    $session    = $app->get(SessionInterface::class);
+    $provider   = new \App\Security\Providers\UserProvider($connection);
+    $storage    = new \App\Security\Token\UserTokenStorage($session);
+    return new Auth(
+        new UserAuthenticator($provider)
+    );
 });
 
 $app->bind(Renderer::class, function () {

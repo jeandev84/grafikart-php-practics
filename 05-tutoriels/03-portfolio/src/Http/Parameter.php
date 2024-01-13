@@ -12,7 +12,7 @@ namespace Grafikart\Http;
  *
  * @package  Grafikart\Http
  */
-class Parameter
+class Parameter implements \ArrayAccess
 {
 
     /**
@@ -46,11 +46,11 @@ class Parameter
 
 
     /**
-     * @param string $key
+     * @param $key
      * @param $value
      * @return $this
     */
-    public function set(string $key, $value): static
+    public function set($key, $value): static
     {
         $this->params[$key] = $value;
 
@@ -58,25 +58,52 @@ class Parameter
     }
 
 
+
+
     /**
-     * @param string $key
+     * @param $key
      * @return bool
     */
-    public function has(string $key): bool
+    public function has($key): bool
     {
         return isset($this->params[$key]);
     }
 
 
+
+
     /**
-     * @param string $key
+     * @param $key
      * @param $default
      * @return mixed
     */
-    public function get(string $key, $default = null): mixed
+    public function get($key, $default = null): mixed
     {
         return $this->params[$key] ?? $default;
     }
+
+
+    /**
+     * @param $key
+     * @return void
+     */
+    public function remove($key)
+    {
+        unset($this->params[$key]);
+    }
+
+
+
+
+    /**
+     * @return array
+    */
+    public function all(): array
+    {
+        return $this->params;
+    }
+
+
 
 
     /**
@@ -93,5 +120,47 @@ class Parameter
         }
 
         return htmlentities($value);
+    }
+
+
+
+    /**
+     * @inheritDoc
+    */
+    public function offsetExists(mixed $offset): bool
+    {
+        return $this->has($offset);
+    }
+
+
+
+
+    /**
+     * @inheritDoc
+    */
+    public function offsetGet(mixed $offset): mixed
+    {
+        return $this->get($offset);
+    }
+
+
+
+    /**
+     * @inheritDoc
+    */
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+       $this->set($offset, $value);
+    }
+
+
+
+
+    /**
+     * @inheritDoc
+    */
+    public function offsetUnset(mixed $offset): void
+    {
+        $this->remove($offset);
     }
 }

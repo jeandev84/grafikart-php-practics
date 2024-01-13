@@ -26,4 +26,17 @@ class UserRepository extends EntityRepository
     {
         parent::__construct($connection, User::class, 'users');
     }
+
+
+
+    /**
+     * @param string $username
+     * @return User|null
+    */
+    public function findByUsername(string $username): ?User
+    {
+         $user = $this->findOneBy(compact('username'));
+
+          return $user ?: null;
+    }
 }

@@ -79,15 +79,63 @@ class EntityRepository
 
 
 
+
+    /**
+     * @param array $wheres
+     * @param int|null $limit
+     * @param int|null $offset
+     * @return array
+    */
+    public function findBy(array $wheres, int $limit = null, int $offset = null): array
+    {
+        $wheresArr = [];
+        foreach (array_keys($wheres) as $column) {
+            $wheresArr[] = "$column = :$column";
+        }
+        $conditions = join(' AND ', $wheresArr);
+        $sql        = "SELECT * FROM  $this->tableName WHERE $conditions";
+
+        if ($limit) {
+            $sql .= " LIMIT ". ($offset ? "$limit,$offset" : $limit);
+        }
+
+        $statement  = $this->connection->statement($sql, $wheres, $this->className);
+        return $statement->fetchAll();
+    }
+
+
+    /**
+     * @param array $wheres
+     * @param int|null $limit
+     * @param int|null $offset
+     * @return mixed
+    */
+    public function findOneBy(array $wheres, int $limit = null, int $offset = null): mixed
+    {
+        $wheresArr = [];
+        foreach (array_keys($wheres) as $column) {
+            $wheresArr[] = "$column = :$column";
+        }
+        $conditions = join(' AND ', $wheresArr);
+        $sql        = "SELECT * FROM  $this->tableName WHERE $conditions";
+
+        if ($limit) {
+            $sql .= " LIMIT ". ($offset ? "$limit,$offset" : $limit);
+        }
+
+        $statement  = $this->connection->statement($sql, $wheres, $this->className);
+        return $statement->fetch();
+    }
+
+
+
     /**
      * @param int $id
      * @return mixed
      */
     public function find(int $id): mixed
     {
-        $sql        = "SELECT * FROM $this->tableName WHERE id = :id LIMIT demo";
-        $statement  = $this->connection->statement($sql, compact('id'), $this->className);
-        return $statement->fetch();
+        return $this->findOneBy(compact('id'), 1);
     }
 
 

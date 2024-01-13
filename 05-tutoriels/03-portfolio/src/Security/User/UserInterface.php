@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Grafikart\Security\User\Contract;
+namespace Grafikart\Security\User;
 
 
 /**
@@ -11,7 +11,7 @@ namespace Grafikart\Security\User\Contract;
  *
  * @license https://github.com/jeandev84/laventure-framework/blob/master/LICENSE
  *
- * @package  Grafikart\Security\User\Contract
+ * @package  Grafikart\Security\User
 */
 interface UserInterface
 {

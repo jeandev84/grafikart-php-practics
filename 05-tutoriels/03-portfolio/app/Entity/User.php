@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Grafikart\Security\User\UserInterface;
+
 /**
  * User
  *
@@ -12,8 +14,10 @@ namespace App\Entity;
  *
  * @package  App\Entity
  */
-class User
+class User implements UserInterface
 {
+    const ROLE_USER = 'ROLE_USER';
+
     protected ?int $id;
     protected ?string $username;
     protected ?string $password;
@@ -46,4 +50,45 @@ class User
         return $this;
     }
 
+
+
+    /**
+     * @inheritDoc
+    */
+    public function getIdentifier(): string
+    {
+       return $this->getUsername();
+    }
+
+
+
+
+    /**
+     * @inheritDoc
+    */
+    public function getRoles(): array
+    {
+        return [self::ROLE_USER];
+    }
+
+
+
+
+    /**
+     * @inheritDoc
+    */
+    public function getSalt(): ?string
+    {
+        return '';
+    }
+
+
+
+    /**
+     * @inheritDoc
+    */
+    public function eraseCredentials(): void
+    {
+
+    }
 }

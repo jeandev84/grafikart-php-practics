@@ -165,4 +165,14 @@ class Route
 
          return $this;
     }
+
+
+    /**
+     * @param array $params
+     * @return string
+    */
+    public function generate(array $params): string
+    {
+         return $this->path;
+    }
 }
