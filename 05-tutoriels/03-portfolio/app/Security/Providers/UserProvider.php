@@ -50,6 +50,8 @@ class UserProvider implements UserProviderInterface
     */
     public function loadBy(array $criteria): ?UserInterface
     {
-        return $this->userRepository->findOneBy($criteria);
+        $user = $this->userRepository->findOneBy($criteria);
+
+        return $user ?: null;
     }
 }

@@ -40,15 +40,21 @@ $app->bind(Router::class, function () {
 });
 
 $app->bind('auth', function (Container $app) {
-    $connection = $app->get(PdoConnection::class);
-    $session    = $app->get(SessionInterface::class);
+    $connection = $app[PdoConnection::class];
+    $session    = $app[SessionInterface::class];
     $provider   = new \App\Security\Providers\UserProvider($connection);
     $storage    = new \App\Security\Token\UserTokenStorage($session);
     return new Auth(new UserAuthenticator($provider, $storage));
 });
 
-$app->bind(Renderer::class, function () {
-    return new Renderer(BASE_PATH . '/views');
+$app->bind(Renderer::class, function (Container $app) {
+    $view = new Renderer(BASE_PATH . '/views');
+    $view->addGlobals([
+       'session' => $app[SessionInterface::class],
+       'router'  => $app[Router::class]
+    ]);
+
+    return $view;
 });
 
 return $app;

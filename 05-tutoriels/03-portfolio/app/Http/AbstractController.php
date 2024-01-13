@@ -6,7 +6,9 @@ namespace App\Http;
 use Grafikart\Container\Container;
 use Grafikart\Database\Connection\PdoConnection;
 use Grafikart\HTML\Form\Form;
+use Grafikart\Http\Response\RedirectResponse;
 use Grafikart\Http\Response\Response;
+use Grafikart\Http\Session\SessionInterface;
 use Grafikart\Security\Auth;
 use Grafikart\Templating\Renderer;
 
@@ -35,6 +37,12 @@ abstract class AbstractController
 
 
       /**
+       * @var SessionInterface
+      */
+      protected SessionInterface $session;
+
+
+      /**
        * @var string
       */
       protected string $layout = 'layouts/default';
@@ -54,8 +62,9 @@ abstract class AbstractController
       */
       public function __construct(Container $app)
       {
-          $this->app  = $app;
-          $this->auth = $app['auth'];
+          $this->app     = $app;
+          $this->auth    = $app['auth'];
+          $this->session = $app[SessionInterface::class];
       }
 
 
@@ -87,6 +96,32 @@ abstract class AbstractController
           return $view->render($template, $data);
       }
 
+
+
+
+      /**
+       * @param string $path
+       * @return RedirectResponse
+      */
+      public function redirectTo(string $path): RedirectResponse
+      {
+          return new RedirectResponse($path);
+      }
+
+
+
+
+      /**
+       * @param string $key
+       * @param string $message
+       * @return $this
+      */
+      public function addFlash(string $key, string $message): static
+      {
+          $this->session->addFlash($key, $message);
+
+          return $this;
+      }
 
 
 

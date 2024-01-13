@@ -37,12 +37,39 @@ class Renderer
 
 
        /**
+        * @var array
+       */
+       protected array $data = [];
+
+
+
+
+       /**
         * @param string $viewPath
        */
        public function __construct(string $viewPath)
        {
            $this->viewPath = $viewPath;
        }
+
+
+
+
+
+       /**
+        * @param array $data
+        * @return $this
+       */
+       public function addGlobals(array $data): static
+       {
+           $this->data = array_merge($this->data, $data);
+
+           return $this;
+       }
+
+
+
+
 
 
        /**
@@ -80,13 +107,15 @@ class Renderer
        */
        public function render(string $template, array $data): string
        {
-            $template = new Template($this->loadPath($template), $data);
+            $this->addGlobals($data);
+
+            $template = new Template($this->loadPath($template), $this->data);
 
             if (! $this->layout) {
                 return (string)$template;
             }
 
-            $layout   = new Template($this->loadPath($this->layout) , $data);
+            $layout   = new Template($this->loadPath($this->layout) , $this->data);
             return  str_replace("{{ content }}", (string)$template, (string)$layout);
        }
 

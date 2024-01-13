@@ -85,7 +85,7 @@ class UserTokenStorage implements UserTokenStorageInterface
      */
     public function removeToken(UserInterface $user): bool
     {
-         $this->session->forget(self::KEY);
+         $this->session->destroy();
 
          return true;
     }

@@ -84,9 +84,9 @@ class Session implements SessionInterface
     /**
      * @inheritDoc
     */
-    public function addFlash($key, string $message): static
+    public function addFlash($type, string $message): static
     {
-        $_SESSION[$this->flashKey][$key] = $message;
+        $_SESSION[$this->flashKey][$type] = $message;
 
         return $this;
     }
@@ -94,15 +94,68 @@ class Session implements SessionInterface
 
 
 
+
     /**
-     * @inheritDoc
+     * @inheritdoc
     */
-    public function getFlash($key): string
+    public function removeFlashes(): void
     {
-        return $_SESSION[$this->flashKey][$key] ?? '';
+        unset($_SESSION[$this->flashKey]);
     }
 
 
+    /**
+     * @param $type
+     * @return void
+    */
+    public function removeFlash($type): void
+    {
+        unset($_SESSION[$this->flashKey][$type]);
+    }
+
+
+
+    /**
+     * @inheritDoc
+    */
+    public function getFlash($type): string
+    {
+        $flash = $_SESSION[$this->flashKey][$type] ?? '';
+
+        # $this->removeFlashes();
+        $this->removeFlash($type);
+
+        return $flash;
+    }
+
+
+
+
+    /**
+     * @inheritdoc
+    */
+    public function hasFlashes(): bool
+    {
+        return ! empty($_SESSION[$this->flashKey]);
+    }
+
+
+
+
+
+    /**
+     * @return array
+    */
+    public function getFlashes(): array
+    {
+        $flashes = $_SESSION[$this->flashKey] ?? [];
+
+        foreach (array_keys($flashes) as $type) {
+            $this->removeFlash($type);
+        }
+
+        return $flashes;
+    }
 
 
     /**

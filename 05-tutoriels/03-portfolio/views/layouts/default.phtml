@@ -24,6 +24,16 @@
     <p>&nbsp;</p>
     <p>&nbsp;</p>
 
+   <div class="block__flash">
+       <?php if ($session->hasFlashes()): ?>
+       <?php foreach ($session->getFlashes() as $key => $message): ?>
+          <div class="alert alert-<?= $key ?>">
+              <?= $message ?>
+          </div>
+       <?php endforeach; ?>
+       <?php endif; ?>
+   </div>
+
    {{ content }}
 
    <?php include 'debug/info.phtml' ?>

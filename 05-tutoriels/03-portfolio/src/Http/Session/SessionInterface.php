@@ -67,19 +67,45 @@ interface SessionInterface
 
 
        /**
-        * @param $key
+        * @param $type
         * @param string $message
         * @return mixed
        */
-       public function addFlash($key, string $message): mixed;
+       public function addFlash($type, string $message): mixed;
 
 
 
 
 
        /**
-        * @param $key
+        * @param $type
         * @return mixed
        */
-       public function getFlash($key): mixed;
+       public function getFlash($type): mixed;
+
+
+
+
+       /**
+        * @return bool
+       */
+       public function hasFlashes(): bool;
+
+
+
+
+
+       /**
+        * @return void
+       */
+       public function removeFlashes(): void;
+
+
+
+
+
+       /**
+        * @return array
+       */
+       public function getFlashes(): array;
 }

@@ -21,7 +21,7 @@ use Grafikart\Http\Session\SessionInterface;
  *
  * @package  App\Http\Middlewares
  */
-class AuthenticatedMiddleware implements MiddlewareInterface
+class GuestMiddleware implements MiddlewareInterface
 {
     protected SessionInterface $session;
 
