@@ -21,6 +21,14 @@ class Route
       protected array $matches = [];
 
 
+
+      /**
+       * @var array
+      */
+      protected array $middlewares = [];
+
+
+
       /**
        * @param array $methods
        * @param string $path
@@ -76,6 +84,14 @@ class Route
     }
 
 
+    /**
+     * @return array
+    */
+    public function getMiddlewares(): array
+    {
+        return $this->middlewares;
+    }
+
 
 
     /**
@@ -117,5 +133,36 @@ class Route
     public function match(string $method, string $path): bool
     {
         return $this->matchMethod($method) && $this->matchPath($path);
+    }
+
+
+
+
+    /**
+     * @param array $middlewares
+     *
+     * @return $this
+    */
+    public function middlewares(array $middlewares): static
+    {
+         foreach ($middlewares as $middleware) {
+             $this->middleware($middleware);
+         }
+
+         return $this;
+    }
+
+
+
+
+    /**
+     * @param string $middleware
+     * @return $this
+    */
+    public function middleware(string $middleware): static
+    {
+         $this->middlewares[] = $middleware;
+
+         return $this;
     }
 }

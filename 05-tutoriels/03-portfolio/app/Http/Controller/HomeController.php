@@ -22,7 +22,7 @@ class HomeController extends AbstractController
         {
             $userRepository = new UserRepository($this->getConnection());
 
-            dd($userRepository->findAll());
+            #dump($userRepository->findAll());
 
             return $this->render('index', [
                 'users' => $userRepository->findAll()

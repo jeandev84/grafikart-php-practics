@@ -60,7 +60,8 @@ class RouteDispatchedMiddleware implements MiddlewareInterface
             return $handler->handle($request);
         }
 
-        $callback = $route->getAction();
+        $callback    = $route->getAction();
+        $middlewares = $route->getMiddlewares();
 
         if (is_array($callback)) {
             [$controller, $action] = $callback;
