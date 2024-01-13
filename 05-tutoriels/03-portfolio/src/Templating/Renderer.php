@@ -30,6 +30,13 @@ class Renderer
 
 
        /**
+        * @var string
+       */
+       protected string $extension = '';
+
+
+
+       /**
         * @param string $viewPath
        */
        public function __construct(string $viewPath)
@@ -51,6 +58,21 @@ class Renderer
 
 
 
+
+
+       /**
+        * @param string $extension
+        * @return $this
+       */
+       public function extension(string $extension): static
+       {
+           $this->extension = $extension;
+
+           return $this;
+       }
+
+
+
        /**
         * @param string $template
         * @param array $data
@@ -58,13 +80,32 @@ class Renderer
        */
        public function render(string $template, array $data): string
        {
-            $template = new Template($this->viewPath . DIRECTORY_SEPARATOR. $template, $data);
+            $template = new Template($this->loadPath($template), $data);
 
-            if ($this->layout) {
-                $layout   = new Template($this->viewPath. DIRECTORY_SEPARATOR . $this->layout, $data);
-                return  str_replace("{{ content }}", (string)$template, (string)$layout);
+            if (! $this->layout) {
+                return (string)$template;
             }
 
-            return (string)$template;
+            $layout   = new Template($this->loadPath($this->layout) , $data);
+            return  str_replace("{{ content }}", (string)$template, (string)$layout);
+       }
+
+
+
+
+
+       /**
+        * @param string $path
+        * @return string
+       */
+       public function loadPath(string $path): string
+       {
+           $path = $this->viewPath . DIRECTORY_SEPARATOR. $path;
+
+           if ($this->extension) {
+               $path .= ".$this->extension";
+           }
+
+           return $path;
        }
 }

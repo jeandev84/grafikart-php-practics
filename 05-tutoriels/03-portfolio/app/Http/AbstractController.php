@@ -34,6 +34,12 @@ abstract class AbstractController
 
 
 
+      /**
+       * @var string
+      */
+      protected string $extension = 'phtml';
+
+
 
 
       /**
@@ -54,7 +60,7 @@ abstract class AbstractController
       */
       public function render(string $template, array $data = []): Response
       {
-           return new Response($this->renderView("$template.phtml", $data));
+           return new Response($this->renderView($template, $data));
       }
 
 
@@ -68,7 +74,8 @@ abstract class AbstractController
       public function renderView(string $template, array $data): string
       {
           $view = $this->app[Renderer::class];
-          $view->layout($this->layout . ".phtml");
+          $view->layout($this->layout);
+          $view->extension($this->extension);
           return $view->render($template, $data);
       }
 
