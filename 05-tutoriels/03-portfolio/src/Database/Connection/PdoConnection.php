@@ -100,6 +100,17 @@ class PdoConnection implements PdoConnectionInterface
 
 
 
+       /**
+        * @param string $sql
+        * @return mixed
+       */
+       public function exec(string $sql): mixed
+       {
+           return $this->pdo->exec($sql);
+       }
+
+
+
 
        /**
         * @param array $config

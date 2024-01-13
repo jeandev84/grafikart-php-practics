@@ -2,7 +2,7 @@
 
 return [
    'database' => [
-       'dsn' => 'mysql:host=127.0.0.1;dbname=portfolio;',
+       'dsn' => 'mysql:host=127.0.0.1;dbname=grafikart_portfolio;charset=utf8',
        'username' => 'root',
        'password' => 'secret',
        'options' => [
