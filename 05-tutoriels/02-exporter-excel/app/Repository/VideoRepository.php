@@ -44,7 +44,7 @@ class VideoRepository extends EntityRepository
       /**
        * @return array
       */
-      public function findVideosToExport(): array
+      public function findVideosToAssoc(): array
       {
            $data = [];
 
@@ -64,7 +64,7 @@ class VideoRepository extends EntityRepository
     /**
      * @return array
      */
-    public function findVideosToExportWithAliases(): array
+    public function findVideosAsAssoc(): array
     {
         $sql = "SELECT id as ID, title as Titre, duration as Duree FROM $this->tableName";
         $statement = $this->connection->statement($sql);
