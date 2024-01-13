@@ -31,10 +31,31 @@ class VideoRepository extends EntityRepository
       /**
        * @return Video[]
       */
-      public function findAllVideos(): array
+      public function findVideos(): array
       {
           $sql = "SELECT id, title, duration FROM $this->tableName";
           $statement = $this->connection->statement($sql, [], $this->className);
           return $statement->fetchAll();
+      }
+
+
+
+
+      /**
+       * @return array
+      */
+      public function findVideosToExport(): array
+      {
+           $data = [];
+
+           foreach ($this->findVideos() as $video) {
+               $data[] = [
+                  'ID'    => $video->getId(),
+                  'Titre' => $video->getTitle(),
+                  'Duree' => $video->getDuration()
+               ];
+           }
+
+           return $data;
       }
 }

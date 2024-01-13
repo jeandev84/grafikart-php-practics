@@ -1,6 +1,7 @@
 <?php
+ob_start();
 
-use Grafikart\Http\ServerRequest;
+use Grafikart\Http\Request\ServerRequest;
 
 require '../vendor/autoload.php';
 
@@ -12,7 +13,7 @@ $response = $kernel->handle(
     $request = ServerRequest::fromGlobals()
 );
 
-# $response->send();
+$response->send();
 
 $kernel->terminate($request, $response);
 

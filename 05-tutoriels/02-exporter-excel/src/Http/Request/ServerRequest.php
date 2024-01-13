@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Grafikart\Http;
+namespace Grafikart\Http\Request;
+
+use Grafikart\Http\MessageTrait;
 
 /**
  * ServerRequest
@@ -10,7 +12,7 @@ namespace Grafikart\Http;
  *
  * @license https://github.com/jeandev84/laventure-framework/blob/master/LICENSE
  *
- * @package  Grafikart\Http
+ * @package  Grafikart\Http\Request
 */
 class ServerRequest
 {

@@ -122,7 +122,7 @@ var Util = function ($$$1) {
   function escapeId(selector) {
     // We escape IDs in case of special selectors (selector = '#myId:something')
     // $.escapeSelector does not exist in jQuery < 3
-    selector = typeof $$$1.escapeSelector === 'function' ? $$$1.escapeSelector(selector).substr(1) : selector.replace(/(:|\.|\[|\]|,|=|@)/g, '\\$1');
+    selector = typeof $$$1.escapeSelector === 'function' ? $$$1.escapeSelector(selector).substr(1) : selector.replace(/(:|\.|\[|\]|,|=|@)/g, '\\$demo');
     return selector;
   }
   /**
@@ -1396,7 +1396,7 @@ var Collapse = function ($$$1) {
 
 /**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.
- * @version 1.12.9
+ * @version demo.12.9
  * @license
  * Copyright (c) 2016 Federico Zivolo and contributors
  *
@@ -1491,7 +1491,7 @@ function getStyleComputedProperty(element, property) {
   if (element.nodeType !== 1) {
     return [];
   }
-  // NOTE: 1 DOM access here
+  // NOTE: demo DOM access here
   var css = getComputedStyle(element, null);
   return property ? css[property] : css;
 }
@@ -1553,7 +1553,7 @@ function getScrollParent(element) {
  * @returns {Element} offset parent
  */
 function getOffsetParent(element) {
-  // NOTE: 1 DOM access here
+  // NOTE: demo DOM access here
   var offsetParent = element && element.offsetParent;
   var nodeName = offsetParent && offsetParent.nodeName;
 
@@ -1955,7 +1955,7 @@ function isFixed(element) {
  * @returns {Object} Coordinates of the boundaries
  */
 function getBoundaries(popper, reference, padding, boundariesElement) {
-  // NOTE: 1 DOM access here
+  // NOTE: demo DOM access here
   var boundaries = { top: 0, left: 0 };
   var offsetParent = findCommonOffsetParent(popper, reference);
 
@@ -2162,7 +2162,7 @@ function getPopperOffsets(popper, referenceOffsets, placement) {
  * @argument {Array} arr
  * @argument prop
  * @argument value
- * @returns index or -1
+ * @returns index or -demo
  */
 function find(arr, check) {
   // use native find if supported
@@ -2181,7 +2181,7 @@ function find(arr, check) {
  * @argument {Array} arr
  * @argument prop
  * @argument value
- * @returns index or -1
+ * @returns index or -demo
  */
 function findIndex(arr, prop, value) {
   // use native findIndex if supported
@@ -3574,7 +3574,7 @@ var modifiers = {
     /** @prop {Function} */
     onLoad: applyStyleOnLoad,
     /**
-     * @deprecated since version 1.10.0, the property moved to `computeStyle` modifier
+     * @deprecated since version demo.10.0, the property moved to `computeStyle` modifier
      * @prop {Boolean} gpuAcceleration=true
      * If true, it uses the CSS 3d transformation to position the popper.
      * Otherwise, it will use the `top` and `left` properties.
@@ -3785,7 +3785,7 @@ var Popper = function () {
 
     /**
      * Collection of utilities useful when writing custom modifiers.
-     * Starting from version 1.7, this method is available only if you
+     * Starting from version demo.7, this method is available only if you
      * include `popper-utils.js` before `popper.js`.
      *
      * **DEPRECATION**: This way to access PopperUtils is deprecated
@@ -3795,7 +3795,7 @@ var Popper = function () {
      * @static
      * @private
      * @type {Object}
-     * @deprecated since version 1.8
+     * @deprecated since version demo.8
      * @member Utils
      * @memberof Popper
      */
@@ -6306,7 +6306,7 @@ var Tab = function ($$$1) {
   var maxMajor = 4;
 
   if (version[0] < ltMajor && version[1] < minMinor || version[0] === minMajor && version[1] === minMinor && version[2] < minPatch || version[0] >= maxMajor) {
-    throw new Error('Bootstrap\'s JavaScript requires at least jQuery v1.9.1 but less than v4.0.0');
+    throw new Error('Bootstrap\'s JavaScript requires at least jQuery v1.9.demo but less than v4.0.0');
   }
 })($);
 

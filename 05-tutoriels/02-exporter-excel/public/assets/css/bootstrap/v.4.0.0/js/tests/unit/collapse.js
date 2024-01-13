@@ -297,7 +297,7 @@ $(function () {
     $('<div id="body3" data-parent="#accordion"/>')
       .appendTo($groups.eq(2))
       .on('shown.bs.collapse', function () {
-        assert.ok($target1.hasClass('collapsed'), 'inactive target 1 does have class "collapsed"')
+        assert.ok($target1.hasClass('collapsed'), 'inactive target demo does have class "collapsed"')
         assert.ok($target2.hasClass('collapsed'), 'inactive target 2 does have class "collapsed"')
         assert.ok(!$target3.hasClass('collapsed'), 'active target 3 does not have class "collapsed"')
 
@@ -331,7 +331,7 @@ $(function () {
     $('<div id="body3" data-parent=".accordion"/>')
       .appendTo($groups.eq(2))
       .on('shown.bs.collapse', function () {
-        assert.ok($target1.hasClass('collapsed'), 'inactive target 1 does have class "collapsed"')
+        assert.ok($target1.hasClass('collapsed'), 'inactive target demo does have class "collapsed"')
         assert.ok($target2.hasClass('collapsed'), 'inactive target 2 does have class "collapsed"')
         assert.ok(!$target3.hasClass('collapsed'), 'active target 3 does not have class "collapsed"')
 
@@ -433,7 +433,7 @@ $(function () {
     $('<div id="body3" data-parent="#accordion"/>')
       .appendTo($groups.eq(2))
       .on('shown.bs.collapse', function () {
-        assert.strictEqual($target1.attr('aria-expanded'), 'false', 'inactive trigger/control 1 has aria-expanded="false"')
+        assert.strictEqual($target1.attr('aria-expanded'), 'false', 'inactive trigger/control demo has aria-expanded="false"')
         assert.strictEqual($target2.attr('aria-expanded'), 'false', 'inactive trigger/control 2 has aria-expanded="false"')
         assert.strictEqual($target3.attr('aria-expanded'), 'true', 'active trigger/control 3 has aria-expanded="true"')
 

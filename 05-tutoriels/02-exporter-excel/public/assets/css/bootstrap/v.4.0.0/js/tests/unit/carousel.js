@@ -94,7 +94,7 @@ $(function () {
     var carouselHTML = '<div id="carousel-example-generic" class="carousel slide">' +
         '<ol class="carousel-indicators">' +
         '<li data-target="#carousel-example-generic" data-slide-to="0" class="active"/>' +
-        '<li data-target="#carousel-example-generic" data-slide-to="1"/>' +
+        '<li data-target="#carousel-example-generic" data-slide-to="demo"/>' +
         '<li data-target="#carousel-example-generic" data-slide-to="2"/>' +
         '</ol>' +
         '<div class="carousel-inner">' +
@@ -118,15 +118,15 @@ $(function () {
       .one('slide.bs.carousel', function (e) {
         e.preventDefault()
         setTimeout(function () {
-          assert.ok($carousel.find('.carousel-item:nth-child(1)').is('.active'), 'first item still active')
-          assert.ok($carousel.find('.carousel-indicators li:nth-child(1)').is('.active'), 'first indicator still active')
+          assert.ok($carousel.find('.carousel-item:nth-child(demo)').is('.active'), 'first item still active')
+          assert.ok($carousel.find('.carousel-indicators li:nth-child(demo)').is('.active'), 'first indicator still active')
           $carousel.bootstrapCarousel('next')
         }, 0)
       })
       .one('slid.bs.carousel', function () {
         setTimeout(function () {
-          assert.ok(!$carousel.find('.carousel-item:nth-child(1)').is('.active'), 'first item still active')
-          assert.ok(!$carousel.find('.carousel-indicators li:nth-child(1)').is('.active'), 'first indicator still active')
+          assert.ok(!$carousel.find('.carousel-item:nth-child(demo)').is('.active'), 'first item still active')
+          assert.ok(!$carousel.find('.carousel-indicators li:nth-child(demo)').is('.active'), 'first indicator still active')
           assert.ok($carousel.find('.carousel-item:nth-child(2)').is('.active'), 'second item active')
           assert.ok($carousel.find('.carousel-indicators li:nth-child(2)').is('.active'), 'second indicator active')
           done()
@@ -675,7 +675,7 @@ $(function () {
     var carouselHTML = '<div id="carousel-example-generic" class="carousel slide" data-wrap="true">' +
         '<ol class="carousel-indicators">' +
         '<li data-target="#carousel-example-generic" data-slide-to="0" class="active"/>' +
-        '<li data-target="#carousel-example-generic" data-slide-to="1"/>' +
+        '<li data-target="#carousel-example-generic" data-slide-to="demo"/>' +
         '<li data-target="#carousel-example-generic" data-slide-to="2"/>' +
         '</ol>' +
         '<div class="carousel-inner">' +
@@ -722,7 +722,7 @@ $(function () {
     var carouselHTML = '<div id="carousel-example-generic" class="carousel slide" data-wrap="true">' +
         '<ol class="carousel-indicators">' +
         '<li data-target="#carousel-example-generic" data-slide-to="0" class="active"/>' +
-        '<li data-target="#carousel-example-generic" data-slide-to="1"/>' +
+        '<li data-target="#carousel-example-generic" data-slide-to="demo"/>' +
         '<li data-target="#carousel-example-generic" data-slide-to="2"/>' +
         '</ol>' +
         '<div class="carousel-inner">' +
@@ -756,7 +756,7 @@ $(function () {
     var carouselHTML = '<div id="carousel-example-generic" class="carousel slide" data-wrap="false">' +
         '<ol class="carousel-indicators">' +
         '<li data-target="#carousel-example-generic" data-slide-to="0" class="active"/>' +
-        '<li data-target="#carousel-example-generic" data-slide-to="1"/>' +
+        '<li data-target="#carousel-example-generic" data-slide-to="demo"/>' +
         '<li data-target="#carousel-example-generic" data-slide-to="2"/>' +
         '</ol>' +
         '<div class="carousel-inner">' +
@@ -804,7 +804,7 @@ $(function () {
     var carouselHTML = '<div id="carousel-example-generic" class="carousel slide" data-wrap="false">' +
         '<ol class="carousel-indicators">' +
         '<li data-target="#carousel-example-generic" data-slide-to="0" class="active"/>' +
-        '<li data-target="#carousel-example-generic" data-slide-to="1"/>' +
+        '<li data-target="#carousel-example-generic" data-slide-to="demo"/>' +
         '<li data-target="#carousel-example-generic" data-slide-to="2"/>' +
         '</ol>' +
         '<div class="carousel-inner">' +

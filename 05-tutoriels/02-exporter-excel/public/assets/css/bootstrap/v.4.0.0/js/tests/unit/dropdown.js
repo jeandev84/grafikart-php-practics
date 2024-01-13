@@ -309,7 +309,7 @@ $(function () {
         '<div class="dropdown" id="testmenu">' +
         '<a class="dropdown-toggle" data-toggle="dropdown" href="#testmenu">Test menu <span class="caret"/></a>' +
         '<div class="dropdown-menu">' +
-        '<a class="dropdown-item" href="#sub1">Submenu 1</a>' +
+        '<a class="dropdown-item" href="#sub1">Submenu demo</a>' +
         '</div>' +
         '</div>' +
         '</div>' +
@@ -317,7 +317,7 @@ $(function () {
         '<button class="btn">Actions</button>' +
         '<button class="btn dropdown-toggle" data-toggle="dropdown"></button>' +
         '<div class="dropdown-menu">' +
-        '<a class="dropdown-item" href="#">Action 1</a>' +
+        '<a class="dropdown-item" href="#">Action demo</a>' +
         '</div>' +
         '</div>'
     var $dropdowns = $(dropdownHTML).appendTo('#qunit-fixture').find('[data-toggle="dropdown"]')
@@ -355,7 +355,7 @@ $(function () {
         '<div class="dropdown" id="testmenu">' +
         '<a class="dropdown-toggle" data-toggle="dropdown" href="#testmenu">Test menu <span class="caret"/></a>' +
         '<div class="dropdown-menu">' +
-        '<a class="dropdown-item" href="#sub1">Submenu 1</a>' +
+        '<a class="dropdown-item" href="#sub1">Submenu demo</a>' +
         '</div>' +
         '</div>' +
         '</div>' +
@@ -363,7 +363,7 @@ $(function () {
         '<button class="btn">Actions</button>' +
         '<button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"/></button>' +
         '<div class="dropdown-menu">' +
-        '<a class="dropdown-item" href="#">Action 1</a>' +
+        '<a class="dropdown-item" href="#">Action demo</a>' +
         '</div>' +
         '</div>'
     var $dropdowns = $(dropdownHTML).appendTo('#qunit-fixture').find('[data-toggle="dropdown"]')

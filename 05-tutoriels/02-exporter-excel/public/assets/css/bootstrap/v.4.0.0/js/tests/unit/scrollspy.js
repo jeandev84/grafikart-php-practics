@@ -179,13 +179,13 @@ $(function () {
     var navbarHtml =
       '<nav class="navbar">' +
       '<ul class="nav">' +
-      '<li class="nav-item"><a class="nav-link" id="a-1" href="#div-1">div 1</a></li>' +
+      '<li class="nav-item"><a class="nav-link" id="a-demo" href="#div-demo">div demo</a></li>' +
       '<li class="nav-item"><a class="nav-link" id="a-2" href="#div-2">div 2</a></li>' +
       '</ul>' +
       '</nav>'
     var contentHtml =
         '<div class="content" style="overflow: auto; height: 50px">' +
-      '<div id="div-1" style="height: 100px; padding: 0; margin: 0">div 1</div>' +
+      '<div id="div-demo" style="height: 100px; padding: 0; margin: 0">div demo</div>' +
       '<div id="div-2" style="height: 200px; padding: 0; margin: 0">div 2</div>' +
       '</div>'
 
@@ -209,7 +209,7 @@ $(function () {
       return deferred.promise()
     }
 
-    $.when(testElementIsActiveAfterScroll('#a-1', '#div-1'))
+    $.when(testElementIsActiveAfterScroll('#a-demo', '#div-demo'))
       .then(function () {
         return testElementIsActiveAfterScroll('#a-2', '#div-2')
       })
@@ -223,13 +223,13 @@ $(function () {
     var navbarHtml =
       '<nav class="navbar">' +
       '<nav class="nav">' +
-      '<a class="nav-link" id="a-1" href="#div-1">div 1</a>' +
+      '<a class="nav-link" id="a-demo" href="#div-demo">div demo</a>' +
       '<a class="nav-link" id="a-2" href="#div-2">div 2</a>' +
       '</nav>' +
       '</nav>'
     var contentHtml =
         '<div class="content" style="overflow: auto; height: 50px">' +
-      '<div id="div-1" style="height: 100px; padding: 0; margin: 0">div 1</div>' +
+      '<div id="div-demo" style="height: 100px; padding: 0; margin: 0">div demo</div>' +
       '<div id="div-2" style="height: 200px; padding: 0; margin: 0">div 2</div>' +
       '</div>'
 
@@ -253,7 +253,7 @@ $(function () {
       return deferred.promise()
     }
 
-    $.when(testElementIsActiveAfterScroll('#a-1', '#div-1'))
+    $.when(testElementIsActiveAfterScroll('#a-demo', '#div-demo'))
       .then(function () {
         return testElementIsActiveAfterScroll('#a-2', '#div-2')
       })
@@ -267,13 +267,13 @@ $(function () {
     var navbarHtml =
       '<nav class="navbar">' +
       '<div class="list-group">' +
-      '<a class="list-group-item" id="a-1" href="#div-1">div 1</a>' +
+      '<a class="list-group-item" id="a-demo" href="#div-demo">div demo</a>' +
       '<a class="list-group-item" id="a-2" href="#div-2">div 2</a>' +
       '</div>' +
       '</nav>'
     var contentHtml =
         '<div class="content" style="overflow: auto; height: 50px">' +
-      '<div id="div-1" style="height: 100px; padding: 0; margin: 0">div 1</div>' +
+      '<div id="div-demo" style="height: 100px; padding: 0; margin: 0">div demo</div>' +
       '<div id="div-2" style="height: 200px; padding: 0; margin: 0">div 2</div>' +
       '</div>'
 
@@ -297,7 +297,7 @@ $(function () {
       return deferred.promise()
     }
 
-    $.when(testElementIsActiveAfterScroll('#a-1', '#div-1'))
+    $.when(testElementIsActiveAfterScroll('#a-demo', '#div-demo'))
       .then(function () {
         return testElementIsActiveAfterScroll('#a-2', '#div-2')
       })
@@ -312,7 +312,7 @@ $(function () {
     var done = assert.async()
     var navbarHtml = '<nav id="navigation" class="navbar">' +
       '<ul class="nav">' +
-      '<li class="nav-item"><a id="a-1" class="nav-link" href="#div-1">div 1</a>' +
+      '<li class="nav-item"><a id="a-demo" class="nav-link" href="#div-demo">div demo</a>' +
       '<ul class="nav">' +
       '<li class="nav-item"><a id="a-2" class="nav-link" href="#div-2">div 2</a></li>' +
       '</ul>' +
@@ -321,7 +321,7 @@ $(function () {
       '</nav>'
 
     var contentHtml = '<div class="content" style="position: absolute; top: 0px; overflow: auto; height: 50px">' +
-      '<div id="div-1" style="padding: 0; margin: 0">' +
+      '<div id="div-demo" style="padding: 0; margin: 0">' +
       '<div id="div-2" style="height: 200px; padding: 0; margin: 0">div 2</div>' +
       '</div>' +
       '</div>'
@@ -341,7 +341,7 @@ $(function () {
       }
 
       $content.one('scroll', function () {
-        assert.ok($('#a-1').hasClass('active'), 'nav item for outer element has "active" class')
+        assert.ok($('#a-demo').hasClass('active'), 'nav item for outer element has "active" class')
         assert.ok($('#a-2').hasClass('active'), 'nav item for inner element has "active" class')
         testActiveElements()
       })
@@ -358,7 +358,7 @@ $(function () {
     var done = assert.async()
     var navbarHtml = '<nav id="navigation" class="navbar">' +
       '<nav class="nav">' +
-      '<a id="a-1" class="nav-link" href="#div-1">div 1</a>' +
+      '<a id="a-demo" class="nav-link" href="#div-demo">div demo</a>' +
       '<nav class="nav">' +
       '<a id="a-2" class="nav-link" href="#div-2">div 2</a>' +
       '</nav>' +
@@ -366,7 +366,7 @@ $(function () {
       '</nav>'
 
     var contentHtml = '<div class="content" style="position: absolute; top: 0px; overflow: auto; height: 50px">' +
-      '<div id="div-1" style="padding: 0; margin: 0">' +
+      '<div id="div-demo" style="padding: 0; margin: 0">' +
       '<div id="div-2" style="height: 200px; padding: 0; margin: 0">div 2</div>' +
       '</div>' +
       '</div>'
@@ -386,7 +386,7 @@ $(function () {
       }
 
       $content.one('scroll', function () {
-        assert.ok($('#a-1').hasClass('active'), 'nav item for outer element has "active" class')
+        assert.ok($('#a-demo').hasClass('active'), 'nav item for outer element has "active" class')
         assert.ok($('#a-2').hasClass('active'), 'nav item for inner element has "active" class')
         testActiveElements()
       })
@@ -403,7 +403,7 @@ $(function () {
     var done = assert.async()
     var navbarHtml = '<nav id="navigation" class="navbar">' +
       '<ul class="nav">' +
-      '<li class="nav-item"><a id="a-1" class="nav-link" href="#div-1">div 1</a></li>' +
+      '<li class="nav-item"><a id="a-demo" class="nav-link" href="#div-demo">div demo</a></li>' +
       '<ul class="nav">' +
       '<li class="nav-item"><a id="a-2" class="nav-link" href="#div-2">div 2</a></li>' +
       '</ul>' +
@@ -411,7 +411,7 @@ $(function () {
       '</nav>'
 
     var contentHtml = '<div class="content" style="position: absolute; top: 0px; overflow: auto; height: 50px">' +
-      '<div id="div-1" style="padding: 0; margin: 0">' +
+      '<div id="div-demo" style="padding: 0; margin: 0">' +
       '<div id="div-2" style="height: 200px; padding: 0; margin: 0">div 2</div>' +
       '</div>' +
       '</div>'
@@ -431,7 +431,7 @@ $(function () {
       }
 
       $content.one('scroll', function () {
-        assert.ok($('#a-1').hasClass('active'), 'nav item for outer element has "active" class')
+        assert.ok($('#a-demo').hasClass('active'), 'nav item for outer element has "active" class')
         assert.ok($('#a-2').hasClass('active'), 'nav item for inner element has "active" class')
         testActiveElements()
       })
@@ -448,7 +448,7 @@ $(function () {
     var done = assert.async()
     var navbarHtml = '<nav id="navigation" class="navbar">' +
       '<div class="list-group">' +
-      '<a id="a-1" class="list-group-item" href="#div-1">div 1</a>' +
+      '<a id="a-demo" class="list-group-item" href="#div-demo">div demo</a>' +
       '<div class="list-group">' +
       '<a id="a-2" class="list-group-item" href="#div-2">div 2</a>' +
       '</div>' +
@@ -456,7 +456,7 @@ $(function () {
       '</nav>'
 
     var contentHtml = '<div class="content" style="position: absolute; top: 0px; overflow: auto; height: 50px">' +
-      '<div id="div-1" style="padding: 0; margin: 0">' +
+      '<div id="div-demo" style="padding: 0; margin: 0">' +
       '<div id="div-2" style="height: 200px; padding: 0; margin: 0">div 2</div>' +
       '</div>' +
       '</div>'
@@ -476,7 +476,7 @@ $(function () {
       }
 
       $content.one('scroll', function () {
-        assert.ok($('#a-1').hasClass('active'), 'nav item for outer element has "active" class')
+        assert.ok($('#a-demo').hasClass('active'), 'nav item for outer element has "active" class')
         assert.ok($('#a-2').hasClass('active'), 'nav item for inner element has "active" class')
         testActiveElements()
       })
@@ -577,7 +577,7 @@ $(function () {
     var navbarHtml =
       '<nav class="navbar">' +
       '<ul class="nav">' +
-      '<li class="nav-item"><a id="li-100-1" class="nav-link" href="#div-100-1">div 1</a></li>' +
+      '<li class="nav-item"><a id="li-100-demo" class="nav-link" href="#div-100-demo">div demo</a></li>' +
       '<li class="nav-item"><a id="li-100-2" class="nav-link" href="#div-100-2">div 2</a></li>' +
       '<li class="nav-item"><a id="li-100-3" class="nav-link" href="#div-100-3">div 3</a></li>' +
       '<li class="nav-item"><a id="li-100-4" class="nav-link" href="#div-100-4">div 4</a></li>' +
@@ -586,7 +586,7 @@ $(function () {
       '</nav>'
     var contentHtml =
         '<div class="content" style="position: relative; overflow: auto; height: 100px">' +
-      '<div id="div-100-1" style="position: relative; height: 100%; padding: 0; margin: 0">div 1</div>' +
+      '<div id="div-100-demo" style="position: relative; height: 100%; padding: 0; margin: 0">div demo</div>' +
       '<div id="div-100-2" style="position: relative; height: 100%; padding: 0; margin: 0">div 2</div>' +
       '<div id="div-100-3" style="position: relative; height: 100%; padding: 0; margin: 0">div 3</div>' +
       '<div id="div-100-4" style="position: relative; height: 100%; padding: 0; margin: 0">div 4</div>' +
@@ -624,7 +624,7 @@ $(function () {
         return testElementIsActiveAfterScroll('#li-100-2', '#div-100-2')
       })
       .then(function () {
-        return testElementIsActiveAfterScroll('#li-100-1', '#div-100-1')
+        return testElementIsActiveAfterScroll('#li-100-demo', '#div-100-demo')
       })
       .then(function () {
         done()
@@ -638,7 +638,7 @@ $(function () {
       var $navbar = $(
         '<nav class="navbar"' + (type === 'data' ? ' id="navbar-offset-method-menu"' : '') + '>' +
         '<ul class="nav">' +
-        '<li class="nav-item"><a id="li-' + type + 'm-1" class="nav-link" href="#div-' + type + 'm-1">div 1</a></li>' +
+        '<li class="nav-item"><a id="li-' + type + 'm-demo" class="nav-link" href="#div-' + type + 'm-demo">div demo</a></li>' +
         '<li class="nav-item"><a id="li-' + type + 'm-2" class="nav-link" href="#div-' + type + 'm-2">div 2</a></li>' +
         '<li class="nav-item"><a id="li-' + type + 'm-3" class="nav-link" href="#div-' + type + 'm-3">div 3</a></li>' +
         '</ul>' +
@@ -646,7 +646,7 @@ $(function () {
       )
       var $content = $(
         '<div class="content"' + (type === 'data' ? ' data-spy="scroll" data-target="#navbar-offset-method-menu" data-offset="0" data-method="offset"' : '') + ' style="position: relative; overflow: auto; height: 100px">' +
-        '<div id="div-' + type + 'm-1" style="position: relative; height: 200px; padding: 0; margin: 0">div 1</div>' +
+        '<div id="div-' + type + 'm-demo" style="position: relative; height: 200px; padding: 0; margin: 0">div demo</div>' +
         '<div id="div-' + type + 'm-2" style="position: relative; height: 150px; padding: 0; margin: 0">div 2</div>' +
         '<div id="div-' + type + 'm-3" style="position: relative; height: 250px; padding: 0; margin: 0">div 3</div>' +
         '</div>'
@@ -685,7 +685,7 @@ $(function () {
       var $navbar = $(
         '<nav class="navbar"' + (type === 'data' ? ' id="navbar-offset-method-menu"' : '') + '>' +
         '<ul class="nav">' +
-        '<li class="nav-item"><a class="nav-link" id="li-' + type + 'm-1" href="#div-' + type + 'm-1">div 1</a></li>' +
+        '<li class="nav-item"><a class="nav-link" id="li-' + type + 'm-demo" href="#div-' + type + 'm-demo">div demo</a></li>' +
         '<li class="nav-item"><a class="nav-link" id="li-' + type + 'm-2" href="#div-' + type + 'm-2">div 2</a></li>' +
         '<li class="nav-item"><a class="nav-link" id="li-' + type + 'm-3" href="#div-' + type + 'm-3">div 3</a></li>' +
         '</ul>' +
@@ -693,7 +693,7 @@ $(function () {
       )
       var $content = $(
         '<div class="content"' + (type === 'data' ? ' data-spy="scroll" data-target="#navbar-offset-method-menu" data-offset="0" data-method="position"' : '') + ' style="position: relative; overflow: auto; height: 100px">' +
-        '<div id="div-' + type + 'm-1" style="position: relative; height: 200px; padding: 0; margin: 0">div 1</div>' +
+        '<div id="div-' + type + 'm-demo" style="position: relative; height: 200px; padding: 0; margin: 0">div demo</div>' +
         '<div id="div-' + type + 'm-2" style="position: relative; height: 150px; padding: 0; margin: 0">div 2</div>' +
         '<div id="div-' + type + 'm-3" style="position: relative; height: 250px; padding: 0; margin: 0">div 3</div>' +
         '</div>'

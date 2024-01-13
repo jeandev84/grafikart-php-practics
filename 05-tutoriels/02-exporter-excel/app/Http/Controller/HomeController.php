@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controller;
 
-use Grafikart\Http\Response;
-use Grafikart\Http\ServerRequest;
+use Grafikart\Http\Request\ServerRequest;
+use Grafikart\Http\Response\Response;
 
 /**
  * HomeController

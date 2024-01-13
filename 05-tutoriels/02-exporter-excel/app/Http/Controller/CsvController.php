@@ -6,8 +6,9 @@ namespace App\Http\Controller;
 
 use App\Http\AbstractController;
 use App\Repository\VideoRepository;
-use Grafikart\Http\Response;
-use Grafikart\Http\ServerRequest;
+use Grafikart\Http\Request\ServerRequest;
+use Grafikart\Http\Response\Response;
+use Grafikart\Service\Csv\CsvConvertor;
 
 /**
  * ExcelController
@@ -37,10 +38,40 @@ class CsvController extends AbstractController
       {
            $videoRepository = new VideoRepository($this->getConnection());
 
-           $videos = $videoRepository->findAllVideos();
+           $videos = $videoRepository->findVideosToExport();
 
-           return $this->render('csv/export.php', [
-               'videos' => $videos
+           $csv = CsvConvertor::convertFromArray($videos);
+
+           $filename = 'csv-'. date('Y-m-d_H:i:s') . '.csv';
+
+           return new Response($csv, 200, [
+               'Content-Type' => 'text/csv',
+               'Content-Disposition' => sprintf('attachment; filename="%s"', $filename)
            ]);
       }
+
+
+
+
+    /**
+     * @param ServerRequest $request
+     * @return Response
+     */
+    public function exportCsv1(ServerRequest $request): Response
+    {
+        $videoRepository = new VideoRepository($this->getConnection());
+
+        $videos = $videoRepository->findVideos();
+
+        $response = $this->render('csv/demo/export.php', [
+            'videos' => $videos
+        ]);
+
+        $filename = 'csv-'. date('Y-m-d_H:i:s') . '.csv';
+
+        return $response->withHeaders([
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => sprintf('attachment; filename="%s"', $filename)
+        ]);
+    }
 }

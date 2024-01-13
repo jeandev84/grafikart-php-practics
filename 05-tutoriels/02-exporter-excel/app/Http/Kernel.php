@@ -5,12 +5,11 @@ namespace App\Http;
 
 use Exception;
 use Grafikart\Container\Container;
-use Grafikart\Http\HttpKernelInterface;
-use Grafikart\Http\Response;
-use Grafikart\Http\ServerRequest;
+use Grafikart\Http\Kernel\HttpKernelInterface;
+use Grafikart\Http\Request\ServerRequest;
+use Grafikart\Http\Response\Response;
 use Grafikart\Http\TerminableInterface;
 use Grafikart\Routing\Exception\RouteNotfoundException;
-use Grafikart\Routing\Route;
 use Grafikart\Routing\Router;
 use Grafikart\Templating\Renderer;
 use Throwable;

@@ -183,10 +183,10 @@ $(function () {
 
     var dropHTML =
         '<ul class="drop nav">' +
-        '  <li class="dropdown"><a data-toggle="dropdown" href="#">1</a>' +
+        '  <li class="dropdown"><a data-toggle="dropdown" href="#">demo</a>' +
         '    <ul class="dropdown-menu nav">' +
-        '      <li><a href="#1-1" data-toggle="tab">1-1</a></li>' +
-        '      <li><a href="#1-2" data-toggle="tab">1-2</a></li>' +
+        '      <li><a href="#demo-demo" data-toggle="tab">demo-demo</a></li>' +
+        '      <li><a href="#demo-2" data-toggle="tab">demo-2</a></li>' +
         '    </ul>' +
         '  </li>' +
         '</ul>'
@@ -197,10 +197,10 @@ $(function () {
       .end()
       .find('ul > li:last-child a')
       .on('show.bs.tab', function (e) {
-        assert.strictEqual(e.relatedTarget.hash, '#1-1', 'references correct element as relatedTarget')
+        assert.strictEqual(e.relatedTarget.hash, '#demo-demo', 'references correct element as relatedTarget')
       })
       .on('shown.bs.tab', function (e) {
-        assert.strictEqual(e.relatedTarget.hash, '#1-1', 'references correct element as relatedTarget')
+        assert.strictEqual(e.relatedTarget.hash, '#demo-demo', 'references correct element as relatedTarget')
         done()
       })
       .bootstrapTab('show')
@@ -349,14 +349,14 @@ $(function () {
     var done = assert.async()
     var tabsHTML =
         '<nav class="nav nav-tabs" role="tablist">' +
-        '  <a id="tab1" href="#x-tab1" class="nav-item nav-link" data-toggle="tab" role="tab" aria-controls="x-tab1">Tab 1</a>' +
+        '  <a id="tab1" href="#x-tab1" class="nav-item nav-link" data-toggle="tab" role="tab" aria-controls="x-tab1">Tab demo</a>' +
         '  <a href="#x-tab2" class="nav-item nav-link active" data-toggle="tab" role="tab" aria-controls="x-tab2" aria-selected="true">Tab 2</a>' +
         '  <a href="#x-tab3" class="nav-item nav-link" data-toggle="tab" role="tab" aria-controls="x-tab3">Tab 3</a>' +
         '</nav>' +
         '<div class="tab-content">' +
         '  <div class="tab-pane" id="x-tab1" role="tabpanel">' +
         '    <nav class="nav nav-tabs" role="tablist">' +
-        '      <a href="#nested-tab1" class="nav-item nav-link active" data-toggle="tab" role="tab" aria-controls="x-tab1" aria-selected="true">Nested Tab 1</a>' +
+        '      <a href="#nested-tab1" class="nav-item nav-link active" data-toggle="tab" role="tab" aria-controls="x-tab1" aria-selected="true">Nested Tab demo</a>' +
         '      <a id="tabNested2" href="#nested-tab2" class="nav-item nav-link" data-toggle="tab" role="tab" aria-controls="x-profile">Nested Tab2</a>' +
         '    </nav>' +
         '    <div class="tab-content">' +

@@ -107,7 +107,7 @@ $(function () {
     assert.expect(12)
     var groupHTML = '<div class="btn-group" data-toggle="buttons">' +
       '<label class="btn btn-primary active">' +
-      '<input type="radio" name="options" id="option1" checked="true"> Option 1' +
+      '<input type="radio" name="options" id="option1" checked="true"> Option demo' +
       '</label>' +
       '<label class="btn btn-primary">' +
       '<input type="radio" name="options" id="option2"> Option 2' +

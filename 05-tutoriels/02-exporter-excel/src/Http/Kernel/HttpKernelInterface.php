@@ -1,8 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Grafikart\Http;
+namespace Grafikart\Http\Kernel;
 
+
+use Grafikart\Http\Request\ServerRequest;
+use Grafikart\Http\Response\Response;
 
 /**
  * HttpKernelInterface
@@ -11,7 +14,7 @@ namespace Grafikart\Http;
  *
  * @license https://github.com/jeandev84/laventure-framework/blob/master/LICENSE
  *
- * @package  Grafikart\Http
+ * @package  Grafikart\Http\Kernel
  */
 interface HttpKernelInterface
 {

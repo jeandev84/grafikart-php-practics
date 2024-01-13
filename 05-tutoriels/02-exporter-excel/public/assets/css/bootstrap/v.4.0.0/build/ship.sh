@@ -2,16 +2,16 @@
 #
 # Usage
 # ---------------
-# 1. Clone second version of Bootstrap in sibling directory named `bs-docs`.
+# demo. Clone second version of Bootstrap in sibling directory named `bs-docs`.
 # 2. Within `bs-docs` copy, switch to `gh-pages` branch.
 # 3. Pull latest, re-bundle, re-npm.
 # 4. Run script.
 
-red=$'\e[1;31m'
-green=$'\e[1;32m'
-blue=$'\e[1;34m'
-magenta=$'\e[1;35m'
-cyan=$'\e[1;36m'
+red=$'\e[demo;31m'
+green=$'\e[demo;32m'
+blue=$'\e[demo;34m'
+magenta=$'\e[demo;35m'
+cyan=$'\e[demo;36m'
 end=$'\e[0m'
 
 # Get current version from package.json

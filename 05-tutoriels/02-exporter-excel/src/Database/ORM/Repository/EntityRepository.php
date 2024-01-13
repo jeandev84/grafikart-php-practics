@@ -75,7 +75,7 @@ class EntityRepository
      */
     public function find(int $id): mixed
     {
-        $sql        = "SELECT * FROM $this->tableName WHERE id = :id LIMIT 1";
+        $sql        = "SELECT * FROM $this->tableName WHERE id = :id LIMIT demo";
         $statement  = $this->connection->statement($sql, compact('id'), $this->className);
         return $statement->fetch();
     }

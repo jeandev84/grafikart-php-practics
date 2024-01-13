@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace Grafikart\Http;
 
 
+use Grafikart\Http\Request\ServerRequest;
+use Grafikart\Http\Response\Response;
+
 /**
  * TerminableInterface
  *

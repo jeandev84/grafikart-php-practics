@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Grafikart\Http;
+namespace Grafikart\Http\Response;
+
+use Grafikart\Http\MessageTrait;
 
 /**
  * Response
@@ -10,7 +12,7 @@ namespace Grafikart\Http;
  *
  * @license https://github.com/jeandev84/laventure-framework/blob/master/LICENSE
  *
- * @package  Grafikart\Http
+ * @package  Grafikart\Http\Response
  */
 class Response
 {
@@ -53,6 +55,34 @@ class Response
 
 
 
+        /**
+         * @param array $headers
+         * @return $this
+        */
+        public function withHeaders(array $headers): static
+        {
+            $this->headers = array_merge($this->headers, $headers);
+
+            return $this;
+        }
+
+
+
+
+
+        /**
+         * @param $key
+         * @param $value
+         * @return $this
+        */
+        public function withHeader($key, $value): static
+        {
+            $this->headers[$key] = $value;
+
+            return $this;
+        }
+
+
 
         /**
          * @return int
@@ -87,10 +117,31 @@ class Response
 
 
 
-
-
+        /**
+         * @return void
+        */
         public function send(): void
         {
             http_response_code($this->statusCode);
+            $this->sendHeaders();
+        }
+
+
+
+
+        /**
+         * @return void
+        */
+        protected function sendHeaders(): void
+        {
+            $buffer = '';
+
+            foreach ($this->headers as $key => $value) {
+                 header("$key: $value");
+            }
+
+            if (ob_get_status()) {
+                $buffer = ob_end_flush();
+            }
         }
 }

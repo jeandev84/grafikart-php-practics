@@ -10,7 +10,7 @@ Package.describe({
 });
 
 Package.onUse(function (api) {
-  api.versionsFrom('METEOR@1.0');
+  api.versionsFrom('METEOR@demo.0');
   api.use('jquery', 'client');
   api.addFiles([
     'source/css/bootstrap.css',
