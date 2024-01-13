@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace App\Http;
 
+use App\Http\Middlewares\RouteDispatchedMiddleware;
 use Exception;
 use Grafikart\Container\Container;
+use Grafikart\Http\Handlers\RequestHandlerInterface;
 use Grafikart\Http\Kernel\HttpKernelInterface;
 use Grafikart\Http\Request\ServerRequest;
 use Grafikart\Http\Response\Response;
@@ -31,6 +33,13 @@ class Kernel implements HttpKernelInterface, TerminableInterface
     */
     protected Container $app;
 
+
+    /**
+     * @var array
+    */
+    private array $middlewarePriority = [
+        RouteDispatchedMiddleware::class
+    ];
 
 
     /**
@@ -85,23 +94,14 @@ class Kernel implements HttpKernelInterface, TerminableInterface
     */
     private function dispatchRoute(ServerRequest $request): Response
     {
-        $path      = $request->getPath();
-        $method    = $request->getMethod();
-        $route     = $this->router->match($method, $path);
+        $queueHandler = $this->app[RequestHandlerInterface::class];
 
-        if (!$route) {
-            throw new RouteNotfoundException($path);
-        }
-
-        $callback = $route->getAction();
-
-        if (is_array($callback)) {
-            [$controller, $action] = $callback;
-            $callback = [new $controller($this->app), $action];
-        }
-
-        return call_user_func_array($callback, [$request]);
+        return (new Pipeline($this->app, $queueHandler))
+               ->middlewares($this->middlewarePriority)
+               ->then($request);
     }
+
+
 
 
 

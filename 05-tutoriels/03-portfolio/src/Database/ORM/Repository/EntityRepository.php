@@ -67,6 +67,16 @@ class EntityRepository
     }
 
 
+    /**
+     * @return array
+    */
+    public function findAll(): array
+    {
+        $sql        = "SELECT * FROM  $this->tableName";
+        $statement  = $this->connection->statement($sql, [], $this->className);
+        return $statement->fetchAll();
+    }
+
 
 
     /**

@@ -1,8 +1,11 @@
 <?php
 
 // bindings
+use App\Http\Handlers\NotFoundHandler;
 use Grafikart\Container\Container;
 use Grafikart\Database\Connection\PdoConnection;
+use Grafikart\Http\Handlers\QueueRequestHandler;
+use Grafikart\Http\Handlers\RequestHandlerInterface;
 use Grafikart\Routing\Router;
 use Grafikart\Templating\Renderer;
 
@@ -11,6 +14,10 @@ define('BASE_PATH', dirname(__DIR__));
 $config = require BASE_PATH . '/config/app.php';
 
 $app = Container::instance();
+
+$app->bind(RequestHandlerInterface::class, function () {
+   return new QueueRequestHandler(new NotFoundHandler());
+});
 
 $app->bind(PdoConnection::class, function () use ($config) {
     return PdoConnection::make($config['database']);

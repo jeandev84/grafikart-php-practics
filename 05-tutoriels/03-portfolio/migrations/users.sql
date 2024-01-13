@@ -4,3 +4,6 @@ CREATE TABLE users (
    password VARCHAR(255) NOT NULL
 ) ENGINE = 'MyISAM';
 
+
+INSERT INTO users (username, password)
+VALUES ('admin', sha1('admin')); # admin (pswd)

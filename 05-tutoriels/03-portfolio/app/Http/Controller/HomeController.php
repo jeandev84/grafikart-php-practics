@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controller;
 
 use App\Http\AbstractController;
+use App\Repository\UserRepository;
 use Grafikart\Http\Response\Response;
 
 /**
@@ -19,6 +20,12 @@ class HomeController extends AbstractController
 {
         public function index(): Response
         {
-            return $this->render('index');
+            $userRepository = new UserRepository($this->getConnection());
+
+            dd($userRepository->findAll());
+
+            return $this->render('index', [
+                'users' => $userRepository->findAll()
+            ]);
         }
 }
