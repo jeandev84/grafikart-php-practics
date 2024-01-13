@@ -19,7 +19,7 @@ class CsvConvertor
         * @param array $data
         * @return string
        */
-       public static function convertFromArray(array $data): string
+       public static function convertToCsv(array $data): string
        {
             $index = 0;
             $csv   = [];
