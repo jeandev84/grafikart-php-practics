@@ -32,6 +32,8 @@ class AuthController extends AbstractController
               $form->get('password', '')
          );
 
+         dd($this->auth->getUser());
+
          return $this->render('auth/login', [
              'form' => $form
          ]);

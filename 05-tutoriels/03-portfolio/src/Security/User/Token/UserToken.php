@@ -40,7 +40,7 @@ class UserToken implements UserTokenInterface
     */
     public function serialize(): string
     {
-         return serialize($this->user);
+         return serialize($this);
     }
 
 
