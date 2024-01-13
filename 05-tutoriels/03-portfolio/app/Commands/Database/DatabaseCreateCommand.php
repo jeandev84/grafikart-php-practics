@@ -5,6 +5,7 @@ namespace App\Commands\Database;
 
 
 use App\Factory\ConnectionFactory;
+use Exception;
 use Grafikart\Console\Command\Command;
 use Grafikart\Console\Input\Contract\InputInterface;
 use Grafikart\Console\Output\Contract\OutputInterface;
@@ -34,7 +35,7 @@ class DatabaseCreateCommand extends Command
       * @param InputInterface $input
       * @param OutputInterface $output
       * @return int
-      * @throws \Exception
+      * @throws Exception
      */
      public function execute(InputInterface $input, OutputInterface $output): int
      {

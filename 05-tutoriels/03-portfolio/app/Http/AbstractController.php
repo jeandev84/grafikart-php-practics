@@ -26,6 +26,16 @@ abstract class AbstractController
       protected Container $app;
 
 
+
+      /**
+       * @var string
+      */
+      protected string $layout = 'layouts/default';
+
+
+
+
+
       /**
        * @param Container $app
       */
@@ -44,7 +54,7 @@ abstract class AbstractController
       */
       public function render(string $template, array $data = []): Response
       {
-           return new Response($this->renderView($template, $data));
+           return new Response($this->renderView("$template.phtml", $data));
       }
 
 
@@ -57,7 +67,9 @@ abstract class AbstractController
       */
       public function renderView(string $template, array $data): string
       {
-          return $this->app[Renderer::class]->render($template, $data);
+          $view = $this->app[Renderer::class];
+          $view->layout($this->layout . ".phtml");
+          return $view->render($template, $data);
       }
 
 
