@@ -72,7 +72,7 @@ class Auth
      */
      public function isGranted(array $roles): bool
      {
-         return $this->isGranted($roles);
+         return $this->authenticator->isGranted($roles);
      }
 
 
