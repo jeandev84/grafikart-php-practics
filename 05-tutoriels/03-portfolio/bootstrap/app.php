@@ -44,9 +44,7 @@ $app->bind('auth', function (Container $app) {
     $session    = $app->get(SessionInterface::class);
     $provider   = new \App\Security\Providers\UserProvider($connection);
     $storage    = new \App\Security\Token\UserTokenStorage($session);
-    return new Auth(
-        new UserAuthenticator($provider)
-    );
+    return new Auth(new UserAuthenticator($provider, $storage));
 });
 
 $app->bind(Renderer::class, function () {

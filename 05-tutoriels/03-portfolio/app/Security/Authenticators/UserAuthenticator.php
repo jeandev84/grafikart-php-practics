@@ -7,6 +7,7 @@ use App\Entity\User;
 use Grafikart\Security\Authenticator\Contract\AuthenticatorInterface;
 use Grafikart\Security\Authenticator\DTO\UserCredentialsInterface;
 use Grafikart\Security\User\Provider\UserProviderInterface;
+use Grafikart\Security\User\Token\UserTokenStorageInterface;
 use Grafikart\Security\User\UserInterface;
 
 /**
@@ -24,9 +25,11 @@ class UserAuthenticator implements AuthenticatorInterface
 
     /**
      * @param UserProviderInterface $userProvider
+     * @param UserTokenStorageInterface $userTokenStorage
     */
     public function __construct(
-        protected UserProviderInterface $userProvider
+        protected UserProviderInterface $userProvider,
+        protected UserTokenStorageInterface $userTokenStorage
     )
     {
     }
@@ -45,9 +48,13 @@ class UserAuthenticator implements AuthenticatorInterface
              'password' => sha1($password)
          ]);
 
-         dd($user);
+         if (! $user) {
+             return false;
+         }
 
-         return false;
+         $this->userTokenStorage->setToken($user);
+
+         return true;
     }
 
 
@@ -57,7 +64,9 @@ class UserAuthenticator implements AuthenticatorInterface
     */
     public function getUser(): UserInterface
     {
-         return new User();
+         return $this->userTokenStorage
+                     ->getToken()
+                     ->getUser();
     }
 
 
@@ -68,7 +77,11 @@ class UserAuthenticator implements AuthenticatorInterface
     */
     public function logout(): bool
     {
-         return true;
+         if (! $this->userTokenStorage->hasToken()) {
+             return false;
+         }
+
+         return $this->userTokenStorage->removeToken($this->getUser());
     }
 
 

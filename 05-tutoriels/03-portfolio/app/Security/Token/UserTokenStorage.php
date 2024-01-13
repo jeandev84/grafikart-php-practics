@@ -5,6 +5,7 @@ namespace App\Security\Token;
 
 use Grafikart\Http\Session\Session;
 use Grafikart\Http\Session\SessionInterface;
+use Grafikart\Security\User\Token\UserToken;
 use Grafikart\Security\User\Token\UserTokenInterface;
 use Grafikart\Security\User\Token\UserTokenStorageInterface;
 use Grafikart\Security\User\UserInterface;
@@ -18,6 +19,8 @@ use Grafikart\Security\User\UserInterface;
  */
 class UserTokenStorage implements UserTokenStorageInterface
 {
+
+    const KEY = 'security.user';
 
 
     /**
@@ -42,30 +45,48 @@ class UserTokenStorage implements UserTokenStorageInterface
     */
     public function setToken(UserInterface $user): UserTokenInterface
     {
-        // TODO: Implement setToken() method.
+        $token = new UserToken($user);
+        $this->session->set(self::KEY, $token->serialize());
+        return $token;
     }
+
+
+
 
     /**
      * @inheritDoc
-     */
+    */
     public function hasToken(): bool
     {
-        // TODO: Implement hasToken() method.
+        return $this->session->has(self::KEY);
     }
+
+
 
     /**
      * @inheritDoc
-     */
+    */
     public function getToken(): UserTokenInterface
     {
-        // TODO: Implement getToken() method.
+        if (! $this->hasToken()) {
+            throw new \Exception("Could not provide user token.");
+        }
+
+        $token = $this->session->get(self::KEY);
+
+        return unserialize($token);
     }
+
+
+
 
     /**
      * @inheritDoc
      */
-    public function removeToken(UserInterface $user): mixed
+    public function removeToken(UserInterface $user): bool
     {
-        // TODO: Implement removeToken() method.
+         $this->session->forget(self::KEY);
+
+         return true;
     }
 }

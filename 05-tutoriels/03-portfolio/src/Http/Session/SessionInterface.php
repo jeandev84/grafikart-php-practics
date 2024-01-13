@@ -49,6 +49,25 @@ interface SessionInterface
 
        /**
         * @param $key
+        * @return mixed
+       */
+       public function forget($key): mixed;
+
+
+
+
+
+       /**
+        * @return mixed
+       */
+       public function destroy(): mixed;
+
+
+
+
+
+       /**
+        * @param $key
         * @param string $message
         * @return mixed
        */

@@ -70,6 +70,20 @@ class Session implements SessionInterface
     /**
      * @inheritDoc
     */
+    public function forget($key): bool
+    {
+        unset($_SESSION[$key]);
+
+        return $this->has($key);
+    }
+
+
+
+
+
+    /**
+     * @inheritDoc
+    */
     public function addFlash($key, string $message): static
     {
         $_SESSION[$this->flashKey][$key] = $message;
@@ -82,9 +96,22 @@ class Session implements SessionInterface
 
     /**
      * @inheritDoc
-     */
+    */
     public function getFlash($key): string
     {
         return $_SESSION[$this->flashKey][$key] ?? '';
+    }
+
+
+
+
+    /**
+     * @inheritDoc
+    */
+    public function destroy(): bool
+    {
+        session_destroy();
+        $_SESSION = [];
+        return true;
     }
 }

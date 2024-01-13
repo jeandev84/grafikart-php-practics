@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Middlewares;
 
+use App\Security\Token\UserTokenStorage;
 use Grafikart\Container\Container;
 use Grafikart\Http\Handlers\MiddlewareInterface;
 use Grafikart\Http\Handlers\RequestHandlerInterface;
@@ -22,8 +23,6 @@ use Grafikart\Http\Session\SessionInterface;
  */
 class AuthenticatedMiddleware implements MiddlewareInterface
 {
-    const KEY = 'security.user';
-
     protected SessionInterface $session;
 
 
@@ -41,7 +40,7 @@ class AuthenticatedMiddleware implements MiddlewareInterface
     */
     public function process(ServerRequest $request, RequestHandlerInterface $handler): Response
     {
-         if (! $this->session->has(self::KEY)) {
+         if (! $this->session->has(UserTokenStorage::KEY)) {
               return new RedirectResponse("/login");
          }
 
