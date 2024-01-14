@@ -62,26 +62,29 @@ class WorkController extends AdminController
      */
     public function store(ServerRequest $request): Response
     {
-        $params = new Parameter($request->getParsedBody());
-        $name   = $params->get('name');
-        $slug   = $params->get('slug');
-        $token  = $params->get('_csrf');
+        $params     = new Parameter($request->getParsedBody());
+        $slug       = $params->get('slug');
+        $token      = $params->get('_csrf');
 
         if (!$this->csrfToken->isValidToken($token)) {
             return new Response("Invalid token $token");
         }
 
+        $this->session->set('admin.work.store', $params->all());
+
         if (!preg_match("/^[a-z\-0-9]+$/", $slug)) {
             $this->addFlash('danger', "Le slug $slug n' est pas valide");
-            $this->session->set('admin.work.store', $params->all());
             return $this->redirectTo($this->generatePath('admin.work.create'));
         }
 
         $workRepository = new WorkRepository($this->getConnection());
         $workRepository->create([
-            'name' => $name,
-            'slug' => $slug
+            'name'       => $params->get('name'),
+            'slug'       => $slug,
+            'content'    => $params->get('content'),
+            'category_id' => $params->get('category_id')
         ]);
+
         $this->addFlash('success', "La realisation a bien ete ajoutee");
         $this->session->forget('admin.work.store');
         return $this->redirectTo($this->generatePath('admin.work.list'));
@@ -108,14 +111,19 @@ class WorkController extends AdminController
             return $this->redirectTo($this->generatePath('admin.work.list'));
         }
 
+        $categoryRepository = new CategoryRepository($this->getConnection());
+
         $form = new Form([
-            'name' => $work->getName(),
-            'slug' => $work->getSlug()
+            'name'       => $work->getName(),
+            'slug'       => $work->getSlug(),
+            'content'    => $work->getContent(),
+            'category_id' => $work->getCategory()
         ]);
 
         return $this->render('admin/work/edit', [
-            'work' => $work,
-            'form'     => $form
+            'work'       => $work,
+            'form'       => $form,
+            'categories' => $categoryRepository->getCategoryList()
         ]);
     }
 
@@ -130,7 +138,6 @@ class WorkController extends AdminController
         $workRepository = new WorkRepository($this->getConnection());
         $id     = (int)$request->getAttribute('id');
         $params = new Parameter($request->getParsedBody());
-        $name   = $params->get('name');
         $slug   = $params->get('slug');
         $token  = $params->get('_csrf');
 
@@ -138,20 +145,23 @@ class WorkController extends AdminController
             return new Response("Invalid token $token");
         }
 
+        $this->session->set('admin.work.update', $params->all());
+
         if (!preg_match("/^[a-z\-0-9]+$/", $slug)) {
             $this->addFlash('danger', "Le slug $slug n' est pas valide");
             return $this->redirectTo($this->generatePath('admin.work.edit', compact('id')));
         }
 
         $workRepository->update([
-            'name' => $name,
-            'slug' => $slug
+            'name'       => $params->get('name'),
+            'slug'       => $slug,
+            'content'    => $params->get('content'),
+            'category_id' => $params->get('category_id')
         ], $id);
 
         $this->addFlash('success', "La realisation ID#$id a bien ete modifiee");
         $this->session->forget('admin.work.update');
         return $this->redirectTo($this->generatePath('admin.work.list'));
-
         # return $this->redirectTo($this->generatePath('admin.work.edit', compact('id')));
     }
 

@@ -60,6 +60,8 @@ class CategoryController extends AdminController
       */
       public function store(ServerRequest $request): Response
       {
+          $this->session->forget('admin.category.store');
+
           $params = new Parameter($request->getParsedBody());
           $name   = $params->get('name');
           $slug   = $params->get('slug');
@@ -69,9 +71,10 @@ class CategoryController extends AdminController
               return new Response("Invalid token $token");
           }
 
+          $this->session->set('admin.category.store', $params->all());
+
           if (!preg_match("/^[a-z\-0-9]+$/", $slug)) {
               $this->addFlash('danger', "Le slug $slug n' est pas valide");
-              $this->session->set('admin.category.store', $params->all());
               return $this->redirectTo($this->generatePath('admin.category.create'));
           }
 
@@ -81,8 +84,7 @@ class CategoryController extends AdminController
               'slug' => $slug
           ]);
           $this->addFlash('success', "La categorie a bien ete ajoutee");
-          $this->session->forget('admin.category.store');
-          return $this->redirectTo($this->generatePath('admin.category.list'));
+          return $this->redirectTo($this->generatePath('admin.category.create'));
       }
 
 
