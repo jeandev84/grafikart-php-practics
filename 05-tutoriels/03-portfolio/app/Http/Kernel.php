@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Http;
 
+use App\Http\Middlewares\CsrfTokenMiddleware;
+use App\Http\Middlewares\MethodOverrideMiddleware;
 use App\Http\Middlewares\RouteDispatchedMiddleware;
 use Exception;
 use Grafikart\Container\Container;
@@ -13,6 +15,7 @@ use Grafikart\Http\Response\Response;
 use Grafikart\Http\TerminableInterface;
 use Grafikart\Routing\Exception\RouteNotfoundException;
 use Grafikart\Routing\Router;
+use Grafikart\Security\Token\Csrf\CsrfTokenInterface;
 use Grafikart\Templating\Renderer;
 use Throwable;
 
@@ -38,6 +41,7 @@ class Kernel implements HttpKernelInterface, TerminableInterface
      * @var array
     */
     private array $middlewarePriority = [
+        MethodOverrideMiddleware::class,
         RouteDispatchedMiddleware::class
     ];
 
@@ -113,7 +117,7 @@ class Kernel implements HttpKernelInterface, TerminableInterface
     private function exceptionResponse(Throwable $e): Response
     {
         $code = $e->getCode() ?: 500;
-        $body = $this->app[Renderer::class]->render("errors/$code.php", [
+        $body = $this->app[Renderer::class]->render("errors/$code.phtml", [
             'exception' => $e
         ]);
 

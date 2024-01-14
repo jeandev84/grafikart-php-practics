@@ -90,6 +90,35 @@ class Router
     }
 
 
+
+
+    /**
+     * @param string $path
+     * @param callable|array $callback
+     * @param string $name
+     * @return Route
+     */
+    public function put(string $path, callable|array $callback, string $name = ''): Route
+    {
+        return $this->map('PUT', $path, $callback, $name);
+    }
+
+
+
+
+
+    /**
+     * @param string $path
+     * @param callable|array $callback
+     * @param string $name
+     * @return Route
+     */
+    public function delete(string $path, callable|array $callback, string $name = ''): Route
+    {
+        return $this->map('DELETE', $path, $callback, $name);
+    }
+
+
     
 
     /**

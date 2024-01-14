@@ -30,6 +30,27 @@ class Route
 
 
       /**
+       * @var array
+      */
+      protected array $wheres = [];
+
+
+
+      /**
+       * @var array
+      */
+      protected array $patterns = [];
+
+
+
+      /**
+       * @var array
+      */
+      protected array $replaces = [];
+
+
+
+      /**
        * @param array $methods
        * @param string $path
        * @param mixed $action
@@ -133,6 +154,28 @@ class Route
     public function match(string $method, string $path): bool
     {
         return $this->matchMethod($method) && $this->matchPath($path);
+    }
+
+
+
+
+    /**
+     * @param string $name
+     * @param string $regex
+     * @return $this
+    */
+    public function where(string $name, string $regex): static
+    {
+        $patterns   = ["#{{$name}}#", "#{{$name}}.?#"];
+        $replaces   = ["(?P<$name>$regex)", "?(?P<$name>$regex)?"];
+
+        $this->path = preg_replace($patterns, $replaces, $this->path);
+
+        $this->wheres[$name] = $regex;
+        $this->patterns[$name] = $patterns;
+        $this->replaces[$name] = $replaces;
+
+        return $this;
     }
 
 

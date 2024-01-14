@@ -83,6 +83,17 @@ class Response
         }
 
 
+        /**
+         * @param int $statusCode
+         * @return $this
+        */
+        public function withStatusCode(int $statusCode): static
+        {
+            $this->statusCode = $statusCode;
+        }
+
+
+
 
         /**
          * @return int

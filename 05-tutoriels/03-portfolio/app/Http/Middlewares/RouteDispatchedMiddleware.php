@@ -56,9 +56,16 @@ class RouteDispatchedMiddleware implements MiddlewareInterface
         $method    = $request->getMethod();
         $route     = $this->router->match($method, $path);
 
+        dd($this->router->getRoutes());
+
         if (!$route) {
             return $handler->handle($request);
         }
+
+
+        $request->withAttributes([
+            '_route' => $route,
+        ]);
 
         $callback    = $route->getAction();
         $middlewares = $route->getMiddlewares();
@@ -66,6 +73,9 @@ class RouteDispatchedMiddleware implements MiddlewareInterface
         if (is_array($callback)) {
             [$controller, $action] = $callback;
             $callback = [new $controller($this->app), $action];
+            $request->withAttributes([
+                '_controller' => join("::", $callback)
+            ]);
         }
 
         return call_user_func_array($callback, [$request]);

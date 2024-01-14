@@ -1,1 +1,26 @@
-<h1>Categories</h1>
+<div class="container__categories">
+    <h1>Les categories</h1>
+    <table class="table table-striped">
+        <thead>
+           <tr>
+               <th>ID</th>
+               <th>Nom</th>
+               <th>Actions</th>
+           </tr>
+        </thead>
+        <tbdy>
+            <?php foreach ($categories as $category): ?>
+               <tr>
+                   <td><?= $category->getId() ?></td>
+                   <td><?= $category->getName() ?></td>
+                   <td>
+                       <a href="/admin/category/edit?id=<?= $category->getId() ?>" class="btn btn-default">
+                           Editer
+                       </a>
+                       <?php include '_delete.phtml'?>
+                   </td>
+               </tr>
+            <?php endforeach; ?>
+        </tbdy>
+    </table>
+</div>

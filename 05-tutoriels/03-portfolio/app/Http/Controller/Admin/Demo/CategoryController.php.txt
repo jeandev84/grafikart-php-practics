@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Http\Controller\Admin;
+namespace App\Http\Controller\Admin\Demo;
 
 use App\Http\Controller\AdminController;
 use App\Repository\CategoryRepository;
@@ -24,6 +24,21 @@ class CategoryController extends AdminController
       public function index(ServerRequest $request): Response
       {
           $categoryRepository = new CategoryRepository($this->getConnection());
+          $id = (int)$request->getQueryParams()['delete'] ?? 0;
+
+          if($id) {
+              // CsrfTokenMiddleware
+              $token = $request->getQueryParams()['csrf'] ?? '';
+              if (!$this->csrfToken->isValidToken($token)) {
+                  return new Response("Invalid token $token");
+              }
+              // End CsrfTokenMiddleware
+              $categoryRepository->delete($id);
+
+              return $this->redirectTo("/admin/category?delete=$id&csrf=$token")
+                         ->withStatusCode(301);
+          }
+
 
           return $this->render('admin/category/index', [
               'categories' => $categoryRepository->findAll()
@@ -61,29 +76,23 @@ class CategoryController extends AdminController
      }
 
 
-    /**
-     * @param ServerRequest $request
-     * @return Response
-    */
-    public function delete(ServerRequest $request): Response
-    {
-        dd($request->getMethod());
-
-        $id = (int)$request->getQueryParams()['delete'] ?? 0;
-
-        // CsrfTokenMiddleware
-        $token = $request->getQueryParams()['csrf'] ?? '';
-
-        if (!$this->csrfToken->isValidToken($token)) {
-            return new Response("Invalid token $token");
-        }
-        // End CsrfTokenMiddleware
-
-        $categoryRepository = new CategoryRepository($this->getConnection());
-
-        $categoryRepository->delete($id);
-
-        return $this->redirectTo("/admin/category?delete=$id&csrf=$token")
-                    ->withStatusCode(301);
-    }
+//    /**
+//     * @param ServerRequest $request
+//     * @return bool
+//     */
+//    public function delete(ServerRequest $request): bool
+//    {
+//        $id = (int)$request->getQueryParams()['delete'] ?? 0;
+//
+//        // CsrfTokenMiddleware
+//        $token = $request->getQueryParams()['csrf'] ?? '';
+//        if (!$this->csrfToken->isValidToken($token)) {
+//            throw new \InvalidArgumentException("Invalid token $token");
+//        }
+//        // End CsrfTokenMiddleware
+//
+//        $categoryRepository = new CategoryRepository($this->getConnection());
+//
+//        return $categoryRepository->delete($id);
+//    }
 }

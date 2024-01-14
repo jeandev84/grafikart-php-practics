@@ -47,6 +47,11 @@ class ServerRequest
 
 
 
+      /**
+       * @var array
+      */
+      protected array $attributes = [];
+
 
       /**
        * @var array
@@ -71,12 +76,40 @@ class ServerRequest
 
 
       /**
+       * @param string $method
+       * @return $this
+      */
+      public function withMethod(string $method): static
+      {
+          $this->method = $method;
+
+          return $this;
+      }
+
+
+
+
+
+
+      /**
        * @param array $queryParams
        * @return $this
       */
       public function withQueryParams(array $queryParams): static
       {
           $this->queryParams = $queryParams;
+
+          return $this;
+      }
+
+
+      /**
+       * @param array $attributes
+       * @return $this
+      */
+      public function withAttributes(array $attributes): static
+      {
+          $this->attributes = $attributes;
 
           return $this;
       }

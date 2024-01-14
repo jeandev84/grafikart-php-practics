@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace App\Http\Handlers;
 
+use Grafikart\Container\Container;
 use Grafikart\Http\Handlers\RequestHandlerInterface;
 use Grafikart\Http\Request\ServerRequest;
 use Grafikart\Http\Response\Response;
+use Grafikart\Templating\Renderer;
 
 /**
  * NotFoundHandler
@@ -19,11 +21,22 @@ use Grafikart\Http\Response\Response;
 class NotFoundHandler implements RequestHandlerInterface
 {
 
+    protected Renderer $renderer;
+
+    public function __construct(Container $app)
+    {
+        $this->renderer = $app[Renderer::class];
+    }
+
+
     /**
      * @inheritDoc
     */
     public function handle(ServerRequest $request): Response
     {
-         return new Response(__METHOD__);
+         dump($request->getMethod());
+         dump($request->getPath());
+
+         return new Response($this->renderer->render('errors/404.phtml'));
     }
 }

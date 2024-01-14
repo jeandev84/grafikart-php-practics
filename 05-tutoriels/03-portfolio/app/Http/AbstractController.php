@@ -10,6 +10,7 @@ use Grafikart\Http\Response\RedirectResponse;
 use Grafikart\Http\Response\Response;
 use Grafikart\Http\Session\SessionInterface;
 use Grafikart\Security\Auth;
+use Grafikart\Security\Token\Csrf\CsrfTokenInterface;
 use Grafikart\Templating\Renderer;
 
 /**
@@ -42,6 +43,13 @@ abstract class AbstractController
       protected SessionInterface $session;
 
 
+
+      /**
+       * @var CsrfTokenInterface|mixed
+      */
+      protected CsrfTokenInterface $csrfToken;
+
+
       /**
        * @var string
       */
@@ -65,6 +73,7 @@ abstract class AbstractController
           $this->app     = $app;
           $this->auth    = $app['auth'];
           $this->session = $app[SessionInterface::class];
+          $this->csrfToken = $app[CsrfTokenInterface::class];
       }
 
 
@@ -121,6 +130,15 @@ abstract class AbstractController
           $this->session->addFlash($key, $message);
 
           return $this;
+      }
+
+
+      /**
+       * @return CsrfTokenInterface
+      */
+      public function getCsrfToken(): CsrfTokenInterface
+      {
+          return $this->csrfToken;
       }
 
 

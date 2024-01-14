@@ -105,7 +105,7 @@ class Renderer
         * @param array $data
         * @return string
        */
-       public function render(string $template, array $data): string
+       public function render(string $template, array $data = []): string
        {
             $this->addGlobals($data);
 

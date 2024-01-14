@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Security\Token;
 
-use Grafikart\Http\Session\Session;
 use Grafikart\Http\Session\SessionInterface;
 use Grafikart\Security\User\Token\UserToken;
 use Grafikart\Security\User\Token\UserTokenInterface;

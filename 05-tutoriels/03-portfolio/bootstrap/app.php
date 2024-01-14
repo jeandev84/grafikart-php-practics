@@ -3,6 +3,7 @@
 // bindings
 use App\Http\Handlers\NotFoundHandler;
 use App\Security\Authenticators\UserAuthenticator;
+use App\Security\Token\CsrfToken;
 use Grafikart\Container\Container;
 use Grafikart\Database\Connection\PdoConnection;
 use Grafikart\Http\Handlers\QueueRequestHandler;
@@ -11,6 +12,7 @@ use Grafikart\Http\Session\Session;
 use Grafikart\Http\Session\SessionInterface;
 use Grafikart\Routing\Router;
 use Grafikart\Security\Auth;
+use Grafikart\Security\Token\Csrf\CsrfTokenInterface;
 use Grafikart\Templating\Renderer;
 
 require __DIR__.'/constants.php';
@@ -29,8 +31,10 @@ $app->bind(PdoConnection::class, function () use ($config) {
     return PdoConnection::make($config['database']);
 });
 
-$app->bind(RequestHandlerInterface::class, function () {
-    return new QueueRequestHandler(new NotFoundHandler());
+$app->bind(RequestHandlerInterface::class, function (Container $app) {
+    return new QueueRequestHandler(
+        new NotFoundHandler($app)
+    );
 });
 
 $app->bind(Router::class, function () {
@@ -47,11 +51,20 @@ $app->bind('auth', function (Container $app) {
     return new Auth(new UserAuthenticator($provider, $storage));
 });
 
+$app->bind(CsrfTokenInterface::class, function (Container $app) {
+   return new CsrfToken($app[SessionInterface::class]);
+});
+
 $app->bind(Renderer::class, function (Container $app) {
-    $view = new Renderer(BASE_PATH . '/views');
+
+    $view       = new Renderer(BASE_PATH . '/views');
+    $csrfToken  = $app[CsrfTokenInterface::class];
+
     $view->addGlobals([
        'session' => $app[SessionInterface::class],
-       'router'  => $app[Router::class]
+       'router'  => $app[Router::class],
+       'csrf'    => $app[CsrfTokenInterface::class],
+       'csrfToken' => $csrfToken->generateToken()
     ]);
 
     return $view;
