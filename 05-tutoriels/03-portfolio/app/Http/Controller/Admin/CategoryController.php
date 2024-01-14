@@ -43,7 +43,11 @@ class CategoryController extends AdminController
       */
       public function create(ServerRequest $request): Response
       {
-          return $this->render('admin/category/create');
+          $form = new Form($this->session->get('admin.category.store', []));
+
+          return $this->render('admin/category/create', [
+              'form' => $form
+          ]);
       }
 
 
@@ -56,6 +60,23 @@ class CategoryController extends AdminController
       */
       public function store(ServerRequest $request): Response
       {
+          $params = new Parameter($request->getParsedBody());
+          $name   = $params->get('name');
+          $slug   = $params->get('slug');
+
+          if (!preg_match("/^[a-z\-0-9]+$/", $slug)) {
+              $this->addFlash('danger', "Le slug $slug n' est pas valide");
+              $this->session->set('admin.category.store', $params->all());
+              return $this->redirectTo($this->generatePath('admin.category.create'));
+          }
+
+          $categoryRepository = new CategoryRepository($this->getConnection());
+          $categoryRepository->create([
+              'name' => $name,
+              'slug' => $slug
+          ]);
+          $this->addFlash('success', "La categorie a bien ete ajoutee");
+          $this->session->forget('admin.category.store');
           return $this->redirectTo($this->generatePath('admin.category.list'));
       }
 
@@ -95,23 +116,22 @@ class CategoryController extends AdminController
       public function update(ServerRequest $request): Response
       {
           $categoryRepository = new CategoryRepository($this->getConnection());
-          $id     = $request->getAttribute('id');
+          $id     = (int)$request->getAttribute('id');
           $params = new Parameter($request->getParsedBody());
           $name   = $params->get('name');
           $slug   = $params->get('slug');
 
-          if (!preg_match("#^[a-z\-0-9]+$#", $slug)) {
-               $this->addFlash('danger', "Le slug $slug n' est pas valide");
+          if (!preg_match("/^[a-z\-0-9]+$/", $slug)) {
+              $this->addFlash('danger', "Le slug $slug n' est pas valide");
+              return $this->redirectTo($this->generatePath('admin.category.edit', compact('id')));
           }
 
-          dd('OK');
-
+          # dd('OK');
           $categoryRepository->update([
               'name' => $name,
               'slug' => $slug
           ], $id);
 
-          dd($params);
           return $this->redirectTo($this->generatePath('admin.category.edit', compact('id')));
       }
 
