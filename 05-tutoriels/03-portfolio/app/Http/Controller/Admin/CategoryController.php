@@ -67,7 +67,7 @@ class CategoryController extends AdminController
     */
     public function delete(ServerRequest $request): Response
     {
-        dd($request->getMethod());
+        dd($request->getMethod(), __METHOD__);
 
         $id = (int)$request->getQueryParams()['delete'] ?? 0;
 

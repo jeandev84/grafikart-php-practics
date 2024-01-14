@@ -15,11 +15,25 @@ namespace Grafikart\Routing;
 class Route
 {
 
+
+      /**
+       * @var string
+      */
+      protected string $pattern = '';
+
+
+
       /**
        * @var array
       */
       protected array $matches = [];
 
+
+
+      /**
+       * @var array
+      */
+      protected array $params  = [];
 
 
       /**
@@ -63,6 +77,7 @@ class Route
           protected string $name = ''
       )
       {
+          $this->pattern = $path;
       }
 
 
@@ -133,14 +148,30 @@ class Route
     */
     public function matchPath(string $path): bool
     {
-        if (! preg_match("#^$this->path$#i", $path, $matches)) {
+        if (! preg_match("#^$this->pattern$#i", $path, $matches)) {
             return false;
         }
 
-        $this->matches = [];
+        $this->matches = $matches;
+        $this->params  = $this->resolveParams($matches);
 
         return true;
     }
+
+
+
+    /**
+     * @param array $matches
+     *
+     * @return array
+     */
+    private function resolveParams(array $matches): array
+    {
+        return array_filter($matches, function ($key) {
+            return !is_numeric($key);
+        }, ARRAY_FILTER_USE_KEY);
+    }
+
 
 
 
@@ -166,12 +197,13 @@ class Route
     */
     public function where(string $name, string $regex): static
     {
+        $regex      = str_replace('(', '(?:', $regex);
         $patterns   = ["#{{$name}}#", "#{{$name}}.?#"];
         $replaces   = ["(?P<$name>$regex)", "?(?P<$name>$regex)?"];
 
-        $this->path = preg_replace($patterns, $replaces, $this->path);
+        $this->pattern = preg_replace($patterns, $replaces, $this->pattern);
 
-        $this->wheres[$name] = $regex;
+        $this->wheres[$name]   = $regex;
         $this->patterns[$name] = $patterns;
         $this->replaces[$name] = $replaces;
 
@@ -210,12 +242,21 @@ class Route
     }
 
 
+
     /**
-     * @param array $params
+     * @param array $parameters
      * @return string
     */
-    public function generate(array $params): string
+    public function generate(array $parameters): string
     {
-         return $this->path;
+        $path = $this->getPath();
+
+        foreach ($parameters as $name => $value) {
+            if (isset($this->patterns[$name])) {
+                $path = preg_replace($this->patterns[$name], [$value, $value], $path);
+            }
+        }
+
+        return $path;
     }
 }
