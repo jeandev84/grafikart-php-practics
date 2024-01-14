@@ -50,7 +50,7 @@ class Input extends FormElement
             'name'     => $this->getName(),
             'value'    => $this->getValue(),
             'id'       => $this->getName(),
-            'required' => $this->getOption('required', false)
+            'required' => $this->getParam('required', false)
         ];
 
         $html = [$this->renderLabel(), sprintf('<input %s>', $this->renderAttributes($params))];

@@ -6,7 +6,7 @@ namespace Grafikart\HTML\Form\Elements;
 use Grafikart\HTML\Form\Elements\Contract\FormElement;
 
 /**
- * Textarea
+ * Select
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
@@ -14,7 +14,7 @@ use Grafikart\HTML\Form\Elements\Contract\FormElement;
  *
  * @package  Grafikart\HTML\Form\Elements
  */
-class Textarea extends FormElement
+class Select extends FormElement
 {
 
     /**
@@ -30,9 +30,37 @@ class Textarea extends FormElement
 
         $html = [
             $this->renderLabel(),
-            sprintf('<textarea %s>%s</textarea>', $this->renderAttributes($params), $this->getValue())
+            sprintf('<select %s>%s</select>', $this->renderAttributes($params), $this->renderOptions())
         ];
 
         return join(PHP_EOL, $html);
+    }
+
+
+
+
+
+    /**
+     * @return string
+    */
+    protected function renderOptions(): string
+    {
+        $html = [];
+
+        foreach ($this->getOptions() as $value => $label) {
+            $html[] = sprintf('<option value="%s">%s</option>', $value, $label);
+        }
+
+        return join(PHP_EOL, $html);
+    }
+
+
+
+    /**
+     * @return array
+    */
+    public function getOptions(): array
+    {
+        return $this->getParam('options', []);
     }
 }

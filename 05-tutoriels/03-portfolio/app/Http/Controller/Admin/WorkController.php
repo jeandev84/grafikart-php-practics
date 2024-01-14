@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controller\Admin;
 
 use App\Http\Controller\AdminController;
+use App\Repository\CategoryRepository;
 use App\Repository\WorkRepository;
 use Exception;
 use Grafikart\HTML\Form\Form;
@@ -43,8 +44,11 @@ class WorkController extends AdminController
     {
         $form = new Form($this->session->get('admin.work.store', []));
 
+        $categoryRepository = new CategoryRepository($this->getConnection());
+
         return $this->render('admin/work/create', [
-            'form' => $form
+            'form'       => $form,
+            'categories' => $categoryRepository->getCategoryList()
         ]);
     }
 

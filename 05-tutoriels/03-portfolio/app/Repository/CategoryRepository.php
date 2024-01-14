@@ -44,4 +44,25 @@ class CategoryRepository extends EntityRepository
 
          return $category;
      }
+
+
+
+
+     /**
+      * @return array
+     */
+     public function getCategoryList(): array
+     {
+           $sql = "SELECT id, name FROM $this->tableName ORDER BY name ASC";
+           $statement = $this->connection->statement($sql, $this->className);
+           $statement->execute();
+           $categories = $statement->fetchAll();
+           $categoryList = [];
+
+           foreach ($categories as $category) {
+               $categoryList[$category->getId()] = $category->getName();
+           }
+
+           return $categoryList;
+     }
 }

@@ -37,7 +37,7 @@ abstract class FormElement implements \Stringable
       /**
        * @var array
       */
-      protected array $options = [
+      protected array $params = [
           'label' => null,
           'attrs' => []
       ];
@@ -48,13 +48,13 @@ abstract class FormElement implements \Stringable
       /**
        * @param string $name
        * @param $value
-       * @param array $options
+       * @param array $params
       */
-      public function __construct(string $name, $value, array $options = [])
+      public function __construct(string $name, $value, array $params = [])
       {
           $this->name    = $name;
           $this->value   = $value;
-          $this->withOptions($options);
+          $this->withParams($params);
       }
 
 
@@ -71,12 +71,12 @@ abstract class FormElement implements \Stringable
 
 
       /**
-       * @param array $options
+       * @param array $params
        * @return $this
       */
-      public function withOptions(array $options): static
+      public function withParams(array $params): static
       {
-          $this->options = array_merge($this->options, $options);
+          $this->params = array_merge($this->params, $params);
 
           return $this;
       }
@@ -107,9 +107,9 @@ abstract class FormElement implements \Stringable
       /**
        * @return array
       */
-      public function getOptions(): array
+      public function getParams(): array
       {
-          return $this->options;
+          return $this->params;
       }
 
 
@@ -120,9 +120,9 @@ abstract class FormElement implements \Stringable
        * @param $default
        * @return mixed|null
       */
-      public function getOption($key, $default = null): mixed
+      public function getParam($key, $default = null): mixed
       {
-          return $this->options[$key] ?? $default;
+          return $this->params[$key] ?? $default;
       }
 
 
@@ -171,7 +171,7 @@ abstract class FormElement implements \Stringable
       */
       protected function renderAttributes(array $attributes): string
       {
-          if ($attrs = $this->getOption('attrs')) {
+          if ($attrs = $this->getParam('attrs')) {
               $attributes = array_merge($attributes, $attrs);
           }
 
@@ -185,7 +185,7 @@ abstract class FormElement implements \Stringable
       */
       protected function renderLabel(): string
       {
-          $label = $this->getOption('label');
+          $label = $this->getParam('label');
 
           if ($label === false) {
               return '';

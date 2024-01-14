@@ -5,6 +5,7 @@ namespace Grafikart\HTML\Form;
 
 use Grafikart\HTML\Form\Elements\Contract\FormElement;
 use Grafikart\HTML\Form\Elements\Input;
+use Grafikart\HTML\Form\Elements\Select;
 use Grafikart\HTML\Form\Elements\Textarea;
 use Grafikart\Http\Parameter;
 
@@ -93,6 +94,21 @@ class Form
       {
           $value = $this->getData()->get($name);
           $input = new Textarea($name, $value, $options);
+          return $input->render();
+      }
+
+
+
+
+      /**
+       * @param string $name
+       * @param array $options
+       * @return string
+      */
+      public function select(string $name, array $options = []): string
+      {
+          $value = $this->getData()->get($name);
+          $input = new Select($name, $value, $options);
           return $input->render();
       }
 
