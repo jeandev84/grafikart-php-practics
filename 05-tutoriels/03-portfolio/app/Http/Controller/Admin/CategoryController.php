@@ -63,6 +63,11 @@ class CategoryController extends AdminController
           $params = new Parameter($request->getParsedBody());
           $name   = $params->get('name');
           $slug   = $params->get('slug');
+          $token  = $params->get('_csrf');
+
+          if (!$this->csrfToken->isValidToken($token)) {
+              return new Response("Invalid token $token");
+          }
 
           if (!preg_match("/^[a-z\-0-9]+$/", $slug)) {
               $this->addFlash('danger', "Le slug $slug n' est pas valide");
