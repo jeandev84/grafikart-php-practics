@@ -13,11 +13,11 @@
 <nav class="navbar navbar-dark bg-dark" role="navigation">
     <div class="container">
         <div class="navbar-header">
-            <a href="/" class="navbar-brand">Mon premier portfolio en PHP</a>
+            <a href="<?= $router->generate('home') ?>" class="navbar-brand">Mon premier portfolio en PHP</a>
         </div>
         <ul class="nav navbar-nav">
             <li>
-                <a href="<?= $router->generate('admin.category') ?>">Categories</a>
+                <a href="<?= $router->generate('admin.category.list') ?>">Categories</a>
             </li>
         </ul>
     </div><!-- /.container -->

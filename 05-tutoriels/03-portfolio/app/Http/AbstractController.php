@@ -9,6 +9,7 @@ use Grafikart\HTML\Form\Form;
 use Grafikart\Http\Response\RedirectResponse;
 use Grafikart\Http\Response\Response;
 use Grafikart\Http\Session\SessionInterface;
+use Grafikart\Routing\Router;
 use Grafikart\Security\Auth;
 use Grafikart\Security\Token\Csrf\CsrfTokenInterface;
 use Grafikart\Templating\Renderer;
@@ -50,6 +51,16 @@ abstract class AbstractController
       protected CsrfTokenInterface $csrfToken;
 
 
+
+
+      /**
+       * @var Router
+      */
+      protected Router $router;
+
+
+
+
       /**
        * @var string
       */
@@ -70,10 +81,11 @@ abstract class AbstractController
       */
       public function __construct(Container $app)
       {
-          $this->app     = $app;
-          $this->auth    = $app['auth'];
-          $this->session = $app[SessionInterface::class];
+          $this->app       = $app;
+          $this->auth      = $app['auth'];
+          $this->session   = $app[SessionInterface::class];
           $this->csrfToken = $app[CsrfTokenInterface::class];
+          $this->router    = $app[Router::class];
       }
 
 
@@ -116,6 +128,22 @@ abstract class AbstractController
       {
           return new RedirectResponse($path);
       }
+
+
+
+
+
+      /**
+       * @param string $name
+       * @param array $params
+       * @return string
+      */
+      public function generatePath(string $name, array $params = []): string
+      {
+          return $this->router->generate($name, $params);
+      }
+
+
 
 
 

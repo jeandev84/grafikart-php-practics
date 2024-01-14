@@ -1,5 +1,6 @@
 <div class="container__categories">
     <h1>Les categories</h1>
+    <p><a href="/admin/category/add"></a></p>
     <table class="table table-striped">
         <thead>
            <tr>
@@ -14,7 +15,7 @@
                    <td><?= $category->getId() ?></td>
                    <td><?= $category->getName() ?></td>
                    <td>
-                       <a href="/admin/category/edit?id=<?= $category->getId() ?>" class="btn btn-default">
+                       <a href="<?= $router->generate('admin.category.edit', ['id' => $category->getId()]) ?>" class="btn btn-default">
                            Editer
                        </a>
                        <?php include '_delete.phtml'?>

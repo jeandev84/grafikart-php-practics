@@ -43,6 +43,22 @@ class CategoryController extends AdminController
       }
 
 
+
+
+
+    /**
+     * @param ServerRequest $request
+     * @return Response
+    */
+    public function store(ServerRequest $request): Response
+    {
+        return $this->redirectTo($this->generatePath('admin.category.list'));
+    }
+
+
+
+
+
       /**
        * @param ServerRequest $request
        * @return Response
@@ -59,6 +75,23 @@ class CategoryController extends AdminController
             'category' => $category
         ]);
      }
+
+
+
+
+
+     /**
+      * @param ServerRequest $request
+      * @return Response
+     */
+     public function update(ServerRequest $request): Response
+     {
+          return $this->redirectTo($this->generatePath('admin.category.edit'));
+     }
+
+
+
+
 
 
     /**
@@ -85,6 +118,6 @@ class CategoryController extends AdminController
 
         $this->addFlash('success', "La categorie id#$id a bien ete supprimer");
 
-        return $this->redirectTo("/admin/category");
+        return $this->redirectTo($this->generatePath('admin.category.list'));
     }
 }
