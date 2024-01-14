@@ -146,7 +146,11 @@ class CategoryController extends AdminController
               'slug' => $slug
           ], $id);
 
-          return $this->redirectTo($this->generatePath('admin.category.edit', compact('id')));
+          $this->addFlash('success', "La categorie ID#$id a bien ete modifiee");
+          $this->session->forget('admin.category.update');
+          return $this->redirectTo($this->generatePath('admin.category.list'));
+
+          # return $this->redirectTo($this->generatePath('admin.category.edit', compact('id')));
       }
 
 
