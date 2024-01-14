@@ -34,9 +34,9 @@ class NotFoundHandler implements RequestHandlerInterface
     */
     public function handle(ServerRequest $request): Response
     {
-         dump($request->getMethod());
-         dump($request->getPath());
-
-         return new Response($this->renderer->render('errors/404.phtml'));
+         return new Response($this->renderer->render('errors/404.phtml', [
+             'handler' => __METHOD__,
+             'request' => $request
+         ]));
     }
 }

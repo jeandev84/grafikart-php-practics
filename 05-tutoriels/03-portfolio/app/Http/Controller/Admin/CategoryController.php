@@ -99,7 +99,12 @@ class CategoryController extends AdminController
 
           $categoryRepository = new CategoryRepository($this->getConnection());
 
-          $category = $categoryRepository->findCategory($id);
+          $category = $categoryRepository->find($id);
+
+          if (! $category) {
+              $this->addFlash('danger', "Categorie ID#$id n' exist pas");
+              return $this->redirectTo($this->generatePath('admin.category.list'));
+          }
 
           $form = new Form([
               'name' => $category->getName(),

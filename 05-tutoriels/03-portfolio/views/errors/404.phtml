@@ -9,11 +9,19 @@
     <title>Page not found</title>
 </head>
 <body>
-<div class="container">
+<div class="container mt-5">
     <h1>Page not found</h1>
+    <hr>
     <div>Oops! something went wrong</div>
     <div>
         <a href="/" class="btn btn-primary mt-3">back</a>
+    </div>
+    <hr>
+    <div><small>Not Found Handler : <?= $handler ?></small></div>
+    <div><small>Template   : <?= __FILE__ ?></small></div>
+    <hr>
+    <div>
+        <?php dump($request) ?>
     </div>
 </div>
 </body>
