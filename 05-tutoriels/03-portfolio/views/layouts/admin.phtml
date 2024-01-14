@@ -6,17 +6,20 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Off Canvas Template for Bootstrap</title>
+    <title>Mon administration</title>
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark" role="navigation">
     <div class="container">
         <div class="navbar-header">
-            <a href="<?= $router->generate('home') ?>" class="navbar-brand">
-                Mon premier portfolio en PHP
-            </a>
+            <a href="/" class="navbar-brand">Mon premier portfolio en PHP</a>
         </div>
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="<?= $router->generate('admin.category') ?>">Categories</a>
+            </li>
+        </ul>
     </div><!-- /.container -->
 </nav><!-- /.navbar -->
 
@@ -26,19 +29,19 @@
     <p>&nbsp;</p>
     <p>&nbsp;</p>
 
-   <div class="block__flash">
-       <?php if ($session->hasFlashes()): ?>
-       <?php foreach ($session->getFlashes() as $key => $message): ?>
-          <div class="alert alert-<?= $key ?>">
-              <?= $message ?>
-          </div>
-       <?php endforeach; ?>
-       <?php endif; ?>
-   </div>
+    <div class="block__flash">
+        <?php if ($session->hasFlashes()): ?>
+            <?php foreach ($session->getFlashes() as $key => $message): ?>
+                <div class="alert alert-<?= $key ?>">
+                    <?= $message ?>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
 
-   {{ content }}
+    {{ content }}
 
-   <?php include 'debug/info.phtml' ?>
+    <?php include 'debug/info.phtml' ?>
 
 </div><!-- /.container -->
 

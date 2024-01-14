@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controller\Admin\CategoryController;
 use App\Http\Controller\Admin\DashboardController;
 use App\Http\Controller\AuthController;
 use App\Http\Controller\HomeController;
@@ -19,6 +20,7 @@ return function(Router $router) {
 
     # Admin
     $router->get('/admin', [DashboardController::class, 'index'], 'admin.dashboard');
+    $router->get('/admin/category', [CategoryController::class, 'index'], 'admin.category');
 
 
     return $router;

@@ -3,3 +3,7 @@ CREATE TABLE categories (
    name VARCHAR(255) NOT NULL,
    slug VARCHAR(255) NOT NULL
 ) ENGINE = 'MyISAM';
+
+
+INSERT INTO categories (name, slug)
+VALUES('Wordpress', 'wordpress'), ('CakePHP', 'cakephp');

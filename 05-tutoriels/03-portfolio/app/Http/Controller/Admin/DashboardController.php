@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controller\Admin;
 
 use App\Http\AbstractController;
+use App\Http\Controller\AdminController;
 use Grafikart\Http\Request\ServerRequest;
 use Grafikart\Http\Response\Response;
 
@@ -16,7 +17,7 @@ use Grafikart\Http\Response\Response;
  *
  * @package  App\Http\Controller\Admin
  */
-class DashboardController extends AbstractController
+class DashboardController extends AdminController
 {
        public function index(ServerRequest $request): Response
        {
