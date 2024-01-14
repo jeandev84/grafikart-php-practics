@@ -48,7 +48,7 @@ class Select extends FormElement
         $html = [];
 
         foreach ($this->getOptions() as $value => $label) {
-            $selected = ($value == $this->value) ? ' selected': '';
+            $selected = ($value == $this->value) ? ' selected="selected"': '';
             $html[]   = sprintf('<option value="%s"%s>%s</option>', $value, $selected, $label);
         }
 
