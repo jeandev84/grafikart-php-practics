@@ -78,12 +78,16 @@ class WorkController extends AdminController
         }
 
         $workRepository = new WorkRepository($this->getConnection());
-        $workRepository->create([
+
+        # Persist work
+        $id = $workRepository->create([
             'name'       => $params->get('name'),
             'slug'       => $slug,
             'content'    => $params->get('content'),
             'category_id' => $params->get('category_id')
         ]);
+
+        # Upload image
 
         $this->addFlash('success', "La realisation a bien ete ajoutee");
         $this->session->forget('admin.work.store');
@@ -141,8 +145,6 @@ class WorkController extends AdminController
         $slug   = $params->get('slug');
         $token  = $params->get('_csrf');
 
-        dd($request->getUploadedFiles());
-
         if (!$this->csrfToken->isValidToken($token)) {
             return new Response("Invalid token $token");
         }
@@ -154,6 +156,7 @@ class WorkController extends AdminController
             return $this->redirectTo($this->generatePath('admin.work.edit', compact('id')));
         }
 
+        # Persist work
         $workRepository->update([
             'name'       => $params->get('name'),
             'slug'       => $slug,
@@ -161,8 +164,16 @@ class WorkController extends AdminController
             'category_id' => $params->get('category_id')
         ], $id);
 
+
+        # Upload image
+        $files = new Parameter($request->getUploadedFiles());
+
+        dd($files);
+
+
         $this->addFlash('success', "La realisation ID#$id a bien ete modifiee");
         $this->session->forget('admin.work.update');
+
         return $this->redirectTo($this->generatePath('admin.work.list'));
         # return $this->redirectTo($this->generatePath('admin.work.edit', compact('id')));
     }

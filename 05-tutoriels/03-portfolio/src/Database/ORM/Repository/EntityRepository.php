@@ -149,7 +149,7 @@ class EntityRepository
      * @param array $data
      * @return bool
      */
-    public function create(array $data): bool
+    public function create(array $data): int
     {
         $attributes = [];
 
@@ -162,8 +162,10 @@ class EntityRepository
 
         $sql = "INSERT INTO $this->tableName ($columns) VALUES($values)";
 
-        return $this->connection->statement($sql)->execute($data);
+        $this->connection->statement($sql)->execute($data);
+        return $this->connection->lastInsertId();
     }
+
 
 
 

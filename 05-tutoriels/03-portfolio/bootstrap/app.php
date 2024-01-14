@@ -4,6 +4,7 @@
 use App\Http\Handlers\NotFoundHandler;
 use App\Security\Authenticators\UserAuthenticator;
 use App\Security\Token\CsrfToken;
+use Grafikart\Config\Config;
 use Grafikart\Container\Container;
 use Grafikart\Database\Connection\PdoConnection;
 use Grafikart\Http\Handlers\QueueRequestHandler;
@@ -20,7 +21,11 @@ $config = require BASE_PATH . '/config/app.php';
 
 $app = Container::instance();
 
-$app->bind('app.config', $config);
+$app->bind('basePath', BASE_PATH);
+$app->bind('uploadDir', 'public/uploads');
+$app->bind(Config::class, function () use ($config) {
+    return new Config($config);
+});
 
 $app->bind(SessionInterface::class, function () {
     // TODO move logic starting session in middleware

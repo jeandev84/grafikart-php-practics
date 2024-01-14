@@ -84,6 +84,15 @@ class PdoConnection implements PdoConnectionInterface
        }
 
 
+       /**
+        * @return int
+       */
+       public function lastInsertId(): int
+       {
+           return intval($this->pdo->lastInsertId());
+       }
+
+
 
 
 

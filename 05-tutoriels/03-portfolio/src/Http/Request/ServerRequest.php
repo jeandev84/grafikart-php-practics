@@ -271,10 +271,9 @@ class ServerRequest
       }
 
 
-
-
       /**
        * @return static
+       * @throws UploadedFileException
       */
       public static function fromGlobals(): static
       {
@@ -294,14 +293,12 @@ class ServerRequest
       }
 
 
-
-
-
-      /**
-       * @param array $files
-       *
-       * @return UploadedFileInterface[]
-      */
+     /**
+      * @param array $files
+      *
+      * @return UploadedFileInterface[]
+     * @throws UploadedFileException
+     */
       public static function normalizeFiles(array $files): array
       {
           $normalized = [];
@@ -313,7 +310,9 @@ class ServerRequest
                    if (! $uploadedFile instanceof UploadedFileInterface) {
                        throw new UploadedFileException("Could not normalize uploaded file type : ". gettype($uploadedFile));
                    }
-                   $normalized[$id][] = $uploadedFile;
+                   if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+                       $normalized[$id][] = $uploadedFile;
+                   }
               }
           }
 
