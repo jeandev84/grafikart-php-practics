@@ -24,7 +24,7 @@ class Textarea extends FormElement
     {
         $params = [
             'name'     => $this->getName(),
-            'id'       => $this->getName(),
+            'id'       => $this->getAttribute('id', $this->getName()),
             'required' => $this->getParam('required', false)
         ];
 

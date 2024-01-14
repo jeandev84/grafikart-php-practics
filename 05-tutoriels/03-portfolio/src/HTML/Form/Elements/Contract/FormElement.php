@@ -180,6 +180,22 @@ abstract class FormElement implements \Stringable
 
 
 
+
+      /**
+       * @param string $key
+       * @param $default
+       * @return mixed|null
+      */
+      protected function getAttribute(string $key, $default = null)
+      {
+           $attrs = $this->getParam('attrs');
+
+           return $attrs[$key] ?? $default;
+      }
+
+
+
+
       /**
        * @return string
       */

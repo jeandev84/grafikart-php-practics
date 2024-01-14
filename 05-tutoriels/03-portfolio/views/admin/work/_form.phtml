@@ -15,11 +15,15 @@
     ]) ?>
 </div>
 
-<!-- http://fillerama.io/ -->
+<!--
+https://www.tiny.cloud/
+http://fillerama.io/
+-->
 <div class="form-group">
     <?= $form->textarea('content', [
         'label' => "Contenu de la realisation",
         'attrs' => [
+            'id'    => 'tiny',
             'class' => 'form-control',
             'style' => 'border: 1px solid #ccc;', # just one test
         ]
