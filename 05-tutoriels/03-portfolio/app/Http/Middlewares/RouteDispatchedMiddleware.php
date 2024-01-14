@@ -78,6 +78,8 @@ class RouteDispatchedMiddleware implements MiddlewareInterface
             ]);
         }
 
+        $middlewares = $route->getMiddlewares();
+
         $request->withAttributes($route->getParams());
 
         return call_user_func_array($callback, [$request]);

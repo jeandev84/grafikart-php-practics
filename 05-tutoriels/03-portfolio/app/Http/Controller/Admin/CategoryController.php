@@ -83,6 +83,8 @@ class CategoryController extends AdminController
 
         $categoryRepository->delete($id);
 
+        $this->addFlash('success', "La categorie id#$id a bien ete supprimer");
+
         return $this->redirectTo("/admin/category");
     }
 }
