@@ -62,7 +62,8 @@ class EntityRepository
     {
         $sql        = "SELECT * FROM  $this->tableName WHERE start_at BETWEEN :start AND :end ORDER BY start_at ASC";
         # $statement  = $this->connection->statement($sql, compact('start', 'end'));
-        $statement  = $this->connection->statement($sql, compact('start', 'end'), $this->className);
+        $statement  = $this->connection->statement($sql, $this->className);
+        $statement->execute(compact('start', 'end'));
         return $statement->fetchAll();
     }
 
@@ -73,7 +74,8 @@ class EntityRepository
     public function findAll(): array
     {
         $sql        = "SELECT * FROM  $this->tableName";
-        $statement  = $this->connection->statement($sql, [], $this->className);
+        $statement  = $this->connection->statement($sql, $this->className);
+        $statement->execute();
         return $statement->fetchAll();
     }
 
@@ -99,7 +101,8 @@ class EntityRepository
             $sql .= " LIMIT ". ($offset ? "$limit,$offset" : $limit);
         }
 
-        $statement  = $this->connection->statement($sql, $wheres, $this->className);
+        $statement  = $this->connection->statement($sql, $this->className);
+        $statement->execute($wheres);
         return $statement->fetchAll();
     }
 
@@ -123,7 +126,8 @@ class EntityRepository
             $sql .= " LIMIT ". ($offset ? "$limit,$offset" : $limit);
         }
 
-        $statement  = $this->connection->statement($sql, $wheres, $this->className);
+        $statement  = $this->connection->statement($sql, $this->className);
+        $statement->execute($wheres);
         return $statement->fetch();
     }
 
