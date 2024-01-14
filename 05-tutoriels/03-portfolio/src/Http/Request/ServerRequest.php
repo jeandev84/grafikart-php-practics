@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Grafikart\Http\Request;
 
 use Grafikart\Http\MessageTrait;
+use Grafikart\Http\Request\Exception\UploadedFileException;
 
 /**
  * ServerRequest
@@ -65,6 +66,12 @@ class ServerRequest
       */
       protected array $cookieParams = [];
 
+
+
+      /**
+       * @var UploadedFileInterface[]
+      */
+      protected array $uploadedFiles = [];
 
 
       /**
@@ -178,6 +185,34 @@ class ServerRequest
 
 
 
+     /**
+      * @param UploadedFileInterface[] $uploadedFiles
+      * @return $this
+     */
+     public function withUploadedFiles(array $uploadedFiles): static
+     {
+          $this->uploadedFiles = $uploadedFiles;
+
+          return $this;
+     }
+
+
+
+
+
+
+    /**
+     * @return UploadedFileInterface[]
+    */
+    public function getUploadedFiles(): array
+    {
+        return $this->uploadedFiles;
+    }
+
+
+
+
+
 
       /**
        * @return string
@@ -252,8 +287,62 @@ class ServerRequest
           $request->withQueryParams($_GET)
                   ->withParsedBody($_POST)
                   ->withCookieParams($_COOKIE)
+                  ->withUploadedFiles(self::normalizeFiles($_FILES))
                   ->withProtocolVersion($_SERVER['SERVER_PROTOCOL']);
 
           return $request;
+      }
+
+
+
+
+
+      /**
+       * @param array $files
+       *
+       * @return UploadedFileInterface[]
+      */
+      public static function normalizeFiles(array $files): array
+      {
+          $normalized = [];
+          foreach (self::transformFiles($files) as $id => $uploadedFiles) {
+              foreach ($uploadedFiles as $uploadedFile) {
+                   if (is_array($uploadedFile)) {
+                       $uploadedFile = UploadedFileFactory::createFromArray($uploadedFile);
+                   }
+                   if (! $uploadedFile instanceof UploadedFileInterface) {
+                       throw new UploadedFileException("Could not normalize uploaded file type : ". gettype($uploadedFile));
+                   }
+                   $normalized[$id][] = $uploadedFile;
+              }
+          }
+
+          return $normalized;
+      }
+
+
+
+
+      /**
+       * @param array $files
+       * @return array
+      */
+      public static function transformFiles(array $files): array
+      {
+          $transformed = [];
+
+          foreach ($files as $name => $fileInfo) {
+              if (is_array($fileInfo['name'])) {
+                  foreach ($fileInfo as $attribute => $file) {
+                      foreach ($file as $index => $value) {
+                          $transformed[$name][$index][$attribute] = $value;
+                      }
+                  }
+              } else {
+                  $transformed[$name][] = $fileInfo;
+              }
+          }
+
+          return $transformed;
       }
 }

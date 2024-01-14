@@ -1,5 +1,9 @@
 <h1>Editer une realisation</h1>
-<form action="<?= $router->generate('admin.work.update', ['id' => $work->getId()]) ?>" method="POST">
+<form
+    action="<?= $router->generate('admin.work.update', ['id' => $work->getId()]) ?>"
+    method="POST"
+    enctype="multipart/form-data"
+>
     <input type="hidden" name="_csrf" value="<?= $csrfToken ?>">
     <input type="hidden" name="_method" value="PUT">
     <?php include '_form.phtml' ?>

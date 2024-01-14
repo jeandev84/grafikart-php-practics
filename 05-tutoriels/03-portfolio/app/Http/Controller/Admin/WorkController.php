@@ -141,6 +141,8 @@ class WorkController extends AdminController
         $slug   = $params->get('slug');
         $token  = $params->get('_csrf');
 
+        dd($request->getUploadedFiles());
+
         if (!$this->csrfToken->isValidToken($token)) {
             return new Response("Invalid token $token");
         }
