@@ -165,6 +165,20 @@ abstract class FormElement implements \Stringable
       }
 
 
+      /**
+       * @param array $attributes
+       * @return string
+      */
+      protected function renderAttributes(array $attributes): string
+      {
+          if ($attrs = $this->getOption('attrs')) {
+              $attributes = array_merge($attributes, $attrs);
+          }
+
+          return $this->buildAttributes($attributes);
+      }
+
+
 
       /**
        * @return string

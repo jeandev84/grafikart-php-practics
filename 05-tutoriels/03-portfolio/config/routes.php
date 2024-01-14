@@ -2,6 +2,7 @@
 
 use App\Http\Controller\Admin\CategoryController;
 use App\Http\Controller\Admin\DashboardController;
+use App\Http\Controller\Admin\WorkController;
 use App\Http\Controller\AuthController;
 use App\Http\Controller\HomeController;
 use App\Http\Middlewares\CsrfTokenMiddleware;
@@ -21,6 +22,8 @@ return function(Router $router) {
 
     # Admin
     $router->get('/admin', [DashboardController::class, 'index'], 'admin.dashboard');
+
+    # Categories
     $router->get('/admin/category', [CategoryController::class, 'index'], 'admin.category.list');
     $router->get('/admin/category/create', [CategoryController::class, 'create'], 'admin.category.create');
     $router->post('/admin/category/store', [CategoryController::class, 'store'], 'admin.category.store');
@@ -32,6 +35,20 @@ return function(Router $router) {
     $router->delete('/admin/category/delete/{id}', [CategoryController::class, 'delete'], 'admin.category.delete')
            ->where('id', '\d+')
            ->middleware( CsrfTokenMiddleware::class);
+
+
+    # Works
+    $router->get('/admin/work', [WorkController::class, 'index'], 'admin.work.list');
+    $router->get('/admin/work/create', [WorkController::class, 'create'], 'admin.work.create');
+    $router->post('/admin/work/store', [WorkController::class, 'store'], 'admin.work.store');
+    $router->get( '/admin/work/{id}/edit', [WorkController::class, 'edit'], 'admin.work.edit')
+        ->where('id', '\d+');
+    $router->put( '/admin/work/{id}', [WorkController::class, 'update'], 'admin.work.update')
+        ->where('id', '\d+');
+    # $router->delete('/admin/work/delete/(?P<id>\d+)', [WorkController::class, 'delete'], 'admin.work.delete')
+    $router->delete('/admin/work/delete/{id}', [WorkController::class, 'delete'], 'admin.work.delete')
+        ->where('id', '\d+')
+        ->middleware( CsrfTokenMiddleware::class);
 
     return $router;
 };

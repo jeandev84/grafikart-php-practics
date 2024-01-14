@@ -1,5 +1,5 @@
-<h1>Ajouter une categorie</h1>
-<form action="<?= $router->generate('admin.category.store') ?>" method="POST">
+<h1>Ajouter une realisation</h1>
+<form action="<?= $router->generate('admin.work.store') ?>" method="POST">
     <input type="hidden" name="_csrf" value="<?= $csrfToken ?>">
     <?php include '_form.phtml' ?>
     <button class="btn btn-primary" type="submit">Enregister</button>

@@ -1,0 +1,7 @@
+<h1>Editer une realisation</h1>
+<form action="<?= $router->generate('admin.work.update', ['id' => $work->getId()]) ?>" method="POST">
+    <input type="hidden" name="_csrf" value="<?= $csrfToken ?>">
+    <input type="hidden" name="_method" value="PUT">
+    <?php include '_form.phtml' ?>
+    <button class="btn btn-primary" type="submit">Enregister</button>
+</form>

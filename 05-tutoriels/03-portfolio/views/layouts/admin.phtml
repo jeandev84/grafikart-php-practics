@@ -16,8 +16,11 @@
             <a href="<?= $router->generate('home') ?>" class="navbar-brand">Mon premier portfolio en PHP</a>
         </div>
         <ul class="nav navbar-nav">
-            <li>
-                <a href="<?= $router->generate('admin.category.list') ?>">Categories</a>
+            <li class="nav-item">
+                <a href="<?= $router->generate('admin.category.list') ?>" class="nav-link">Categories</a>
+            </li>
+            <li class="nav-item">
+                <a href="<?= $router->generate('admin.work.list') ?>" class="nav-link">Realisations</a>
             </li>
         </ul>
     </div><!-- /.container -->

@@ -5,6 +5,7 @@ namespace Grafikart\HTML\Form;
 
 use Grafikart\HTML\Form\Elements\Contract\FormElement;
 use Grafikart\HTML\Form\Elements\Input;
+use Grafikart\HTML\Form\Elements\Textarea;
 use Grafikart\Http\Parameter;
 
 /**
@@ -81,10 +82,21 @@ class Form
       }
 
 
-      public function textarea(string $name, array $options = []): static
+
+
+      /**
+       * @param string $name
+       * @param array $options
+       * @return string
+      */
+      public function textarea(string $name, array $options = []): string
       {
-          return $this;
+          $value = $this->getData()->get($name);
+          $input = new Textarea($name, $value, $options);
+          return $input->render();
       }
+
+
 
 
 

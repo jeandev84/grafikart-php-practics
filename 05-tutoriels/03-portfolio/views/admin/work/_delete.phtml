@@ -1,0 +1,9 @@
+<form action="<?= $router->generate('admin.work.delete', ['id' => $work->getId()]) ?>"
+      method="POST"
+      onclick="return confirm('Voulez-vous supprimer ?')"
+      style="display: inline-block"
+>
+    <input type="hidden" name="_csrf" value="<?= $csrfToken ?>">
+    <input type="hidden" name="_method" value="DELETE">
+    <button class="btn btn-danger" type="submit">Supprimer</button>
+</form>
