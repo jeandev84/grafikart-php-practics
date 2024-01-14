@@ -24,4 +24,5 @@ class RedirectResponse extends Response
     {
         parent::__construct('', $status, ['Location' => $path]);
     }
+
 }

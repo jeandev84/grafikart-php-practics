@@ -67,12 +67,12 @@ class CategoryController extends AdminController
     */
     public function delete(ServerRequest $request): Response
     {
-        dd($request->getMethod(), __METHOD__);
-
-        $id = (int)$request->getQueryParams()['delete'] ?? 0;
+        $id = (int)$request->getAttribute('id');
 
         // CsrfTokenMiddleware
-        $token = $request->getQueryParams()['csrf'] ?? '';
+        $token = $request->getParsedBody()['_csrf'] ?? '';
+
+        #dump($request);
 
         if (!$this->csrfToken->isValidToken($token)) {
             return new Response("Invalid token $token");
@@ -83,7 +83,6 @@ class CategoryController extends AdminController
 
         $categoryRepository->delete($id);
 
-        return $this->redirectTo("/admin/category?delete=$id&csrf=$token")
-                    ->withStatusCode(301);
+        return $this->redirectTo("/admin/category");
     }
 }

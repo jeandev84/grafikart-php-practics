@@ -56,7 +56,14 @@ class ServerRequest
       /**
        * @var array
       */
-      protected array $parsedBody;
+      protected array $parsedBody = [];
+
+
+
+      /**
+       * @var array
+      */
+      protected array $cookieParams = [];
 
 
 
@@ -115,7 +122,24 @@ class ServerRequest
       }
 
 
+    /**
+     * @return array
+     */
+    public function getAttributes(): array
+    {
+        return $this->attributes;
+    }
 
+
+    /**
+     * @param string $name
+     * @param $default
+     * @return mixed
+     */
+    public function getAttribute(string $name, $default = null): mixed
+    {
+        return $this->attributes[$name] ?? $default;
+    }
 
 
      /**
@@ -126,6 +150,30 @@ class ServerRequest
          return $this->queryParams;
      }
 
+
+
+
+     /**
+      * @param array $cookieParams
+      * @return $this
+     */
+     public function withCookieParams(array $cookieParams): static
+     {
+         $this->cookieParams = $cookieParams;
+
+         return $this;
+     }
+
+
+
+
+    /**
+     * @return array
+    */
+    public function getCookieParams(): array
+    {
+        return $this->cookieParams;
+    }
 
 
 
@@ -197,11 +245,13 @@ class ServerRequest
       {
           $request = new self(
               $_SERVER['REQUEST_METHOD'],
-              $_SERVER['REQUEST_URI']
+              $_SERVER['REQUEST_URI'],
+              $_SERVER
           );
 
           $request->withQueryParams($_GET)
                   ->withParsedBody($_POST)
+                  ->withCookieParams($_COOKIE)
                   ->withProtocolVersion($_SERVER['SERVER_PROTOCOL']);
 
           return $request;
