@@ -1,6 +1,10 @@
 <div class="container__categories">
     <h1>Les categories</h1>
-    <p><a href="/admin/category/add"></a></p>
+    <p>
+        <a href="<?= $router->generate('admin.category.create') ?>" class="btn btn-success">
+            Ajouter une nouvelle categorie
+        </a>
+    </p>
     <table class="table table-striped">
         <thead>
            <tr>

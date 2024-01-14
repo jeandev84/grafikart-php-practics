@@ -1,4 +1,4 @@
-<form action="/login" method="POST">
+<form action="<?= $router->generate('login') ?>" method="POST">
     <div class="form-group">
         <?= $form->text('username', [
             'label' => "Nom d'utilisateur",

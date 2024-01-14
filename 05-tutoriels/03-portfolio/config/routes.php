@@ -24,8 +24,10 @@ return function(Router $router) {
     $router->get('/admin/category', [CategoryController::class, 'index'], 'admin.category.list');
     $router->get('/admin/category/create', [CategoryController::class, 'create'], 'admin.category.create');
     $router->post('/admin/category/store', [CategoryController::class, 'store'], 'admin.category.store');
-    $router->get( '/admin/category/edit', [CategoryController::class, 'edit'], 'admin.category.edit');
-    $router->put( '/admin/category/{id}', [CategoryController::class, 'update'], 'admin.category.update');
+    $router->get( '/admin/category/{id}/edit', [CategoryController::class, 'edit'], 'admin.category.edit')
+           ->where('id', '\d+');
+    $router->put( '/admin/category/{id}', [CategoryController::class, 'update'], 'admin.category.update')
+           ->where('id', '\d+');
     # $router->delete('/admin/category/delete/(?P<id>\d+)', [CategoryController::class, 'delete'], 'admin.category.delete')
     $router->delete('/admin/category/delete/{id}', [CategoryController::class, 'delete'], 'admin.category.delete')
            ->where('id', '\d+')

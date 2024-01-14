@@ -5,10 +5,12 @@ namespace App\Http\Controller\Admin;
 
 use App\Http\Controller\AdminController;
 use App\Repository\CategoryRepository;
-use App\Security\Token\UserTokenStorage;
+use Exception;
+use Grafikart\HTML\Form\Form;
+use Grafikart\Http\Parameter;
 use Grafikart\Http\Request\ServerRequest;
-use Grafikart\Http\Response\RedirectResponse;
 use Grafikart\Http\Response\Response;
+
 
 /**
  * CategoryController
@@ -18,9 +20,11 @@ use Grafikart\Http\Response\Response;
  * @license https://github.com/jeandev84/laventure-framework/blob/master/LICENSE
  *
  * @package  App\Http\Controller\Admin
- */
+*/
 class CategoryController extends AdminController
 {
+
+
       public function index(ServerRequest $request): Response
       {
           $categoryRepository = new CategoryRepository($this->getConnection());
@@ -39,21 +43,8 @@ class CategoryController extends AdminController
       */
       public function create(ServerRequest $request): Response
       {
-         return $this->render('admin/category/create');
+          return $this->render('admin/category/create');
       }
-
-
-
-
-
-    /**
-     * @param ServerRequest $request
-     * @return Response
-    */
-    public function store(ServerRequest $request): Response
-    {
-        return $this->redirectTo($this->generatePath('admin.category.list'));
-    }
 
 
 
@@ -63,18 +54,67 @@ class CategoryController extends AdminController
        * @param ServerRequest $request
        * @return Response
       */
+      public function store(ServerRequest $request): Response
+      {
+          return $this->redirectTo($this->generatePath('admin.category.list'));
+      }
+
+
+
+
+      /**
+       * @param ServerRequest $request
+       * @return Response
+       * @throws Exception
+      */
       public function edit(ServerRequest $request): Response
       {
-        $id = (int)$request->getQueryParams()['id'] ?? 0;
+          $id = (int)$request->getAttribute('id');
 
-        $categoryRepository = new CategoryRepository($this->getConnection());
+          $categoryRepository = new CategoryRepository($this->getConnection());
 
-        $category = $categoryRepository->find($id);
+          $category = $categoryRepository->findCategory($id);
 
-        return $this->render('admin/category/edit', [
-            'category' => $category
-        ]);
-     }
+          $form = new Form([
+              'name' => $category->getName(),
+              'slug' => $category->getSlug()
+          ]);
+
+          return $this->render('admin/category/edit', [
+              'category' => $category,
+              'form'     => $form
+          ]);
+      }
+
+
+      /**
+       * @param ServerRequest $request
+       * @return Response
+       * @throws Exception
+      */
+      public function update(ServerRequest $request): Response
+      {
+          $categoryRepository = new CategoryRepository($this->getConnection());
+          $id     = $request->getAttribute('id');
+          $params = new Parameter($request->getParsedBody());
+          $name   = $params->get('name');
+          $slug   = $params->get('slug');
+
+          if (!preg_match("#^[a-z\-0-9]+$#", $slug)) {
+               $this->addFlash('danger', "Le slug $slug n' est pas valide");
+          }
+
+          dd('OK');
+
+          $categoryRepository->update([
+              'name' => $name,
+              'slug' => $slug
+          ], $id);
+
+          dd($params);
+          return $this->redirectTo($this->generatePath('admin.category.edit', compact('id')));
+      }
+
 
 
 
@@ -84,40 +124,26 @@ class CategoryController extends AdminController
       * @param ServerRequest $request
       * @return Response
      */
-     public function update(ServerRequest $request): Response
+     public function delete(ServerRequest $request): Response
      {
-          return $this->redirectTo($this->generatePath('admin.category.edit'));
-     }
+         $id = (int)$request->getAttribute('id');
 
+         // CsrfTokenMiddleware
+         $token = $request->getParsedBody()['_csrf'] ?? '';
 
+         #dump($request);
 
-
-
-
-    /**
-     * @param ServerRequest $request
-     * @return Response
-    */
-    public function delete(ServerRequest $request): Response
-    {
-        $id = (int)$request->getAttribute('id');
-
-        // CsrfTokenMiddleware
-        $token = $request->getParsedBody()['_csrf'] ?? '';
-
-        #dump($request);
-
-        if (!$this->csrfToken->isValidToken($token)) {
+         if (!$this->csrfToken->isValidToken($token)) {
             return new Response("Invalid token $token");
-        }
-        // End CsrfTokenMiddleware
+         }
+         // End CsrfTokenMiddleware
 
-        $categoryRepository = new CategoryRepository($this->getConnection());
+         $categoryRepository = new CategoryRepository($this->getConnection());
 
-        $categoryRepository->delete($id);
+         $categoryRepository->delete($id);
 
-        $this->addFlash('success', "La categorie id#$id a bien ete supprimer");
+         $this->addFlash('success', "La categorie id#$id a bien ete supprimer");
 
-        return $this->redirectTo($this->generatePath('admin.category.list'));
+         return $this->redirectTo($this->generatePath('admin.category.list'));
     }
 }
