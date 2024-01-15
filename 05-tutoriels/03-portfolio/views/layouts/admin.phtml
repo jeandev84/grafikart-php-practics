@@ -11,12 +11,10 @@
     <link rel="stylesheet" href="/assets/css/app.css">
 </head>
 <body>
-<nav class="navbar navbar-dark bg-dark" role="navigation">
+<nav class="navbar navbar-dark bg-dark">
     <div class="container">
-        <div class="navbar-header">
-            <a href="<?= $router->generate('home') ?>" class="navbar-brand">Mon premier portfolio en PHP</a>
-        </div>
-        <ul class="nav navbar-nav">
+        <a href="<?= $router->generate('home') ?>" class="navbar-brand">Mon premier portfolio en PHP</a>
+        <ul class="navbar-nav">
             <li class="nav-item">
                 <a href="<?= $router->generate('admin.category.list') ?>" class="nav-link">Categories</a>
             </li>

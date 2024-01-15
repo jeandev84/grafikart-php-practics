@@ -67,10 +67,18 @@ class WorkRepository extends EntityRepository
          ]);
 
          $extension = $file->getClientExtension();
-         $imageName = "works/{$imageId}.$extension";
+         $imageName = "{$imageId}.$extension";
 
-         $this->workFileUploader->withFilename($imageName)->upload($file);
+         $this->workFileUploader->withFilename("works/$imageName")->upload($file);
 
          return $this->imageRepository->update(["name" => $imageName], $imageId);
+     }
+
+
+
+     public function removeImage(int $imageId): bool
+     {
+          $image = $this->imageRepository->find($imageId);
+          dd($image);
      }
 }

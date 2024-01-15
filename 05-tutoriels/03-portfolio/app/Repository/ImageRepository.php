@@ -27,4 +27,18 @@ class ImageRepository extends EntityRepository
      {
          parent::__construct($connection, Image::class, 'images');
      }
+
+
+
+
+     /**
+      * @return array
+     */
+     public function getImages(): array
+     {
+         $sql = "SELECT id, name FROM $this->tableName";
+         $statement = $this->connection->statement($sql, $this->className);
+         $statement->execute();
+         return $statement->fetchAll();
+     }
 }

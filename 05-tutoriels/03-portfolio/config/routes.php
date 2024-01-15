@@ -3,6 +3,7 @@
 use App\Http\Controller\Admin\CategoryController;
 use App\Http\Controller\Admin\DashboardController;
 use App\Http\Controller\Admin\WorkController;
+use App\Http\Controller\Admin\WorkImageController;
 use App\Http\Controller\AuthController;
 use App\Http\Controller\HomeController;
 use App\Http\Middlewares\CsrfTokenMiddleware;
@@ -47,8 +48,15 @@ return function(Router $router) {
         ->where('id', '\d+');
     # $router->delete('/admin/work/delete/(?P<id>\d+)', [WorkController::class, 'delete'], 'admin.work.delete')
     $router->delete('/admin/work/delete/{id}', [WorkController::class, 'delete'], 'admin.work.delete')
-        ->where('id', '\d+')
-        ->middleware( CsrfTokenMiddleware::class);
+           ->where('id', '\d+')
+           ->middleware( CsrfTokenMiddleware::class);
+
+    # Works Image
+    $router->get('/admin/work/image/delete/{id}/{csrf}', [WorkImageController::class, 'delete'], 'admin.work.image.delete')
+           ->where('id', '\d+')
+           ->where('csrf', '\w+')
+           ->middleware( CsrfTokenMiddleware::class);
+
 
     return $router;
 };

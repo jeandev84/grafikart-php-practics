@@ -5,6 +5,7 @@ namespace App\Http\Controller\Admin;
 
 use App\Http\Controller\AdminController;
 use App\Repository\CategoryRepository;
+use App\Repository\ImageRepository;
 use App\Repository\WorkRepository;
 use Exception;
 use Grafikart\HTML\Form\Form;
@@ -124,10 +125,14 @@ class WorkController extends AdminController
             'category_id' => $work->getCategory()
         ]);
 
+        $imageRepository = new ImageRepository($this->getConnection());
+
         return $this->render('admin/work/edit', [
             'work'       => $work,
             'form'       => $form,
-            'categories' => $categoryRepository->getCategoryList()
+            'categories' => $categoryRepository->getCategoryList(),
+            'images'     => $imageRepository->getImages(),
+            'uploadDir'  => $this->app['uploadDir']
         ]);
     }
 

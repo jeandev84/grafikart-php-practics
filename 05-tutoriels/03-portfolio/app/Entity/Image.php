@@ -18,6 +18,17 @@ class Image
     protected ?string $name;
     protected ?int $work_id;
 
+
+    /**
+     * @return int|null
+    */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+
+
     public function getName(): ?string
     {
         return $this->name;
