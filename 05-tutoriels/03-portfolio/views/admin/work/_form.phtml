@@ -47,5 +47,15 @@ http://fillerama.io/
             'class' => 'form-control'
         ]
     ]) ?>
+    <?= $form->input('file', 'image', [
+        'label' => false,
+        'attrs' => [
+            'class' => 'hidden form-control',
+            'id'    => 'duplicate'
+        ]
+    ]) ?>
 </div>
+<p>
+    <a href="#" class="btn btn-success" id="duplicate_btn">Ajouter une image</a>
+</p>
 
