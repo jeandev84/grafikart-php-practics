@@ -182,8 +182,8 @@ class WorkController extends AdminController
 
         $this->addFlash('success', "La realisation ID#$id a bien ete modifiee");
         $this->session->forget('admin.work.update');
-        return $this->redirectTo($this->generatePath('admin.work.list'));
-        # return $this->redirectTo($this->generatePath('admin.work.edit', compact('id')));
+        # return $this->redirectTo($this->generatePath('admin.work.list'));
+        return $this->redirectTo($this->generatePath('admin.work.edit', compact('id')));
     }
 
 

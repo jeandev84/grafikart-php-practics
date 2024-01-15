@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+#declare(strict_types=1);
 
 namespace Grafikart\Service\Image;
 
@@ -19,33 +19,78 @@ class ImageService
     /**
      * @var int
     */
-    public int $quality = 80;
+    protected int $width = 50;
+
+
+    /**
+     * @var int
+    */
+    protected int $height = 150;
+
+
+    /**
+     * @var int
+    */
+    protected int $quality = 80;
+
+
+    /**
+     * @var string
+    */
+    protected string $source;
 
 
 
     /**
-     * @param $file
-     * @param $width
-     * @param $height
+     * @param string $source
+    */
+    public function __construct(string $source)
+    {
+         $this->source = $source;
+    }
+
+
+
+    /**
+     * @param int $quality
+     * @return $this
+    */
+    public function quality(int $quality): static
+    {
+        $this->quality = $quality;
+
+        return $this;
+    }
+
+
+    /**
+     * @param int $width
+     * @param int $height
      * @return mixed
-     */
-    public function resizedUrl($file, $width, $height): mixed
+    */
+    public function resize(int $width, int $height): mixed
     {
         // '_100x100';
         # We find the right file
-        $pathinfo = pathinfo(trim($file, '/'));
+        $pathinfo = pathinfo(rtrim($this->source, '/'));
         $output = $pathinfo['dirname'] . '/' . $pathinfo['filename'] . '_' . $width . 'x' . $height . '.' . $pathinfo['extension'];
 
         # Setting defaults and meta
-        $info = getimagesize($file);
+        $info = getimagesize($this->source);
         list($width_old, $height_old) = $info;
-
 
         # Create image resource
         switch ($info[2]) {
-            case IMAGETYPE_GIF: $image = imagecreatefromgif($file); break;
-            case IMAGETYPE_JPEG: $image = imagecreatefromjpeg($file); break;
-            case IMAGETYPE_PNG: $image = imagecreatefrompng($file); break;
+            case IMAGETYPE_GIF:
+                $image = imagecreatefromgif($this->source);
+                break;
+            case IMAGETYPE_JPEG:
+                $image = imagecreatefromjpeg($this->source);
+                break;
+            case IMAGETYPE_PNG:
+                $image = imagecreatefrompng($this->source);
+                echo 3;
+                break;
             default: return false;
         }
 
@@ -73,8 +118,8 @@ class ImageService
             $transparency = imagecolortransparent($image);
 
             if ($transparency >= 0) {
-
-                $transparent_color = imagecolorsforindex($image, $trnprt_indx);
+                $transparency_index = 255;
+                $transparent_color  = imagecolorsforindex($image, $transparency_index);
 
                 $transparency = imagecolorallocate(
                     $image_crop,
@@ -116,19 +161,27 @@ class ImageService
         # Writing image according to type to the output destination and image quality
         switch ($info[2]) {
             case IMAGETYPE_GIF:
-                imagegif($image_resized, $output, $this->quality);
+                imagegif($image_resized, $output);
                 break;
             case IMAGETYPE_JPEG:
                 imagejpeg($image_resized, $output, $this->quality);
                 break;
             case IMAGETYPE_PNG:
-                imagepng($image_resized, $output, $this->quality);
+                imagepng($image_resized, $output, 9);
                 break;
             default:
                 return false;
         }
 
         return true;
+    }
+
+
+
+
+    public function save(): void
+    {
+
     }
 
 }

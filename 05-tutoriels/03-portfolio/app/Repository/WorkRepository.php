@@ -11,6 +11,7 @@ use Grafikart\Database\Connection\PdoConnection;
 use Grafikart\Database\ORM\Repository\EntityRepository;
 use Grafikart\Http\Request\Exception\UploadedFileException;
 use Grafikart\Http\Request\UploadedFile;
+use Grafikart\Service\Image\ImageService;
 
 /**
  * WorkRepository
@@ -37,6 +38,13 @@ class WorkRepository extends EntityRepository
      protected WorkFileUploader $workFileUploader;
 
 
+
+     /**
+      * @var string
+     */
+     protected string $uploadDir;
+
+
      /**
       * @param PdoConnection $connection
       * @param string $uploadDir
@@ -46,6 +54,7 @@ class WorkRepository extends EntityRepository
           parent::__construct($connection, Work::class, 'works');
           $this->imageRepository  = new ImageRepository($connection);
           $this->workFileUploader = new WorkFileUploader($uploadDir);
+          $this->uploadDir = $uploadDir;
      }
 
 
@@ -63,16 +72,32 @@ class WorkRepository extends EntityRepository
              return false;
          }
 
+         # Save Image info in database
          $imageId = $this->imageRepository->create([
              "name"    => $file->getClientFilename(),
              "work_id" => $work->getId()
          ]);
 
+         # Upload Image
          $extension = $file->getClientExtension();
          $imageName = "{$imageId}.$extension";
+         $path      = "works/$imageName";
 
-         $this->workFileUploader->withFilename("works/$imageName")->upload($file);
+         $this->workFileUploader->withFilename($path)->upload($file);
 
+
+         try
+         {
+             # Resize Image
+             $image = new ImageService($this->uploadDir . "/$path");
+             $image->resize(150, 150);
+             #$image->save();
+
+         } catch (\Throwable $e) {
+              dd($e->getMessage());
+         }
+
+         # Update Image info table
          return $this->imageRepository->update(["name" => $imageName], $imageId);
      }
 
