@@ -40,23 +40,4 @@ http://fillerama.io/
     ]) ?>
 </div>
 
-<div class="form-group">
-    <?= $form->input('file', 'images[]', [
-        'label' => "Upload ImageService",
-        'attrs' => [
-            'id'    => 'work_image__id',
-            'class' => 'form-control'
-        ]
-    ]) ?>
-    <?= $form->input('file', 'images[]', [
-        'label' => false,
-        'attrs' => [
-            'class' => 'hidden form-control',
-            'id'    => 'duplicate'
-        ]
-    ]) ?>
-</div>
-<p>
-    <a href="#" class="btn btn-success" id="duplicate_btn">Ajouter une image</a>
-</p>
 
