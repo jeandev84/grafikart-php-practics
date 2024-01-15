@@ -41,13 +41,13 @@ http://fillerama.io/
 </div>
 
 <div class="form-group">
-    <?= $form->input('file', 'image', [
+    <?= $form->input('file', 'image[]', [
         'label' => "Upload Image",
         'attrs' => [
             'class' => 'form-control'
         ]
     ]) ?>
-    <?= $form->input('file', 'image', [
+    <?= $form->input('file', 'image[]', [
         'label' => false,
         'attrs' => [
             'class' => 'hidden form-control',
