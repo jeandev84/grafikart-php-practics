@@ -103,25 +103,36 @@ class ImageHelperRefactor
 
             # This is the resizing/resampling/transparency-preserving magic
             if (($info[2] == IMAGETYPE_GIF) || ($info[2] == IMAGETYPE_PNG)) {
+
                 $transparency = imagecolortransparent($image);
+
                 if ($transparency >= 0) {
+
                     $transparent_color = imagecolorsforindex($image, $trnprt_indx);
+
                     $transparency = imagecolorallocate(
                         $image_crop,
                         $transparent_color['red'],
                         $transparent_color['green'],
                         $transparent_color['blue']
                     );
+
                     imagefill($image_crop, 0, 0, $transparency);
                     imagecolortransparent($image_crop, $transparency);
+
                     imagefill($image_resized, 0, 0, $transparency);
                     imagecolortransparent($image_resized, $transparency);
+
                 } elseif ($info[2] == IMAGETYPE_PNG) {
+
                     imagealphablending($image_crop, false);
                     imagealphablending($image_resized, false);
+
                     $color = imagecolorallocatealpha($image_crop, 0, 0, 0, 127);
+
                     imagefill($image_crop, 0, 0, $color);
                     imagesavealpha($image_crop, true);
+
                     imagefill($image_resized, 0, 0, $color);
                     imagesavealpha($image_resized, true);
                 }
@@ -139,19 +150,19 @@ class ImageHelperRefactor
             # Writing image according to type to the output destination and image quality
             switch ($info[2]) {
                 case IMAGETYPE_GIF:
-                    imagegif($image_resized, $this->webRoot . $output, $this->quality);
+                    imagegif($image_resized, $output, $this->quality);
                     break;
                 case IMAGETYPE_JPEG:
-                    imagejpeg($image_resized, $this->webRoot . $output, $this->quality);
+                    imagejpeg($image_resized, $output, $this->quality);
                     break;
                 case IMAGETYPE_PNG:
-                    imagepng($image_resized, $this->webRoot . $output, $this->quality);
+                    imagepng($image_resized, $output, $this->quality);
                     break;
                 default:
                     return false;
             }
         }
 
-        return '';
+        return true;
     }
 }
