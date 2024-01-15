@@ -23,10 +23,12 @@ class WorkImageController extends AdminController
 {
 
       /**
+       * Supprimer une image
+       *
        * @param ServerRequest $request
        * @return Response
       */
-      public function delete(ServerRequest $request): Response
+      public function deleteImage(ServerRequest $request): Response
       {
           $token  = $request->getAttribute('csrf', '');
           $workId = (int)$request->getAttribute('work', 0);
@@ -41,7 +43,38 @@ class WorkImageController extends AdminController
 
           $workRepository->removeImage($imageId);
 
-          $this->addFlash('success', "L' image image#$imageId a bien ete supprimer");
+          $this->addFlash('success', "L' image id#$imageId a bien ete supprimer");
+
+          return $this->redirectToRoute('admin.work.edit', ['id' => $workId]);
+      }
+
+
+
+
+
+      /**
+       * Mettre une image a la une
+       *
+       * @param ServerRequest $request
+       *
+       * @return RedirectResponse
+      */
+      public function highlightImage(ServerRequest $request): RedirectResponse
+      {
+          $token  = $request->getAttribute('csrf', '');
+          $workId = (int)$request->getAttribute('work', 0);
+
+          if (!$this->csrfToken->isValidToken($token)) {
+              return new Response("Invalid token $token");
+          }
+
+          $imageId = (int)$request->getAttribute('id', 0);
+
+          $workRepository = new WorkRepository($this->getConnection(), $this->app['uploadDir']);
+
+          $workRepository->highlightImage($workId, $imageId);
+
+          $this->addFlash('success', "L' image id#$imageId a bien ete mise en avant");
 
           return $this->redirectToRoute('admin.work.edit', ['id' => $workId]);
       }

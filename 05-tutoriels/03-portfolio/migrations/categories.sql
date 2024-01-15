@@ -5,5 +5,7 @@ CREATE TABLE categories (
 ) ENGINE = 'MyISAM';
 
 
-INSERT INTO categories (name, slug)
-VALUES('Wordpress', 'wordpress'), ('CakePHP', 'cakephp');
+INSERT INTO categories (name, slug) VALUES
+('Wordpress', 'wordpress'),
+('CakePHP', 'cakephp'),
+('Photoshop', 'photoshop');

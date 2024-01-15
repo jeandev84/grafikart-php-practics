@@ -19,6 +19,7 @@ class Work
     protected ?string $slug;
     protected ?string $content;
     protected ?int $category_id;
+    protected ?int $image_id;
 
     public function getId(): ?int
     {
@@ -77,5 +78,27 @@ class Work
         return $this;
     }
 
+
+
+
+    /**
+     * @return int|null
+    */
+    public function getImage(): ?int
+    {
+        return $this->image_id;
+    }
+
+
+    /**
+     * @param Image $image
+     * @return $this
+    */
+    public function setImage(Image $image): static
+    {
+        $this->image_id = $image->getId();
+
+        return $this;
+    }
 
 }

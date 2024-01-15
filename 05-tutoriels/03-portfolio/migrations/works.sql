@@ -6,3 +6,8 @@ CREATE TABLE works (
     category_id INTEGER,
     INDEX category_id_idx (category_id)
 ) ENGINE = 'MyISAM';
+
+
+ALTER TABLE `works`
+ADD COLUMN `image_id` VARCHAR(255),
+ADD INDEX `image_id_idx` (`image_id`);

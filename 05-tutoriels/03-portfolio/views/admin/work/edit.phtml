@@ -13,15 +13,18 @@
         <div class="col-sm-4">
             <?php if (!empty($images)): ?>
                 <?php foreach ($images as $k => $image): ?>
-                    <a href="<?= $router->generate('admin.work.image.delete', ['id' => $image->getId(), 'csrf' => $csrfToken, 'work' => $work->getId() ]) ?>"
-                       onclick="return confirm('Voulez-vous supprimer ?')"
-                       title="Clickez sur l'image pour la suppression"
-                    >
                         <img src="<?= "/uploads/works/{$image->getName()}" ?>" width="100"">
-                    </a>
+                        <a href="<?= $router->generate('admin.work.image.delete', ['id' => $image->getId(), 'csrf' => $csrfToken, 'work' => $work->getId() ]) ?>"
+                           onclick="return confirm('Voulez-vous supprimer ?')"
+                           title="Clickez pour la suppression"
+                        >Supprimer</a> |
+                        <a href="<?= $router->generate('admin.work.image.highlight', ['id' => $image->getId(), 'csrf' => $csrfToken, 'work' => $work->getId() ]) ?>"
+                           onclick="return confirm('Voulez-vous mettre en ligne ?')"
+                           title="Clickez pour mettre en avant"
+                        >Mettre a la une</a>
                 <?php endforeach; ?>
             <?php endif; ?>
-            <div class="form-group">
+            <div class="form-group mt-3">
                 <?= $form->input('file', 'images[]', [
                     'label' => "Telecharger",
                     'attrs' => [

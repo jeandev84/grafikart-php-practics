@@ -5,7 +5,7 @@ use App\Http\Controller\Admin\DashboardController;
 use App\Http\Controller\Admin\WorkController;
 use App\Http\Controller\Admin\WorkImageController;
 use App\Http\Controller\AuthController;
-use App\Http\Controller\HomeController;
+use App\Http\Controller\PortfolioController;
 use App\Http\Middlewares\CsrfTokenMiddleware;
 use App\Http\Middlewares\GuestMiddleware;
 use Grafikart\Routing\Router;
@@ -13,8 +13,12 @@ use Grafikart\Routing\Router;
 return function(Router $router) {
 
     # Home page
-    $router->get('/', [HomeController::class, 'index'], 'home')
-           ->middleware(GuestMiddleware::class);
+    $router->get('/', [PortfolioController::class, 'index'], 'home');
+           #->middleware(GuestMiddleware::class);
+
+    $router->get('/portfolio/show/{id}', [PortfolioController::class, 'index'], 'portfolio.show')
+           ->where('id', '\d+');
+           #->middleware(GuestMiddleware::class);
 
     # Authentication
     $router->map('GET|POST', '/login', [AuthController::class, 'login'], 'login');
@@ -52,7 +56,12 @@ return function(Router $router) {
            ->middleware( CsrfTokenMiddleware::class);
 
     # Works ImageService
-    $router->get('/admin/work/image/delete/{id}/{csrf}/{work}', [WorkImageController::class, 'delete'], 'admin.work.image.delete')
+    $router->get('/admin/work/image/delete/{id}/{work}/{csrf}', [WorkImageController::class, 'deleteImage'], 'admin.work.image.delete')
+           ->where('id', '\d+')
+           ->where('csrf', '\w+')
+           ->where('work', '\d+')
+           ->middleware( CsrfTokenMiddleware::class);
+    $router->get('/admin/work/image/highlight/{id}/{work}/{csrf}', [WorkImageController::class, 'highlightImage'], 'admin.work.image.highlight')
            ->where('id', '\d+')
            ->where('csrf', '\w+')
            ->where('work', '\d+')

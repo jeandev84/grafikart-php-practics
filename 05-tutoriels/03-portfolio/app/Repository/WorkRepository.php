@@ -124,4 +124,20 @@ class WorkRepository extends EntityRepository
 
           return true;
      }
+
+
+    /**
+     * @param int $workId
+     * @param int $imageId
+     * @return bool
+     */
+     public function highlightImage(int $workId, int $imageId): bool
+     {
+         /** @var Image $image */
+         if (!$this->imageRepository->find($imageId)) {
+             return false;
+         }
+
+         return $this->update(['image_id' => $imageId], $workId);
+     }
 }
