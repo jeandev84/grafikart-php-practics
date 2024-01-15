@@ -4,7 +4,9 @@
         <?php foreach ($works as $work): ?>
           <div class="col-sm-3">
               <a href="<?= $router->generate('portfolio.show', ['id' => $work->getId() ]) ?>">
+                  <img src="/uploads/works/<?= $work->getImageName() ?>" alt="">
                   <h2><?= $work->getName() ?></h2>
+                  <?= $work->getResizedImage(150, 150) ?>
               </a>
           </div>
         <?php endforeach; ?>

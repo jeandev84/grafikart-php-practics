@@ -140,4 +140,27 @@ class WorkRepository extends EntityRepository
 
          return $this->update(['image_id' => $imageId], $workId);
      }
+
+
+     /**
+      * @return array
+     */
+     public function findPortfolioWorks(): array
+     {
+         $sql = 'SELECT w.name, w.id, w.slug, i.name as image_name
+                 FROM works w
+                 LEFT JOIN images i ON i.id = w.image_id';
+         $statement  = $this->connection->statement($sql, $this->className);
+         $statement->execute();
+         return $statement->fetchAll();
+     }
+
+
+    /**
+     * @return ImageRepository
+    */
+    public function getImageRepository(): ImageRepository
+    {
+        return $this->imageRepository;
+    }
 }

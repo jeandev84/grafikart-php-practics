@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Grafikart\Service\Image\ImageService;
+
 /**
  * Work
  *
@@ -20,6 +22,7 @@ class Work
     protected ?string $content;
     protected ?int $category_id;
     protected ?int $image_id;
+    protected ?string $image_name = null;
 
     public function getId(): ?int
     {
@@ -99,6 +102,29 @@ class Work
         $this->image_id = $image->getId();
 
         return $this;
+    }
+
+
+
+
+    /**
+     * @return string|null
+    */
+    public function getImageName(): ?string
+    {
+        return $this->image_name;
+    }
+
+
+    /**
+     * @param int $width
+     * @param int $height
+     * @return string
+    */
+    public function getResizedImage(int $width, int $height): string
+    {
+        $image = new ImageService('/uploads/works/'. $this->image_name);
+        return $image->resizedImage($width, $height);
     }
 
 }

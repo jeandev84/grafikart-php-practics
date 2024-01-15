@@ -63,6 +63,30 @@ class ImageService
     }
 
 
+
+
+    /**
+     * @param int $with
+     * @param int $height
+     * @return string
+    */
+    public function resizedImage(int $with, int $height): string
+    {
+         $info = pathinfo($this->source);
+
+         $path = '';
+
+         if ($info['dirname'] != '.') {
+             $path .= $info['dirname'] . '/';
+         }
+
+         $path .= $info['filename'] . "_{$with}x{$height}.{$info['extension']}";
+
+         return $path;
+    }
+
+
+
     /**
      * @param int $width
      * @param int $height

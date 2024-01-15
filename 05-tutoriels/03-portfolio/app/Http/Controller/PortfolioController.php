@@ -7,6 +7,7 @@ use App\Http\AbstractController;
 use App\Repository\UserRepository;
 use App\Repository\WorkRepository;
 use Grafikart\Http\Response\Response;
+use Grafikart\Service\Image\ImageService;
 
 /**
  * PortfolioController
@@ -28,7 +29,7 @@ class PortfolioController extends AbstractController
             $workRepository = new WorkRepository($this->getConnection());
 
             return $this->render('portfolio/index', [
-                'works' => $workRepository->findAll()
+                'works' => $workRepository->findPortfolioWorks()
             ]);
         }
 
