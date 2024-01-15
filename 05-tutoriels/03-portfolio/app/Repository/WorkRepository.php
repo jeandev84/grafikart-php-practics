@@ -156,11 +156,12 @@ class WorkRepository extends EntityRepository
      }
 
 
-    /**
-     * @return ImageRepository
-    */
-    public function getImageRepository(): ImageRepository
-    {
-        return $this->imageRepository;
-    }
+     /**
+      * @param $slug
+      * @return Work|false
+     */
+     public function findBySlug($slug): mixed
+     {
+          return $this->findOneBy(compact('slug'));
+     }
 }

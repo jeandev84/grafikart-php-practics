@@ -43,22 +43,22 @@ class PortfolioController extends AbstractController
         */
         public function show(ServerRequest $request): Response
         {
-            $id = (int)$request->getAttribute('id');
+            $slug = $request->getAttribute('slug', '');
 
-            if (! $id) {
+            if (! $slug) {
                 return $this->redirectToRoute('home')
                             ->withStatusCode(301);
             }
 
             $workRepository = new WorkRepository($this->getConnection());
 
-            if (! $work = $workRepository->find($id)) {
+            if (! $work = $workRepository->findBySlug($slug)) {
                  return $this->redirectToRoute('home');
             }
 
             $imageRepository = new ImageRepository($this->getConnection());
 
-            $images = $imageRepository->findImagesByWork($id);
+            $images = $imageRepository->findImagesByWork($work->getId());
 
             return $this->render('portfolio/show', [
                   'work'   => $work,

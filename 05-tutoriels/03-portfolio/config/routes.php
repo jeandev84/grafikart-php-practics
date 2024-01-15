@@ -16,8 +16,8 @@ return function(Router $router) {
     $router->get('/', [PortfolioController::class, 'index'], 'home');
            #->middleware(GuestMiddleware::class);
 
-    $router->get('/portfolio/show/{id}', [PortfolioController::class, 'show'], 'portfolio.show')
-           ->where('id', '\d+');
+    $router->get('/realisation/{slug}', [PortfolioController::class, 'show'], 'portfolio.show')
+           ->where('slug', '[a-z\-0-9]+');
            #->middleware(GuestMiddleware::class);
 
     # Authentication

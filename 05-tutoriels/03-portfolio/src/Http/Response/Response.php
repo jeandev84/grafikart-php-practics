@@ -90,6 +90,8 @@ class Response
         public function withStatusCode(int $statusCode): static
         {
             $this->statusCode = $statusCode;
+
+            return $this;
         }
 
 
