@@ -13,15 +13,17 @@
         <div class="col-sm-4">
             <?php if (!empty($images)): ?>
                 <?php foreach ($images as $k => $image): ?>
-                        <img src="<?= "/uploads/works/{$image->getName()}" ?>" width="100"">
-                        <a href="<?= $router->generate('admin.work.image.delete', ['id' => $image->getId(), 'csrf' => $csrfToken, 'work' => $work->getId() ]) ?>"
-                           onclick="return confirm('Voulez-vous supprimer ?')"
-                           title="Clickez pour la suppression"
-                        >Supprimer</a> |
-                        <a href="<?= $router->generate('admin.work.image.highlight', ['id' => $image->getId(), 'csrf' => $csrfToken, 'work' => $work->getId() ]) ?>"
-                           onclick="return confirm('Voulez-vous mettre en ligne ?')"
-                           title="Clickez pour mettre en avant"
-                        >Mettre a la une</a>
+                        <div class="mb-3">
+                            <img src="<?= "/uploads/works/{$image->getName()}" ?>" width="100"">
+                            <a href="<?= $router->generate('admin.work.image.delete', ['id' => $image->getId(), 'csrf' => $csrfToken, 'work' => $work->getId() ]) ?>"
+                               onclick="return confirm('Voulez-vous supprimer ?')"
+                               title="Clickez pour la suppression"
+                            >Supprimer</a> |
+                            <a href="<?= $router->generate('admin.work.image.highlight', ['id' => $image->getId(), 'csrf' => $csrfToken, 'work' => $work->getId() ]) ?>"
+                               onclick="return confirm('Voulez-vous mettre en ligne ?')"
+                               title="Clickez pour mettre en avant"
+                            >Mettre a la une</a>
+                        </div>
                 <?php endforeach; ?>
             <?php endif; ?>
             <div class="form-group mt-3">
