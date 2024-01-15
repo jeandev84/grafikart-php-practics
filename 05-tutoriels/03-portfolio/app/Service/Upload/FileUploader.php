@@ -148,6 +148,8 @@ class FileUploader
               $this->filename = md5(uniqid()) . '_'. $file->getClientExtension();
           }
 
+          # dd($this->targetPath($this->filename));
+
           $file->moveTo($path = $this->targetPath($this->filename));
 
           return $path;

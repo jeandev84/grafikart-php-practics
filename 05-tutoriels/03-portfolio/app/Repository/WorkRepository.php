@@ -48,14 +48,19 @@ class WorkRepository extends EntityRepository
      }
 
 
-     /**
-      * @param UploadedFile $file
-      * @param Work $work
-      * @return bool
+      /**
+       * @param UploadedFile $file
+       * @param int $id
+       * @return bool
       * @throws UploadedFileException
      */
-     public function saveImage(UploadedFile $file, Work $work): bool
+     public function saveImage(UploadedFile $file, int $id): bool
      {
+         /** @var Work $work */
+         if (! $work = $this->find($id)) {
+             return false;
+         }
+
          $imageId = $this->imageRepository->create([
              "name"    => $file->getClientFilename(),
              "work_id" => $work->getId()
@@ -66,6 +71,6 @@ class WorkRepository extends EntityRepository
 
          $this->workFileUploader->withFilename($imageName)->upload($file);
 
-         return $this->update(["name" => $imageName], $imageId);
+         return $this->imageRepository->update(["name" => $imageName], $imageId);
      }
 }

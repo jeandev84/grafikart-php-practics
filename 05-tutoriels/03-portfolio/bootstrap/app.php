@@ -22,7 +22,7 @@ $config = require BASE_PATH . '/config/app.php';
 $app = Container::instance();
 
 $app->bind('basePath', BASE_PATH);
-$app->bind('uploadDir', 'public/uploads');
+$app->bind('uploadDir', BASE_PATH. '/public/uploads');
 $app->bind(Config::class, function () use ($config) {
     return new Config($config);
 });

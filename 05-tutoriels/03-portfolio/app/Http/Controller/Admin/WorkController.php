@@ -139,7 +139,7 @@ class WorkController extends AdminController
      */
     public function update(ServerRequest $request): Response
     {
-        $workRepository = new WorkRepository($this->getConnection());
+        $workRepository = new WorkRepository($this->getConnection(), $this->app['uploadDir']);
         $id     = (int)$request->getAttribute('id');
         $params = new Parameter($request->getParsedBody());
         $slug   = $params->get('slug');
@@ -168,15 +168,13 @@ class WorkController extends AdminController
         # Upload image
         $files = new Parameter($request->getUploadedFiles());
 
-
         if($image = $files->get('image')[0]) {
-
+            $workRepository->saveImage($image, $id);
         }
 
 
         $this->addFlash('success', "La realisation ID#$id a bien ete modifiee");
         $this->session->forget('admin.work.update');
-
         return $this->redirectTo($this->generatePath('admin.work.list'));
         # return $this->redirectTo($this->generatePath('admin.work.edit', compact('id')));
     }
