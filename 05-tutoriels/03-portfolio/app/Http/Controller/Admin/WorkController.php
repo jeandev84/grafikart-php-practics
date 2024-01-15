@@ -166,12 +166,12 @@ class WorkController extends AdminController
 
 
         # Upload image
-        $files = new Parameter($request->getUploadedFiles());
-
-        if($image = $files->get('image')[0]) {
-            $workRepository->saveImage($image, $id);
+        $files  = new Parameter($request->getUploadedFiles());
+        if($images = $files->get('images')) {
+            foreach ($images as $image) {
+                $workRepository->saveImage($image, $id);
+            }
         }
-
 
         $this->addFlash('success', "La realisation ID#$id a bien ete modifiee");
         $this->session->forget('admin.work.update');
