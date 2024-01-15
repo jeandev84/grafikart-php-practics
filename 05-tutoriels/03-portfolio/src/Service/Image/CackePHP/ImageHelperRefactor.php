@@ -12,7 +12,7 @@ namespace Grafikart\Service\Image\CackePHP;
  *
  * @package  Grafikart\Service\Image\CackePHP
  */
-class ImageHelper
+class ImageHelperRefactor
 {
 
     /**
@@ -21,20 +21,11 @@ class ImageHelper
     public array $helpers = ['Html', 'Form'];
 
 
-
     /**
      * @var int
     */
     public int $quality = 80;
 
-
-    protected string $webRoot;
-
-
-    public function __construct(string $basePath)
-    {
-        $this->webRoot = $basePath;
-    }
 
 
     /**
@@ -75,25 +66,21 @@ class ImageHelper
         // '_100x100';
         # We find the right file
         $pathinfo = pathinfo(trim($file, '/'));
-        $file = $this->webRoot . trim($file, '/');
         $output = $pathinfo['dirname'] . '/' . $pathinfo['filename'] . '_' . $width . 'x' . $height . '.' . $pathinfo['extension'];
 
-        if (!file_exists($this->webRoot . $output)) {
+        if (!file_exists($output)) {
+
+            # Setting defaults and meta
             $info = getimagesize($file);
             list($width_old, $height_old) = $info;
+
+
             # Create image resource
             switch ($info[2]) {
-                case IMAGETYPE_GIF:
-                    $image = imagecreatefromgif($file);
-                    break;
-                case IMAGETYPE_JPEG:
-                    $image = imagecreatefromjpeg($file);
-                    break;
-                case IMAGETYPE_PNG:
-                    $image = imagecreatefrompng($file);
-                    break;
-                default:
-                    return false;
+                case IMAGETYPE_GIF: $image = imagecreatefromgif($file); break;
+                case IMAGETYPE_JPEG: $image = imagecreatefromjpeg($file); break;
+                case IMAGETYPE_PNG: $image = imagecreatefrompng($file); break;
+                default: return false;
             }
 
             # We find the right ratio to resize the image before cropping
@@ -108,7 +95,9 @@ class ImageHelper
             $height_crop = ($height_old / $optimal_ratio);
             $width_crop = ($width_old / $optimal_ratio);
 
-            # The two image resources needed (image resized with the good aspect ratio, and the one with the exact good dimensions)
+
+            # The two image resources needed
+            # (image resized with the good aspect ratio, and the one with the exact good dimensions)
             $image_crop = imagecreatetruecolor($width_crop, $height_crop);
             $image_resized = imagecreatetruecolor($width, $height);
 
