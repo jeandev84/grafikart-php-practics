@@ -51,7 +51,7 @@ return function(Router $router) {
            ->where('id', '\d+')
            ->middleware( CsrfTokenMiddleware::class);
 
-    # Works Image
+    # Works ImageService
     $router->get('/admin/work/image/delete/{id}/{csrf}/{work}', [WorkImageController::class, 'delete'], 'admin.work.image.delete')
            ->where('id', '\d+')
            ->where('csrf', '\w+')
