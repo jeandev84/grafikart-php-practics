@@ -76,7 +76,7 @@ class WorkController extends AdminController
 
         if (!preg_match("/^[a-z\-0-9]+$/", $slug)) {
             $this->addFlash('danger', "Le slug $slug n' est pas valide");
-            return $this->redirectTo($this->generatePath('admin.work.create'));
+            return $this->redirectToRoute('admin.work.create');
         }
 
         $workRepository = new WorkRepository($this->getConnection());
@@ -93,7 +93,7 @@ class WorkController extends AdminController
 
         $this->addFlash('success', "La realisation a bien ete ajoutee");
         $this->session->forget('admin.work.store');
-        return $this->redirectTo($this->generatePath('admin.work.list'));
+        return $this->redirectToRoute('admin.work.list');
     }
 
 
@@ -115,7 +115,7 @@ class WorkController extends AdminController
 
         if (! $work) {
             $this->addFlash('danger', "Categorie ID#$id n' exist pas");
-            return $this->redirectTo($this->generatePath('admin.work.list'));
+            return $this->redirectToRoute('admin.work.list');
         }
 
         $categoryRepository = new CategoryRepository($this->getConnection());
@@ -160,7 +160,7 @@ class WorkController extends AdminController
 
         if (!preg_match("/^[a-z\-0-9]+$/", $slug)) {
             $this->addFlash('danger', "Le slug $slug n' est pas valide");
-            return $this->redirectTo($this->generatePath('admin.work.edit', compact('id')));
+            return $this->redirectToRoute('admin.work.edit', compact('id'));
         }
 
         # Persist work
@@ -183,7 +183,7 @@ class WorkController extends AdminController
         $this->addFlash('success', "La realisation ID#$id a bien ete modifiee");
         $this->session->forget('admin.work.update');
         # return $this->redirectTo($this->generatePath('admin.work.list'));
-        return $this->redirectTo($this->generatePath('admin.work.edit', compact('id')));
+        return $this->redirectToRoute('admin.work.edit', compact('id'));
     }
 
 
@@ -215,6 +215,6 @@ class WorkController extends AdminController
 
         $this->addFlash('success', "La realisation id#$id a bien ete supprimer");
 
-        return $this->redirectTo($this->generatePath('admin.work.list'));
+        return $this->redirectToRoute('admin.work.list');
     }
 }

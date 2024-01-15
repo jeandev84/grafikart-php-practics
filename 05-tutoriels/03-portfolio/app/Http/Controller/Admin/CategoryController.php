@@ -84,7 +84,7 @@ class CategoryController extends AdminController
               'slug' => $slug
           ]);
           $this->addFlash('success', "La categorie a bien ete ajoutee");
-          return $this->redirectTo($this->generatePath('admin.category.create'));
+          return $this->redirectToRoute('admin.category.create');
       }
 
 
@@ -105,7 +105,7 @@ class CategoryController extends AdminController
 
           if (! $category) {
               $this->addFlash('danger', "Categorie ID#$id n' exist pas");
-              return $this->redirectTo($this->generatePath('admin.category.list'));
+              return $this->redirectToRoute('admin.category.list');
           }
 
           $form = new Form([
@@ -140,7 +140,7 @@ class CategoryController extends AdminController
 
           if (!preg_match("/^[a-z\-0-9]+$/", $slug)) {
               $this->addFlash('danger', "Le slug $slug n' est pas valide");
-              return $this->redirectTo($this->generatePath('admin.category.edit', compact('id')));
+              return $this->redirectToRoute('admin.category.edit', compact('id'));
           }
 
           $categoryRepository->update([
@@ -150,7 +150,7 @@ class CategoryController extends AdminController
 
           $this->addFlash('success', "La categorie ID#$id a bien ete modifiee");
           $this->session->forget('admin.category.update');
-          return $this->redirectTo($this->generatePath('admin.category.list'));
+          return $this->redirectToRoute('admin.category.list');
 
           # return $this->redirectTo($this->generatePath('admin.category.edit', compact('id')));
       }
@@ -184,6 +184,6 @@ class CategoryController extends AdminController
 
          $this->addFlash('success', "La categorie id#$id a bien ete supprimer");
 
-         return $this->redirectTo($this->generatePath('admin.category.list'));
+         return $this->redirectToRoute('admin.category.list');
     }
 }

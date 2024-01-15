@@ -43,6 +43,6 @@ class WorkImageController extends AdminController
 
           $this->addFlash('success', "L' image image#$imageId a bien ete supprimer");
 
-          return $this->redirectTo($this->generatePath('admin.work.edit', ['id' => $workId]));
+          return $this->redirectToRoute('admin.work.edit', ['id' => $workId]);
       }
 }

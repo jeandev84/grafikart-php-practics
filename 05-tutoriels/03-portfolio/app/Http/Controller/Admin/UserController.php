@@ -22,8 +22,6 @@ class UserController extends AdminController
     {
         $userRepository = new UserRepository($this->getConnection());
 
-        #dump($userRepository->findAll());
-
         return $this->render('index', [
             'users' => $userRepository->findAll()
         ]);

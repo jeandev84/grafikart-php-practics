@@ -146,6 +146,19 @@ abstract class AbstractController
 
 
 
+      /**
+       * @param string $name
+       * @param array $params
+       * @return RedirectResponse
+      */
+      public function redirectToRoute(string $name, array $params = []): RedirectResponse
+      {
+          return $this->redirectTo($this->generatePath($name, $params));
+      }
+
+
+
+
 
 
       /**
