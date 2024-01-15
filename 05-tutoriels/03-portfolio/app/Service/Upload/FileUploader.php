@@ -157,6 +157,25 @@ class FileUploader
 
 
 
+
+
+      /**
+       * @param string $file
+       * @return bool
+      */
+      public function remove(string $file): bool
+      {
+          $path = $this->targetPath($file);
+
+          if (! file_exists($path)) {
+              return false;
+          }
+
+          return unlink($path);
+      }
+
+
+
       /*
       private function isallowed(string $name, $extension): bool
       {

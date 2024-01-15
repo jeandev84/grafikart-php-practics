@@ -48,6 +48,7 @@ class WorkRepository extends EntityRepository
      }
 
 
+
       /**
        * @param UploadedFile $file
        * @param int $id
@@ -75,7 +76,10 @@ class WorkRepository extends EntityRepository
      }
 
 
-
+     /**
+      * @param int $imageId
+      * @return bool
+     */
      public function removeImage(int $imageId): bool
      {
           $image = $this->imageRepository->find($imageId);

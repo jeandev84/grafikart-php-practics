@@ -30,15 +30,15 @@ class ImageRepository extends EntityRepository
 
 
 
-
      /**
+      * @param int $workId
       * @return array
      */
-     public function getImages(): array
+     public function getWorkImages(int $workId): array
      {
-         $sql = "SELECT id, name FROM $this->tableName";
+         $sql = "SELECT id, name FROM $this->tableName WHERE work_id = :workId";
          $statement = $this->connection->statement($sql, $this->className);
-         $statement->execute();
+         $statement->execute(compact('workId'));
          return $statement->fetchAll();
      }
 }

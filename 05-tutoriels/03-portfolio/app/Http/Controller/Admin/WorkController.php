@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controller\Admin;
 
+use App\Entity\Work;
 use App\Http\Controller\AdminController;
 use App\Repository\CategoryRepository;
 use App\Repository\ImageRepository;
@@ -109,6 +110,7 @@ class WorkController extends AdminController
 
         $workRepository = new WorkRepository($this->getConnection());
 
+        /** @var Work $work */
         $work = $workRepository->find($id);
 
         if (! $work) {
@@ -131,7 +133,7 @@ class WorkController extends AdminController
             'work'       => $work,
             'form'       => $form,
             'categories' => $categoryRepository->getCategoryList(),
-            'images'     => $imageRepository->getImages(),
+            'images'     => $imageRepository->getWorkImages($work->getId()),
             'uploadDir'  => $this->app['uploadDir']
         ]);
     }
