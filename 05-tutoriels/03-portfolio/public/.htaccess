@@ -1,0 +1,3 @@
+# Example
+#RewriteRule ^realization/([a-z0-9\-]+)$  realisation/view.php?slug=$1
+#RewriteRule ^category/([a-z0-9\-]+)$     category/view.php?slug=$1

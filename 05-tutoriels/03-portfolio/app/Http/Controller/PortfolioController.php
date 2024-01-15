@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controller;
 
 use App\Http\AbstractController;
+use App\Repository\CategoryRepository;
 use App\Repository\ImageRepository;
 use App\Repository\UserRepository;
 use App\Repository\WorkRepository;
@@ -23,15 +24,30 @@ use Grafikart\Service\Image\ImageService;
 class PortfolioController extends AbstractController
 {
 
-         /**
-          * @return Response
-         */
-        public function index(): Response
+        /**
+         * @param ServerRequest $request
+         * @return Response
+        */
+        public function index(ServerRequest $request): Response
         {
-            $workRepository = new WorkRepository($this->getConnection());
+            $slug = (string)$request->getQueryParams()['slug'] ?? '';
+            $workRepository     = new WorkRepository($this->getConnection());
+            $categoryRepository = new CategoryRepository($this->getConnection());
 
-            return $this->render('portfolio/index', [
-                'works' => $workRepository->findPortfolioWorks()
+            $wheres = [];
+            $title  = 'Bienvenue sur mon portfolio!';
+
+            if($slug) {
+               if($category = $categoryRepository->findOneBy(compact('slug'))) {
+                   $wheres['category_id'] = $category->getId();
+                   $title = "Mes realisations {$category->getName()}";
+               }
+            }
+
+            return $this->render('portfolio/realisation/index', [
+                'works'      => $workRepository->findPortfolioWorks($wheres),
+                'categories' => $categoryRepository->findAll(),
+                'title'      => $title
             ]);
         }
 
@@ -41,7 +57,7 @@ class PortfolioController extends AbstractController
          * @param ServerRequest $request
          * @return Response
         */
-        public function show(ServerRequest $request): Response
+        public function showRealisation(ServerRequest $request): Response
         {
             $slug = $request->getAttribute('slug', '');
 
@@ -60,9 +76,29 @@ class PortfolioController extends AbstractController
 
             $images = $imageRepository->findImagesByWork($work->getId());
 
-            return $this->render('portfolio/show', [
+            return $this->render('portfolio/realisation/show', [
                   'work'   => $work,
-                  'images' => $images
+                  'images' => $images,
+                  'title'  => $work->getName()
             ]);
         }
+
+
+
+
+       /**
+        * @param ServerRequest $request
+        * @return Response
+       */
+       public function showByCategory(ServerRequest $request): Response
+       {
+            $slug = $request->getAttribute('slug', '');
+
+            if (! $slug) {
+                return $this->redirectToRoute('home')
+                    ->withStatusCode(301);
+            }
+
+            return $this->redirectTo($this->generatePath('home') . "?slug=$slug");
+       }
 }

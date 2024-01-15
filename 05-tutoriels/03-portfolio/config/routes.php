@@ -16,9 +16,13 @@ return function(Router $router) {
     $router->get('/', [PortfolioController::class, 'index'], 'home');
            #->middleware(GuestMiddleware::class);
 
-    $router->get('/realisation/{slug}', [PortfolioController::class, 'show'], 'portfolio.show')
+    $router->get('/realisation/{slug}', [PortfolioController::class, 'showRealisation'], 'realisation.show')
            ->where('slug', '[a-z\-0-9]+');
            #->middleware(GuestMiddleware::class);
+
+    $router->get('/category/{slug}', [PortfolioController::class, 'showByCategory'], 'category.show')
+         ->where('slug', '[a-z\-0-9]+');
+    #->middleware(GuestMiddleware::class);
 
     # Authentication
     $router->map('GET|POST', '/login', [AuthController::class, 'login'], 'login');

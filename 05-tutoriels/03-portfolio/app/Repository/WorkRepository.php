@@ -142,16 +142,26 @@ class WorkRepository extends EntityRepository
      }
 
 
+
      /**
+      * @param array $wheres
       * @return array
      */
-     public function findPortfolioWorks(): array
+     public function findPortfolioWorks(array $wheres): array
      {
-         $sql = 'SELECT w.name, w.id, w.slug, i.name as image_name
+         $condition = '';
+
+         if (! empty($wheres['category_id'])) {
+             $condition = ' WHERE w.category_id = :category_id';
+         }
+
+         $sql = "SELECT w.name, w.id, w.slug, i.name as image_name
                  FROM works w
-                 LEFT JOIN images i ON i.id = w.image_id';
+                 LEFT JOIN images i ON i.id = w.image_id
+                 $condition";
+
          $statement  = $this->connection->statement($sql, $this->className);
-         $statement->execute();
+         $statement->execute($wheres);
          return $statement->fetchAll();
      }
 

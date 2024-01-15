@@ -1,5 +1,5 @@
 <div class="block__protfolio-show">
-    <h1><?= $work->getName() ?></h1>
+    <h1><?= $title ?></h1>
     <?= $work->getContent() ?>
     <?php foreach ($images as $k => $image): ?>
         <p><img src="<?= "/uploads/works/{$image->getName()}" ?>"></p>
