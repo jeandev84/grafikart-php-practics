@@ -29,17 +29,20 @@ class WorkImageController extends AdminController
       public function delete(ServerRequest $request): Response
       {
           $token  = $request->getAttribute('csrf', '');
+          $workId = (int)$request->getAttribute('work', 0);
 
           if (!$this->csrfToken->isValidToken($token)) {
               return new Response("Invalid token $token");
           }
 
-          $id = (int)$request->getAttribute('id', 0);
+          $imageId = (int)$request->getAttribute('id', 0);
 
-          $workRepository = new WorkRepository($this->getConnection());
+          $workRepository = new WorkRepository($this->getConnection(), $this->app['uploadDir']);
 
-          $workRepository->removeImage($id);
+          $workRepository->removeImage($imageId);
 
-          return $this->redirectTo($this->generatePath('admin.work.edit'));
+          $this->addFlash('success', "L' image image#$imageId a bien ete supprimer");
+
+          return $this->redirectTo($this->generatePath('admin.work.edit', ['id' => $workId]));
       }
 }

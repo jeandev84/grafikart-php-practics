@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Category;
+use App\Entity\Image;
 use App\Entity\Work;
 use App\Uploader\WorkFileUploader;
 use Grafikart\Database\Connection\PdoConnection;
@@ -82,7 +83,13 @@ class WorkRepository extends EntityRepository
      */
      public function removeImage(int $imageId): bool
      {
-          $image = $this->imageRepository->find($imageId);
-          dd($image);
+          /** @var Image $image */
+          if (!$image = $this->imageRepository->find($imageId)) {
+              return false;
+          }
+
+          $this->imageRepository->delete($imageId);
+
+          return $this->workFileUploader->remove("works/{$image->getName()}");
      }
 }

@@ -31,25 +31,14 @@ class WorkFileUploader extends FileUploader
     {
         try {
             if (!$this->hasValidExtension($file->getClientExtension())) {
-                throw new UploadedFileException("file {$file->getClientFilename()} not allowed extensions : ". $this->getExtensionsAsString());
+                throw new UploadedFileException(
+            "file {$file->getClientFilename()} not allowed extensions : ". $this->getExtensionsAsString()
+                );
             }
 
             return parent::upload($file);
         } catch (\Throwable $e) {
-            dd($e->getMessage());
+            throw new UploadedFileException($e->getMessage());
         }
-    }
-
-
-
-    /**
-     * @param UploadedFile $file
-     * @param string $filename
-     * @return string
-     * @throws UploadedFileException
-    */
-    public function uploadWorkFile(UploadedFile $file, string $filename): string
-    {
-          return $this->withFilename("/works/$filename")->upload($file);
     }
 }

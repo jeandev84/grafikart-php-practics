@@ -52,9 +52,10 @@ return function(Router $router) {
            ->middleware( CsrfTokenMiddleware::class);
 
     # Works Image
-    $router->get('/admin/work/image/delete/{id}/{csrf}', [WorkImageController::class, 'delete'], 'admin.work.image.delete')
+    $router->get('/admin/work/image/delete/{id}/{csrf}/{work}', [WorkImageController::class, 'delete'], 'admin.work.image.delete')
            ->where('id', '\d+')
            ->where('csrf', '\w+')
+           ->where('work', '\d+')
            ->middleware( CsrfTokenMiddleware::class);
 
 

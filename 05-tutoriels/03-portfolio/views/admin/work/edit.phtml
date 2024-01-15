@@ -14,7 +14,10 @@
     </div>
     <div class="col-sm-4">
         <?php foreach ($images as $k => $image): ?>
-            <a href="<?= $router->generate('admin.work.image.delete', ['id' => $image->getId(), 'csrf' => $csrfToken ]) ?>"  onclick="return confirm('Voulez-vous supprimer ?')">
+            <a href="<?= $router->generate('admin.work.image.delete', ['id' => $image->getId(), 'csrf' => $csrfToken, 'work' => $work->getId() ]) ?>"
+               onclick="return confirm('Voulez-vous supprimer ?')"
+               title="Clickez sur l'image pour la suppression"
+            >
                 <img src="<?= "/uploads/works/{$image->getName()}" ?>" width="100" alt="<?= $image->getName() ?>">
             </a>
         <?php endforeach; ?>
