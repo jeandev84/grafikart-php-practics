@@ -16,7 +16,7 @@ return function(Router $router) {
     $router->get('/', [PortfolioController::class, 'index'], 'home');
            #->middleware(GuestMiddleware::class);
 
-    $router->get('/portfolio/show/{id}', [PortfolioController::class, 'index'], 'portfolio.show')
+    $router->get('/portfolio/show/{id}', [PortfolioController::class, 'show'], 'portfolio.show')
            ->where('id', '\d+');
            #->middleware(GuestMiddleware::class);
 

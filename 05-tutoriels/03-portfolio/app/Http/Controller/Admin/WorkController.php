@@ -133,7 +133,7 @@ class WorkController extends AdminController
             'work'       => $work,
             'form'       => $form,
             'categories' => $categoryRepository->getCategoryList(),
-            'images'     => $imageRepository->getWorkImages($work->getId()),
+            'images'     => $imageRepository->findWorkImages($work->getId()),
             'uploadDir'  => $this->app['uploadDir']
         ]);
     }
