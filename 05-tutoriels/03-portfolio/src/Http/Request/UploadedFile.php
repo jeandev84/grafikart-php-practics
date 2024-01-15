@@ -71,6 +71,9 @@ class UploadedFile implements UploadedFileInterface
     protected int $size;
 
 
+
+
+
     /**
      * File constructor.
      *
@@ -117,12 +120,13 @@ class UploadedFile implements UploadedFileInterface
 
     /**
      * @inheritDoc
-     */
+    */
     public function moveTo(string $targetPath): void
     {
         if($this->error !== UPLOAD_ERR_OK) {
             throw new UploadedFileException($this->getErrorMessage(), $this->error);
         }
+
 
         $dirname = dirname($targetPath);
 
@@ -178,6 +182,18 @@ class UploadedFile implements UploadedFileInterface
     {
         return $this->type;
     }
+
+
+
+
+    /**
+     * @return string
+    */
+    public function getClientExtension(): string
+    {
+         return pathinfo($this->name, PATHINFO_EXTENSION);
+    }
+
 
 
 

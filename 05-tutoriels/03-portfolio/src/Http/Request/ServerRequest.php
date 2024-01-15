@@ -310,9 +310,10 @@ class ServerRequest
                    if (! $uploadedFile instanceof UploadedFileInterface) {
                        throw new UploadedFileException("Could not normalize uploaded file type : ". gettype($uploadedFile));
                    }
-                   if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
-                       $normalized[$id][] = $uploadedFile;
+                   if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
+                        continue;
                    }
+                   $normalized[$id][] = $uploadedFile;
               }
           }
 

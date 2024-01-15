@@ -168,7 +168,10 @@ class WorkController extends AdminController
         # Upload image
         $files = new Parameter($request->getUploadedFiles());
 
-        dd($files);
+
+        if($image = $files->get('image')[0]) {
+
+        }
 
 
         $this->addFlash('success', "La realisation ID#$id a bien ete modifiee");
