@@ -1,5 +1,4 @@
 <?php
-/*
 ob_start();
 
 use Grafikart\Http\Request\ServerRequest;
@@ -17,16 +16,7 @@ $response = $kernel->handle(
 $response->send();
 
 $kernel->terminate($request, $response);
-*/
 
-use Grafikart\Service\Image\ImageService;
-
-require __DIR__.'/../vendor/autoload.php';
-
-
-$image = new ImageService(__DIR__.'/uploads/works/16.jpg');
-
-$image->resize(150, 150);
 
 
 

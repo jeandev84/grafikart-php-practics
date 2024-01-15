@@ -85,17 +85,10 @@ class WorkRepository extends EntityRepository
 
          $this->workFileUploader->withFilename($path)->upload($file);
 
-
-         try
-         {
-             # Resize Image
-             $image = new ImageService($this->uploadDir . "/$path");
-             $image->resize(150, 150);
-             #$image->save();
-
-         } catch (\Throwable $e) {
-              dd($e->getMessage());
-         }
+         # Resize Image
+         $image = new ImageService($this->uploadDir . "/$path");
+         $image->resize(150, 150);
+         #$image->save();
 
          # Update Image info table
          return $this->imageRepository->update(["name" => $imageName], $imageId);
@@ -113,8 +106,22 @@ class WorkRepository extends EntityRepository
               return false;
           }
 
+          # Remove file from database
           $this->imageRepository->delete($imageId);
 
-          return $this->workFileUploader->remove("works/{$image->getName()}");
+          # Remove from disk
+          $this->workFileUploader->remove("works/{$image->getName()}");
+
+          # remove resized file
+          /*
+           $resizedFiles = glob("$this->uploadDir/works/". pathinfo($image->getName(), PATHINFO_FILENAME) . '_*x*.*');
+
+           if (is_array($resizedFiles)) {
+             $this->workFileUploader->removeImages($resizedFiles);
+           }
+          */
+          $this->workFileUploader->removeResizedImages("works/". pathinfo($image->getName(), PATHINFO_FILENAME));
+
+          return true;
      }
 }

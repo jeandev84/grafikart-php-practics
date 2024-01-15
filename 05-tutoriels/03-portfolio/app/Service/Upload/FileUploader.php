@@ -55,7 +55,7 @@ class FileUploader
       */
       public function targetPath(string $path): string
       {
-          return $this->uploadDir . DIRECTORY_SEPARATOR . $path;
+          return $this->uploadDir . DIRECTORY_SEPARATOR . trim($path, DIRECTORY_SEPARATOR);
       }
 
 
@@ -148,8 +148,6 @@ class FileUploader
               $this->filename = md5(uniqid()) . '_'. $file->getClientExtension();
           }
 
-          # dd($this->targetPath($this->filename));
-
           $file->moveTo($path = $this->targetPath($this->filename));
 
           return $path;
@@ -173,6 +171,44 @@ class FileUploader
 
           return unlink($path);
       }
+
+
+      /**
+       * @param string $pattern
+       * @return array
+      */
+      public function getImages(string $pattern): array
+      {
+          return glob($this->targetPath($pattern)) ?? [];
+      }
+
+
+
+
+      /**
+       * @param array $images
+       * @return void
+      */
+      public function removeImages(array $images): void
+      {
+           foreach ($images as $image) {
+               unlink($image);
+           }
+      }
+
+
+
+
+     /**
+      * @param string $filename
+      * @return void
+     */
+     public function removeResizedImages(string $filename): void
+     {
+          $resizedImages = $this->getImages($filename . '_*x*.*');
+
+          $this->removeImages($resizedImages);
+     }
 
 
 

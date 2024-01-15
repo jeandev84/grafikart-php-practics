@@ -185,3 +185,15 @@ class ImageService
     }
 
 }
+
+
+/*
+use Grafikart\Service\Image\ImageService;
+
+require __DIR__.'/../vendor/autoload.php';
+
+
+$image = new ImageService(__DIR__.'/uploads/works/16.jpg');
+
+$image->resize(150, 150);
+*/
