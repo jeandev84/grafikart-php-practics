@@ -9,3 +9,8 @@
 .month-link:hover {
     color: #dc3545!important;
 }
+
+
+.relative {
+    position: relative;
+}

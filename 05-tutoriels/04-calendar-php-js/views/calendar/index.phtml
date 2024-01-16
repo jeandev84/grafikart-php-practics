@@ -23,14 +23,14 @@ use Grafikart\Utils\Str; ?>
         <div>
             <pre><?php //print_r($calendar->getCurrentDates()); ?></pre>
             <?php foreach ($calendar->getCurrentDates() as $monthNumber => $days): ?>
-              <div class="month" id="month-<?= $monthNumber ?>">
+              <div class="month relative" id="month-<?= $monthNumber ?>">
                   <table class="table table-striped">
                       <thead>
-                      <tr>
-                         <?php foreach ($calendar->getDays() as $day): ?>
-                             <th scope="col"><?= Str::substr($day, 0, 3) ?></th>
-                         <?php endforeach; ?>
-                      </tr>
+                          <tr>
+                             <?php foreach ($calendar->getDays() as $day): ?>
+                                 <th scope="col"><?= Str::substr($day, 0, 3) ?></th>
+                             <?php endforeach; ?>
+                          </tr>
                       </thead>
                       <tbody>
                         <tr>
@@ -44,6 +44,9 @@ use Grafikart\Utils\Str; ?>
                                           <?= $day ?>
                                       </div>
                                   </div>
+                                  <ul class="events">
+                                      <li>My event</li>
+                                  </ul>
                               </td>
                               <?php if ($week == 7): ?>
                                 </tr><tr>
