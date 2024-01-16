@@ -1,41 +1,43 @@
 <?php
 
+use App\Entity\Product;
 use Grafikart\Service\Currency\Currency;
 use Grafikart\Templating\Renderer;
 
 /** @var string $viewPath */
 /** @var Renderer $renderer */
+/** @var Product[] $products */
 ?>
-<section class="mt-4">
-   <div class="container">
-       <!-- <h1>Products</h1> -->
-       <div class="row">
-           <div class="col-sm-4">
-               <div class="card" style="width: 18rem;">
-                   <a href="#">
-                       <img class="card-img-top" src="/assets/img/products/photo-nikon.png" alt="Card image cap">
-                   </a>
-                   <div class="card-body">
-                       <div class="description">
-                           Apple, <strong>Ipad :</strong>
-                           <a href="#" class="price">1500,00 <?= Currency::euro() ?></a>
-                       </div>
-                       <a href="#" class="gift">Gift</a>
-                       <div class="rating">
-                           <?php $renderer->include('/partials/rating'); ?>
-                       </div>
+<div class="products">
+    <!-- <h1>Products</h1> -->
+    <div class="row">
+        <?php foreach ($products as $product): ?>
+            <div class="col-sm-4">
+                <div class="card" style="width: 18rem;">
+                    <a href="#">
+                        <img class="card-img-top" src="/assets/img/products/photo-nikon.png" alt="Card image cap">
+                    </a>
+                    <div class="card-body">
+                        <div class="description">
+                            Apple, <strong>Ipad :</strong>
+                            <a href="#" class="price">1500,00 <?= Currency::euro() ?></a>
+                        </div>
+                        <a href="#" class="gift">Gift</a>
+                        <div class="rating">
+                            <?php $renderer->include('/partials/rating'); ?>
+                        </div>
 
-                       <!--
-                       <h5 class="card-title">Card title</h5>
-                       <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                       <a href="#" class="btn btn-primary">Go somewhere</a>
-                       -->
-                       <a href="#" class="btn btn-success add">add to cart</a>
-                   </div>
-               </div>
-           </div>
-       </div>
-   </div>
-</section>
+                        <!--
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        -->
+                        <a href="#" class="btn btn-success add">add to cart</a>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>
 <hr>
 <?php $renderer->include('/partials/pagination'); ?>
