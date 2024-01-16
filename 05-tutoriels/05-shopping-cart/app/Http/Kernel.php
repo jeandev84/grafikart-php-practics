@@ -116,8 +116,7 @@ class Kernel implements HttpKernelInterface, TerminableInterface
     */
     private function exceptionResponse(Throwable $e): Response
     {
-        $code = $e->getCode() ?: 500;
-        $body = $this->app[Renderer::class]->render("errors/$code.phtml", [
+        $body = $this->app[Renderer::class]->render("errors/500.phtml", [
             'exception' => $e
         ]);
 

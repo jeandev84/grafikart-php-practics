@@ -10,7 +10,7 @@ class ImageHelper
 {
 
     /**
-     * Returns a picture tag serving webp images in a source tag for an image
+     * Returns a picture tag serving webp img in a source tag for an image
      *
      * @param int   $src_id    The Image ID
      * @param array $img_attrs
@@ -272,7 +272,7 @@ class ImageHelper
     }
 
     /**
-     * Generates a proper formatted return of post images for Vue
+     * Generates a proper formatted return of post img for Vue
      *
      * @param int    $post_thumbnail_id The image ID
      * @param string $image_size        The size of the image to return. Defaults to large
@@ -310,7 +310,7 @@ class ImageHelper
     }
 
     /**
-     * Checks if there are any webp generated images in the uploads directory
+     * Checks if there are any webp generated img in the uploads directory
      * and returns them as a concatenated string
      *
      * @param string $src_set The srcset that WP generates for the image

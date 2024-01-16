@@ -27,6 +27,8 @@ class HomeController extends AbstractController
     {
         $productRepository = new ProductRepository($this->getConnection());
 
+        /* dump($productRepository->findAll()); */
+
         return $this->render('shopping/home/index', [
             'products' => $productRepository->findAll()
         ]);

@@ -87,7 +87,7 @@ abstract class ImageHelper
         // check internal cache for image
         ////////////////////////////////////////
 
-        $cache = Environment::getCache('images');
+        $cache = Environment::getCache('img');
         $key = md5($original . $dimensions . $subfolder . $public_root);
 
         if (isset($cache[$key])) {
