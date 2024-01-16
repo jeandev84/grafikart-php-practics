@@ -5,3 +5,7 @@
 .color-active {
     color: #dc3545!important;
 }
+
+.month-link:hover {
+    color: #dc3545!important;
+}

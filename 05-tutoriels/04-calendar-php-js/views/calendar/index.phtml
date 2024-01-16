@@ -11,7 +11,7 @@ use Grafikart\Utils\Str; ?>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                    <?php foreach ($calendar->getMonths() as $id => $month): ?>
-                       <li class="nav-item">
+                       <li class="nav-item month-item">
                            <a class="nav-link month-link" href="#" id="month-link-<?= ($id + 1) ?>">
                                <?= Str::substr($month, 0, 3) ?>
                            </a>
@@ -23,7 +23,7 @@ use Grafikart\Utils\Str; ?>
         <div>
             <pre><?php //print_r($calendar->getCurrentDates()); ?></pre>
             <?php foreach ($calendar->getCurrentDates() as $monthNumber => $days): ?>
-              <div class="month" id="month<?= $monthNumber ?>">
+              <div class="month" id="month-<?= $monthNumber ?>">
                   <table class="table table-striped">
                       <thead>
                       <tr>
