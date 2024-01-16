@@ -93,9 +93,9 @@ abstract class Builder
     */
     public function whereSQL(): string
     {
-        if (empty($this->wheres)) {
-            return '';
-        }
+//        if (empty($this->wheres)) {
+//            return '';
+//        }
 
         return "WHERE ". join(' ', $this->wheres);
     }

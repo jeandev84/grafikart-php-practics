@@ -8,6 +8,7 @@ use App\Repository\ProductRepository;
 use App\Service\Shopping\CartService;
 use Grafikart\Http\Request\ServerRequest;
 use Grafikart\Http\Response\Response;
+use ReflectionException;
 
 /**
  * HomeController
@@ -23,6 +24,7 @@ class HomeController extends AbstractController
     /**
      * @param ServerRequest $request
      * @return Response
+     * @throws ReflectionException
     */
     public function index(ServerRequest $request): Response
     {

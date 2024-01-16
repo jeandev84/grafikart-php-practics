@@ -5,6 +5,7 @@ namespace Grafikart\Database\Connection;
 
 use Grafikart\Database\Connection\Exception\QueryException;
 use PDO;
+use PDOException;
 use PDOStatement;
 
 /**
@@ -186,9 +187,8 @@ class Query
       {
           try {
               return $this->statement->execute($this->params);
-          } catch (\PDOException $e) {
-              dump($this->statement->queryString);
-              throw new QueryException($e->getMessage());
+          } catch (PDOException $e) {
+              throw new QueryException("{$this->getSQL()}. {$e->getMessage()}");
           }
       }
 
@@ -202,7 +202,7 @@ class Query
     {
         try {
             return boolval($this->pdo->exec($sql));
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             throw new QueryException($e->getMessage());
         }
     }
