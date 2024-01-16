@@ -18,6 +18,11 @@ use Grafikart\Http\Session\SessionInterface;
 class CartService implements CartServiceInterface
 {
 
+      /**
+       * @var string
+      */
+      protected string $cartKey = 'session.cart';
+
 
       /**
        * @var SessionInterface
@@ -32,4 +37,23 @@ class CartService implements CartServiceInterface
       {
           $this->session = $session;
       }
+
+
+
+     /**
+      * @inheritDoc
+     */
+     public function add(int $id): static
+     {
+
+     }
+
+
+     /**
+      * @inheritDoc
+     */
+     public function cart(): array
+     {
+         return $this->session->get($this->cartKey, []);
+     }
 }

@@ -1,9 +1,13 @@
 <?php
 
+use Grafikart\Http\Session\SessionInterface;
 use Grafikart\Routing\Router;
 use Grafikart\Service\Currency\Currency;
+use Grafikart\Templating\Renderer;
 
-/** @var $router Router */
+/** @var Router $router */
+/** @var SessionInterface $session */
+/** @var Renderer $renderer */
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,31 +58,21 @@ use Grafikart\Service\Currency\Currency;
 
 <section class="menu">
     <div class="container">
-        <hr>
-        <ul class="nav">
-            <li class="nav-item"><a class="nav-link active" href="#">All categories</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Electronics</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Fashion</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Entertainment</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Motors</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Outdoors</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Gift</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Jewelry</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Shoes</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Computers</a></li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
-        </ul>
-        <hr>
-        <div class="breadcrumb">
-            <small>You are right here : Home &gt;&gt; <a href="#">Electronics</a></small>
-        </div>
+       <?php $renderer->include('layouts/partials/menu'); ?>
     </div>
 </section>
 
 <section>
     <div class="container">
+        <div class="block__flash">
+            <?php if ($session->hasFlashes()): ?>
+                <?php foreach ($session->getFlashes() as $key => $message): ?>
+                    <div class="alert alert-<?= $key ?>">
+                        <?= $message ?>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
         {{ content }}
     </div><!-- /.container -->
 </section>

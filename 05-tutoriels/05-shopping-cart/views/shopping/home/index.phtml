@@ -26,7 +26,9 @@ use Grafikart\Templating\Renderer;
                                 <?= $product->getFormatPrice() ?> <?= Currency::euro() ?>
                             </a>
                         </div>
-                        <a href="#" class="gift">Gift</a>
+                        <a href="<?= $router->generate('shopping.cart.add', ['id' => $product->getId() ]) ?>" class="gift">
+                            Gift
+                        </a>
                         <div class="rating">
                             <?php $renderer->include('/partials/rating'); ?>
                         </div>
@@ -36,9 +38,12 @@ use Grafikart\Templating\Renderer;
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                         <a href="#" class="btn btn-primary">Go somewhere</a>
                         -->
-                        <a href="<?= $router->generate('shopping.cart.add') ?>" class="btn btn-success add">
-                            add to cart
-                        </a>
+                        <div class="cart-add mt-3">
+                            <a href="<?= $router->generate('shopping.cart.add', ['id' => $product->getId() ]) ?>"
+                               class="btn btn-success add">
+                                add to cart
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

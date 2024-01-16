@@ -56,7 +56,11 @@ class CartController extends AbstractController
       */
       public function add(ServerRequest $request): Response
       {
-           dd($request);
+           if($id = (int)$request->getAttribute('product')) {
+
+           }
+
+
            return new Response(__METHOD__);
       }
 
