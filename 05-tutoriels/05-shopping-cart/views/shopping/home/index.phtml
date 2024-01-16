@@ -1,12 +1,14 @@
 <?php
 
 use App\Entity\Product;
+use Grafikart\Routing\Router;
 use Grafikart\Service\Currency\Currency;
 use Grafikart\Templating\Renderer;
 
 /** @var string $viewPath */
 /** @var Renderer $renderer */
 /** @var Product[] $products */
+/** @var Router $router */
 ?>
 <div class="products">
     <!-- <h1>Products</h1> -->
@@ -34,7 +36,9 @@ use Grafikart\Templating\Renderer;
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                         <a href="#" class="btn btn-primary">Go somewhere</a>
                         -->
-                        <a href="#" class="btn btn-success add">add to cart</a>
+                        <a href="<?= $router->generate('shopping.cart.add') ?>" class="btn btn-success add">
+                            add to cart
+                        </a>
                     </div>
                 </div>
             </div>

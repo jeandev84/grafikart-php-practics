@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace App\Http\Controller\Shopping;
 
 use App\Http\AbstractController;
+use App\Service\Shopping\CartService;
+use App\Service\Shopping\Contract\CartServiceInterface;
+use Grafikart\Container\Container;
 use Grafikart\Http\Request\ServerRequest;
 use Grafikart\Http\Response\Response;
 
@@ -20,6 +23,23 @@ class CartController extends AbstractController
 {
 
       /**
+       * @var CartService
+      */
+      protected CartService $cartService;
+
+
+      /**
+       * @param Container $app
+      */
+      public function __construct(Container $app)
+      {
+          parent::__construct($app);
+          $this->cartService = new CartService($this->session);
+      }
+
+
+
+      /**
        * @param ServerRequest $request
        * @return Response
       */
@@ -29,13 +49,15 @@ class CartController extends AbstractController
       }
 
 
+
       /**
        * @param ServerRequest $request
        * @return Response
       */
       public function add(ServerRequest $request): Response
       {
-         return new Response(__METHOD__);
+           dd($request);
+           return new Response(__METHOD__);
       }
 
 

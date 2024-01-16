@@ -5,6 +5,7 @@ namespace App\Http\Controller\Shopping;
 
 use App\Http\AbstractController;
 use App\Repository\ProductRepository;
+use App\Service\Shopping\CartService;
 use Grafikart\Http\Request\ServerRequest;
 use Grafikart\Http\Response\Response;
 
@@ -26,8 +27,6 @@ class HomeController extends AbstractController
     public function index(ServerRequest $request): Response
     {
         $productRepository = new ProductRepository($this->getConnection());
-
-        /* dump($productRepository->findAll()); */
 
         return $this->render('shopping/home/index', [
             'products' => $productRepository->findAll()
