@@ -44,7 +44,7 @@ class DatabaseCreateCommand extends Command
              $connection = ConnectionFactory::make();
              $database   = $input->getArgument('--db');
              $connection->exec("CREATE DATABASE $database;");
-             echo "Database $database successfully created";
+             echo "Database $database successfully created". PHP_EOL;
 
              return Command::SUCCESS;
 
