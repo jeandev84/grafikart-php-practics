@@ -18,7 +18,7 @@ $connection = PdoConnection::make([
 $repository   = new \App\Repository\ProductRepository($connection);
 
 
-#dd($repository->findAll());
+dd($repository->findAll());
 
-dd($repository->find(2));
+#dd($repository->find(2));
 

@@ -3,11 +3,8 @@ declare(strict_types=1);
 
 namespace Grafikart\Database\ORM\Query\SQL;
 
-use Grafikart\Database\Connection\Exception\QueryException;
-use Grafikart\Database\Connection\Query;
 use Grafikart\Database\Connection\Result;
 use Grafikart\Database\ORM\Query\Builder;
-use Grafikart\Database\ORM\Query\SQL\Common\ConditionTrait;
 
 /**
  * Select

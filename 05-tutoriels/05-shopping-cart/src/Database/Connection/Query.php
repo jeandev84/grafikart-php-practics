@@ -187,6 +187,7 @@ class Query
           try {
               return $this->statement->execute($this->params);
           } catch (\PDOException $e) {
+              dump($this->statement->queryString);
               throw new QueryException($e->getMessage());
           }
       }
