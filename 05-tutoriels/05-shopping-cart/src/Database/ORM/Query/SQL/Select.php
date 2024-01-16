@@ -193,7 +193,7 @@ class Select extends Builder
      */
     public function join(string $table, string $condition): static
     {
-        return $this->addJoin(sprintf('JOIN %s ON %s',  $table, $condition));
+        return $this->addJoin("JOIN $table ON $condition");
     }
 
 
@@ -215,22 +215,6 @@ class Select extends Builder
 
 
 
-    /**
-     * @param array $joins
-     *
-     * @return $this
-     */
-    public function addJoins(array $joins): static
-    {
-        foreach ($joins as $table => $joined) {
-            [$condition, $type] = array_values($joined);
-            $this->join($table, $condition, $type);
-        }
-
-        return $this;
-    }
-
-
 
 
 
@@ -241,7 +225,7 @@ class Select extends Builder
      */
     public function innerJoin(string $table, string $condition): static
     {
-        return $this->join($table, $condition, JoinType::INNER);
+        return $this->addJoin("INNER JOIN $table ON $condition");
     }
 
 
@@ -255,7 +239,7 @@ class Select extends Builder
      */
     public function leftJoin(string $table, string $condition): static
     {
-        return $this->join($table, $condition, JoinType::LEFT);
+        return $this->addJoin("LEFT JOIN $table ON $condition");
     }
 
 
@@ -270,7 +254,7 @@ class Select extends Builder
      */
     public function rightJoin(string $table, string $condition): static
     {
-        return $this->join($table, $condition, JoinType::RIGHT);
+        return $this->addJoin("RIGHT JOIN $table ON $condition");
     }
 
 
@@ -284,7 +268,7 @@ class Select extends Builder
      */
     public function fullJoin(string $table, string $condition): static
     {
-        return $this->join($table, $condition, JoinType::FULL);
+        return $this->addJoin("FULL JOIN $table ON $condition");
     }
 
 
@@ -360,9 +344,107 @@ class Select extends Builder
 
     /**
      * @inheritDoc
-     */
+    */
     public function getSQL(): string
     {
-        // TODO: Implement getSQL() method.
+        $selects = $this->selectedColumns();
+        $from    = $this->fromAsString();
+
+        $sql[]   = "SELECT {$selects} FROM {$from}";
+        $sql[]   = $this->joinSQL();
+        $sql[]   = $this->whereSQL();
+        $sql[]   = $this->groupBySQL();
+        $sql[]   = $this->havingSQL();
+        $sql[]   = $this->orderBySQL();
+        $sql[]   = $this->limitSQL();
+
+        return join(' ', array_filter($sql));
+    }
+
+
+
+
+    /**
+     * @return string
+    */
+    private function selectedColumns(): string
+    {
+        return join(', ', $this->selects);
+    }
+
+
+
+
+    /**
+     * @return string
+    */
+    private function fromAsString(): string
+    {
+        return join(', ', array_values($this->from));
+    }
+
+
+
+    /**
+     * @return string
+    */
+    private function joinSQL(): string
+    {
+        return ($this->joins ? join(' ', $this->joins) : '');
+    }
+
+
+
+
+
+    /**
+     * @return string
+    */
+    private function groupBySQL(): string
+    {
+        return ($this->groupBy ? sprintf('GROUP BY %s', join($this->groupBy)) : '');
+    }
+
+
+
+
+
+    /**
+     * @return string
+    */
+    private function havingSQL(): string
+    {
+        return ($this->having ? sprintf('HAVING %s', join($this->having)) : '');
+    }
+
+
+
+    /**
+     * @return string
+    */
+    private function orderBySQL(): string
+    {
+        return ($this->orderBy ? rtrim(sprintf('ORDER BY %s', join(',', $this->orderBy))) : '');
+    }
+
+
+
+
+    /**
+     * @return string
+    */
+    private function limitSQL(): string
+    {
+        if (! $this->limit) {
+            return '';
+        }
+
+        $limit = "LIMIT $this->limit";
+
+        if ($this->offset) {
+            return "$limit OFFSET $this->offset";
+        }
+
+        return $limit;
     }
 }

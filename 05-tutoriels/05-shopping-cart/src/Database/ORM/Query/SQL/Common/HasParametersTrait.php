@@ -1,20 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace Grafikart\Database\ORM\Query;
+namespace Grafikart\Database\ORM\Query\SQL\Common;
+
 
 /**
- * Query
+ * HasParametersTrait
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
  * @license https://github.com/jeandev84/laventure-framework/blob/master/LICENSE
  *
- * @package  Grafikart\Database\ORM\Query
+ * @package  Grafikart\Database\ORM\Query\SQL\Common
  */
-class Query
+trait HasParametersTrait
 {
-    public function __construct()
-    {
-    }
+
 }

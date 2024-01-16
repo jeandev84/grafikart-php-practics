@@ -65,23 +65,30 @@ class PdoConnection implements PdoConnectionInterface
        }
 
 
+       /**
+        * @return Query
+       */
+       public function createQuery(): Query
+       {
+           return new Query($this->getPdo());
+       }
+
 
 
 
        /**
         * @param string $sql
-        * @param string|null $classMapping
-        * @return \PDOStatement
+        * @return Query
        */
-       public function statement(string $sql,string $classMapping = null): \PDOStatement
+       public function statement(string $sql): Query
        {
-            $pdo = $this->getPdo();
-            $statement = $pdo->prepare($sql);
-            if ($classMapping) {
-                $statement->setFetchMode(PDO::FETCH_CLASS, $classMapping);
-            }
+            $statement = $this->createQuery();
+            $statement->prepare($sql);
             return $statement;
        }
+
+
+
 
 
        /**

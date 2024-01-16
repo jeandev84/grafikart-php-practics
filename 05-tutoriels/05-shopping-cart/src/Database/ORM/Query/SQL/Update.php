@@ -5,6 +5,7 @@ namespace Grafikart\Database\ORM\Query\SQL;
 
 use Grafikart\Database\ORM\Query\Builder;
 use Grafikart\Database\ORM\Query\SQL\Common\ConditionTrait;
+use Grafikart\Database\ORM\Query\SQL\Common\SettableTrait;
 
 /**
  * Update
@@ -17,13 +18,13 @@ use Grafikart\Database\ORM\Query\SQL\Common\ConditionTrait;
  */
 class Update extends Builder
 {
-    use ConditionTrait;
+    use ConditionTrait, SettableTrait;
 
     /**
      * @inheritDoc
      */
     public function getSQL(): string
     {
-        // TODO: Implement getSQL() method.
+
     }
 }

@@ -7,6 +7,7 @@ use Grafikart\Database\Connection\PdoConnection;
 use Grafikart\Database\ORM\Mapping\ClassMetadata;
 use Grafikart\Database\ORM\Query\QueryBuilder;
 use Grafikart\Database\ORM\Query\SQL\Select;
+use Grafikart\Database\ORM\Repository\Contract\EntityRepositoryInterface;
 
 /**
  * EntityRepository
@@ -17,7 +18,7 @@ use Grafikart\Database\ORM\Query\SQL\Select;
  *
  * @package  Grafikart\Database\ORM\Repository
  */
-class EntityRepository
+class EntityRepository implements EntityRepositoryInterface
 {
 
     /**
@@ -37,20 +38,6 @@ class EntityRepository
      * @var string 
     */
     protected string $entityName;
-
-    
-
-    /**
-     * @var string
-    */
-    protected string $className;
-
-
-
-    /**
-     * @var string
-    */
-    protected string $tableName;
 
 
 
@@ -88,7 +75,7 @@ class EntityRepository
     {
           return $this->createNativeQueryBuilder()
                       ->select()
-                      ->from($this->tableName, $alias)
+                      ->from($this->getTableName(), $alias)
                       ->map($this->entityName);
     }
 
@@ -96,155 +83,58 @@ class EntityRepository
 
 
 
+
     /**
-     * @param string $start
-     * @param string $end
-     * @return array
+     * @return string
     */
-    public function findBetween(string $start, string $end): array
+    private function getTableName(): string
     {
-        $sql        = "SELECT * FROM  $this->tableName WHERE start_at BETWEEN :start AND :end ORDER BY start_at ASC";
-        # $statement  = $this->connection->statement($sql, compact('start', 'end'));
-        $statement  = $this->connection->statement($sql, $this->className);
-        $statement->execute(compact('start', 'end'));
-        return $statement->fetchAll();
+        return $this->metadata->getTableName();
     }
 
 
+
+
     /**
-     * @return array
+     * @inheritDoc
     */
+    public function find($id): mixed
+    {
+
+    }
+
+
+
+
+    /**
+     * @inheritDoc
+    */
+    public function findOneBy(array $criteria, array $oderBy = []): mixed
+    {
+        // TODO: Implement findOneBy() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function findAll(): array
     {
-        $sql        = "SELECT * FROM  $this->tableName";
-        $statement  = $this->connection->statement($sql, $this->className);
-        $statement->execute();
-        return $statement->fetchAll();
+        // TODO: Implement findAll() method.
     }
 
-
-
-
     /**
-     * @param array $wheres
-     * @param int|null $limit
-     * @param int|null $offset
-     * @return array
-    */
-    public function findBy(array $wheres, int $limit = null, int $offset = null): array
-    {
-        $wheresArr = [];
-        foreach (array_keys($wheres) as $column) {
-            $wheresArr[] = "$column = :$column";
-        }
-        $conditions = join(' AND ', $wheresArr);
-        $sql        = "SELECT * FROM  $this->tableName WHERE $conditions";
-
-        if ($limit) {
-            $sql .= " LIMIT ". ($offset ? "$limit,$offset" : $limit);
-        }
-
-        $statement  = $this->connection->statement($sql, $this->className);
-        $statement->execute($wheres);
-        return $statement->fetchAll();
-    }
-
-
-    /**
-     * @param array $wheres
-     * @param int|null $limit
-     * @param int|null $offset
-     * @return mixed
-    */
-    public function findOneBy(array $wheres, int $limit = null, int $offset = null): mixed
-    {
-        $wheresArr = [];
-        foreach (array_keys($wheres) as $column) {
-            $wheresArr[] = "$column = :$column";
-        }
-        $conditions = join(' AND ', $wheresArr);
-        $sql        = "SELECT * FROM  $this->tableName WHERE $conditions";
-
-        if ($limit) {
-            $sql .= " LIMIT ". ($offset ? "$limit,$offset" : $limit);
-        }
-
-        $statement  = $this->connection->statement($sql, $this->className);
-        $statement->execute($wheres);
-        return $statement->fetch();
-    }
-
-
-
-    /**
-     * @param int $id
-     * @return mixed
+     * @inheritDoc
      */
-    public function find(int $id): mixed
+    public function findBy(array $criteria, array $orderBy = [], int $limit = null, int $offset = null): mixed
     {
-        return $this->findOneBy(compact('id'), 1);
+        // TODO: Implement findBy() method.
     }
 
-
-
-
     /**
-     * @param array $data
-     * @return bool
+     * @inheritDoc
      */
-    public function create(array $data): int
+    public function getClassName(): string
     {
-        $attributes = [];
-
-        foreach (array_keys($data) as $key) {
-            $attributes[$key] = ":$key";
-        }
-
-        $columns = join(', ', array_keys($attributes));
-        $values  = join(', ', array_values($attributes));
-
-        $sql = "INSERT INTO $this->tableName ($columns) VALUES($values)";
-
-        $this->connection->statement($sql)->execute($data);
-        return $this->connection->lastInsertId();
-    }
-
-
-
-
-    /**
-     * @param array $data
-     * @param int $id
-     * @return bool
-     */
-    public function update(array $data, int $id): bool
-    {
-        $attributes = [];
-
-        foreach (array_keys($data) as $key) {
-            $attributes[] = "$key = :$key";
-        }
-
-        $fields = join(', ', $attributes);
-
-        $sql = "UPDATE $this->tableName SET $fields WHERE id = :id";
-
-        $data['id'] = $id;
-
-        return $this->connection->statement($sql)->execute($data);
-    }
-
-
-
-
-    /**
-     * @param int $id
-     * @return bool
-     */
-    public function delete(int $id): bool
-    {
-        $sql = "DELETE FROM $this->tableName WHERE id = :id";
-
-        return $this->connection->statement($sql)->execute(compact('id'));
+        // TODO: Implement getClassName() method.
     }
 }

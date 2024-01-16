@@ -22,6 +22,12 @@ abstract class Builder
     protected PdoConnection $connection;
 
 
+    /**
+     * @var array
+    */
+    protected array $parameters = [];
+
+
 
     /**
      * @param PdoConnection $connection
@@ -30,6 +36,56 @@ abstract class Builder
     {
         $this->connection = $connection;
     }
+
+
+
+
+
+    /**
+     * @param array $parameters
+     * @return $this
+    */
+    public function setParameters(array $parameters): static
+    {
+         foreach ($parameters as $key => $value) {
+             $this->setParameter($key, $value);
+         }
+
+         return $this;
+    }
+
+
+
+
+    /**
+     * @param $key
+     * @param $value
+     * @return $this
+    */
+    public function setParameter($key, $value): static
+    {
+        $this->parameters[$key] = $value;
+
+        return $this;
+    }
+
+
+
+    public function getStatement(): \PDOStatement
+    {
+        $this->connection->statement($this->getSQL(), $this->parameters);
+    }
+
+
+    /**
+     * @return Query
+    */
+    public function getQuery(): Query
+    {
+        return new Query($this->connection->statement($this->getSQL(), []));
+    }
+
+
 
 
 
