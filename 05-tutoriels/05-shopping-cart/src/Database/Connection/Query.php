@@ -193,13 +193,13 @@ class Query
 
     /**
      * @param string $sql
-     * @return int|false
+     * @return bool
      * @throws QueryException
     */
-    public function exec(string $sql): int|false
+    public function exec(string $sql): bool
     {
         try {
-            return $this->pdo->exec($sql);
+            return boolval($this->pdo->exec($sql));
         } catch (\PDOException $e) {
             throw new QueryException($e->getMessage());
         }
@@ -210,6 +210,7 @@ class Query
 
       /**
        * @return Result
+       *
        * @throws QueryException
       */
       public function fetch(): Result
@@ -229,4 +230,62 @@ class Query
       {
           return intval($this->pdo->lastInsertId());
       }
+
+
+
+
+      /**
+       * @return string
+      */
+      public function getSQL(): string
+      {
+           return $this->statement->queryString;
+      }
+
+
+     /**
+      * @return string
+     */
+     public function getClassMapping(): string
+     {
+        return $this->classMapping;
+     }
+
+
+    /**
+     * @return array
+    */
+    public function getParams(): array
+    {
+        return $this->params;
+    }
+
+
+
+    /**
+     * @return PDO
+    */
+    public function getPdo(): PDO
+    {
+        return $this->pdo;
+    }
+
+
+
+    /**
+     * @return PDOStatement
+    */
+    public function getStatement(): PDOStatement
+    {
+        return $this->statement;
+    }
+
+
+    /**
+     * @return array
+    */
+    public function getTypes(): array
+    {
+        return $this->types;
+    }
 }
