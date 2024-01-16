@@ -24,7 +24,7 @@
 
 		Class resize
 		{
-			// *** Class variables
+			// *** Contract variables
 			private $image;
 		    private $width;
 		    private $height;

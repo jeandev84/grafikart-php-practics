@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace Grafikart\Database\ORM\Repository;
 
 use Grafikart\Database\Connection\PdoConnection;
+use Grafikart\Database\ORM\Mapping\ClassMetadata;
+use Grafikart\Database\ORM\Query\QueryBuilder;
+use Grafikart\Database\ORM\Query\SQL\Select;
 
 /**
  * EntityRepository
@@ -23,16 +26,30 @@ class EntityRepository
     protected PdoConnection $connection;
 
 
+
+    /**
+     * @var ClassMetadata
+    */
+    protected ClassMetadata $metadata;
+
+
+    /**
+     * @var string 
+    */
+    protected string $entityName;
+
+    
+
     /**
      * @var string
-     */
+    */
     protected string $className;
 
 
 
     /**
      * @var string
-     */
+    */
     protected string $tableName;
 
 
@@ -40,15 +57,41 @@ class EntityRepository
 
     /**
      * @param PdoConnection $connection
-     * @param string $className
-     * @param string $tableName
+     * @param ClassMetadata $metadata
     */
-    public function __construct(PdoConnection $connection, string $className, string $tableName)
+    public function __construct(PdoConnection $connection, ClassMetadata $metadata)
     {
         $this->connection = $connection;
-        $this->className  = $className;
-        $this->tableName  = $tableName;
+        $this->metadata   = $metadata;
+        $this->entityName = $metadata->getClassName();
     }
+
+
+
+
+    /**
+     * @return QueryBuilder
+    */
+    public function createNativeQueryBuilder(): QueryBuilder
+    {
+        return new QueryBuilder($this->connection);
+    }
+
+
+
+
+    /**
+     * @param string $alias
+     * @return Select
+    */
+    public function createQueryBuilder(string $alias): Select
+    {
+          return $this->createNativeQueryBuilder()
+                      ->select()
+                      ->from($this->tableName, $alias)
+                      ->map($this->entityName);
+    }
+
 
 
 

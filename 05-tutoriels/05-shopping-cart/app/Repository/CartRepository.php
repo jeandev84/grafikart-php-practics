@@ -6,6 +6,7 @@ namespace App\Repository;
 use App\Entity\Cart;
 use Grafikart\Database\Connection\PdoConnection;
 use Grafikart\Database\ORM\Repository\EntityRepository;
+use Grafikart\Database\ORM\Repository\ServiceRepository;
 
 /**
  * CartRepository
@@ -16,10 +17,10 @@ use Grafikart\Database\ORM\Repository\EntityRepository;
  *
  * @package  App\Repository
  */
-class CartRepository extends EntityRepository
+class CartRepository extends ServiceRepository
 {
     public function __construct(PdoConnection $connection)
     {
-        parent::__construct($connection, Cart::class, 'cart');
+        parent::__construct($connection, Cart::class);
     }
 }

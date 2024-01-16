@@ -6,6 +6,7 @@ namespace App\Repository;
 use App\Entity\Category;
 use Grafikart\Database\Connection\PdoConnection;
 use Grafikart\Database\ORM\Repository\EntityRepository;
+use Grafikart\Database\ORM\Repository\ServiceRepository;
 
 /**
  * CategoryRepository
@@ -16,10 +17,10 @@ use Grafikart\Database\ORM\Repository\EntityRepository;
  *
  * @package  App\Repository
  */
-class CategoryRepository extends EntityRepository
+class CategoryRepository extends ServiceRepository
 {
        public function __construct(PdoConnection $connection)
        {
-           parent::__construct($connection, Category::class, 'categories');
+           parent::__construct($connection, Category::class);
        }
 }

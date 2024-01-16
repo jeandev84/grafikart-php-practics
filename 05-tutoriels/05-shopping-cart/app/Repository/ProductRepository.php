@@ -6,6 +6,7 @@ namespace App\Repository;
 use App\Entity\Product;
 use Grafikart\Database\Connection\PdoConnection;
 use Grafikart\Database\ORM\Repository\EntityRepository;
+use Grafikart\Database\ORM\Repository\ServiceRepository;
 
 /**
  * ProductRepository
@@ -16,10 +17,10 @@ use Grafikart\Database\ORM\Repository\EntityRepository;
  *
  * @package  App\Repository
  */
-class ProductRepository extends EntityRepository
+class ProductRepository extends ServiceRepository
 {
     public function __construct(PdoConnection $connection)
     {
-        parent::__construct($connection, Product::class, 'products');
+        parent::__construct($connection, Product::class);
     }
 }

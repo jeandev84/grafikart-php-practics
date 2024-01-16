@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controller\Shopping;
 
 use App\Http\AbstractController;
+use App\Repository\ProductRepository;
 use App\Service\Shopping\CartService;
 use App\Service\Shopping\Contract\CartServiceInterface;
 use Grafikart\Container\Container;
@@ -56,12 +57,19 @@ class CartController extends AbstractController
       */
       public function add(ServerRequest $request): Response
       {
-           if($id = (int)$request->getAttribute('product')) {
-
+           if(! $id = (int)$request->getAttribute('id')) {
+                $this->addFlash('danger', "Vous n' avez pas selectionne de produit a ajouter au panier.");
+                return $this->redirectToRoute('home');
            }
 
+           $productRepository = new ProductRepository($this->getConnection());
 
-           return new Response(__METHOD__);
+           if (! $product = $productRepository->find($id)) {
+               $this->addFlash('danger', "Le produit id#$id n'exist pas.");
+               return $this->redirectToRoute('home');
+           }
+
+           return $this->redirectToRoute('home');
       }
 
 

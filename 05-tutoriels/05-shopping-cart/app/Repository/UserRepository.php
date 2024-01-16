@@ -6,6 +6,7 @@ namespace App\Repository;
 use App\Entity\User;
 use Grafikart\Database\Connection\PdoConnection;
 use Grafikart\Database\ORM\Repository\EntityRepository;
+use Grafikart\Database\ORM\Repository\ServiceRepository;
 
 /**
  * UserRepository
@@ -16,15 +17,16 @@ use Grafikart\Database\ORM\Repository\EntityRepository;
  *
  * @package  App\Repository
 */
-class UserRepository extends EntityRepository
+class UserRepository extends ServiceRepository
 {
 
     /**
      * @param PdoConnection $connection
+     * @throws \ReflectionException
     */
     public function __construct(PdoConnection $connection)
     {
-        parent::__construct($connection, User::class, 'users');
+        parent::__construct($connection, User::class);
     }
 
 
