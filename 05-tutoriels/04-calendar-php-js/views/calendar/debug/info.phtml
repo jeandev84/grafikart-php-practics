@@ -3,7 +3,10 @@
 use Grafikart\Service\Calendar\Calendar;
 
 if (isset($calendar) && $calendar instanceof Calendar):
-  print_r($calendar->getAllDates());
+  //print_r($calendar->getAllDates());
+endif;
+if (isset($events)):
+    print_r($events);
 endif;
 ?>
 </pre>
