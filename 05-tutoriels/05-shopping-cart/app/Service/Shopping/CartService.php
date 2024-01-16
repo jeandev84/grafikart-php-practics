@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Service\Shopping;
 
 /**
- * Basket
+ * CartService
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
@@ -12,7 +12,7 @@ namespace App\Service\Shopping;
  *
  * @package  App\Service\Shopping
 */
-class Basket
+class CartService
 {
 
 }
