@@ -22,8 +22,8 @@ use Grafikart\Utils\Str; ?>
         </nav>
         <div>
             <pre><?php //print_r($calendar->getCurrentDates()); ?></pre>
-            <?php foreach ($calendar->getCurrentDates() as $monthNumber => $weekDays): ?>
-              <div class="month" id="month-<?= $monthNumber ?>">
+            <?php foreach ($calendar->getCurrentDates() as $monthNumber => $days): ?>
+              <div class="month" id="month<?= $monthNumber ?>">
                   <table class="table table-striped">
                       <thead>
                       <tr>
@@ -34,15 +34,24 @@ use Grafikart\Utils\Str; ?>
                       </thead>
                       <tbody>
                         <tr>
-                            <?php foreach ($weekDays as $day => $week): ?>
+                            <?php $end = end($days); foreach ($days as $day => $week): ?>
                               <?php if ($day == 1): ?>
-                                  <td colspan="<?= ($week - 1) ?>" class=""></td>
+                                  <td colspan="<?= ($week - 1) ?>" class="padding"></td>
                               <?php endif; ?>
-                              <td><?= $day ?></td>
+                              <td>
+                                  <div class="relative">
+                                      <div class="day">
+                                          <?= $day ?>
+                                      </div>
+                                  </div>
+                              </td>
                               <?php if ($week == 7): ?>
                                 </tr><tr>
                               <?php endif; ?>
                             <?php endforeach; ?>
+                            <?php if ($end != 7): ?>
+                                <td colspan="<?= (7 - $end) ?>" class="padding"></td>
+                            <?php endif; ?>
                         </tr>
                       </tbody>
                   </table>
