@@ -28,19 +28,21 @@ use Grafikart\Service\Currency\Currency;
         <ul class="navbar-nav basket"><!-- basket (panier) -->
             <li class="nav-item items">
                 <a href="<?= $router->generate('shopping.cart.list') ?>" class="nav-link">
-                    Cart <span class="badge">0</span>
+                    Cart<span class="badge" style="font-size: 17px;">( 0 )</span>
                 </a>
             </li>
             <li class="nav-item total">
-               TOTAL <span>1320.09 <?= Currency::euro() ?></span>
+                <a href="#" class="nav-link">
+                    TOTAL <span>1320.09 <?= Currency::euro() ?></span>
+                </a>
             </li>
         </ul>
     </div><!-- /.container -->
 </nav><!-- /.navbar -->
 
-<section class="subheader">
+<section class="subheader mb-3">
     <div class="container mt-3">
-        <h2>Welcome visitor you can <a href="#">log in</a> or <a href="#">create an account</a></h2>
+        <small>Welcome visitor you can <a href="#">log in</a> or <a href="#">create an account</a></small>
     </div>
 </section>
 
