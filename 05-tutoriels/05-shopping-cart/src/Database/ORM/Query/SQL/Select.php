@@ -153,7 +153,6 @@ class Select extends Builder
 
 
 
-
     /**
      * @param string $column
      * @param string $direction
@@ -169,8 +168,9 @@ class Select extends Builder
 
 
     /**
+     * @param array $orders
      * @return $this
-     */
+    */
     public function ordersBy(array $orders): static
     {
         foreach ($orders as $column => $direction) {
@@ -179,6 +179,8 @@ class Select extends Builder
 
         return $this;
     }
+
+
 
 
 
@@ -348,15 +350,15 @@ class Select extends Builder
     public function getSQL(): string
     {
         $selects = $this->selectedColumns();
-        $from    = $this->fromAsString();
+        $from = $this->fromAsString();
 
-        $sql[]   = "SELECT {$selects} FROM {$from}";
-        $sql[]   = $this->joinSQL();
-        $sql[]   = $this->whereSQL();
-        $sql[]   = $this->groupBySQL();
-        $sql[]   = $this->havingSQL();
-        $sql[]   = $this->orderBySQL();
-        $sql[]   = $this->limitSQL();
+        $sql[] = "SELECT {$selects} FROM {$from}";
+        $sql[] = $this->joinSQL();
+        $sql[] = $this->whereSQL();
+        $sql[] = $this->groupBySQL();
+        $sql[] = $this->havingSQL();
+        $sql[] = $this->orderBySQL();
+        $sql[] = $this->limitSQL();
 
         return join(' ', array_filter($sql));
     }

@@ -37,7 +37,12 @@ class PdoConnection implements PdoConnectionInterface
         * @param array $options
         * @throws ConnectionException
        */
-       public function __construct(string $dsn, string $username = null, string $password = null, array $options = [])
+       public function __construct(
+           string $dsn,
+           string $username = null,
+           string $password = null,
+           array $options = []
+       )
        {
            try {
                $this->pdo = new PDO($dsn, $username, $password, $this->options);

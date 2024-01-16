@@ -69,4 +69,15 @@ class ClassMetadata
 
          return mb_strtolower("{$shortName}s");
      }
+
+
+
+
+     /**
+      * @return string
+     */
+     public function getTableAlias(): string
+     {
+         return ucfirst($this->getTableName());
+     }
 }

@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Grafikart\Database\ORM\Query;
 
+use Grafikart\Database\Connection\Exception\QueryException;
 use Grafikart\Database\Connection\PdoConnection;
+use Grafikart\Database\Connection\Query;
 
 /**
  * Builder
@@ -26,6 +28,12 @@ abstract class Builder
      * @var array
     */
     protected array $parameters = [];
+
+
+    /**
+     * @var array
+    */
+    protected array $bindings  = [];
 
 
 
@@ -55,38 +63,42 @@ abstract class Builder
     }
 
 
-
-
     /**
      * @param $key
      * @param $value
+     * @param int|null $type
      * @return $this
     */
-    public function setParameter($key, $value): static
+    public function setParameter($key, $value, int $type = null): static
     {
-        $this->parameters[$key] = $value;
+        if ($type) {
+            $this->bindings[$key] = [$value, $type];
+        } else {
+            $this->parameters[$key] = $value;
+        }
 
         return $this;
     }
 
 
-
-    public function getStatement(): \PDOStatement
-    {
-        $this->connection->statement($this->getSQL(), $this->parameters);
-    }
-
-
     /**
      * @return Query
+     * @throws QueryException
     */
     public function getQuery(): Query
     {
-        return new Query($this->connection->statement($this->getSQL(), []));
+         $statement = $this->connection->statement($this->getSQL());
+
+         if (!empty($this->bindings)) {
+             foreach ($this->bindings as $key => [$value, $type]) {
+                 $statement->bindParam($key, $value, $type);
+             }
+         }
+
+         $statement->withParams($this->parameters);
+
+         return $statement;
     }
-
-
-
 
 
 

@@ -85,56 +85,68 @@ class EntityRepository implements EntityRepositoryInterface
 
 
     /**
+     * @inheritDoc
+    */
+    public function find($id): mixed
+    {
+          return 0;
+    }
+
+
+
+
+    /**
+     * @inheritDoc
+    */
+    public function findOneBy(array $criteria, array $orderBy = []): mixed
+    {
+         $builder = $this->createQueryBuilder($this->metadata->getTableAlias());
+         $builder->ordersBy($orderBy);
+         return $builder;
+    }
+
+
+
+
+
+
+    /**
+     * @inheritDoc
+    */
+    public function findAll(): array
+    {
+
+    }
+
+
+
+
+    /**
+     * @inheritDoc
+    */
+    public function findBy(array $criteria, array $orderBy = [], int $limit = null, int $offset = null): mixed
+    {
+
+    }
+
+
+
+
+    /**
+     * @inheritDoc
+    */
+    public function getClassName(): string
+    {
+        return $this->metadata->getClassName();
+    }
+
+
+
+    /**
      * @return string
     */
     private function getTableName(): string
     {
         return $this->metadata->getTableName();
-    }
-
-
-
-
-    /**
-     * @inheritDoc
-    */
-    public function find($id): mixed
-    {
-
-    }
-
-
-
-
-    /**
-     * @inheritDoc
-    */
-    public function findOneBy(array $criteria, array $oderBy = []): mixed
-    {
-        // TODO: Implement findOneBy() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function findAll(): array
-    {
-        // TODO: Implement findAll() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function findBy(array $criteria, array $orderBy = [], int $limit = null, int $offset = null): mixed
-    {
-        // TODO: Implement findBy() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getClassName(): string
-    {
-        // TODO: Implement getClassName() method.
     }
 }

@@ -34,11 +34,11 @@ interface EntityRepositoryInterface
      *
      * @param array $criteria
      *
-     * @param array $oderBy
+     * @param array $orderBy
      *
      * @return object|null
      */
-    public function findOneBy(array $criteria, array $oderBy = []): mixed;
+    public function findOneBy(array $criteria, array $orderBy = []): mixed;
 
 
 
