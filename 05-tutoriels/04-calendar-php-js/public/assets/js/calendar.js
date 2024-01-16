@@ -11,8 +11,17 @@ jQuery(function ($) {
     var current = 1;
 
     $('.months-navbar a').click(function () {
-          var month = $(this).attr('id').replace('month-link-', '');
-          alert(month);
+          // return the number of month
+          var month = $(this).attr('id').replace('month-link-', ''); /* alert(month); return false; */
+
+          if (month !== current) {
+              $('#month-'+ current).slideUp();
+              $('#month-'+ month).slideDown();
+              $('.months-navbar a').removeClass('color-active');
+              $('.months-navbar a#month-link-'+ month).addClass('color-active');
+              current = month;
+          }
+
           return false;
     });
 })
