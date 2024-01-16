@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Grafikart\Utils\Number;
+
 /**
  * Product
  *
@@ -40,6 +42,19 @@ class Product
     {
         return $this->price;
     }
+
+
+
+
+    /**
+     * @return string
+    */
+    public function getFormatPrice(): string
+    {
+         return Number::format($this->price, 2, ',', ' ');
+    }
+
+
 
     public function setPrice(?float $price): Product
     {
