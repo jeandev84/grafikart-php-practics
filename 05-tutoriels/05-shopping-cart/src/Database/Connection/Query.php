@@ -97,21 +97,66 @@ class Query
       }
 
 
-
-
-
       /**
        * @param $key
        * @param $value
        * @param int $type
        * @return $this
+      * @throws QueryException
       */
       public function bindParam($key, $value, int $type = 0): static
       {
-          $this->statement->bindParam($key, $value, $type);
+          if (! isset($this->types[$type])) {
+               throw new QueryException("Could not resolve binding type ($type)");
+          }
+
+          $this->statement->bindParam($key, $value, $this->types[$type]);
 
           return $this;
       }
+
+
+
+
+    /**
+     * @param $key
+     * @param $value
+     * @param int $type
+     * @return $this
+     * @throws QueryException
+     */
+    public function bindValue($key, $value, int $type = 0): static
+    {
+        if (! isset($this->types[$type])) {
+            throw new QueryException("Could not resolve type binding type ($type)");
+        }
+
+        $this->statement->bindValue($key, $value, $this->types[$type]);
+
+        return $this;
+    }
+
+
+
+
+
+    /**
+     * @param $key
+     * @param $value
+     * @param int $type
+     * @return $this
+     * @throws QueryException
+    */
+     public function bindColumn($key, $value, int $type = 0): static
+     {
+         if (! isset($this->types[$type])) {
+            throw new QueryException("Could not resolve binding type ($type)");
+         }
+
+         $this->statement->bindColumn($key, $value, $this->types[$type]);
+
+         return $this;
+     }
 
 
 
@@ -146,6 +191,22 @@ class Query
 
 
 
+    /**
+     * @param string $sql
+     * @return int|false
+     * @throws QueryException
+    */
+    public function exec(string $sql): int|false
+    {
+        try {
+            return $this->pdo->exec($sql);
+        } catch (\PDOException $e) {
+            throw new QueryException($e->getMessage());
+        }
+    }
+
+
+
 
       /**
        * @return Result
@@ -156,5 +217,16 @@ class Query
            $this->execute();
 
            return new Result($this->statement);
+      }
+
+
+
+
+      /**
+       * @return int
+      */
+      public function lastId(): int
+      {
+          return intval($this->pdo->lastInsertId());
       }
 }
