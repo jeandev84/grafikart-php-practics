@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Grafikart\Utils;
 
+use Grafikart\Utils\Encoder\EncoderType;
+use RuntimeException;
+
 /**
  * Str
  *
@@ -25,4 +28,41 @@ class Str
      {
          return mb_substr($str, $offset, $length);
      }
+
+
+    /**
+     * @param string $str
+     * @param string $charset
+     * @return string
+     * @throws RuntimeException
+     */
+     public static function encode(string $str, string $charset = EncoderType::UTF8): string
+     {
+          $func = $charset .'_encode';
+
+          if (! function_exists($func)) {
+              throw new RuntimeException("functions $func does not exist");
+          }
+
+          return call_user_func($func, $str);
+     }
+
+
+
+    /**
+     * @param string $str
+     * @param string $charset
+     * @return mixed
+     * @throws RuntimeException
+     */
+    public static function decode(string $str, string $charset = EncoderType::UTF8): mixed
+    {
+        $func = $charset .'_decode';
+
+        if (! function_exists($func)) {
+            throw new RuntimeException("functions $func does not exist");
+        }
+
+        return call_user_func($func, $str);
+    }
 }

@@ -40,6 +40,16 @@ interface CalendarInterface
 
 
      /**
+      * Returns current dates
+      *
+      * @return array
+     */
+     public function getCurrentDates(): array;
+
+
+
+
+     /**
       * Returns week days
       *
       * @return array
@@ -73,5 +83,5 @@ interface CalendarInterface
       *
       * @return array
      */
-     public function getDates(): array;
+     public function getAllDates(): array;
 }

@@ -10,14 +10,45 @@ use Grafikart\Utils\Str; ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                   <?php foreach ($calendar->getMonths() as $month): ?>
+                   <?php foreach ($calendar->getMonths() as $id => $month): ?>
                        <li class="nav-item active">
-                           <a class="nav-link" href="#"><?= Str::substr($month, 0, 3) ?></a>
+                           <a class="nav-link" href="#" id="month-link-<?= ($id + 1) ?>">
+                               <?= Str::substr($month, 0, 3) ?>
+                           </a>
                        </li>
                    <?php endforeach; ?>
                 </ul>
             </div>
         </nav>
+        <div>
+            <pre><?php //print_r($calendar->getCurrentDates()); ?></pre>
+            <?php foreach ($calendar->getCurrentDates() as $monthNumber => $weekDays): ?>
+              <div class="month" id="month-<?= $monthNumber ?>">
+                  <table class="table table-striped">
+                      <thead>
+                      <tr>
+                         <?php foreach ($calendar->getDays() as $day): ?>
+                             <th scope="col"><?= Str::substr($day, 0, 3) ?></th>
+                         <?php endforeach; ?>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                            <?php foreach ($weekDays as $day => $week): ?>
+                              <?php if ($day == 1): ?>
+                                  <td colspan="<?= ($week - 1) ?>" class=""></td>
+                              <?php endif; ?>
+                              <td><?= $day ?></td>
+                              <?php if ($week == 7): ?>
+                                </tr><tr>
+                              <?php endif; ?>
+                            <?php endforeach; ?>
+                        </tr>
+                      </tbody>
+                  </table>
+              </div>
+            <?php endforeach; ?>
+        </div>
     </div>
 </div>
 <?php include 'debug/info.phtml'; ?>

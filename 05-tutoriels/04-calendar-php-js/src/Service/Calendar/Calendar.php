@@ -119,12 +119,23 @@ class Calendar implements CalendarInterface
 
 
     /**
+     * Returns current dates
+     *
+     * @return array
+    */
+    public function getCurrentDates(): array
+    {
+        return current($this->getAllDates());
+    }
+
+
+    /**
      * Returns an associative array like :
      * $date[Year][Month][Day] = DaysOfWeek
      *
      * @inheritDoc
     */
-    public function getDates(): array
+    public function getAllDates(): array
     {
         $date  = $this->fromDatetime();
         $dates = [];
