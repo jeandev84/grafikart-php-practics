@@ -74,6 +74,33 @@ class Calendar implements CalendarInterface
 
 
 
+
+    /**
+     * @param $index
+     * @param $default
+     * @return string|null
+     * @throws Exception
+    */
+    public function day($index, $default = null): ?string
+    {
+        return $this->days[$index] ?? $default;
+    }
+
+
+
+    /**
+     * @param $index
+     * @param $default
+     * @return string|null
+     * @throws Exception
+     */
+    public function month($index, $default = null): ?string
+    {
+        return $this->months[$index] ?? $default;
+    }
+
+
+
     /**
      * @param array $months
      * @return $this

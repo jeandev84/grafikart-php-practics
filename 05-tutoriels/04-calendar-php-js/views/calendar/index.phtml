@@ -50,11 +50,18 @@ $times = [];
                                           <?= $day ?>
                                       </div>
                                   </div>
+                                  <div class="day-title">
+                                      <small>
+                                          <?= $calendar->day($week - 1) ?>
+                                          <?= $day ?>
+                                          <?= $calendar->month($m - 1) ?>
+                                      </small>
+                                  </div>
                                   <ul class="events">
                                       <?php if(isset($events[$time])): ?>
                                           <?php foreach ($events[$time] as $event): ?>
                                               <li class="text-primary">
-                                                  <?= $event ?>
+                                                  <small><?= $event ?></small>
                                               </li>
                                           <?php endforeach; ?>
                                       <?php endif; ?>
