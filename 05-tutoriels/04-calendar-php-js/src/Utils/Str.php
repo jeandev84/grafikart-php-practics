@@ -24,10 +24,24 @@ class Str
        * @param int|null $length
        * @return string
      */
-     public static function substr(string $str, int $offset, ?int $length): string
+     public static function sub(string $str, int $offset, ?int $length): string
      {
          return mb_substr($str, $offset, $length);
      }
+
+
+
+
+    /**
+     * @param string $str
+     * @return false|int
+    */
+    public static function toTime(string $str): bool|int
+    {
+         return strtotime($str);
+    }
+
+
 
 
     /**

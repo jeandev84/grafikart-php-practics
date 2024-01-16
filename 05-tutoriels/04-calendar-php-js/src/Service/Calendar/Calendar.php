@@ -40,11 +40,11 @@ class Calendar implements CalendarInterface
 
 
     /**
-     * @param string $year
+     * @param string|null $year
     */
-    public function __construct(string $year)
+    public function __construct(string $year = null)
     {
-        $this->year = $year;
+        $this->year = $year ?: date('Y');
     }
 
 

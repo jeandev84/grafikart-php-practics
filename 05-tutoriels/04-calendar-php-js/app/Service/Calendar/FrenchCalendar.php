@@ -49,14 +49,4 @@ class FrenchCalendar extends Calendar
         'Novembre',
         'Décembre'
     ];
-
-
-
-    /**
-     * @inheritdoc
-    */
-    public function __construct(string $year)
-    {
-        parent::__construct($year);
-    }
 }

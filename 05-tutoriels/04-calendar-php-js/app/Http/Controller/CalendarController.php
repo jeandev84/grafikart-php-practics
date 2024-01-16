@@ -36,6 +36,7 @@ class CalendarController extends AbstractController
            $calendar        = new FrenchCalendar($year);
 
            return $this->render('calendar/index', [
+               'year'     => $year,
                'calendar' => $calendar,
                'events'   => $eventRepository->getEventsByYearAsAssoc($year)
            ]);

@@ -1,6 +1,10 @@
-<?php /** @var $calendar \Grafikart\Service\Calendar\Calendar */
+<?php
+use Grafikart\Service\Calendar\Calendar;
+use Grafikart\Utils\Str;
 
-use Grafikart\Utils\Str; ?>
+/** @var $calendar Calendar */
+/** @var $year string */
+?>
 
 <div class="periods">
     <h2 class="year text-danger">
@@ -13,7 +17,7 @@ use Grafikart\Utils\Str; ?>
                    <?php foreach ($calendar->getMonths() as $id => $month): ?>
                        <li class="nav-item month-item">
                            <a class="nav-link month-link" href="#" id="month-link-<?= ($id + 1) ?>">
-                               <?= Str::substr($month, 0, 3) ?>
+                               <?= Str::sub($month, 0, 3) ?>
                            </a>
                        </li>
                    <?php endforeach; ?>
@@ -28,13 +32,14 @@ use Grafikart\Utils\Str; ?>
                       <thead>
                           <tr>
                              <?php foreach ($calendar->getDays() as $day): ?>
-                                 <th scope="col"><?= Str::substr($day, 0, 3) ?></th>
+                                 <th scope="col"><?= Str::sub($day, 0, 3) ?></th>
                              <?php endforeach; ?>
                           </tr>
                       </thead>
                       <tbody>
                         <tr>
                             <?php $end = end($days); foreach ($days as $day => $week): ?>
+                              <?php $time = Str::toTime("$year-$month-$day"); ?>
                               <?php if ($day == 1): ?>
                                   <td colspan="<?= ($week - 1) ?>" class="padding"></td>
                               <?php endif; ?>
@@ -45,7 +50,8 @@ use Grafikart\Utils\Str; ?>
                                       </div>
                                   </div>
                                   <ul class="events">
-                                      <li>My event</li>
+                                      <?php if(isset($events[$time])): ?>
+                                      <?php endif; ?>
                                   </ul>
                               </td>
                               <?php if ($week == 7): ?>
