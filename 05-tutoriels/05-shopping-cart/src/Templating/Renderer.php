@@ -129,12 +129,23 @@ class Renderer
        */
        public function loadPath(string $path): string
        {
-           $path = $this->viewPath . DIRECTORY_SEPARATOR. $path;
+           $path = $this->viewPath . DIRECTORY_SEPARATOR. trim($path, DIRECTORY_SEPARATOR);
 
            if ($this->extension) {
                $path .= ".$this->extension";
            }
 
            return $path;
+       }
+
+
+
+       /**
+        * @param string $path
+        * @return void
+       */
+       public function includePath(string $path): void
+       {
+            require $this->loadPath($path);
        }
 }

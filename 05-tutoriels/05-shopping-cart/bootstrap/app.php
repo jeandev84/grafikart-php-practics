@@ -62,14 +62,16 @@ $app->bind(CsrfTokenInterface::class, function (Container $app) {
 
 $app->bind(Renderer::class, function (Container $app) {
 
-    $view       = new Renderer(BASE_PATH . '/views');
+    $viewPath   = BASE_PATH . '/views';
+    $view       = new Renderer($viewPath);
     $csrfToken  = $app[CsrfTokenInterface::class];
 
     $view->addGlobals([
-       'session' => $app[SessionInterface::class],
-       'router'  => $app[Router::class],
-       'csrf'    => $app[CsrfTokenInterface::class],
-       'csrfToken' => $csrfToken->generateToken()
+       'session'   => $app[SessionInterface::class],
+       'router'    => $app[Router::class],
+       'csrf'      => $app[CsrfTokenInterface::class],
+       'csrfToken' => $csrfToken->generateToken(),
+       'renderer'  => $view
     ]);
 
     return $view;
