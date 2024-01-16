@@ -1,7 +1,9 @@
 <pre>
 <?php
-if (isset($dates)):
-  print_r($dates);
+use Grafikart\Service\Calendar\Calendar;
+
+if (isset($calendar) && $calendar instanceof Calendar):
+  print_r($calendar->getDates());
 endif;
 ?>
 </pre>

@@ -6,7 +6,7 @@ namespace App\Http\Controller;
 use App\Http\AbstractController;
 use Grafikart\Http\Request\ServerRequest;
 use Grafikart\Http\Response\Response;
-use Grafikart\Service\Calendar\Date;
+use Grafikart\Service\Calendar\Calendar;
 
 /**
  * DateController

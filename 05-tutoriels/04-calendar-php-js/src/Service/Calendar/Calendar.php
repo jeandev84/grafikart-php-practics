@@ -6,10 +6,10 @@ namespace Grafikart\Service\Calendar;
 use DateTime;
 use DateTimeInterface;
 use Exception;
-use Grafikart\Service\Calendar\Contract\DateInterface;
+use Grafikart\Service\Calendar\Contract\CalendarInterface;
 
 /**
- * Date
+ * Calendar
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
@@ -17,13 +17,26 @@ use Grafikart\Service\Calendar\Contract\DateInterface;
  *
  * @package  Grafikart\Service\Calendar
 */
-class Date implements DateInterface
+class Calendar implements CalendarInterface
 {
 
     /**
      * @var string
     */
     protected string $year;
+
+
+    /**
+     * @var array
+    */
+    protected array $days  = [];
+
+
+    /**
+     * @var array
+    */
+    protected array $months = [];
+
 
 
     /**
@@ -34,6 +47,75 @@ class Date implements DateInterface
         $this->year = $year;
     }
 
+
+
+
+    /**
+     * @param array $days
+     * @return $this
+    */
+    public function withDays(array $days): static
+    {
+        $this->days = $days;
+
+        return $this;
+    }
+
+
+
+
+    /**
+     * @inheritdoc
+    */
+    public function getDays(): array
+    {
+        return $this->days;
+    }
+
+
+
+    /**
+     * @param array $months
+     * @return $this
+    */
+    public function withMonths(array $months): static
+    {
+        $this->months = $months;
+
+        return $this;
+    }
+
+
+
+
+    /**
+     * @inheritdoc
+    */
+    public function getMonths(): array
+    {
+        return $this->months;
+    }
+
+
+
+
+    /**
+     * @inheritdoc
+    */
+    public function getWeeks(): array
+    {
+        return [];
+    }
+
+
+
+    /**
+     * @inheritDoc
+    */
+    public function getCurrentYear(): string
+    {
+        return $this->year;
+    }
 
 
     /**

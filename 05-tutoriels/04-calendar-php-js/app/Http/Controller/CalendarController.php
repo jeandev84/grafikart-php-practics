@@ -4,9 +4,10 @@ declare(strict_types=1);
 namespace App\Http\Controller;
 
 use App\Http\AbstractController;
+use App\Service\Calendar\FrenchCalendar;
 use Grafikart\Http\Request\ServerRequest;
 use Grafikart\Http\Response\Response;
-use Grafikart\Service\Calendar\Date;
+use Grafikart\Service\Calendar\Calendar;
 use function date;
 
 /**
@@ -23,12 +24,10 @@ class CalendarController extends AbstractController
        public function index(ServerRequest $request): Response
        {
            /* $date = new Date('2011-04-19'); */
-
-           $year = date('Y');
-           $date = new Date($year);
+           $calendar = new FrenchCalendar(date('Y'));
 
            return $this->render('calendar/index', [
-               'dates' => $date->getDates()
+               'calendar' => $calendar
            ]);
        }
 }

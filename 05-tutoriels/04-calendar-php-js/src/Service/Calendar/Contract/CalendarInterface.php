@@ -15,7 +15,7 @@ use DateTimeInterface;
  *
  * @package  Grafikart\Service\Calendar\Contract
  */
-interface DateInterface
+interface CalendarInterface
 {
 
 
@@ -25,6 +25,46 @@ interface DateInterface
       * @return DateTimeInterface
      */
      public function getStartDate(): DateTimeInterface;
+
+
+
+
+     /**
+      * Returns curren year
+      *
+      * @return string
+     */
+     public function getCurrentYear(): string;
+
+
+
+
+     /**
+      * Returns week days
+      *
+      * @return array
+     */
+     public function getDays(): array;
+
+
+
+
+     /**
+      * Returns year months
+      *
+      * @return array
+     */
+     public function getMonths(): array;
+
+
+
+     /**
+      * Returns year weeks
+      *
+      * @return array
+     */
+     public function getWeeks(): array;
+
 
 
 

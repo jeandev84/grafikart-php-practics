@@ -1,3 +1,23 @@
-<h1>Calendar</h1>
+<?php /** @var $calendar \Grafikart\Service\Calendar\Calendar */
 
+use Grafikart\Utils\Str; ?>
+
+<div class="periods">
+    <h2 class="year text-danger">
+        <?= $calendar->getCurrentYear() ?>
+    </h2>
+    <div class="months">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                   <?php foreach ($calendar->getMonths() as $month): ?>
+                       <li class="nav-item active">
+                           <a class="nav-link" href="#"><?= Str::substr($month, 0, 3) ?></a>
+                       </li>
+                   <?php endforeach; ?>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
 <?php include 'debug/info.phtml'; ?>
