@@ -51,10 +51,11 @@ $times = [];
                                       </div>
                                   </div>
                                   <ul class="events">
-                                      <?php dump($time); ?>
                                       <?php if(isset($events[$time])): ?>
                                           <?php foreach ($events[$time] as $event): ?>
-                                              <li><?= $event ?></li>
+                                              <li class="text-primary">
+                                                  <?= $event ?>
+                                              </li>
                                           <?php endforeach; ?>
                                       <?php endif; ?>
                                   </ul>
