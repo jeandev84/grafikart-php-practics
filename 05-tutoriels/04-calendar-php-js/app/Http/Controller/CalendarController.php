@@ -6,6 +6,8 @@ namespace App\Http\Controller;
 use App\Http\AbstractController;
 use Grafikart\Http\Request\ServerRequest;
 use Grafikart\Http\Response\Response;
+use Grafikart\Service\Calendar\Date;
+use function date;
 
 /**
  * CalendarController
@@ -20,6 +22,13 @@ class CalendarController extends AbstractController
 {
        public function index(ServerRequest $request): Response
        {
-           return new Response(__METHOD__);
+           /* $date = new Date('2011-04-19'); */
+
+           $year = date('Y');
+           $date = new Date($year);
+
+           return $this->render('calendar/index', [
+               'dates' => $date->getDates()
+           ]);
        }
 }

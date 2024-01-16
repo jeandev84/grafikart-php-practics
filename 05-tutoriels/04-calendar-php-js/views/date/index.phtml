@@ -1,0 +1,25 @@
+<h1>Dates</h1>
+
+<hr>
+<?php
+  /*
+   * timestamp: since of 1 january 1970.
+   * 1h   = 60 min
+   * 1min = 60s
+   * 24h  = 24 * 60 * 60 = 24 * 3600s
+  */
+  echo 'Today: '. date('d/m/Y H:i:s');
+  echo '<hr>';
+  echo 'Format date (24h) in seconds : ' . date('d/m/Y H:i:s', 24*3600);
+  $time = time();
+  echo '<hr>';
+  $date = '1970-01-02';
+  echo "Timestamp of date <b>$date</b>: " . strtotime($date) . " seconds";
+  echo '<hr>';
+  $maxTimestamps  = pow(2, 31);
+  echo 'Max value stock in unix : '. $maxTimestamps;
+  echo '<hr>';
+  echo 'Max date of timestamps: '. date('d/m/Y H:i:s', $maxTimestamps);
+  echo '<hr>';
+  echo strtotime('2039-01-01');
+?>
