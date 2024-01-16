@@ -46,6 +46,7 @@ class EventRepository extends EntityRepository
       /**
        * Returns year events as associative :
        * Example: $events[TIMESTAMP][id] = title
+       * or Example: $event[TIMESTAMP][] = $event
        *
        * @param string $year
        * @return array

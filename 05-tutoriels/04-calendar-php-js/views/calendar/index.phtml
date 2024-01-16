@@ -4,6 +4,8 @@ use Grafikart\Utils\Str;
 
 /** @var $calendar Calendar */
 /** @var $year string */
+
+$times = [];
 ?>
 
 <div class="periods">
@@ -25,9 +27,8 @@ use Grafikart\Utils\Str;
             </div>
         </nav>
         <div>
-            <pre><?php //print_r($calendar->getCurrentDates()); ?></pre>
-            <?php foreach ($calendar->getCurrentDates() as $monthNumber => $days): ?>
-              <div class="month relative" id="month-<?= $monthNumber ?>">
+            <?php foreach ($calendar->getCurrentDates() as $m => $days): ?>
+              <div class="month relative" id="month-<?= $m ?>">
                   <table class="table table-striped">
                       <thead>
                           <tr>
@@ -39,7 +40,7 @@ use Grafikart\Utils\Str;
                       <tbody>
                         <tr>
                             <?php $end = end($days); foreach ($days as $day => $week): ?>
-                              <?php $time = Str::toTime("$year-$month-$day"); ?>
+                              <?php $times[] = $time = Str::toTime("$year-$m-$day"); ?>
                               <?php if ($day == 1): ?>
                                   <td colspan="<?= ($week - 1) ?>" class="padding"></td>
                               <?php endif; ?>
@@ -50,7 +51,11 @@ use Grafikart\Utils\Str;
                                       </div>
                                   </div>
                                   <ul class="events">
+                                      <?php dump($time); ?>
                                       <?php if(isset($events[$time])): ?>
+                                          <?php foreach ($events[$time] as $event): ?>
+                                              <li><?= $event ?></li>
+                                          <?php endforeach; ?>
                                       <?php endif; ?>
                                   </ul>
                               </td>
@@ -69,4 +74,8 @@ use Grafikart\Utils\Str;
         </div>
     </div>
 </div>
+<pre>
+   <?php print_r($times); ?>
+   <?php // print_r($calendar->getCurrentDates()); ?>
+</pre>
 <?php include 'debug/info.phtml'; ?>
