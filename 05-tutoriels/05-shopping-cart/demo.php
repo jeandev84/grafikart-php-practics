@@ -14,12 +14,11 @@ $connection = PdoConnection::make([
     ],
 ]);
 
-$queryBuilder = new \Grafikart\Database\ORM\Query\QueryBuilder($connection);
+
+$repository   = new \App\Repository\ProductRepository($connection);
 
 
-// SELECT QUERY:
-$select = $queryBuilder->select()
-                       ->from('products', 'p')
-                       ->getSQL();
+#dd($repository->findAll());
 
-echo $select. "\n";
+dd($repository->find(2));
+

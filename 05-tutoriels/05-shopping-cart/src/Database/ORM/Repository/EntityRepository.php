@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Grafikart\Database\ORM\Repository;
 
+use Grafikart\Database\Connection\Exception\QueryException;
 use Grafikart\Database\Connection\PdoConnection;
 use Grafikart\Database\ORM\Mapping\ClassMetadata;
 use Grafikart\Database\ORM\Query\QueryBuilder;
@@ -89,7 +90,7 @@ class EntityRepository implements EntityRepositoryInterface
     */
     public function find($id): mixed
     {
-          return 0;
+          return $this->findOneBy([$this->metadata->getIdentityName() => $id]);
     }
 
 
@@ -100,9 +101,8 @@ class EntityRepository implements EntityRepositoryInterface
     */
     public function findOneBy(array $criteria, array $orderBy = []): mixed
     {
-         $builder = $this->createQueryBuilder($this->metadata->getTableAlias());
-         $builder->ordersBy($orderBy);
-         return $builder;
+          $builder = $this->createQueryBuilder($this->metadata->getTableAlias());
+          return $builder->criteria($criteria)->ordersBy($orderBy)->fetch()->one();
     }
 
 
@@ -115,7 +115,8 @@ class EntityRepository implements EntityRepositoryInterface
     */
     public function findAll(): array
     {
-
+        $builder = $this->createQueryBuilder($this->metadata->getTableAlias());
+        return $builder->fetch()->all();
     }
 
 
@@ -126,7 +127,22 @@ class EntityRepository implements EntityRepositoryInterface
     */
     public function findBy(array $criteria, array $orderBy = [], int $limit = null, int $offset = null): mixed
     {
+        $builder = $this->createQueryBuilder($this->metadata->getTableAlias());
 
+        foreach ($criteria as $column => $value) {
+            if (is_array($value)) {
+                $builder->where("$column IN :$column");
+            } else {
+                $builder->where("$column = :$column");
+            }
+        }
+
+        return $builder->ordersBy($orderBy)
+                       ->limit(intval($limit))
+                       ->offset(intval($offset))
+                       ->setParameters($criteria)
+                       ->fetch()
+                       ->all();
     }
 
 

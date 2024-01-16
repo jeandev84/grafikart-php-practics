@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Grafikart\Database\ORM\Query\SQL;
 
-use Grafikart\Database\Connection\PdoConnection;
+use Grafikart\Database\Connection\Exception\QueryException;
+use Grafikart\Database\Connection\Query;
+use Grafikart\Database\Connection\Result;
 use Grafikart\Database\ORM\Query\Builder;
 use Grafikart\Database\ORM\Query\SQL\Common\ConditionTrait;
 
@@ -18,9 +20,6 @@ use Grafikart\Database\ORM\Query\SQL\Common\ConditionTrait;
  */
 class Select extends Builder
 {
-
-    use ConditionTrait;
-
 
     /**
      * @var array
@@ -83,7 +82,7 @@ class Select extends Builder
     /**
      * @var string
      */
-    protected string $classMapping;
+    protected string $classMapping = '';
 
 
 
@@ -344,6 +343,9 @@ class Select extends Builder
     }
 
 
+
+
+
     /**
      * @inheritDoc
     */
@@ -362,6 +364,21 @@ class Select extends Builder
 
         return join(' ', array_filter($sql));
     }
+
+
+
+
+    /**
+     * @return Result
+    */
+    public function fetch(): Result
+    {
+        $statement = $this->connection->statement($this->getSQL());
+        $statement->withParams($this->parameters);
+        $statement->map($this->classMapping);
+        return $statement->fetch();
+    }
+
 
 
 

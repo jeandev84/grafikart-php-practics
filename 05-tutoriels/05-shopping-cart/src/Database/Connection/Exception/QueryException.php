@@ -14,7 +14,7 @@ use Exception;
  *
  * @package  Grafikart\Database\Connection\Exception
  */
-class QueryException extends Exception
+class QueryException extends \RuntimeException
 {
 
 }

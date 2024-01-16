@@ -89,9 +89,11 @@ class Query
       */
       public function map(string $class): static
       {
-          $this->statement->setFetchMode(PDO::FETCH_CLASS, $class);
+          if ($class !== '') {
+              $this->statement->setFetchMode(PDO::FETCH_CLASS, $class);
+              $this->classMapping = $class;
+          }
 
-          $this->classMapping = $class;
 
           return $this;
       }
@@ -194,7 +196,6 @@ class Query
     /**
      * @param string $sql
      * @return bool
-     * @throws QueryException
     */
     public function exec(string $sql): bool
     {
@@ -210,8 +211,6 @@ class Query
 
       /**
        * @return Result
-       *
-       * @throws QueryException
       */
       public function fetch(): Result
       {

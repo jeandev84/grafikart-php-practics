@@ -24,9 +24,17 @@ class ClassMetadata
      protected ReflectionClass $reflection;
 
 
-    /**
-     * @param $class
-     * @throws ReflectionException
+
+     /**
+      * @var string
+     */
+     protected string $identityName = 'id';
+
+
+
+     /**
+      * @param $class
+      * @throws ReflectionException
      */
      public function __construct($class)
      {
@@ -78,6 +86,18 @@ class ClassMetadata
      */
      public function getTableAlias(): string
      {
-         return ucfirst($this->getTableName());
+         return $this->getTableName()[0] ?? '';
      }
+
+
+
+
+
+    /**
+     * @return string
+    */
+    public function getIdentityName(): string
+    {
+        return $this->identityName;
+    }
 }

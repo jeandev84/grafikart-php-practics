@@ -33,13 +33,12 @@ class Result
       }
 
 
-
       /**
-       * @param int|null $mode
+       * @param int $mode
        *
        * @return array
       */
-      public function all(int $mode = null): array
+      public function all(int $mode = 0): array
       {
           return $this->statement->fetchAll($mode);
       }
@@ -48,10 +47,10 @@ class Result
 
 
       /**
-       * @param int|null $mode
+       * @param int $mode
        * @return mixed
       */
-      public function one(int $mode = null): mixed
+      public function one(int $mode = 0): mixed
       {
           return $this->statement->fetch($mode);
       }
