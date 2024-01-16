@@ -1,3 +1,10 @@
+<?php
+
+use Grafikart\Routing\Router;
+use Grafikart\Service\Currency\Currency;
+
+/** @var $router Router */
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,37 +13,76 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Calendrier</title>
+    <title>Ecommerce template</title>
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/calendar.css">
+    <link rel="stylesheet" href="/assets/css/shopping.css">
+    <link rel="stylesheet" href="/assets/css/rating.css">
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark" role="navigation">
     <div class="container">
         <div class="navbar-header">
-            <a href="<?= $router->generate('shopping.home') ?>" class="navbar-brand">
-                Mon calendrier
+            <a href="<?= $router->generate('shopping.home') ?>" class="navbar-brand logo">
+                Shopping
             </a>
         </div>
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a href="<?= $router->generate('shopping.cart.list') ?>" class="nav-link">Cart</a>
+        <ul class="navbar-nav basket"><!-- basket (panier) -->
+            <li class="nav-item items">
+                <a href="<?= $router->generate('shopping.cart.list') ?>" class="nav-link">
+                    Cart<span class="badge" style="font-size: 17px;">( 0 )</span>
+                </a>
+            </li>
+            <li class="nav-item total">
+                <a href="#" class="nav-link">
+                    TOTAL <span>1320.09 <?= Currency::euro() ?></span>
+                </a>
             </li>
         </ul>
     </div><!-- /.container -->
 </nav><!-- /.navbar -->
 
-<div class="container mt-3">
+<section class="subheader mb-3">
+    <div class="container mt-3">
+        <small>Welcome visitor you can <a href="#">log in</a> or <a href="#">create an account</a></small>
+    </div>
+</section>
 
-   {{ content }}
+<section class="menu">
+    <div class="container">
+        <hr>
+        <ul class="nav">
+            <li class="nav-item"><a class="nav-link active" href="#">All categories</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Electronics</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Fashion</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Entertainment</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Motors</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Outdoors</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Gift</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Jewelry</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Shoes</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Computers</a></li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+        </ul>
+        <hr>
+        <div class="breadcrumb">
+            <small>You are right here : Home &gt;&gt; <a href="#">Electronics</a></small>
+        </div>
+    </div>
+</section>
 
-</div><!-- /.container -->
+<section>
+    <div class="container">
+        {{ content }}
+    </div><!-- /.container -->
+</section>
 
 <!--
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="application/javascript"></script>
 -->
 <script src="/assets/js/jquery/jquery.min.js"></script>
-<script src="/assets/js/calendar.js"></script>
+<script src="/assets/js/shopping.js"></script>
 <!-- Bootstrap core Javascript
 =========================================== -->
 <!-- Placed at the end of the document so the pages load faster -->

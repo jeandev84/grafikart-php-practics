@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Http\Controller\Shopping;
 
 use App\Http\AbstractController;
-use App\Http\Controller\ShoppingController;
 use App\Repository\ProductRepository;
 use Grafikart\Http\Request\ServerRequest;
 use Grafikart\Http\Response\Response;
@@ -18,7 +17,7 @@ use Grafikart\Http\Response\Response;
  *
  * @package  App\Http\Controller\Shopping
  */
-class HomeController extends ShoppingController
+class HomeController extends AbstractController
 {
     /**
      * @param ServerRequest $request

@@ -123,7 +123,7 @@ var Util = function ($$$1) {
   function escapeId(selector) {
     // We escape IDs in case of special selectors (selector = '#myId:something')
     // $.escapeSelector does not exist in jQuery < 3
-    selector = typeof $$$1.escapeSelector === 'function' ? $$$1.escapeSelector(selector).substr(1) : selector.replace(/(:|\.|\[|\]|,|=|@)/g, '\\$demo');
+    selector = typeof $$$1.escapeSelector === 'function' ? $$$1.escapeSelector(selector).substr(1) : selector.replace(/(:|\.|\[|\]|,|=|@)/g, '\\$example');
     return selector;
   }
   /**
@@ -3872,7 +3872,7 @@ var Tab = function ($$$1) {
   var maxMajor = 4;
 
   if (version[0] < ltMajor && version[1] < minMinor || version[0] === minMajor && version[1] === minMinor && version[2] < minPatch || version[0] >= maxMajor) {
-    throw new Error('Bootstrap\'s JavaScript requires at least jQuery v1.9.demo but less than v4.0.0');
+    throw new Error('Bootstrap\'s JavaScript requires at least jQuery v1.9.example but less than v4.0.0');
   }
 })($);
 

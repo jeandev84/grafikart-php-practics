@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controller\Shopping;
 
-use App\Http\Controller\ShoppingController;
+use App\Http\AbstractController;
 
 /**
  * CategoryController
@@ -14,7 +14,7 @@ use App\Http\Controller\ShoppingController;
  *
  * @package  App\Http\Controller\Shopping
 */
-class CategoryController extends ShoppingController
+class CategoryController extends AbstractController
 {
 
 }

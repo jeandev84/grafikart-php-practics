@@ -144,7 +144,7 @@ class Renderer
         * @param string $path
         * @return void
        */
-       public function includePath(string $path): void
+       public function include(string $path): void
        {
             require $this->loadPath($path);
        }
