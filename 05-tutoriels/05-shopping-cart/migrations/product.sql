@@ -1,0 +1,8 @@
+CREATE TABLE cart (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  title VARCHAR(255),
+  image VARCHAR(255) NOT NULL,
+  price DECIMAL NOT NULL,
+  rating INTEGER DEFAULT 0,
+  category_id INT
+);

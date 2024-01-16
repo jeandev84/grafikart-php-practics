@@ -1,0 +1,20 @@
+{
+    "name": "grafikart/export-excel",
+    "autoload": {
+        "psr-4": {
+            "Grafikart\\": "src/",
+            "App\\": "app"
+        }
+    },
+    "authors": [
+        {
+            "name": "Jean Claude",
+            "email": "jeanyao@ymail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "symfony/var-dumper": "^6.4",
+        "ext-pdo": "*"
+    }
+}

@@ -1,0 +1,21 @@
+.year {
+    font-size: 6em;
+}
+
+.color-active {
+    color: #dc3545!important;
+}
+
+.month-link:hover {
+    color: #dc3545!important;
+}
+
+
+.relative {
+    position: relative;
+}
+
+
+.today {
+    border: 2px solid #dc3545!important;
+}

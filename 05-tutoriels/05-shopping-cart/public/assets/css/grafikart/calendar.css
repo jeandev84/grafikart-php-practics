@@ -1,0 +1,133 @@
+body {
+    background: #eeeeee;
+    letter-spacing: 1px;
+    font-family: "Helvetica", serif;
+    padding: 10px;
+}
+
+.year {
+    color: #d90000;
+    font-size: 85px;
+}
+
+.relative {
+    position: relative;
+}
+
+.months {}
+
+.months ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.months ul li a {
+   float: left;
+   margin: -1px;
+   padding: 0px 15px 0px 0px;
+   color: #888888;
+   text-decoration: none;
+}
+
+
+.months ul li a:hover,
+.months ul li a.active {
+    color: #d90000;
+}
+
+
+table {
+    border-collapse: collapse;
+}
+
+table td {
+    border: 1px solid #a3a3a3;
+    width: 80px;
+    height: 80px;
+}
+
+table td.today {
+    border: 2px solid #d90000;
+    width: 80px;
+    height: 80px;
+}
+
+table td.padding {
+   border: none;
+}
+
+
+table td:hover {
+    background: #dfdfdf;
+    cursor: pointer;
+}
+
+table th {
+    font-weight: normal;
+    color: #a8a8a8;
+}
+
+table td .day{
+   position: absolute;
+   color: #8c8c8c;
+   bottom: -40px;
+   right: 5px;
+   font-weight: bold;
+   /* unknown */
+}
+
+table td .events{
+    position: relative;
+    width: 79px;
+    height: 0px;
+    margin: -39px 0px 0px;
+    padding: 0; /* unknown */
+}
+
+table td .events li{
+    width: 10px;
+    height: 10px;
+    float: left;
+    background: #000;
+    /* border-radius: inherit; *//* unknown */
+}
+
+
+table td:hover .events{
+    position: absolute;
+    left: 582px;
+    top: 66px;
+    width: 442px;
+    list-style: none; /* unknown */
+}
+
+
+table td:hover .events li{
+   height: 40px;
+   line-height: 40px;
+   font-weight: bold;
+   border-bottom: 2px; /* unknown */
+}
+
+
+table td:hover .events li:first-child{
+   border-top: 1px solid #d6d6d6
+}
+
+
+table td .day-title{
+    display: none;
+}
+
+table td:hover .day-title {
+    position: absolute;
+    left: 582px;
+    top: 21px;
+    width: 442px;
+    list-style: none;  /* unknown */
+}
+
+.clear {
+    clear: both;
+}

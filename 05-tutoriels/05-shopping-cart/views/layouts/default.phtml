@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calendrier</title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/calendar.css">
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="<?= $router->generate('home') ?>" class="navbar-brand">
+                Mon calendrier
+            </a>
+        </div>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="<?= $router->generate('home') ?>" class="nav-link">Calendar</a>
+            </li>
+            <li class="nav-item">
+                <a href="<?= $router->generate('date') ?>" class="nav-link">Date</a>
+            </li>
+        </ul>
+    </div><!-- /.container -->
+</nav><!-- /.navbar -->
+
+<div class="container mt-3">
+
+   {{ content }}
+
+</div><!-- /.container -->
+
+<!--
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="application/javascript"></script>
+-->
+<script src="/assets/js/jquery/jquery.min.js"></script>
+<script src="/assets/js/calendar.js"></script>
+<!-- Bootstrap core Javascript
+=========================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+</body>
+</html>
