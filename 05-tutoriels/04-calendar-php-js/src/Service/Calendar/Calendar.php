@@ -102,6 +102,18 @@ class Calendar implements CalendarInterface
 
 
     /**
+     * @param int $timestamp
+     *
+     * @return bool
+    */
+    public function isToday(int $timestamp): bool
+    {
+         return $timestamp == intval(strtotime(date('Y-m-d')));
+    }
+
+
+
+    /**
      * @param array $months
      * @return $this
     */
