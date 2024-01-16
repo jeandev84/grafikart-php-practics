@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace Grafikart\Service\Calendar\Example;
+namespace Grafikart\Service\Calendar;
 
 /**
- * DateExample
+ * Date
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
  * @license https://github.com/jeandev84/laventure-framework/blob/master/LICENSE
  *
- * @package  Grafikart\Service\Calendar\Example
+ * @package  Grafikart\Service\Calendar
 */
-class DateExample
+class Date
 {
 
     /**

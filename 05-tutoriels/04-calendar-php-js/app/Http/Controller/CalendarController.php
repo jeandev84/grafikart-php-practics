@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controller;
 
 use App\Http\AbstractController;
+use App\Repository\EventRepository;
 use App\Service\Calendar\FrenchCalendar;
 use Grafikart\Http\Request\ServerRequest;
 use Grafikart\Http\Response\Response;
@@ -21,13 +22,22 @@ use function date;
 */
 class CalendarController extends AbstractController
 {
+
+       /**
+        * Example: $date = new Date('2011-04-19');
+        *
+        * @param ServerRequest $request
+        * @return Response
+       */
        public function index(ServerRequest $request): Response
        {
-           /* $date = new Date('2011-04-19'); */
-           $calendar = new FrenchCalendar(date('Y'));
+           $year            = date('Y');
+           $eventRepository = new EventRepository($this->getConnection());
+           $calendar        = new FrenchCalendar($year);
 
            return $this->render('calendar/index', [
-               'calendar' => $calendar
+               'calendar' => $calendar,
+               'events'   => $eventRepository->getEventsByYearAsAssoc($year)
            ]);
        }
 }
