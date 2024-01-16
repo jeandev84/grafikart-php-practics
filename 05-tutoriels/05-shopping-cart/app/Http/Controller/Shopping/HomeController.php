@@ -3,20 +3,21 @@ declare(strict_types=1);
 
 namespace App\Http\Controller\Shopping;
 
+use App\Http\AbstractController;
 use App\Http\Controller\ShoppingController;
 use Grafikart\Http\Request\ServerRequest;
 use Grafikart\Http\Response\Response;
 
 /**
- * ProductController
+ * HomeController
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
  * @license https://github.com/jeandev84/laventure-framework/blob/master/LICENSE
  *
  * @package  App\Http\Controller\Shopping
-*/
-class ProductController extends ShoppingController
+ */
+class HomeController extends ShoppingController
 {
     /**
      * @param ServerRequest $request
@@ -24,17 +25,6 @@ class ProductController extends ShoppingController
     */
     public function index(ServerRequest $request): Response
     {
-        return new Response(__METHOD__);
-    }
-
-
-
-    /**
-     * @param ServerRequest $request
-     * @return Response
-    */
-    public function show(ServerRequest $request): Response
-    {
-        return new Response(__METHOD__);
+        return $this->render('shopping/home/index');
     }
 }

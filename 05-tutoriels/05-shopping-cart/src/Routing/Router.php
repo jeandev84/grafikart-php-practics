@@ -147,7 +147,8 @@ class Router
     public function generate(string $name, array $params = []): string
     {
          if (! isset($this->namedRoutes[$name])) {
-              throw new \InvalidArgumentException("Could not resolve named route $name");
+              return '';
+              /* throw new \InvalidArgumentException("Could not resolve named route $name"); */
          }
          
          return $this->namedRoutes[$name]->generate($params);
