@@ -7,12 +7,12 @@ use Grafikart\Utils\Str; ?>
         <?= $calendar->getCurrentYear() ?>
     </h2>
     <div class="months">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light months-navbar">
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                    <?php foreach ($calendar->getMonths() as $id => $month): ?>
-                       <li class="nav-item active">
-                           <a class="nav-link" href="#" id="month-link-<?= ($id + 1) ?>">
+                       <li class="nav-item">
+                           <a class="nav-link month-link" href="#" id="month-link-<?= ($id + 1) ?>">
                                <?= Str::substr($month, 0, 3) ?>
                            </a>
                        </li>
