@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Service\Shopping;
 
+use App\Entity\Product;
+use App\Repository\ProductRepository;
 use App\Service\Shopping\Contract\CartServiceInterface;
 use Grafikart\Http\Session\SessionInterface;
 
@@ -31,16 +33,49 @@ class CartService implements CartServiceInterface
 
 
       /**
-       * @param SessionInterface $session
+       * @var ProductRepository
       */
-      public function __construct(SessionInterface $session)
+      protected ProductRepository $productRepository;
+
+
+
+      /**
+       * @param SessionInterface $session
+       * @param ProductRepository $productRepository
+      */
+      public function __construct(
+          SessionInterface $session,
+          ProductRepository $productRepository
+      )
       {
           $this->session = $session;
+          $this->productRepository = $productRepository;
       }
 
 
 
-     /**
+
+      /**
+       * @return mixed
+      */
+      public function total(): mixed
+      {
+          $total       = 0;
+          $productsIds = $this->geProductIds();
+          $products    = $this->productRepository->findProductsInCart($productsIds);
+
+          foreach ($products as $product) {
+              $total += $product->getPrice() * $this->quantity($product->getId());
+          }
+
+          return $total;
+    }
+
+
+
+
+
+    /**
       * @inheritDoc
      */
      public function add(int $id): static
@@ -88,6 +123,31 @@ class CartService implements CartServiceInterface
 
 
 
+
+
+     /**
+      * @param int $id
+      * @return int|null
+     */
+     public function quantity(int $id): ?int
+     {
+         $cart = $this->cart();
+         return $cart[$id] ?? null;
+     }
+
+
+
+     /**
+      * @return float|int
+     */
+     public function count(): float|int
+     {
+         return array_sum($this->cart());
+     }
+
+
+
+
      /**
       * @inheritDoc
      */
@@ -102,8 +162,32 @@ class CartService implements CartServiceInterface
      /**
       * @return array
      */
-     public function getItemIds(): array
+     public function geProductIds(): array
      {
          return array_keys($this->cart());
      }
+
+
+
+
+
+    /**
+     * Incrementer
+     *
+     * @param int $id
+     * @return void
+     */
+    public function increase(int $id): void {}
+
+
+
+
+
+    /**
+     * Decrementer
+     *
+     * @param int $id
+     * @return void
+     */
+    public function decrease(int $id): void {}
 }

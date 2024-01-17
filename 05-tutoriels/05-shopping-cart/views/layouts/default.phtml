@@ -1,13 +1,21 @@
 <?php
 
+use App\Service\Shopping\CartService;
+use Grafikart\Container\Container;
 use Grafikart\Http\Session\SessionInterface;
 use Grafikart\Routing\Router;
 use Grafikart\Service\Currency\Currency;
 use Grafikart\Templating\Renderer;
+use Grafikart\Utils\Number;
 
 /** @var Router $router */
 /** @var SessionInterface $session */
 /** @var Renderer $renderer */
+/** @var float $totalPrice */
+/** @var CartService $cartService */
+/** @var Container $app */
+
+dump($app['cart']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,12 +51,12 @@ use Grafikart\Templating\Renderer;
             </li>
             <li class="nav-item items">
                 <a href="<?= $router->generate('cart.list') ?>" class="nav-link">
-                    ITEMS<span class="badge" style="font-size: 17px;">( 0 )</span>
+                    ITEMS<span class="badge" style="font-size: 17px;">( <?php // $cartService->count() ?> )</span>
                 </a>
             </li>
             <li class="nav-item total">
                 <a href="#" class="nav-link">
-                    TOTAL <span>1320.09 <?= Currency::euro() ?></span>
+                    TOTAL <span><?php // Number::format($cartService->total(), 2, ',', ' ')?> <?= Currency::euro() ?></span>
                 </a>
             </li>
         </ul>

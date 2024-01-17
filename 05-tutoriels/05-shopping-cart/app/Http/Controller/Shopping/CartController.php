@@ -36,7 +36,7 @@ class CartController extends AbstractController
       public function __construct(Container $app)
       {
           parent::__construct($app);
-          $this->cartService = new CartService($this->session);
+          $this->cartService = $app['cart'];
       }
 
 
@@ -51,15 +51,13 @@ class CartController extends AbstractController
       public function index(ServerRequest $request): Response
       {
           $productRepository = new ProductRepository($this->getConnection());
-          $productIds        = $this->cartService->getItemIds();
-          $products          = [];
+          $productIds        = $this->cartService->geProductIds();
+          $products          = $productRepository->findProductsInCart($productIds);
 
-          if (! empty($productIds)) {
-              $products = $productRepository->findProductsInCart($productIds);
-          }
 
           return $this->render('shopping/cart/index', [
-              'products' => $products
+              'products'    => $products,
+              'cartService' => $this->cartService
           ]);
       }
 

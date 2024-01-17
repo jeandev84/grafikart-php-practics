@@ -6,6 +6,7 @@ namespace App\Http\Controller\Shopping;
 use App\Http\AbstractController;
 use App\Repository\ProductRepository;
 use App\Service\Shopping\CartService;
+use Grafikart\Container\Container;
 use Grafikart\Http\Request\ServerRequest;
 use Grafikart\Http\Response\Response;
 use ReflectionException;
@@ -21,6 +22,18 @@ use ReflectionException;
  */
 class HomeController extends AbstractController
 {
+
+    /**
+     * @param Container $app
+    */
+    public function __construct(Container $app)
+    {
+        parent::__construct($app);
+    }
+
+
+
+
     /**
      * @param ServerRequest $request
      * @return Response
@@ -31,7 +44,7 @@ class HomeController extends AbstractController
         $productRepository = new ProductRepository($this->getConnection());
 
         return $this->render('shopping/home/index', [
-            'products' => $productRepository->findAll()
+            'products'   => $productRepository->findAll()
         ]);
     }
 }

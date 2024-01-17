@@ -1,11 +1,13 @@
 <?php
 
 use App\Entity\Product;
+use App\Service\Shopping\CartService;
 use Grafikart\Routing\Router;
 use Grafikart\Service\Currency\Currency;
 
 /** @var Product[] $products */
 /** @var Router $router */
+/** @var CartService $cartService */
 ?>
 <div class="checkout">
     <div class="title mt-3">
@@ -39,7 +41,9 @@ use Grafikart\Service\Currency\Currency;
                         </span>
                     </td>
                     <td>
-                        <span class="quantity">1</span>
+                        <span class="quantity">
+                            <?= $cartService->quantity($product->getId()) ?>
+                        </span>
                     </td>
                     <td>
                         <span class="subtotal">

@@ -42,32 +42,44 @@ class ProductRepository extends ServiceRepository
 
 
     /**
-     * @param array $ids
+     * @param array $productIds
      *
      * @return Product[]
     */
-    public function findProductsInCart(array $ids): mixed
+    public function findProductsInCart(array $productIds): mixed
     {
-        /*
-         // TODO code reviews fix bug
-         return $this->createQueryBuilder('p')
-                ->where('id IN (1, 2)')
-                #->setParameters(compact('ids'))
-                ->fetch()
-                ->all();
-        $productIds = join(',', $ids);
-
-        return $this->createQueryBuilder('p')
-                ->where('p.id IN (:ids)')
-                ->setParameters([
-                    'ids' => '('. join(',', $ids) . ')'
-                ])
-                ->fetch()
-                ->all();
-        */
+        if (empty($productIds)) {
+            return [];
+        }
 
         return $this->createNativeQuery(
-            'SELECT * FROM products WHERE id IN (' . implode(',', $ids) . ')'
+            'SELECT * FROM products WHERE id IN (' . implode(',', $productIds) . ')'
         )->map($this->getClassName())->fetch()->all();
+    }
+
+
+
+
+
+    private function toReviews(): void
+    {
+        /*
+        // TODO code reviews fix bug
+        return $this->createQueryBuilder('p')
+               ->where('id IN (1, 2)')
+               #->setParameters(compact('ids'))
+               ->fetch()
+               ->all();
+       $productIds = join(',', $ids);
+
+       return $this->createQueryBuilder('p')
+               ->where('p.id IN (:ids)')
+               ->setParameters([
+                   'ids' => '('. join(',', $ids) . ')'
+               ])
+               ->fetch()
+               ->all();
+       */
+
     }
 }

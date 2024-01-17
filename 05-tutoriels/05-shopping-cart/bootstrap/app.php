@@ -4,6 +4,7 @@
 use App\Http\Handlers\NotFoundHandler;
 use App\Security\Authenticators\UserAuthenticator;
 use App\Security\Token\CsrfToken;
+use App\Service\Shopping\CartService;
 use Grafikart\Config\Config;
 use Grafikart\Container\Container;
 use Grafikart\Database\Connection\PdoConnection;
@@ -60,6 +61,14 @@ $app->bind(CsrfTokenInterface::class, function (Container $app) {
    return new CsrfToken($app[SessionInterface::class]);
 });
 
+$app->bind('cart', function ($app) {
+   $repository  = new \App\Repository\ProductRepository(
+       $app[PdoConnection::class]
+   );
+
+   return new CartService($app[SessionInterface::class], $repository);
+});
+
 $app->bind(Renderer::class, function (Container $app) {
 
     $viewPath   = BASE_PATH . '/views';
@@ -67,6 +76,7 @@ $app->bind(Renderer::class, function (Container $app) {
     $csrfToken  = $app[CsrfTokenInterface::class];
 
     $view->addGlobals([
+       'app'       => $app,
        'session'   => $app[SessionInterface::class],
        'router'    => $app[Router::class],
        'csrf'      => $app[CsrfTokenInterface::class],
