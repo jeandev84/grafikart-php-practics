@@ -9,6 +9,7 @@ use App\Service\Shopping\CartService;
 use App\Service\Shopping\Contract\CartServiceInterface;
 use Grafikart\Container\Container;
 use Grafikart\Http\Request\ServerRequest;
+use Grafikart\Http\Response\JsonResponse;
 use Grafikart\Http\Response\Response;
 use ReflectionException;
 
@@ -65,33 +66,37 @@ class CartController extends AbstractController
 
 
      /**
+      * Add to cart via ajax
+      *
       * @param ServerRequest $request
-      * @return Response
+      * @return JsonResponse
       * @throws ReflectionException
      */
-      public function add(ServerRequest $request): Response
+      public function add(ServerRequest $request): JsonResponse
       {
+           $json = ['error' => true];
+
            if(! $id = (int)$request->getAttribute('id')) {
-                $this->addFlash('danger', "Vous n' avez pas selectionne de produit a ajouter au panier.");
-                return $this->redirectToRoute('home');
+                $json['message'] = "Vous n' avez pas selectionne de produit a ajouter au panier.";
            }
 
            $productRepository = new ProductRepository($this->getConnection());
 
            if (! $product = $productRepository->find($id)) {
-               $this->addFlash('danger', "Le produit id#$id n'existe pas.");
-               return $this->redirectToRoute('home');
+               $json['message'] = "Le produit id#$id n'existe pas.";
            }
 
            $this->cartService->add($product->getId());
 
-           $this->addFlash(
-          'success',
-      'Le produit a bien ete ajoute a votre panier <a href="javascript:history.back()">retoruner sur le catalogue</a>'
-           );
+           $json['error']   = false;
+           $json['total']   = $this->cartService->totalPrice();
+           $json['count']   = $this->cartService->count();
+           $json['message'] = 'Le produit a bien ete ajoute a votre panier';
 
-           return $this->redirectToRoute('home');
+           return new JsonResponse($json);
       }
+
+
 
 
 
@@ -150,4 +155,30 @@ class CartController extends AbstractController
 
           return $this->redirectToRoute('home');
      }
+
+
+
+    public function addToCart(ServerRequest $request): Response
+    {
+        if(! $id = (int)$request->getAttribute('id')) {
+            $this->addFlash('danger', "Vous n' avez pas selectionne de produit a ajouter au panier.");
+            return $this->redirectToRoute('home');
+        }
+
+        $productRepository = new ProductRepository($this->getConnection());
+
+        if (! $product = $productRepository->find($id)) {
+            $this->addFlash('danger', "Le produit id#$id n'existe pas.");
+            return $this->redirectToRoute('home');
+        }
+
+        $this->cartService->add($product->getId());
+
+        $this->addFlash(
+            'success',
+            'Le produit a bien ete ajoute a votre panier <a href="javascript:history.back()">retourner sur le catalogue</a>'
+        );
+
+        return $this->redirectToRoute('home');
+    }
 }

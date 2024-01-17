@@ -51,12 +51,12 @@ use Grafikart\Utils\Number;
             </li>
             <li class="nav-item items">
                 <a href="<?= $router->generate('cart.list') ?>" class="nav-link">
-                    ITEMS<span class="badge" style="font-size: 17px;">( <?= $app['cart']->count() ?> )</span>
+                    ITEMS<span id="count" class="badge" style="font-size: 17px;">( <?= $app['cart']->count() ?> )</span>
                 </a>
             </li>
             <li class="nav-item total">
                 <a href="#" class="nav-link">
-                    TOTAL <span><?= $app['cart']->totalPrice() ?> <?= Currency::euro() ?></span>
+                    TOTAL <span id="total"><?= $app['cart']->totalPrice() ?></span> <?= Currency::euro() ?>
                 </a>
             </li>
         </ul>
