@@ -28,7 +28,8 @@ use Grafikart\Templating\Renderer;
                                 <?= $product->formatPrice() ?> <?= Currency::euro() ?>
                             </a>
                         </div>
-                        <a href="<?= $router->generate('cart.add', ['id' => $product->getId() ]) ?>" class="gift">
+                        <a href="<?= $router->generate('cart.add', ['id' => $product->getId() ]) ?>"
+                           class="gift add-to-cart">
                             Gift
                         </a>
                         <div class="rating">
@@ -42,7 +43,7 @@ use Grafikart\Templating\Renderer;
                         -->
                         <div class="cart-add mt-3">
                             <a href="<?= $router->generate('cart.add', ['id' => $product->getId() ]) ?>"
-                               class="btn btn-success add">
+                               class="btn btn-success add add-to-cart">
                                 add to cart
                             </a>
                         </div>
