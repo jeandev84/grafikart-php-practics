@@ -1,6 +1,7 @@
 <?php
 
 use App\Entity\Product;
+use Grafikart\Http\Session\Session;
 use Grafikart\Routing\Router;
 use Grafikart\Service\Currency\Currency;
 use Grafikart\Templating\Renderer;
@@ -9,6 +10,7 @@ use Grafikart\Templating\Renderer;
 /** @var Renderer $renderer */
 /** @var Product[] $products */
 /** @var Router $router */
+/** @var Session $session */
 ?>
 <div class="products">
     <!-- <h1>Products</h1> -->
@@ -52,3 +54,8 @@ use Grafikart\Templating\Renderer;
 </div>
 <hr>
 <?php $renderer->include('/partials/pagination'); ?>
+
+<pre>
+    <?php print_r($session->all()) ?>
+</pre>
+

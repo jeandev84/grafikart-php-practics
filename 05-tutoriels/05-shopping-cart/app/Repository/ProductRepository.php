@@ -25,6 +25,10 @@ class ProductRepository extends ServiceRepository
     }
 
 
+    /**
+     * @param int $id
+     * @return mixed
+    */
     public function findProduct(int $id): mixed
     {
          return $this->createQueryBuilder('p')

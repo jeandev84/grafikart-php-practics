@@ -67,6 +67,14 @@ interface SessionInterface
 
 
        /**
+        * @return array
+       */
+       public function all(): array;
+
+
+
+
+       /**
         * @param $type
         * @param string $message
         * @return mixed

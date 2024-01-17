@@ -45,7 +45,17 @@ class CartService implements CartServiceInterface
      */
      public function add(int $id): static
      {
+         $cart = $this->cart();
 
+         if (isset($cart[$id])) {
+             $cart[$id]++;
+         } else {
+             $cart[$id] = 1;
+         }
+
+         $this->session->set($this->cartKey, $cart);
+
+         return $this;
      }
 
 

@@ -166,4 +166,14 @@ class Session implements SessionInterface
         $_SESSION = [];
         return true;
     }
+
+
+
+    /**
+     * @inheritDoc
+    */
+    public function all(): array
+    {
+        return $_SESSION;
+    }
 }
