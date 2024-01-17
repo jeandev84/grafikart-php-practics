@@ -28,7 +28,7 @@ use Grafikart\Templating\Renderer;
                                 <?= $product->getFormatPrice() ?> <?= Currency::euro() ?>
                             </a>
                         </div>
-                        <a href="<?= $router->generate('shopping.cart.add', ['id' => $product->getId() ]) ?>" class="gift">
+                        <a href="<?= $router->generate('cart.add', ['id' => $product->getId() ]) ?>" class="gift">
                             Gift
                         </a>
                         <div class="rating">
@@ -41,7 +41,7 @@ use Grafikart\Templating\Renderer;
                         <a href="#" class="btn btn-primary">Go somewhere</a>
                         -->
                         <div class="cart-add mt-3">
-                            <a href="<?= $router->generate('shopping.cart.add', ['id' => $product->getId() ]) ?>"
+                            <a href="<?= $router->generate('cart.add', ['id' => $product->getId() ]) ?>"
                                class="btn btn-success add">
                                 add to cart
                             </a>

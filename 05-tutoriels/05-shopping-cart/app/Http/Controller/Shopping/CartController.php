@@ -64,7 +64,7 @@ class CartController extends AbstractController
 
            $productRepository = new ProductRepository($this->getConnection());
 
-           if (! $product = $productRepository->find($id)) {
+           if (! $productRepository->find($id)) {
                $this->addFlash('danger', "Le produit id#$id n'existe pas.");
                return $this->redirectToRoute('home');
            }
@@ -73,6 +73,8 @@ class CartController extends AbstractController
 
            return $this->redirectToRoute('home');
       }
+
+
 
 
      /**
@@ -93,5 +95,20 @@ class CartController extends AbstractController
      public function decrease(ServerRequest $request): Response
      {
          return new Response(__METHOD__);
+     }
+
+
+
+
+
+     /**
+      * @param ServerRequest $request
+      * @return Response
+     */
+     public function clear(ServerRequest $request): Response
+     {
+          $this->cartService->clear();
+
+          return $this->redirectToRoute('home');
      }
 }

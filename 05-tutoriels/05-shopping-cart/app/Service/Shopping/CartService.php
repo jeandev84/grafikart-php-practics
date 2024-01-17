@@ -59,6 +59,19 @@ class CartService implements CartServiceInterface
      }
 
 
+
+
+
+     /**
+      * @return void
+     */
+     public function clear(): void
+     {
+          $this->session->forget($this->cartKey);
+     }
+
+
+
      /**
       * @inheritDoc
      */
