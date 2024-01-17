@@ -82,6 +82,18 @@ class Query
       }
 
 
+      /**
+       * @param string $sql
+       * @return $this
+       */
+      public function query(string $sql): static
+      {
+          $this->statement = $this->pdo->query($sql);
+
+          return $this;
+      }
+
+
 
 
       /**

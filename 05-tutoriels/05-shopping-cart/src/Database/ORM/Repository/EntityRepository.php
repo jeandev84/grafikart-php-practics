@@ -5,6 +5,7 @@ namespace Grafikart\Database\ORM\Repository;
 
 use Grafikart\Database\Connection\Exception\QueryException;
 use Grafikart\Database\Connection\PdoConnection;
+use Grafikart\Database\Connection\Query;
 use Grafikart\Database\ORM\Mapping\ClassMetadata;
 use Grafikart\Database\ORM\Query\QueryBuilder;
 use Grafikart\Database\ORM\Query\SQL\Select;
@@ -63,6 +64,16 @@ class EntityRepository implements EntityRepositoryInterface
     public function createNativeQueryBuilder(): QueryBuilder
     {
         return new QueryBuilder($this->connection);
+    }
+
+
+    /**
+     * @param string $sql
+     * @return Query
+    */
+    public function createNativeQuery(string $sql): Query
+    {
+        return $this->connection->query($sql);
     }
 
 

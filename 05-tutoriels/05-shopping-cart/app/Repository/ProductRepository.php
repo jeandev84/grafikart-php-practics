@@ -46,13 +46,28 @@ class ProductRepository extends ServiceRepository
      *
      * @return Product[]
     */
-    public function findProductsInCart(array $ids): array
+    public function findProductsInCart(array $ids): mixed
     {
-        return $this->createQueryBuilder('p')
-                ->select('id')
-                ->where('id IN (:ids)')
-                ->setParameters(compact('ids'))
+        /*
+         // TODO code reviews fix bug
+         return $this->createQueryBuilder('p')
+                ->where('id IN (1, 2)')
+                #->setParameters(compact('ids'))
                 ->fetch()
                 ->all();
+        $productIds = join(',', $ids);
+
+        return $this->createQueryBuilder('p')
+                ->where('p.id IN (:ids)')
+                ->setParameters([
+                    'ids' => '('. join(',', $ids) . ')'
+                ])
+                ->fetch()
+                ->all();
+        */
+
+        return $this->createNativeQuery(
+            'SELECT * FROM products WHERE id IN (' . implode(',', $ids) . ')'
+        )->map($this->getClassName())->fetch()->all();
     }
 }

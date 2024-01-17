@@ -25,8 +25,10 @@ class PdoConnection implements PdoConnectionInterface
        protected $pdo;
 
        protected array $options = [
-           PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-           PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+           PDO::ATTR_PERSISTENT          => true,
+           PDO::ATTR_EMULATE_PREPARES    => 0,
+           PDO::ATTR_DEFAULT_FETCH_MODE  => PDO::FETCH_OBJ,
+           PDO::ATTR_ERRMODE             => PDO::ERRMODE_EXCEPTION
        ];
 
 
@@ -77,6 +79,16 @@ class PdoConnection implements PdoConnectionInterface
        {
            return new Query($this->getPdo());
        }
+
+
+      /**
+       * @param string $sql
+       * @return Query
+      */
+      public function query(string $sql): Query
+    {
+        return $this->createQuery()->query($sql);
+    }
 
 
 

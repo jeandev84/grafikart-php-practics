@@ -6,19 +6,19 @@ use Grafikart\Service\Currency\Currency;
 /** @var Product[] $products */
 ?>
 <div class="checkout">
-    <div class="title">
+    <div class="title mt-3">
         <h2 class="first">Shopping Cart</h2>
         <a href="#" class="proceed">
             Proceed to checkout
         </a>
     </div>
-    <table class="table table-striped">
+    <table class="table table-striped mt-3">
         <thead>
         <tr>
             <th class="name">Product name</th>
             <th class="price">Price</th>
             <th class="quantity">Quantity</th>
-            <th class="subtotal">Subtotal</th>
+            <th class="subtotal">Prix avec TVA</th>
             <th class="action">Actions</th>
         </tr>
         </thead>
@@ -27,27 +27,25 @@ use Grafikart\Service\Currency\Currency;
                 <tr>
                     <td>
                         <a href="#" class="img">
-                            <img src="<?php // $product->getImagePath() ?>" alt="Card image cap" width="100">
+                            <img src="<?= $product->getImagePath() ?>" alt="Card image cap" width="100">
+                            <span class="name">Curabitur feugiat lectus tempor elit sempe</span>
                         </a>
                     </td>
                     <td>
-                        <span class="name">Curabitur feugiat lectus tempor elit sempe</span>
-                    </td>
-                    <td>
-                        <span class="price"><?= Currency::euro() ?> 1320.09</span>
+                        <span class="price">
+                            <?= $product->getFormatPrice() ?> <?= Currency::euro() ?>
+                        </span>
                     </td>
                     <td>
                         <span class="quantity">1</span>
                     </td>
                     <td>
-                        <span class="subtotal"><?= Currency::euro() ?> 1320.09</span>
+                        <span class="subtotal">
+                            <?= $product->getFormatPrice(1.196) ?> <?= Currency::euro() ?>
+                        </span>
                     </td>
                     <td>
-                    <span class="action">
-                    <a href="#" class="del">
-                        <img src="/assets/img/products/del.png" alt="">
-                    </a>
-                </span>
+                        <a href="#" class="text-danger">Supprimer</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

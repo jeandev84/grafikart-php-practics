@@ -44,13 +44,16 @@ class Product
     }
 
 
-
-
     /**
+     * @param float|null $tva (TVA) En france
      * @return string
     */
-    public function getFormatPrice(): string
+    public function getFormatPrice(float $tva = null): string
     {
+         if ($tva) {
+             $this->price = $this->price * $tva;
+         }
+
          return Number::format($this->price, 2, ',', ' ');
     }
 
