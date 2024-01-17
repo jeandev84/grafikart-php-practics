@@ -13,6 +13,6 @@ return function(Router $router) {
            ->where('id', '\d+'); // id is product id
     $router->get('/cart/delete/{id}', [CartController::class, 'delete'], 'cart.delete')
            ->where('id', '\d+'); // id is product id
-
+    $router->post('/cart/recalculate', [CartController::class, 'recalculate'], 'cart.recalculate');
     return $router;
 };

@@ -18,17 +18,18 @@ use Grafikart\Service\Currency\Currency;
             Proceed to checkout
         </a>
     </div>
-    <table class="table table-striped mt-3">
-        <thead>
-        <tr>
-            <th class="name">Product name</th>
-            <th class="price">Price</th>
-            <th class="quantity">Quantity</th>
-            <th class="subtotal">Prix avec TVA</th>
-            <th class="action">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
+    <form method="post" action="<?= $router->generate('cart.recalculate') ?>">
+        <table class="table table-striped mt-3">
+            <thead>
+            <tr>
+                <th class="name">Product name</th>
+                <th class="price">Price</th>
+                <th class="quantity">Quantity</th>
+                <th class="subtotal">Prix avec TVA</th>
+                <th class="action">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
             <?php foreach ($products as $product): ?>
                 <tr>
                     <td>
@@ -44,7 +45,12 @@ use Grafikart\Service\Currency\Currency;
                     </td>
                     <td>
                         <span class="quantity">
-                            <?= $cartService->quantity($product->getId()) ?>
+                            <input type="number"
+                                   name="cart[quantity][<?= $product->getId(); ?>]"
+                                   value="<?= $cartService->quantity($product->getId()) ?>"
+                                   class="form-control"
+                                   width="30"
+                            >
                         </span>
                     </td>
                     <td>
@@ -59,9 +65,11 @@ use Grafikart\Service\Currency\Currency;
                     </td>
                 </tr>
             <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="row-total">
-        Grand total: <span class="total"><?= $app['cart']->totalPriceWithTva() ?> <?= Currency::euro() ?></span>
-    </div>
+            </tbody>
+        </table>
+        <div class="row-total">
+            Grand total: <span class="total"><?= $app['cart']->totalPriceWithTva() ?> <?= Currency::euro() ?></span>
+        </div>
+        <input type="submit" value="Recalculer">
+    </form>
 </div>

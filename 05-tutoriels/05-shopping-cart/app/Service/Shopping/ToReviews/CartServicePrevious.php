@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Service\Shopping;
+namespace App\Service\Shopping\ToReviews;
 
 use App\Entity\Product;
 use App\Repository\ProductRepository;
@@ -12,7 +12,7 @@ use InvalidArgumentException;
 use RuntimeException;
 
 /**
- * CartService
+ * CartServicePrevious
  *
  * @author Jean-Claude <jeanyao@ymail.com>
  *
@@ -20,7 +20,7 @@ use RuntimeException;
  *
  * @package  App\Service\Shopping
 */
-class CartService implements CartServiceInterface
+class CartServicePrevious implements CartServiceInterface
 {
 
       /**
@@ -160,27 +160,78 @@ class CartService implements CartServiceInterface
      }
 
 
+
+
+
      /**
       * $data['cart']['quantity'] = [1 => 2, 3, 5];
       *
       * @param array $data
       * @return void
      */
-     public function recalculate(array $data): void
+     public function recalculate1(array $data): void
      {
-         $cart = $this->cart();
+         if (empty($data[$this->cartKey])) {
+              throw new RuntimeException("Car key ($this->cartKey) is required for refreshing cart.");
+         }
 
+         $items = $data[$this->cartKey];
+
+         if (empty($items['quantity'])) {
+              throw new InvalidArgumentException("Could not found param (quantity from data)");
+         }
+
+         /* $this->session->set($this->cartKey, $items['quantity']); */
+
+         $cart = $this->cart();
          foreach ($cart as $productId => $quantity) {
              if (isset($data[$this->cartKey]['quantity'][$productId])) {
                  $cart[$productId] = $data[$this->cartKey]['quantity'][$productId];
-                 $this->session->set($this->cartKey, $cart);
+                 $this->session->set($this->cartKey, $items['quantity']);
              }
          }
+
      }
 
 
 
+    /**
+     * $data['cart']['quantity'] = [1 => 2, 3, 5];
+     *
+     * @param array $data
+     * @return void
+     */
+    public function recalculate2(array $data): void
+    {
+        if (empty($data[$this->cartKey])) {
+            throw new RuntimeException("Car key ($this->cartKey) is required for refreshing cart.");
+        }
 
+        $items = $data[$this->cartKey];
+
+        if (empty($items['quantity'])) {
+            throw new InvalidArgumentException("Could not found param (quantity from data)");
+        }
+
+        $this->session->set($this->cartKey, $items['quantity']);
+    }
+
+
+
+
+
+    /**
+     * $data['cart']['quantity'] = [1 => 2, 3, 5];
+     *
+     * @param array $data
+     * @return void
+     */
+    public function recalculate3(array $data): void
+    {
+        if (!empty($data[$this->cartKey]['quantity'])) {
+            $this->session->set($this->cartKey, $data[$this->cartKey]['quantity']);
+        }
+    }
 
      /**
       * @param int $id

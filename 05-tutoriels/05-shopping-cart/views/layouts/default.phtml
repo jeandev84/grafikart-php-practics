@@ -51,7 +51,9 @@ use Grafikart\Utils\Number;
             </li>
             <li class="nav-item items">
                 <a href="<?= $router->generate('cart.list') ?>" class="nav-link">
-                    ITEMS<span id="count" class="badge" style="font-size: 17px;">( <?= $app['cart']->count() ?> )</span>
+                    ITEMS<span id="count" class="badge" style="font-size: 17px;">
+                        <?= $app['cart']->count() ?>
+                    </span>
                 </a>
             </li>
             <li class="nav-item total">
@@ -90,7 +92,8 @@ use Grafikart\Utils\Number;
     </div><!-- /.container -->
 </section>
 
-<footer class="footer">
+<hr>
+<footer class="footer mt-5">
     <div class="container">
         <p>&copy; Shopping, a small ecommerce template . Handcrafted by Jeremy Jones / @jerkiness</p>
     </div>

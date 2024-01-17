@@ -99,6 +99,20 @@ class CartController extends AbstractController
 
 
 
+      /**
+        * @param ServerRequest $request
+        * @return Response
+      */
+      public function recalculate(ServerRequest $request): Response
+      {
+          $this->cartService->recalculate($request->getParsedBody());
+
+          return $this->redirectToRoute('cart.list');
+      }
+
+
+
+
 
 
     /**
