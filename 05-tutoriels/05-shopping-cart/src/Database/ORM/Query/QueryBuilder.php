@@ -58,7 +58,7 @@ class QueryBuilder
       public function insert(string $table, array $attributes): Insert
       {
           $builder = new Insert($this->connection, $table);
-          $builder->attributes($attributes);
+          $builder->insert($attributes);
           return $builder;
       }
 
@@ -68,28 +68,23 @@ class QueryBuilder
      /**
       * @param string $table
       * @param array $attributes
-      * @param array $wheres
       * @return Update
      */
-     public function update(string $table, array $attributes, array $wheres): Update
+     public function update(string $table, array $attributes): Update
      {
          $builder = new Update($this->connection, $table);
-         $builder->attributes($attributes);
+         $builder->update($attributes);
          return $builder;
      }
 
 
 
-
-
-
     /**
-     * @param array $wheres
+     * @param string $table
      * @return Delete
     */
-    public function delete(array $wheres = []): Delete
+    public function delete(string $table): Delete
     {
-        $builder = new Delete($this->connection);
-        return $builder;
+        return new Delete($this->connection, $table);
     }
 }
