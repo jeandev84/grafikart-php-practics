@@ -31,9 +31,22 @@ class Update extends Builder
     public function update(array $attributes): static
     {
         foreach ($attributes as $name => $value) {
-            $this->setParameter($name, $value);
-            $this->bindings[$name] = "$name = :$name";
+            $this->set($name, $value);
         }
+
+        return $this;
+    }
+
+
+    /**
+     * @param string $name
+     * @param $value
+     * @return $this
+    */
+    public function set(string $name, $value): static
+    {
+        $this->setParameter($name, $value);
+        $this->bindings[$name] = "$name = :$name";
 
         return $this;
     }

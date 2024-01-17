@@ -23,4 +23,14 @@ class ProductRepository extends ServiceRepository
     {
         parent::__construct($connection, Product::class);
     }
+
+
+    public function findProduct(int $id): mixed
+    {
+         return $this->createQueryBuilder('p')
+                     ->select('id')
+                     ->where('id = :id')
+                     ->setParameters(compact('id'))
+                     ->getSQL();
+    }
 }

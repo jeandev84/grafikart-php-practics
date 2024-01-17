@@ -64,7 +64,7 @@ class CartController extends AbstractController
 
            $productRepository = new ProductRepository($this->getConnection());
 
-           if (! $product = $productRepository->find($id)) {
+           if (! $product = $productRepository->findProduct($id)) {
                $this->addFlash('danger', "Le produit id#$id n'exist pas.");
                return $this->redirectToRoute('home');
            }

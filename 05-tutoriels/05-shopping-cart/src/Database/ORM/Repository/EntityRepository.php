@@ -146,8 +146,34 @@ class EntityRepository implements EntityRepositoryInterface
     */
     public function create(array $data): int
     {
+          $created = $this->createNativeQueryBuilder()
+                          ->insert($this->getTableName(), $data)
+                          ->execute();
 
+          return $created ? $this->connection->lastInsertId() : 0;
     }
+
+
+
+
+    /**
+     * @param array $data
+     * @param int $id
+     * @return int
+    */
+    public function update(array $data, int $id): int
+    {
+        $identityName = $this->metadata->getIdentityName();
+
+        $created = $this->createNativeQueryBuilder()
+                        ->update($this->getTableName(), $data)
+                        ->where("{$identityName} = :$identityName")
+                        ->setParameter($identityName, $id)
+                        ->execute();
+
+        return $created ? $this->connection->lastInsertId() : 0;
+    }
+
 
 
 
@@ -159,6 +185,8 @@ class EntityRepository implements EntityRepositoryInterface
     {
         return $this->metadata->getClassName();
     }
+
+
 
 
 

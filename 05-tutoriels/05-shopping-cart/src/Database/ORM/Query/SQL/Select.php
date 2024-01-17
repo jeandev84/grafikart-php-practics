@@ -82,6 +82,15 @@ class Select extends Builder
     protected string $classMapping = '';
 
 
+    /**
+     * @param string|null $columns
+     *
+     * @return $this
+    */
+    public function select(string $columns = null): static
+    {
+        return $this->addSelect($columns);
+    }
 
 
 
@@ -90,7 +99,7 @@ class Select extends Builder
      * @param string $columns
      *
      * @return $this
-     */
+    */
     public function addSelect(string $columns): static
     {
         $this->selects[] = $columns;
@@ -349,7 +358,7 @@ class Select extends Builder
     public function getSQL(): string
     {
         $selects = $this->selectedColumns();
-        $from = $this->fromAsString();
+        $from    = $this->fromAsString();
 
         $sql[] = "SELECT {$selects} FROM {$from}";
         $sql[] = $this->joinSQL();
@@ -384,7 +393,8 @@ class Select extends Builder
     */
     private function selectedColumns(): string
     {
-        return join(', ', $this->selects);
+        if (empty($this->selects)) { return "*"; }
+        return join(', ', array_filter($this->selects));
     }
 
 
