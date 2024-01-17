@@ -36,9 +36,14 @@ use Grafikart\Templating\Renderer;
             </a>
         </div>
         <ul class="navbar-nav basket"><!-- basket (panier) -->
+            <li class="nav-item">
+                <a href="<?= $router->generate('cart.list') ?>" class="nav-link" title="Vers le panier ?">
+                    Caddie (Cart)
+                </a>
+            </li>
             <li class="nav-item items">
                 <a href="<?= $router->generate('cart.list') ?>" class="nav-link">
-                    Cart<span class="badge" style="font-size: 17px;">( 0 )</span>
+                    ITEMS<span class="badge" style="font-size: 17px;">( 0 )</span>
                 </a>
             </li>
             <li class="nav-item total">
