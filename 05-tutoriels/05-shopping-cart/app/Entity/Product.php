@@ -16,6 +16,9 @@ use Grafikart\Utils\Number;
  */
 class Product
 {
+
+    const FR_TVA = 1.196;
+
     protected ?int $id;
     protected ?string $name;
     protected ?float $price;
@@ -45,18 +48,23 @@ class Product
 
 
     /**
-     * @param float|null $tva (TVA) En france
      * @return string
     */
-    public function getFormatPrice(float $tva = null): string
+    public function formatPrice(): string
     {
-         if ($tva) {
-             $this->price = $this->price * $tva;
-         }
-
          return Number::format($this->price, 2, ',', ' ');
     }
 
+
+
+
+    /**
+     * @return string
+    */
+    public function formatWithTva(): string
+    {
+        return Number::format($this->price * self::FR_TVA, 2, ',', ' ');
+    }
 
 
 

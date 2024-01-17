@@ -2,12 +2,14 @@
 
 use App\Entity\Product;
 use App\Service\Shopping\CartService;
+use Grafikart\Container\Container;
 use Grafikart\Routing\Router;
 use Grafikart\Service\Currency\Currency;
 
 /** @var Product[] $products */
 /** @var Router $router */
 /** @var CartService $cartService */
+/** @var Container $app */
 ?>
 <div class="checkout">
     <div class="title mt-3">
@@ -37,7 +39,7 @@ use Grafikart\Service\Currency\Currency;
                     </td>
                     <td>
                         <span class="price">
-                            <?= $product->getFormatPrice() ?> <?= Currency::euro() ?>
+                            <?= $product->formatPrice() ?> <?= Currency::euro() ?>
                         </span>
                     </td>
                     <td>
@@ -47,7 +49,7 @@ use Grafikart\Service\Currency\Currency;
                     </td>
                     <td>
                         <span class="subtotal">
-                            <?= $product->getFormatPrice(1.196) ?> <?= Currency::euro() ?>
+                            <?= $product->formatWithTva() ?> <?= Currency::euro() ?>
                         </span>
                     </td>
                     <td>
@@ -60,6 +62,6 @@ use Grafikart\Service\Currency\Currency;
         </tbody>
     </table>
     <div class="row-total">
-        Grand total: <span class="total">2640.18 <?= Currency::euro() ?></span>
+        Grand total: <span class="total"><?= $app['cart']->totalPriceWithTva() ?> <?= Currency::euro() ?></span>
     </div>
 </div>

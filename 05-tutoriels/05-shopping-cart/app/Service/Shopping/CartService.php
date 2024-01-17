@@ -7,6 +7,7 @@ use App\Entity\Product;
 use App\Repository\ProductRepository;
 use App\Service\Shopping\Contract\CartServiceInterface;
 use Grafikart\Http\Session\SessionInterface;
+use Grafikart\Utils\Number;
 
 /**
  * CartService
@@ -118,6 +119,22 @@ class CartService implements CartServiceInterface
           return $total;
     }
 
+
+
+    /**
+     * @return mixed
+    */
+    public function totalPrice(): mixed
+    {
+        return Number::format($this->total(), 2, ',', ' ');
+    }
+
+
+
+    public function totalPriceWithTva(): mixed
+    {
+        return Number::format($this->total() * Product::FR_TVA, 2, ',', ' ');
+    }
 
 
 

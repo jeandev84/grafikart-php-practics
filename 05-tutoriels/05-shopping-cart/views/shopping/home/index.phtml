@@ -25,7 +25,7 @@ use Grafikart\Templating\Renderer;
                         <div class="description">
                             <?= $product->getName() ?>
                             <a href="#" class="price">
-                                <?= $product->getFormatPrice() ?> <?= Currency::euro() ?>
+                                <?= $product->formatPrice() ?> <?= Currency::euro() ?>
                             </a>
                         </div>
                         <a href="<?= $router->generate('cart.add', ['id' => $product->getId() ]) ?>" class="gift">
