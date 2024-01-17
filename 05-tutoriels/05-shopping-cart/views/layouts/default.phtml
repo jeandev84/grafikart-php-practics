@@ -15,7 +15,7 @@ use Grafikart\Utils\Number;
 /** @var CartService $cartService */
 /** @var Container $app */
 
-dump($app['cart']);
+/* dump($app['cart']); */
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,12 +51,12 @@ dump($app['cart']);
             </li>
             <li class="nav-item items">
                 <a href="<?= $router->generate('cart.list') ?>" class="nav-link">
-                    ITEMS<span class="badge" style="font-size: 17px;">( <?php // $cartService->count() ?> )</span>
+                    ITEMS<span class="badge" style="font-size: 17px;">( <?= $app['cart']->count() ?> )</span>
                 </a>
             </li>
             <li class="nav-item total">
                 <a href="#" class="nav-link">
-                    TOTAL <span><?php // Number::format($cartService->total(), 2, ',', ' ')?> <?= Currency::euro() ?></span>
+                    TOTAL <span><?= Number::format($app['cart']->total(), 2, ',', ' ')?> <?= Currency::euro() ?></span>
                 </a>
             </li>
         </ul>

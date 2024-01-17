@@ -55,6 +55,53 @@ class CartService implements CartServiceInterface
 
 
 
+
+
+    /**
+     * @param int $id
+     * @return int|null
+     */
+    public function quantity(int $id): ?int
+    {
+        $cart = $this->cart();
+        return $cart[$id] ?? null;
+    }
+
+
+
+    /**
+     * @return float|int
+     */
+    public function count(): float|int
+    {
+        return array_sum($this->cart());
+    }
+
+
+
+
+    /**
+     * @inheritDoc
+     */
+    public function cart(): array
+    {
+        return $this->session->get($this->cartKey, []);
+    }
+
+
+
+
+    /**
+     * @return array
+     */
+    public function geProductIds(): array
+    {
+        return array_keys($this->cart());
+    }
+
+
+
+
       /**
        * @return mixed
       */
@@ -122,50 +169,6 @@ class CartService implements CartServiceInterface
      }
 
 
-
-
-
-     /**
-      * @param int $id
-      * @return int|null
-     */
-     public function quantity(int $id): ?int
-     {
-         $cart = $this->cart();
-         return $cart[$id] ?? null;
-     }
-
-
-
-     /**
-      * @return float|int
-     */
-     public function count(): float|int
-     {
-         return array_sum($this->cart());
-     }
-
-
-
-
-     /**
-      * @inheritDoc
-     */
-     public function cart(): array
-     {
-         return $this->session->get($this->cartKey, []);
-     }
-
-
-
-
-     /**
-      * @return array
-     */
-     public function geProductIds(): array
-     {
-         return array_keys($this->cart());
-     }
 
 
 
