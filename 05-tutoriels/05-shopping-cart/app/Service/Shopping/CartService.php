@@ -61,6 +61,22 @@ class CartService implements CartServiceInterface
 
 
 
+     /**
+      * @param int $id
+      * @return void
+     */
+     public function remove(int $id): void
+     {
+         $cart = $this->cart();
+
+         unset($cart[$id]);
+
+         $this->session->set($this->cartKey, $cart);
+     }
+
+
+
+
 
      /**
       * @return void

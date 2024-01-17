@@ -1,9 +1,11 @@
 <?php
 
 use App\Entity\Product;
+use Grafikart\Routing\Router;
 use Grafikart\Service\Currency\Currency;
 
 /** @var Product[] $products */
+/** @var Router $router */
 ?>
 <div class="checkout">
     <div class="title mt-3">
@@ -45,7 +47,9 @@ use Grafikart\Service\Currency\Currency;
                         </span>
                     </td>
                     <td>
-                        <a href="#" class="text-danger">Supprimer</a>
+                        <a href="<?= $router->generate('cart.delete', ['id' => $product->getId()]) ?>" class="text-danger">
+                            Supprimer
+                        </a>
                     </td>
                 </tr>
             <?php endforeach; ?>

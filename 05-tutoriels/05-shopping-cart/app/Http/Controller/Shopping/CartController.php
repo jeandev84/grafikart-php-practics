@@ -51,11 +51,15 @@ class CartController extends AbstractController
       public function index(ServerRequest $request): Response
       {
           $productRepository = new ProductRepository($this->getConnection());
+          $productIds        = $this->cartService->getItemIds();
+          $products          = [];
 
-          $productIds = $this->cartService->getItemIds();
+          if (! empty($productIds)) {
+              $products = $productRepository->findProductsInCart($productIds);
+          }
 
           return $this->render('shopping/cart/index', [
-              'products' => $productRepository->findProductsInCart($productIds)
+              'products' => $products
           ]);
       }
 
@@ -90,6 +94,26 @@ class CartController extends AbstractController
 
            return $this->redirectToRoute('home');
       }
+
+
+
+
+    /**
+     * @param ServerRequest $request
+     * @return Response
+    */
+    public function delete(ServerRequest $request): Response
+    {
+        if(! $id = (int)$request->getAttribute('id')) {
+            $this->addFlash('danger', "Vous n' avez pas selectionne de produit a ajouter au panier.");
+            return $this->redirectToRoute('home');
+        }
+
+        $this->cartService->remove($id);
+
+        return $this->redirectToRoute('cart.list');
+    }
+
 
 
 
