@@ -31,6 +31,7 @@ class ProductRepository extends ServiceRepository
                      ->select('id')
                      ->where('id = :id')
                      ->setParameters(compact('id'))
-                     ->getSQL();
+                     ->fetch()
+                     ->one();
     }
 }
