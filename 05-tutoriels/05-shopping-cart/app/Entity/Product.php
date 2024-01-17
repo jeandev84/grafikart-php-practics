@@ -56,6 +56,19 @@ class Product
 
 
 
+
+
+    /**
+     * @return string
+    */
+    public function getImagePath(): string
+    {
+        return "/assets/img/products/$this->id.png";
+    }
+
+
+
+
     public function setPrice(?float $price): Product
     {
         $this->price = $price;

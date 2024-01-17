@@ -1,1 +1,55 @@
-<h1>Cart</h1>
+<?php
+
+use Grafikart\Service\Currency\Currency;
+
+?>
+<div class="checkout">
+    <div class="title">
+        <h2 class="first">Shopping Cart</h2>
+        <a href="#" class="proceed">
+            Proceed to checkout
+        </a>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th class="name">Product name</th>
+            <th class="price">Price</th>
+            <th class="quantity">Quantity</th>
+            <th class="subtotal">Subtotal</th>
+            <th class="action">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <a href="#" class="img">
+                        <img src="<?php // $product->getImagePath() ?>" alt="Card image cap" width="100">
+                    </a>
+                </td>
+                <td>
+                    <span class="name">Curabitur feugiat lectus tempor elit sempe</span>
+                </td>
+               <td>
+                   <span class="price"><?= Currency::euro() ?> 1320.09</span>
+               </td>
+                <td>
+                    <span class="quantity">1</span>
+                </td>
+               <td>
+                   <span class="subtotal"><?= Currency::euro() ?> 1320.09</span>
+               </td>
+               <td>
+                    <span class="action">
+                    <a href="#" class="del">
+                        <img src="/assets/img/products/del.png" alt="">
+                    </a>
+                </span>
+               </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="row-total">
+        Grand total: <span class="total">2640.18 <?= Currency::euro() ?></span>
+    </div>
+</div>

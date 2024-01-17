@@ -10,6 +10,7 @@ use App\Service\Shopping\Contract\CartServiceInterface;
 use Grafikart\Container\Container;
 use Grafikart\Http\Request\ServerRequest;
 use Grafikart\Http\Response\Response;
+use ReflectionException;
 
 /**
  * CartController
@@ -51,10 +52,12 @@ class CartController extends AbstractController
 
 
 
-      /**
-       * @param ServerRequest $request
-       * @return Response
-      */
+
+     /**
+      * @param ServerRequest $request
+      * @return Response
+      * @throws ReflectionException
+     */
       public function add(ServerRequest $request): Response
       {
            if(! $id = (int)$request->getAttribute('id')) {
@@ -70,6 +73,11 @@ class CartController extends AbstractController
            }
 
            $this->cartService->add($id);
+
+           $this->addFlash(
+          'success',
+      'Le produit a bien ete ajoute a votre panier <a href="javascript:history.back()">retoruner sur le catalogue</a>'
+           );
 
            return $this->redirectToRoute('home');
       }
