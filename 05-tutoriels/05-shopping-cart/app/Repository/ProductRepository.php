@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Product;
+use App\Service\Shopping\CartService;
 use Grafikart\Database\Connection\PdoConnection;
 use Grafikart\Database\ORM\Repository\EntityRepository;
 use Grafikart\Database\ORM\Repository\ServiceRepository;
@@ -37,5 +38,21 @@ class ProductRepository extends ServiceRepository
                      ->setParameters(compact('id'))
                      ->fetch()
                      ->one();
+    }
+
+
+    /**
+     * @param array $ids
+     *
+     * @return Product[]
+    */
+    public function findProductsInCart(array $ids): array
+    {
+        return $this->createQueryBuilder('p')
+                ->select('id')
+                ->where('id IN (:ids)')
+                ->setParameters(compact('ids'))
+                ->fetch()
+                ->all();
     }
 }

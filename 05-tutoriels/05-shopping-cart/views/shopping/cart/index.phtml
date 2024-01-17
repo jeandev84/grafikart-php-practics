@@ -1,7 +1,9 @@
 <?php
 
+use App\Entity\Product;
 use Grafikart\Service\Currency\Currency;
 
+/** @var Product[] $products */
 ?>
 <div class="checkout">
     <div class="title">
@@ -21,32 +23,34 @@ use Grafikart\Service\Currency\Currency;
         </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
-                    <a href="#" class="img">
-                        <img src="<?php // $product->getImagePath() ?>" alt="Card image cap" width="100">
-                    </a>
-                </td>
-                <td>
-                    <span class="name">Curabitur feugiat lectus tempor elit sempe</span>
-                </td>
-               <td>
-                   <span class="price"><?= Currency::euro() ?> 1320.09</span>
-               </td>
-                <td>
-                    <span class="quantity">1</span>
-                </td>
-               <td>
-                   <span class="subtotal"><?= Currency::euro() ?> 1320.09</span>
-               </td>
-               <td>
+            <?php foreach ($products as $product): ?>
+                <tr>
+                    <td>
+                        <a href="#" class="img">
+                            <img src="<?php // $product->getImagePath() ?>" alt="Card image cap" width="100">
+                        </a>
+                    </td>
+                    <td>
+                        <span class="name">Curabitur feugiat lectus tempor elit sempe</span>
+                    </td>
+                    <td>
+                        <span class="price"><?= Currency::euro() ?> 1320.09</span>
+                    </td>
+                    <td>
+                        <span class="quantity">1</span>
+                    </td>
+                    <td>
+                        <span class="subtotal"><?= Currency::euro() ?> 1320.09</span>
+                    </td>
+                    <td>
                     <span class="action">
                     <a href="#" class="del">
                         <img src="/assets/img/products/del.png" alt="">
                     </a>
                 </span>
-               </td>
-            </tr>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
         </tbody>
     </table>
     <div class="row-total">

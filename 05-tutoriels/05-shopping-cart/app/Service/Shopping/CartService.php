@@ -79,4 +79,15 @@ class CartService implements CartServiceInterface
      {
          return $this->session->get($this->cartKey, []);
      }
+
+
+
+
+     /**
+      * @return array
+     */
+     public function getItemIds(): array
+     {
+         return array_keys($this->cart());
+     }
 }

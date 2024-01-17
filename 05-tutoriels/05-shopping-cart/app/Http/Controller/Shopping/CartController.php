@@ -41,13 +41,22 @@ class CartController extends AbstractController
 
 
 
+
+
       /**
-       * @param ServerRequest $request
-       * @return Response
+        * @param ServerRequest $request
+        * @return Response
+        * @throws ReflectionException
       */
       public function index(ServerRequest $request): Response
       {
-          return $this->render('shopping/cart/index');
+          $productRepository = new ProductRepository($this->getConnection());
+
+          $productIds = $this->cartService->getItemIds();
+
+          return $this->render('shopping/cart/index', [
+              'products' => $productRepository->findProductsInCart($productIds)
+          ]);
       }
 
 
