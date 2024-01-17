@@ -23,7 +23,10 @@ class Delete extends Builder
     */
     public function getSQL(): string
     {
+        $sql[] = "DELETE FROM {$this->getTableName()}";
+        $sql[] = $this->whereSQL();
 
+        return join(' ', array_filter($sql));
     }
 
 
