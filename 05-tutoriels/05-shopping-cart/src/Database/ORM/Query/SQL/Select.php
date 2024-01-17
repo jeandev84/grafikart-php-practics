@@ -83,13 +83,15 @@ class Select extends Builder
 
 
     /**
-     * @param string|null $columns
+     * @param string ...$columns
      *
      * @return $this
     */
-    public function select(string $columns = null): static
+    public function select(string ...$columns): static
     {
-        return $this->addSelect($columns);
+        $this->selects = array_merge($this->selects, $columns);
+
+        return $this;
     }
 
 

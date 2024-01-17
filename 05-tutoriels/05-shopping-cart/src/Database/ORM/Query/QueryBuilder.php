@@ -38,14 +38,14 @@ class QueryBuilder
 
 
       /**
-       * @param string $selects
+       * @param string|null $selects
        *
        * @return Select
       */
-      public function select(string $selects = ''): Select
+      public function select(string ...$selects): Select
       {
           $builder = new Select($this->connection);
-          $builder->addSelect($selects);
+          $builder->select(...$selects);
           return $builder;
       }
 
