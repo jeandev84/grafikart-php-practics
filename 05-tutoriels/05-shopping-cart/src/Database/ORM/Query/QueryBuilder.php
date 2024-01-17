@@ -50,28 +50,37 @@ class QueryBuilder
       }
 
 
-
-
       /**
+       * @param string $table
        * @param array $attributes
        * @return Insert
       */
-      public function insert(array $attributes): Insert
+      public function insert(string $table, array $attributes): Insert
       {
-          $builder = new Insert($this->connection);
+          $builder = new Insert($this->connection, $table);
+          $builder->attributes($attributes);
           return $builder;
       }
 
 
+
+
      /**
+      * @param string $table
       * @param array $attributes
+      * @param array $wheres
       * @return Update
      */
-     public function update(array $attributes): Update
+     public function update(string $table, array $attributes, array $wheres): Update
      {
-         $builder = new Update($this->connection);
+         $builder = new Update($this->connection, $table);
+         $builder->attributes($attributes);
          return $builder;
      }
+
+
+
+
 
 
     /**

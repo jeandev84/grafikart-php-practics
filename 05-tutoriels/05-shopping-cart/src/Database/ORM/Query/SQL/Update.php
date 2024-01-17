@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace Grafikart\Database\ORM\Query\SQL;
 
 use Grafikart\Database\ORM\Query\Builder;
-use Grafikart\Database\ORM\Query\SQL\Common\ConditionTrait;
-use Grafikart\Database\ORM\Query\SQL\Common\SettableTrait;
 
 /**
  * Update
@@ -18,13 +16,49 @@ use Grafikart\Database\ORM\Query\SQL\Common\SettableTrait;
  */
 class Update extends Builder
 {
-    use ConditionTrait, SettableTrait;
+
+    /**
+     * @var array
+    */
+    protected array $bindings = [];
+
+
+
+    /**
+     * @param array $attributes
+     * @return $this
+    */
+    public function update(array $attributes): static
+    {
+        foreach ($attributes as $name => $value) {
+            $this->setParameter($name, $value);
+            $this->bindings[$name] = "$name = :$name";
+        }
+
+        return $this;
+    }
+
+
+
 
     /**
      * @inheritDoc
-     */
+    */
     public function getSQL(): string
     {
+        $sql[] = "UPDATE {$this->getTableName()}";
+        $sql[] = "SET ". join(', ', array_values($this->bindings));
+        $sql[] = $this->whereSQL();
 
+        return join(' ', array_filter($sql));
+    }
+
+
+    /**
+     * @return bool
+    */
+    public function execute(): bool
+    {
+        return $this->getQuery()->execute();
     }
 }

@@ -25,6 +25,12 @@ abstract class Builder
 
 
     /**
+     * @var string
+    */
+    protected string $tableName;
+
+
+    /**
      * @var array
     */
     protected array $wheres  = [];
@@ -37,13 +43,36 @@ abstract class Builder
 
 
 
-
     /**
      * @param PdoConnection $connection
-     */
-    public function __construct(PdoConnection $connection)
+     * @param string $tableName
+    */
+    public function __construct(PdoConnection $connection, string $tableName = '')
     {
         $this->connection = $connection;
+        $this->tableName  = $tableName;
+    }
+
+
+
+
+    /**
+     * @return string
+    */
+    public function getTableName(): string
+    {
+        return $this->tableName;
+    }
+
+
+
+
+    /**
+     * @return PdoConnection
+    */
+    public function getConnection(): PdoConnection
+    {
+        return $this->connection;
     }
 
 
@@ -53,7 +82,7 @@ abstract class Builder
      * @param string $condition
      *
      * @return $this
-     */
+    */
     public function where(string $condition): static
     {
         $this->wheres[] = $condition;
@@ -140,6 +169,19 @@ abstract class Builder
     public function getParameters(): array
     {
         return $this->parameters;
+    }
+
+
+
+
+    /**
+     * @return Query
+    */
+    public function getQuery(): Query
+    {
+        $statement = $this->connection->statement($this->getSQL());
+        $statement->withParams($this->parameters);
+        return $statement;
     }
 
 

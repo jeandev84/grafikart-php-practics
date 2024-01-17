@@ -128,21 +128,25 @@ class EntityRepository implements EntityRepositoryInterface
     public function findBy(array $criteria, array $orderBy = [], int $limit = null, int $offset = null): mixed
     {
         $builder = $this->createQueryBuilder($this->metadata->getTableAlias());
-
-        foreach ($criteria as $column => $value) {
-            if (is_array($value)) {
-                $builder->where("$column IN :$column");
-            } else {
-                $builder->where("$column = :$column");
-            }
-        }
-
-        return $builder->ordersBy($orderBy)
+        return $builder->criteria($criteria)
+                       ->ordersBy($orderBy)
                        ->limit(intval($limit))
                        ->offset(intval($offset))
                        ->setParameters($criteria)
                        ->fetch()
                        ->all();
+    }
+
+
+
+
+    /**
+     * @param array $data
+     * @return int
+    */
+    public function create(array $data): int
+    {
+
     }
 
 

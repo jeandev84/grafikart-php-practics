@@ -370,8 +370,7 @@ class Select extends Builder
     */
     public function fetch(): Result
     {
-        $statement = $this->connection->statement($this->getSQL());
-        $statement->withParams($this->parameters);
+        $statement = $this->getQuery();
         $statement->map($this->classMapping);
         return $statement->fetch();
     }

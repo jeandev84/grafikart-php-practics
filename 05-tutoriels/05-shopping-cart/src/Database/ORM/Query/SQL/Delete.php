@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Grafikart\Database\ORM\Query\SQL;
 
 use Grafikart\Database\ORM\Query\Builder;
-use Grafikart\Database\ORM\Query\SQL\Common\ConditionTrait;
 
 /**
  * Delete
@@ -17,7 +16,7 @@ use Grafikart\Database\ORM\Query\SQL\Common\ConditionTrait;
  */
 class Delete extends Builder
 {
-    use ConditionTrait;
+
 
     /**
      * @inheritDoc
@@ -25,5 +24,15 @@ class Delete extends Builder
     public function getSQL(): string
     {
 
+    }
+
+
+
+    /**
+     * @return bool
+    */
+    public function execute(): bool
+    {
+        return $this->getQuery()->execute();
     }
 }
