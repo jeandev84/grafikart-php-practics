@@ -1,0 +1,9 @@
+<?php
+/** @var \Grafikart\Routing\Router $router */
+/** @var \Grafikart\Templating\Renderer $renderer */
+?>
+<form action="<?= $router->generate('api.books.store') ?>" method="POST">
+    <h1>Add new book</h1>
+    <?php $renderer->include('attributes/api/books/partials/_form'); ?>
+    <button type="submit" class="btn btn-primary">Add book</button>
+</form>

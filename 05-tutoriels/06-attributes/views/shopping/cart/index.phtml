@@ -1,0 +1,75 @@
+<?php
+
+use App\Entity\Product;
+use App\Service\Shopping\CartService;
+use Grafikart\Container\Container;
+use Grafikart\Routing\Router;
+use Grafikart\Service\Currency\Currency;
+
+/** @var Product[] $products */
+/** @var Router $router */
+/** @var CartService $cartService */
+/** @var Container $app */
+?>
+<div class="checkout">
+    <div class="title mt-3">
+        <h2 class="first">Shopping Cart</h2>
+        <a href="#" class="proceed">
+            Proceed to checkout
+        </a>
+    </div>
+    <form method="post" action="<?= $router->generate('cart.recalculate') ?>">
+        <table class="table table-striped mt-3">
+            <thead>
+            <tr>
+                <th class="name">Product name</th>
+                <th class="price">Price</th>
+                <th class="quantity">Quantity</th>
+                <th class="subtotal">Prix avec TVA</th>
+                <th class="action">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($products as $product): ?>
+                <tr>
+                    <td>
+                        <a href="#" class="img">
+                            <img src="<?= $product->getImagePath() ?>" alt="Card image cap" width="100">
+                            <span class="name"><?= $product->getName() ?></span>
+                        </a>
+                    </td>
+                    <td>
+                        <span class="price">
+                            <?= $product->formatPrice() ?> <?= Currency::euro() ?>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="quantity">
+                            <input type="number"
+                                   name="cart[quantity][<?= $product->getId(); ?>]"
+                                   value="<?= $cartService->quantity($product->getId()) ?>"
+                                   class="form-control"
+                                   width="30"
+                            >
+                        </span>
+                    </td>
+                    <td>
+                        <span class="subtotal">
+                            <?= $product->formatWithTva() ?> <?= Currency::euro() ?>
+                        </span>
+                    </td>
+                    <td>
+                        <a href="<?= $router->generate('cart.delete', ['id' => $product->getId()]) ?>" class="text-danger">
+                            Supprimer
+                        </a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div class="row-total">
+            Grand total: <span class="total"><?= $app['cart']->totalPriceWithTva() ?> <?= Currency::euro() ?></span>
+        </div>
+        <input type="submit" value="Recalculer">
+    </form>
+</div>

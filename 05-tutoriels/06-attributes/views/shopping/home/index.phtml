@@ -1,0 +1,62 @@
+<?php
+
+use App\Entity\Product;
+use Grafikart\Http\Session\Session;
+use Grafikart\Routing\Router;
+use Grafikart\Service\Currency\Currency;
+use Grafikart\Templating\Renderer;
+
+/** @var string $viewPath */
+/** @var Renderer $renderer */
+/** @var Product[] $products */
+/** @var Router $router */
+/** @var Session $session */
+?>
+<div class="products">
+    <!-- <h1>Products</h1> -->
+    <div class="row">
+        <?php foreach ($products as $product): ?>
+            <div class="col-sm-4">
+                <div class="card" style="width: 18rem;">
+                    <a href="#">
+                        <img class="card-img-top" src="<?= $product->getImagePath() ?>" alt="Card image cap">
+                    </a>
+                    <div class="card-body">
+                        <div class="description">
+                            <?= $product->getName() ?>
+                            <a href="#" class="price">
+                                <?= $product->formatPrice() ?> <?= Currency::euro() ?>
+                            </a>
+                        </div>
+                        <a href="<?= $router->generate('cart.add', ['id' => $product->getId() ]) ?>"
+                           class="gift add-to-cart">
+                            Gift
+                        </a>
+                        <div class="rating">
+                            <?php $renderer->include('/partials/rating'); ?>
+                        </div>
+
+                        <!--
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        -->
+                        <div class="cart-add mt-3">
+                            <a href="<?= $router->generate('cart.add', ['id' => $product->getId() ]) ?>"
+                               class="btn btn-success add add-to-cart">
+                                add to cart
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+<hr>
+<?php $renderer->include('/partials/pagination'); ?>
+
+<pre>
+    <?php print_r($session->all()) ?>
+</pre>
+

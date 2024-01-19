@@ -1,0 +1,112 @@
+<?php
+
+use App\Service\Shopping\CartService;
+use Grafikart\Container\Container;
+use Grafikart\Http\Session\SessionInterface;
+use Grafikart\Routing\Router;
+use Grafikart\Service\Currency\Currency;
+use Grafikart\Templating\Renderer;
+use Grafikart\Utils\Number;
+
+/** @var Router $router */
+/** @var SessionInterface $session */
+/** @var Renderer $renderer */
+/** @var float $totalPrice */
+/** @var CartService $cartService */
+/** @var Container $app */
+
+/* dump($app['cart']); */
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ecommerce template</title>
+    <!--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/font-awesome/font-awesome.min.css">
+    -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/shopping.css">
+    <link rel="stylesheet" href="/assets/css/rating.css">
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="<?= $router->generate('home') ?>" class="navbar-brand logo">
+                Shopping
+            </a>
+        </div>
+        <ul class="navbar-nav basket"><!-- basket (panier) -->
+            <li class="nav-item">
+                <a href="<?= $router->generate('cart.list') ?>" class="nav-link" title="Vers le panier ?">
+                    Caddie (Cart)
+                </a>
+            </li>
+            <li class="nav-item items">
+                <a href="<?= $router->generate('cart.list') ?>" class="nav-link">
+                    ITEMS<span id="count" class="badge" style="font-size: 17px;">
+                        <?= $app['cart']->count() ?>
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item total">
+                <a href="#" class="nav-link">
+                    TOTAL <span id="total"><?= $app['cart']->totalPrice() ?></span> <?= Currency::euro() ?>
+                </a>
+            </li>
+        </ul>
+    </div><!-- /.container -->
+</nav><!-- /.navbar -->
+
+<section class="subheader mb-3">
+    <div class="container mt-3">
+        <small>Welcome visitor you can <a href="#">log in</a> or <a href="#">create an account</a></small>
+    </div>
+</section>
+
+<section class="menu">
+    <div class="container">
+       <?php $renderer->include('layouts/partials/menu'); ?>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="block__flash">
+            <?php if ($session->hasFlashes()): ?>
+                <?php foreach ($session->getFlashes() as $key => $message): ?>
+                    <div class="alert alert-<?= $key ?>">
+                        <?= $message ?>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+        {{ content }}
+    </div><!-- /.container -->
+</section>
+
+<hr>
+<footer class="footer mt-5">
+    <div class="container">
+        <p>&copy; Shopping, a small ecommerce template . Handcrafted by Jeremy Jones / @jerkiness</p>
+    </div>
+</footer>
+<!--
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="application/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="application/javascript"></script>
+-->
+
+<script src="/assets/jquery/1.7.2/jquery.min.js"></script>
+<script src="/assets/js/shopping.js"></script>
+<!-- Bootstrap core Javascript
+=========================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+</body>
+</html>
